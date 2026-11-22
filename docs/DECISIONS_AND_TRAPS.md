@@ -156,3 +156,9 @@ flowchart LR
 * **Where It Lurks:** `src/scrapers/benchmark_ingest.py` -> `parse_ytdlp_metadata`
 * **What Goes Wrong:** Video descriptions list PC test specs like "RAM: 16GB DDR4 3200MHz, Monitor: 144Hz". A loose regex matching `\d+\s*fps` or `\d+\s*hz` captures 3200 or 144 instead of the actual game FPS.
 * **The Permanent Fix:** Restrict extraction to explicit benchmark chapter headings or lines containing both `avg` and `1% low` keywords.
+
+### [TRAP: Int-Object-Has-No-Attribute-Is-Integer-Python-3-11] | Aliases: AttributeError int has no attribute is_integer, python 3.11 compatibility
+> **1-Line Summary:** Calling `.is_integer()` on an `int` variable throws `AttributeError: 'int' object has no attribute 'is_integer'` in Python 3.10 and 3.11.
+* **Where It Lurks:** `src/scrapers/multi_site_components.py`
+* **What Goes Wrong:** Python 3.12 added `int.is_integer()`, but Python 3.11 (used in GitHub Actions runners) only supports `.is_integer()` on `float` objects.
+* **The Permanent Fix:** Always check `isinstance(val, int)` first or use `float(val).is_integer()`.

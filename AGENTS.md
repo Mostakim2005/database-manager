@@ -60,3 +60,4 @@
 * **TRAP 10:** Sanitize JSON lowercase booleans to Python `True`/`False` to prevent `NameError: name 'true' is not defined` — see `docs/DECISIONS_AND_TRAPS.md` -> `[TRAP: JavaScript-Booleans-In-Python-Dictionaries]`.
 * **TRAP 11:** Flag price spreads >20% across retailers as `spread_alert` for SKU mismatch check — see `docs/DECISIONS_AND_TRAPS.md` -> `[TRAP: Multi-Site-Retailer-Price-Spread-SKU-Mismatch]`.
 * **TRAP 12:** Filter YouTube description regex to benchmark keywords to prevent refresh rates from corrupting FPS — see `docs/DECISIONS_AND_TRAPS.md` -> `[TRAP: YouTube-Description-FPS-Regex-Noise]`.
+* **TRAP 13:** Never call `.is_integer()` directly on `int` types in Python 3.11 CI — see `docs/DECISIONS_AND_TRAPS.md` -> `[TRAP: Int-Object-Has-No-Attribute-Is-Integer-Python-3-11]`.

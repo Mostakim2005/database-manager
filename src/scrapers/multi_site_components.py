@@ -169,6 +169,15 @@ OFFLINE_COMPONENT_QUOTES: dict[str, dict[str, Any]] = {
 }
 
 
+def _clean_num(val: int | float | None) -> int | float:
+    """Safe integer converter compatible with Python 3.10 and 3.11."""
+    if val is None:
+        return 0
+    if isinstance(val, int):
+        return val
+    return int(val) if float(val).is_integer() else float(val)
+
+
 def sync_multi_site_components(offline: bool = False) -> tuple[dict[str, Any], list[dict[str, Any]]]:
     """Reconcile and enrich components catalog across multiple BD retailers."""
     now_str = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -213,9 +222,9 @@ def sync_multi_site_components(offline: bool = False) -> tuple[dict[str, Any], l
             delta = new_price - existing_price if existing_price > 0 else 0
 
             # Update component dictionary in-place
-            comp["price_bdt"] = int(new_price) if new_price.is_integer() else new_price
-            comp["price_usd"] = int(ref_usd) if ref_usd.is_integer() else ref_usd
-            comp["retailer_prices"] = {k: int(v) if v.is_integer() else v for k, v in reconciled["retailer_prices"].items()}
+            comp["price_bdt"] = _clean_num(new_price)
+            comp["price_usd"] = _clean_num(ref_usd)
+            comp["retailer_prices"] = {k: _clean_num(v) for k, v in reconciled["retailer_prices"].items()}
             comp["best_retailer"] = reconciled["best_retailer"]
             comp["price_spread_bdt"] = int(reconciled["price_spread_bdt"])
             comp["price_spread_pct"] = reconciled["price_spread_pct"]
