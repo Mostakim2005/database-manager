@@ -55,9 +55,9 @@
 ## 3. Planned Features & App-Merge Wishlist
 
 ### [WISHLIST: Live-Price-Scrapers] | Aliases: star tech scraper, ryans price sync, bd retail sync
-> **1-Line Summary:** Automated market price scraping from major Bangladeshi tech retailers (Star Tech, Ryans) and global trackers.
-* **User Intention:** Automatically refresh used and retail GPU/RAM/SSD prices in BDT without manual entry.
-* **Target Integration Point:** `src/` -> `price_scraper.py` feeding `data/hardware/hardware_specs.json`.
+> **1-Line Summary:** Automated market price scraping from major Bangladeshi tech retailers (Star Tech, Ryans) and global trackers (Framework implemented in `src/scrapers/`).
+* **User Intention:** Automatically refresh used and retail GPU/RAM/SSD prices in BDT without manual entry. Full multi-tier fallback architecture documented in `docs/guides/SCRAPER_AND_MULTIDB_GUIDE.md`.
+* **Target Integration Point:** `src/scrapers/` -> `adapters.py` feeding `data/hardware/hardware_specs.json`.
 
 ### [WISHLIST: Automated-Benchmark-Sync] | Aliases: github action benchmark sync, openrouter cron
 > **1-Line Summary:** Scheduled GitHub Actions workflow to periodically query OpenRouter and models.dev APIs for newly released models.
