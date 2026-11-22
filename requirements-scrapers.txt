@@ -1,0 +1,19 @@
+# Optional scraper & power-user database dependencies (core server/CLI remain zero-dep stdlib)
+# Tier 1 — Fast static HTTP & HTML parsing
+httpx>=0.27.0
+selectolax>=0.3.28
+
+# Tier 2 — Adaptive stealth scraping (Cloudflare / dynamic DOM)
+scrapling>=0.3.0
+
+# Tier 3 — Full headless browser & LLM-ready crawling (run: playwright install chromium)
+playwright>=1.48.0
+crawl4ai>=0.6.0
+
+# Tier 4 — YouTube FPS benchmark metadata/transcripts (no video download needed)
+yt-dlp>=2025.1.0
+
+# Hybrid Validation & Optional SQLite Exploration Bridges
+pydantic>=2.9.0
+sqlite-utils>=3.37
+datasette>=0.65
