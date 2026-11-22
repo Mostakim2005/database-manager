@@ -6,6 +6,10 @@
 
 window.MatrixTable = {
   sortColumn: 'scores.code_arena_elo',
+
+  escapeHtml(val) {
+    return String(val ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  },
   sortAscending: false,
   showInlineDelta: false,
 
@@ -213,23 +217,24 @@ window.MatrixTable = {
         return '$' + val.toFixed(val < 0.1 ? maxDec : 2);
       };
 
+      const esc = (v) => this.escapeHtml(v);
       const factCheckBadge = m.fact_check && m.fact_check.is_verified ?
-        `<span class="badge badge-free" style="font-size:0.7rem;" title="${m.fact_check.pricing_concordance} | ${m.fact_check.context_concordance}">✓ Concordant</span>` :
+        `<span class="badge badge-free" style="font-size:0.7rem;" title="${esc(m.fact_check.pricing_concordance)} | ${esc(m.fact_check.context_concordance)}">✓ Concordant</span>` :
         `<span class="badge" style="background:rgba(56,189,248,0.15); color:#38bdf8; font-size:0.7rem;" title="Verified via OpenRouter API">✓ OR Verified</span>`;
 
       // Cells map by column key
       const cellMap = {
         col_name: `
           <td class="sticky-col">
-            <div style="font-weight: 600; color: #f8fafc;">${m.name}</div>
-            <div style="font-size: 0.75rem; color: var(--text-muted);">${m.provider_family || m.provider}</div>
+            <div style="font-weight: 600; color: #f8fafc;">${esc(m.name)}</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted);">${esc(m.provider_family || m.provider)}</div>
           </td>`,
-        col_tier: `<td><span class="badge ${frontierTierClass}">${m.frontier_tier || 'Tier 5'}</span></td>`,
+        col_tier: `<td><span class="badge ${frontierTierClass}">${esc(m.frontier_tier || 'Tier 5')}</span></td>`,
         col_delta: `<td style="font-family: monospace; font-weight: 600; color: ${m.frontier_delta_pct >= -5 ? '#c084fc' : m.frontier_delta_pct >= -15 ? '#38bdf8' : '#94a3b8'};">${deltaPct}</td>`,
         col_dec_top: `<td style="font-family: monospace; font-weight: 600; color: ${Number(eloDecFromTop) >= -5 ? '#c084fc' : Number(eloDecFromTop) >= -10 ? '#38bdf8' : '#f87171'};">${decTopDisplay}</td>`,
         col_fact_check: `<td>${factCheckBadge}</td>`,
-        col_class: `<td><span class="badge ${classBadge}">${m.classification}</span></td>`,
-        col_context: `<td style="font-family: monospace;">${m.context_window}</td>`,
+        col_class: `<td><span class="badge ${classBadge}">${esc(m.classification)}</span></td>`,
+        col_context: `<td style="font-family: monospace;">${esc(m.context_window)}</td>`,
         col_intel: `
           <td>
             <div class="mini-bar-cell">
@@ -267,7 +272,7 @@ window.MatrixTable = {
         col_effort: `
           <td>
             <select class="effort-select" style="background:#1e293b; color:#cbd5e1; border:1px solid rgba(255,255,255,0.1); border-radius:4px; padding:0.2rem 0.4rem; font-size:0.75rem;"
-                    onchange="window.MatrixApp.setModelEffort('${m.id}', this.value)">
+                    data-model-id="${esc(m.id)}" onchange="window.MatrixApp.setModelEffort(this.dataset.modelId, this.value)">
               <option value="low" ${activeEffort === 'low' ? 'selected' : ''}>Low (0.6x)</option>
               <option value="medium" ${activeEffort === 'medium' ? 'selected' : ''}>Medium (1.0x)</option>
               <option value="high" ${activeEffort === 'high' ? 'selected' : ''}>High (1.8x)</option>
@@ -279,7 +284,7 @@ window.MatrixTable = {
         col_cache: `<td style="font-family: monospace; color: #34d399;">${formatPrice(cacheRead)}</td>`,
         col_batch: `<td style="font-family: monospace; color: #93c5fd;">${formatPrice(batchPrompt)}</td>`,
         col_status: `<td>${tierBadge}</td>`,
-        col_quota: `<td style="font-size: 0.8rem; color: #cbd5e1;">${m.quota_and_access || 'N/A'}</td>`
+        col_quota: `<td style="font-size: 0.8rem; color: #cbd5e1;">${esc(m.quota_and_access || 'N/A')}</td>`
       };
 
       const rowHtml = this.columns

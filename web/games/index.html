@@ -75,7 +75,7 @@
       <option value="size">Sort: install size</option>
       <option value="name">Sort: name</option>
     </select>
-    <button id="dirBtn" title="Flip sort direction">↑▼</button>
+    <button id="dirBtn" type="button" title="Flip sort direction" aria-label="Flip sort direction">↑▼</button>
     <select id="view">
       <option value="cards">Cards view</option>
       <option value="table">Table view</option>
@@ -84,7 +84,7 @@
     <button id="reset">Reset filters</button>
   </div>
 
-  <div class="stats" id="stats"></div>
+  <div class="stats" id="stats" aria-live="polite"></div>
   <main id="results"></main>
 
   <div id="detail"></div>

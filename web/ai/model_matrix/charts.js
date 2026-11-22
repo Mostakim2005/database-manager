@@ -48,8 +48,11 @@ window.MatrixCharts = {
       this.instance = null;
     }
 
+    const staleEmpty = document.getElementById('chartEmptyState');
+    if (staleEmpty) staleEmpty.remove();
+
     if (models.length === 0) {
-      wrapper.innerHTML = '<canvas id="mainChart"></canvas><div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:var(--text-muted);">No models match the selected filters.</div>';
+      wrapper.innerHTML = '<canvas id="mainChart"></canvas><div id="chartEmptyState" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:var(--text-muted);">No models match the selected filters.</div>';
       return;
     }
 

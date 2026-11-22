@@ -91,12 +91,12 @@ a { color: var(--accent); }
 .card-h h3 { font-size: 16px; }
 .badges-row { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
 .card-meta { color: var(--muted); font-size: 13px; display: grid; gap: 2px; }
-.card-meta span { color: #6f7d90; margin-right: 4px; }
+.card-meta span { color: var(--muted); margin-right: 4px; }
 .badges-row a { text-decoration: none; }
 
 /* table */
 .games-table {
-  width: calc(100% - 48px); margin: 16px auto; border-collapse: collapse; font-size: 13.5px;
+  width: 100%; margin: 16px 0; border-collapse: collapse; font-size: 13.5px;
 }
 .games-table th, .games-table td {
   padding: 7px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: middle;
@@ -147,3 +147,21 @@ a { color: var(--accent); }
 .specs-table tbody th { background: #1c2331; text-align: left; color: var(--accent); font-weight: 600; width: 90px; }
 
 .sources { font-size: 12.5px; padding-left: 18px; color: var(--muted); word-break: break-all; }
+
+/* overflow, empty state & accessibility */
+.table-scroll { overflow-x: auto; padding: 0 24px 16px; }
+.empty-state {
+  margin: 32px 24px; padding: 32px; text-align: center;
+  background: var(--card); border: 1px dashed var(--line); border-radius: 10px;
+  color: var(--muted);
+}
+.empty-state button {
+  margin-top: 12px; background: #1c2331; color: var(--fg);
+  border: 1px solid var(--accent); border-radius: 6px; padding: 8px 16px;
+  cursor: pointer; font: inherit;
+}
+.empty-state button:hover { background: var(--accent); color: #10141c; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}

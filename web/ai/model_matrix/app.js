@@ -15,6 +15,12 @@ window.MatrixApp = {
   modalFamilyFilter: 'all',
   modalTierFilter: 'all',
 
+  _toastTimer: null,
+
+  escapeHtml(val) {
+    return String(val ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  },
+
   // Reasoning Effort Simulation State
   globalEffort: 'medium', // 'low', 'medium', 'high', 'ultra_high'
   modelEffortOverrides: {}, // { modelId: 'ultra_high' }
@@ -114,6 +120,15 @@ window.MatrixApp = {
         menu.style.display = 'none';
       }
     });
+
+    // Escape closes modal drawer and column manager menu
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        this.closeModelDrawer();
+        const menu = document.getElementById('colManagerMenu');
+        if (menu) menu.style.display = 'none';
+      }
+    });
   },
 
   // ----------------------------------------------------
@@ -201,7 +216,7 @@ window.MatrixApp = {
     // Models flagged with high overthinking-regression risk by the sync pipeline
     const riskyModels = this.catalog.filter(m => m.effort_simulation && m.effort_simulation.overthinking_risk &&
       /high/i.test(String(m.effort_simulation.overthinking_risk).slice(0, 30)));
-    const riskyNames = riskyModels.slice(0, 4).map(m => m.name).join(', ');
+    const riskyNames = riskyModels.slice(0, 4).map(m => this.escapeHtml(m.name)).join(', ');
     const riskySuffix = riskyModels.length > 4 ? ` (+${riskyModels.length - 4} more)` : '';
 
     // Only show the warning when at least one *visible* model is under high/ultra effort
@@ -362,16 +377,21 @@ window.MatrixApp = {
                              m.frontier_tier.includes('Tier 3') ? 'badge-tier3' :
                              m.frontier_tier.includes('Tier 4') ? 'badge-tier4' : 'badge-tier5';
 
+      const safeId = this.escapeHtml(m.id);
+      const safeName = this.escapeHtml(m.name);
+      const safeFamily = this.escapeHtml(m.provider_family);
+      const safeTierShort = this.escapeHtml((m.frontier_tier || 'Tier 5').split(' ')[0]);
+      const safePrompt = m.pricing ? Number(m.pricing.prompt_per_m || 0) : 0;
       return `
         <label class="model-check-item">
           <div class="model-check-item-header">
-            <input type="checkbox" value="${m.id}" ${this.selectedModelIds.has(m.id) ? 'checked' : ''} onchange="window.MatrixApp.toggleModel('${m.id}', this.checked)">
-            <span style="font-weight: 600; color: #f8fafc;">${m.name}</span>
+            <input type="checkbox" value="${safeId}" ${this.selectedModelIds.has(m.id) ? 'checked' : ''} onchange="window.MatrixApp.toggleModel(this.value, this.checked)">
+            <span style="font-weight: 600; color: #f8fafc;">${safeName}</span>
           </div>
           <div class="model-check-item-badges">
-            <span class="badge ${tierBadgeClass}">${m.frontier_tier.split(' ')[0]} (${m.frontier_delta_pct}%)</span>
-            <span class="badge" style="background: rgba(255,255,255,0.06); color: #94a3b8;">${m.provider_family}</span>
-            ${m.pricing && m.pricing.is_free ? '<span class="badge badge-free">FREE</span>' : '<span style="font-size:0.75rem; color:#f59e0b; margin-left:auto;">$' + m.pricing.prompt_per_m + '/M</span>'}
+            <span class="badge ${tierBadgeClass}">${safeTierShort} (${Number(m.frontier_delta_pct || 0)}%)</span>
+            <span class="badge" style="background: rgba(255,255,255,0.06); color: #94a3b8;">${safeFamily}</span>
+            ${m.pricing && m.pricing.is_free ? '<span class="badge badge-free">FREE</span>' : '<span style="font-size:0.75rem; color:#f59e0b; margin-left:auto;">$' + safePrompt + '/M</span>'}
           </div>
         </label>
       `;
@@ -580,12 +600,17 @@ window.MatrixApp = {
   },
 
   // Toast
-  showToast(msg) {
+  showToast(msg, isError = false) {
     const toast = document.getElementById('toastMessage');
     if (!toast) return;
+    if (this._toastTimer) clearTimeout(this._toastTimer);
     toast.innerText = msg;
+    toast.style.background = isError ? '#b91c1c' : '';
     toast.style.display = 'block';
-    setTimeout(() => { toast.style.display = 'none'; }, 2800);
+    this._toastTimer = setTimeout(() => {
+      toast.style.display = 'none';
+      this._toastTimer = null;
+    }, 3000);
   },
 
   // Export Tools
@@ -686,10 +711,12 @@ window.MatrixApp = {
           this.runAdvisor();
           this.showToast(`Loaded ${this.catalog.length} models from ${file.name}!`);
         } else {
-          alert('Invalid catalog JSON format. Expected { models: [...] } structure.');
+          this.showToast('Invalid catalog JSON format. Expected { models: [...] } structure.', true);
         }
       } catch (err) {
-        alert('Error parsing JSON file: ' + err.message);
+        this.showToast('Error parsing JSON file: ' + err.message, true);
+      } finally {
+        event.target.value = '';
       }
     };
     reader.readAsText(file);

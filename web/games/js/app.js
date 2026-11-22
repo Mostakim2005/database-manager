@@ -64,15 +64,40 @@ function wireFilters() {
       .forEach(function (k) { $(k).value = state[k]; });
     update();
   });
-  /* table / card click -> detail modal */
-  document.getElementById("results").addEventListener("click", function (e) {
+  /* table / card click -> detail modal (ignore store link clicks) */
+  var resultsEl = document.getElementById("results");
+  resultsEl.addEventListener("click", function (e) {
+    if (e.target.closest("#emptyReset")) {
+      $("reset").click();
+      return;
+    }
+    if (e.target.closest("a")) return;
     var row = e.target.closest(".row");
     if (!row) return;
     var g = window.GAMES.find(function (x) { return x.id === row.getAttribute("data-id"); });
-    if (g) showDetail(g);
+    if (g) showDetail(g, row);
+  });
+  resultsEl.addEventListener("keydown", function (e) {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    if (e.target.closest("a")) return;
+    var row = e.target.closest(".row");
+    if (!row) return;
+    e.preventDefault();
+    var g = window.GAMES.find(function (x) { return x.id === row.getAttribute("data-id"); });
+    if (g) showDetail(g, row);
   });
   document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") hideDetail();
+    if (e.key === "Escape") {
+      hideDetail();
+      return;
+    }
+    if (e.key === "/" && !e.ctrlKey && !e.metaKey && !e.altKey) {
+      var tag = (document.activeElement && document.activeElement.tagName) || "";
+      if (tag !== "INPUT" && tag !== "TEXTAREA" && tag !== "SELECT") {
+        e.preventDefault();
+        $("search").focus();
+      }
+    }
   });
 }
 
@@ -90,12 +115,12 @@ function currentGames() {
     if (state.setting !== "all" && g.setting !== state.setting) return false;
     if (state.price !== "all") {
       if (state.price === "f2p" && g.priceModel !== "f2p") return false;
-      if (state.price === "cheap" && (g.priceModel === "f2p" || g.priceUsd > 15)) return false;
+      if (state.price === "cheap" && g.priceModel !== "f2p" && g.priceUsd > 15) return false;
       if (state.price === "any" && g.priceModel === "f2p") return false;
     }
     if (state.campaign !== "all") {
       if (state.campaign === "yes" && !g.campaign.exists) return false;
-      if (state.campaign === "free" && g.campaign.freeOrPaid !== "free") return false;
+      if (state.campaign === "free" && !String(g.campaign.freeOrPaid || "").toLowerCase().startsWith("free")) return false;
       if (state.campaign === "none" && g.campaign.exists) return false;
     }
     if (state.compat !== "all" && activeTier(g).tier !== state.compat) return false;
