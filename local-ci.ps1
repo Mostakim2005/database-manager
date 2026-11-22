@@ -53,12 +53,13 @@ $repoTitle = ConvertTo-TitleCaseName $folderName
 
 # Modular verification stages for Database Manager
 $stages = @(
-    [ordered]@{ Name = '01 Python Syntax Check';       Command = 'python -m py_compile src/server.py src/db_export.py' }
+    [ordered]@{ Name = '01 Python Syntax Check';       Command = 'python -m py_compile src/server.py src/db_export.py src/db_hub.py src/db_verify.py src/scrapers/base.py src/scrapers/adapters.py src/scrapers/test_stack.py' }
     [ordered]@{ Name = '02 JSON Schema Validation';    Command = 'python -c "import json; json.load(open(''data/hardware/hardware_specs.json'', encoding=''utf-8'')); json.load(open(''data/games/games.json'', encoding=''utf-8'')); json.load(open(''data/ai/models_master.json'', encoding=''utf-8''))"' }
     [ordered]@{ Name = '03 SQLite Compilation';        Command = 'python src/db_export.py' }
     [ordered]@{ Name = '04 SQLite Verification';       Command = 'python src/db_export.py --verify' }
     [ordered]@{ Name = '05 CLI Search Smoke Test';     Command = 'python src/server.py --cli' }
     [ordered]@{ Name = '06 Documentation Parity Check';Command = 'python -c "import pathlib, re; docs=[p.read_text(encoding=''utf-8'') for p in pathlib.Path(''docs'').glob(''*.md'')]; assert all(re.search(r''^### \['', d, re.M) for d in docs)"' }
+    [ordered]@{ Name = '06b Multi-Domain Schema Verify';Command = 'python src/db_verify.py' }
     [ordered]@{ Name = '07 Unit & Regression Tests';   Command = 'python -m unittest discover -s tests -v' }
 )
 

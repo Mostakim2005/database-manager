@@ -1,0 +1,116 @@
+#!/usr/bin/env python3
+"""Unit & integration tests for separated domain SQLite hub, verifier, scaffold CLI, and scrapers."""
+
+from __future__ import annotations
+
+import json
+import sys
+import tempfile
+import threading
+import unittest
+import urllib.request
+from pathlib import Path
+
+ROOT_DIR = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT_DIR / "src"))
+
+import db_export  # noqa: E402
+import db_hub  # noqa: E402
+import db_verify  # noqa: E402
+import server  # noqa: E402
+from scrapers.adapters import parse_bd_retail_html, parse_facebook_group_posts  # noqa: E402
+from scrapers.base import compute_record_diff, detect_installed_tiers  # noqa: E402
+from scrapers.test_stack import SAMPLE_BD_HTML, SAMPLE_FB_TEXT, run_offline_self_test  # noqa: E402
+
+
+class TestMultiDomainHubAndVerify(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls) -> None:
+        db_export.compile_separated_domains()
+
+    def test_schema_verification_passes_all_domains(self) -> None:
+        report = db_verify.verify_all()
+        self.assertTrue(report["ok"], f"Schema verification errors: {report}")
+        names = {d["domain"] for d in report["domains"]}
+        self.assertEqual(names, {"ai", "games", "hardware"})
+
+    def test_domain_health_and_cross_domain_views(self) -> None:
+        health = db_hub.query_domain_health()
+        self.assertEqual(len(health), 3)
+        for item in health:
+            self.assertTrue(item["compiled"])
+            self.assertGreater(item["record_count"], 0)
+            self.assertFalse(item["is_stale"])
+            self.assertEqual(len(item["content_sha256"]), 64)
+
+        g_res = db_hub.query_games_by_gpu(gpu_id="rx-6600", max_psu_watts=550)
+        self.assertTrue(g_res["psu_safe"])
+        self.assertEqual(g_res["total_games"], 43)
+        self.assertGreater(g_res["recommended_count"], 0)
+
+        ai_res = db_hub.query_ai_vram_fit(gpu_id="rx-6600")
+        self.assertGreater(ai_res["matched_open_models"], 0)
+
+    def test_init_domain_scaffold_in_temp_dir(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            data_root = Path(td)
+            created = db_export.init_domain_scaffold("Budget Laptops", data_root=data_root)
+            self.assertTrue((created / "budget_laptops.json").exists())
+            self.assertTrue((created / "schema.json").exists())
+            reg = json.loads((data_root / "registry.json").read_text(encoding="utf-8"))
+            self.assertIn("budget_laptops", reg["domains"])
+
+    def test_cross_domain_http_endpoints(self) -> None:
+        httpd = server.ReusableThreadingHTTPServer(("127.0.0.1", 0), server.DatabaseHandler)
+        port = httpd.server_address[1]
+        thread = threading.Thread(target=httpd.serve_forever, daemon=True)
+        thread.start()
+        try:
+            base = f"http://127.0.0.1:{port}"
+            with urllib.request.urlopen(f"{base}/api/domains", timeout=5) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+                self.assertEqual(len(data["health"]), 3)
+            with urllib.request.urlopen(f"{base}/api/cross/games-by-gpu?gpu=rx-6600&psu=550", timeout=5) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+                self.assertTrue(data["psu_safe"])
+                self.assertEqual(data["total_games"], 43)
+            with urllib.request.urlopen(f"{base}/api/cross/ai-vram-fit?gpu=rx-6600", timeout=5) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+                self.assertGreater(data["matched_open_models"], 0)
+        finally:
+            httpd.shutdown()
+            httpd.server_close()
+
+
+class TestScrapersAndDryRunDiff(unittest.TestCase):
+    def test_bd_retail_and_fb_parsers(self) -> None:
+        bd = parse_bd_retail_html(SAMPLE_BD_HTML, source_name="Star Tech")
+        self.assertEqual(len(bd), 2)
+        self.assertEqual(bd[0]["price_bdt"], 28500)
+
+        fb = parse_facebook_group_posts(SAMPLE_FB_TEXT)
+        self.assertEqual(len(fb), 2)
+        self.assertEqual(fb[0]["gpu_model"], "RX 6600")
+        self.assertEqual(fb[0]["price_bdt"], 21500)
+        self.assertEqual(fb[1]["gpu_model"], "GTX 1660 SUPER")
+        self.assertEqual(fb[1]["price_bdt"], 14500)
+
+    def test_dry_run_diff_and_tier_probe(self) -> None:
+        diff = compute_record_diff(
+            existing=[{"id": "a", "v": 1}, {"id": "b", "v": 2}],
+            incoming=[{"id": "a", "v": 1}, {"id": "b", "v": 3}, {"id": "c", "v": 4}],
+        )
+        self.assertEqual(diff["unchanged_count"], 1)
+        self.assertEqual(diff["changed_count"], 1)
+        self.assertEqual(diff["added_count"], 1)
+        self.assertEqual(diff["removed_count"], 0)
+
+        tiers = detect_installed_tiers()
+        self.assertTrue(tiers["tier0_stdlib"]["available"])
+        offline = run_offline_self_test()
+        self.assertEqual(offline["bd_retail_parsed"], 2)
+        self.assertEqual(offline["fb_posts_parsed"], 2)
+
+
+if __name__ == "__main__":
+    unittest.main()

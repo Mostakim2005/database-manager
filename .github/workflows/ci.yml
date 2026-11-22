@@ -31,7 +31,7 @@ jobs:
       - name: 1. Python Syntax Check
         run: |
           set -o pipefail
-          python -m py_compile src/server.py src/db_export.py 2>&1 | tee .ci-logs/01-syntax.log
+          python -m py_compile src/server.py src/db_export.py src/db_hub.py src/db_verify.py src/scrapers/base.py src/scrapers/adapters.py src/scrapers/test_stack.py 2>&1 | tee .ci-logs/01-syntax.log
 
       - name: 2. JSON Schema Validation
         run: |
@@ -57,6 +57,11 @@ jobs:
         run: |
           set -o pipefail
           python -c "import pathlib, re; docs=[p.read_text(encoding='utf-8') for p in pathlib.Path('docs').glob('*.md')]; assert all(re.search(r'^### \[', d, re.M) for d in docs)" 2>&1 | tee .ci-logs/06-doc-parity.log
+
+      - name: 6b. Multi-Domain Schema Verification
+        run: |
+          set -o pipefail
+          python src/db_verify.py 2>&1 | tee .ci-logs/06b-db-verify.log
 
       - name: 7. Unit & Regression Tests
         run: |
