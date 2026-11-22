@@ -78,6 +78,18 @@ def load_cpus_data() -> list[dict[str, Any]]:
     return []
 
 
+def load_components_data() -> dict[str, Any]:
+    """Load PC & Peripherals components data from JSON."""
+    comp_json = DATA_DIR / "pc_components" / "components.json"
+    if comp_json.exists():
+        try:
+            with open(comp_json, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception as e:
+            sys.stderr.write(f"[ERROR] Failed to load components data from {comp_json}: {e}\n")
+    return {}
+
+
 def _extract_ai_model_fields(m: dict[str, Any]) -> dict[str, Any]:
     """Normalize AI model fields across v1 and v2 catalog schemas."""
     name = m.get("name") or m.get("model") or "Unknown"
@@ -146,6 +158,8 @@ class DatabaseHandler(http.server.SimpleHTTPRequestHandler):
             ai_models = ai_data.get("models")
             if ai_models is None:
                 ai_models = ai_data.get("records", [])
+            comp_data = load_components_data()
+            comp_count = sum(len(v) for v in comp_data.values() if isinstance(v, list))
             self._send_json(
                 {
                     "status": "online",
@@ -156,6 +170,7 @@ class DatabaseHandler(http.server.SimpleHTTPRequestHandler):
                         "games": len(load_games_data()),
                         "gpus": len(load_hardware_data().get("gpus", [])),
                         "cpus": len(load_cpus_data()),
+                        "pc_components": comp_count,
                     },
                 }
             )
@@ -175,6 +190,10 @@ class DatabaseHandler(http.server.SimpleHTTPRequestHandler):
 
         if url_path == "/api/cpus":
             self._send_json(load_cpus_data())
+            return
+
+        if url_path == "/api/components":
+            self._send_json(load_components_data())
             return
 
         if url_path == "/api/domains":
@@ -205,6 +224,23 @@ class DatabaseHandler(http.server.SimpleHTTPRequestHandler):
             qs = parse_qs(urlparse(self.path).query)
             cpu_id = qs.get("cpu", ["ryzen-5-5600gt"])[0]
             self._send_json(query_cpu_gpu_combos(cpu_id=cpu_id))
+            return
+
+        if url_path == "/api/cross/check-build":
+            from compatibility_engine import evaluate_default_build
+            self._send_json(evaluate_default_build())
+            return
+
+        if url_path == "/api/ai/classified":
+            from catalog_classifier import classify_ai_catalog
+            qs = parse_qs(urlparse(self.path).query)
+            only_chinese_oss = qs.get("chinese_oss", ["false"])[0].lower() in ("true", "1", "yes")
+            self._send_json(classify_ai_catalog(only_chinese_oss=only_chinese_oss))
+            return
+
+        if url_path == "/api/games/classified":
+            from catalog_classifier import classify_games_catalog
+            self._send_json(classify_games_catalog())
             return
 
         # Serve static web content from WEB_DIR

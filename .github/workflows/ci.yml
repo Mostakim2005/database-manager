@@ -53,6 +53,8 @@ jobs:
           set -o pipefail
           python src/server.py --cli 2>&1 | tee .ci-logs/05-cli-smoke.log
           python src/compatibility_engine.py --demo 2>&1 | tee -a .ci-logs/05-cli-smoke.log
+          python src/compatibility_engine.py --demo --json 2>&1 | tee -a .ci-logs/05-cli-smoke.log
+          python src/catalog_classifier.py --games 2>&1 | tee -a .ci-logs/05-cli-smoke.log
           python src/catalog_classifier.py --ai --chinese-oss 2>&1 | tee -a .ci-logs/05-cli-smoke.log
 
       - name: 6. Documentation Parity Check

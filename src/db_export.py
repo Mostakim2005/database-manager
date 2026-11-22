@@ -392,6 +392,65 @@ def export_cpus(conn: sqlite3.Connection) -> int:
     return count
 
 
+def export_pc_components(conn: sqlite3.Connection) -> int:
+    """Ingest full PC & peripherals components from JSON catalog into SQLite."""
+    comp_json_path = DATA_DIR / "pc_components" / "components.json"
+    if not comp_json_path.exists():
+        return 0
+
+    with open(comp_json_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    cursor = conn.cursor()
+    cursor.execute(
+        """
+        CREATE TABLE IF NOT EXISTS pc_components (
+            id TEXT PRIMARY KEY,
+            category TEXT NOT NULL,
+            name TEXT NOT NULL,
+            brand TEXT,
+            price_bdt REAL,
+            price_usd REAL,
+            specs_json TEXT
+        );
+        """
+    )
+    cursor.execute("CREATE INDEX IF NOT EXISTS idx_comp_cat ON pc_components(category);")
+    cursor.execute("CREATE INDEX IF NOT EXISTS idx_comp_brand ON pc_components(brand);")
+    cursor.execute("DELETE FROM pc_components;")
+
+    count = 0
+    categories = [
+        "cpus", "gpus", "motherboards", "ram", "ssds", "hdds",
+        "monitors", "tvs", "keyboards", "mice", "graphics_tablets"
+    ]
+    for cat in categories:
+        for item in data.get(cat, []):
+            cid = item.get("id")
+            if not cid:
+                continue
+            cursor.execute(
+                """
+                INSERT OR REPLACE INTO pc_components (
+                    id, category, name, brand, price_bdt, price_usd, specs_json
+                ) VALUES (?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    cid,
+                    cat,
+                    item.get("name", cid),
+                    item.get("brand"),
+                    float(item.get("price_bdt", 0)),
+                    float(item.get("price_usd", 0)),
+                    json.dumps(item, ensure_ascii=False),
+                ),
+            )
+            count += 1
+
+    conn.commit()
+    return count
+
+
 def verify_database(conn: sqlite3.Connection) -> None:
     """Run test queries across all tables and print results."""
     cursor = conn.cursor()
@@ -433,6 +492,7 @@ def compile_database(target_path: Path = SQLITE_PATH) -> None:
         game_cnt = export_pc_games(conn)
         gpu_cnt = export_hardware_gpus(conn)
         cpu_cnt = export_cpus(conn)
+        comp_cnt = export_pc_components(conn)
         verify_database(conn)
     except Exception:
         conn.close()
@@ -447,6 +507,7 @@ def compile_database(target_path: Path = SQLITE_PATH) -> None:
         print(f"  • PC Games ingested:    {game_cnt}")
         print(f"  • Hardware GPUs ingested:{gpu_cnt}")
         print(f"  • Desktop CPUs ingested:{cpu_cnt}")
+        print(f"  • PC Components ingested:{comp_cnt}")
 
 
 
@@ -580,6 +641,7 @@ def compile_separated_domains(data_root: Path = DATA_DIR) -> dict[str, int]:
         ("games", data_root / "games" / "games.sqlite", data_root / "games" / "games.json", "3.0.0", export_pc_games),
         ("hardware", data_root / "hardware" / "hardware.sqlite", data_root / "hardware" / "hardware_specs.json", "1.0.0", export_hardware_gpus),
         ("cpus", data_root / "cpus" / "cpus.sqlite", data_root / "cpus" / "cpus.json", "1.0.0", export_cpus),
+        ("pc_components", data_root / "pc_components" / "pc_components.sqlite", data_root / "pc_components" / "components.json", "1.0.0", export_pc_components),
     ]
     for domain, db_path, src_path, schema_ver, exporter in domain_specs:
         db_path.parent.mkdir(parents=True, exist_ok=True)

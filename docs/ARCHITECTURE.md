@@ -20,13 +20,16 @@ flowchart TB
         Compiler[db_export.py Compiler]:::processNode -->|Compiles & Indexes| SQLite[(database.sqlite)]:::dataNode
         Hub[db_hub.py Multi-DB Hub]:::processNode -->|In-Memory ATTACH Federation| SQLite
         Scrapers[src/scrapers/ Engine]:::processNode -->|Multi-tier fetch & diff| DataHW
+        Compat[src/compatibility_engine.py]:::processNode -->|Build Rule Checks| Server
+        Classifiers[src/catalog_classifier.py]:::processNode -->|Multi-axis taxonomies| Server
     end
 
     subgraph DataLayer["Multi-Domain Datasets (data/)"]
-        DataAI[(data/ai/ — Models Master)]:::dataNode
+        DataAI[(data/ai/ — Models & Taxonomy)]:::dataNode
         DataGames[(data/games/ — Games & Benchmarks)]:::dataNode
         DataHW[(data/hardware/ — GPU & PSU Specs)]:::dataNode
         DataCPUs[(data/cpus/ — Desktop CPUs)]:::dataNode
+        DataComp[(data/pc_components/ — Components)]:::dataNode
         Registry[data/registry.json — Domain Hub]:::dataNode
     end
 
@@ -40,11 +43,13 @@ flowchart TB
     DataGames -->|Loaded by| Server
     DataHW -->|Loaded by| Server
     DataCPUs -->|Loaded by| Server
+    DataComp -->|Loaded by| Server
 
     DataAI -->|Ingested by| Compiler
     DataGames -->|Ingested by| Compiler
     DataHW -->|Ingested by| Compiler
     DataCPUs -->|Ingested by| Compiler
+    DataComp -->|Ingested by| Compiler
 
     Server -->|JSON REST Endpoints| Portal
 

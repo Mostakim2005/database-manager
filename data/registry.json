@@ -55,6 +55,19 @@
         "tier0_api",
         "tier1_httpx"
       ]
+    },
+    "pc_components": {
+      "title": "Full PC & Peripherals Components",
+      "source_json": "data/pc_components/components.json",
+      "records_key": null,
+      "schema_file": "data/pc_components/schema.json",
+      "sqlite_file": "data/pc_components/pc_components.sqlite",
+      "primary_table": "pc_components",
+      "max_age_days": 60,
+      "scraper_tiers": [
+        "tier1_httpx",
+        "tier2_scrapling"
+      ]
     }
   },
   "cross_domain_views": [
@@ -80,7 +93,8 @@
         "ai",
         "games",
         "hardware",
-        "cpus"
+        "cpus",
+        "pc_components"
       ],
       "description": "Unifies freshness timestamps, checksums, and record counts across all domain databases."
     }

@@ -34,11 +34,11 @@ class TestMultiDomainHubAndVerify(unittest.TestCase):
         report = db_verify.verify_all()
         self.assertTrue(report["ok"], f"Schema verification errors: {report}")
         names = {d["domain"] for d in report["domains"]}
-        self.assertEqual(names, {"ai", "games", "hardware", "cpus"})
+        self.assertEqual(names, {"ai", "games", "hardware", "cpus", "pc_components"})
 
     def test_domain_health_and_cross_domain_views(self) -> None:
         health = db_hub.query_domain_health()
-        self.assertEqual(len(health), 4)
+        self.assertEqual(len(health), 5)
         for item in health:
             self.assertTrue(item["compiled"])
             self.assertGreater(item["record_count"], 0)
@@ -76,7 +76,7 @@ class TestMultiDomainHubAndVerify(unittest.TestCase):
             base = f"http://127.0.0.1:{port}"
             with urllib.request.urlopen(f"{base}/api/domains", timeout=5) as resp:
                 data = json.loads(resp.read().decode("utf-8"))
-                self.assertEqual(len(data["health"]), 4)
+                self.assertEqual(len(data["health"]), 5)
             with urllib.request.urlopen(f"{base}/api/cross/games-by-gpu?gpu=rx-6600&psu=550", timeout=5) as resp:
                 data = json.loads(resp.read().decode("utf-8"))
                 self.assertTrue(data["psu_safe"])
@@ -87,6 +87,18 @@ class TestMultiDomainHubAndVerify(unittest.TestCase):
             with urllib.request.urlopen(f"{base}/api/cross/cpu-gpu-combos?cpu=ryzen-5-5600gt", timeout=5) as resp:
                 data = json.loads(resp.read().decode("utf-8"))
                 self.assertGreater(data["total_combos"], 0)
+            with urllib.request.urlopen(f"{base}/api/cross/check-build", timeout=5) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+                self.assertTrue(data["compatible"])
+                self.assertEqual(data["error_count"], 0)
+            with urllib.request.urlopen(f"{base}/api/ai/classified?chinese_oss=true", timeout=5) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+                self.assertGreater(data["total"], 0)
+                self.assertIn("chinese_oss", data["bucket_counts"])
+            with urllib.request.urlopen(f"{base}/api/games/classified", timeout=5) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+                self.assertEqual(data["total"], 43)
+                self.assertGreater(len(data["discovery_seeds"]), 0)
         finally:
             httpd.shutdown()
             httpd.server_close()

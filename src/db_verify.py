@@ -61,12 +61,23 @@ def verify_domain(domain: str, cfg: dict[str, Any], root_dir: Path = ROOT_DIR) -
     schema = json.loads(schema_path.read_text(encoding="utf-8"))
 
     rec_key = schema.get("records_key")
-    records = raw.get(rec_key, []) if rec_key else raw
+    if rec_key:
+        records = raw.get(rec_key, [])
+    elif isinstance(raw, dict) and "categories" in schema:
+        records = []
+        for cat in schema.get("categories", []):
+            cat_list = raw.get(cat, [])
+            if isinstance(cat_list, list):
+                records.extend(cat_list)
+    else:
+        records = raw
+
     if not isinstance(records, list):
         return {"domain": domain, "ok": False, "record_count": 0, "errors": ["Expected list of records"], "warnings": []}
 
     seen_ids: set[str] = set()
     unique_key = schema.get("unique_key", "id")
+    req_fields = schema.get("required_fields") or schema.get("required_common_fields", [])
 
     for idx, rec in enumerate(records):
         if not isinstance(rec, dict):
@@ -78,7 +89,7 @@ def verify_domain(domain: str, cfg: dict[str, Any], root_dir: Path = ROOT_DIR) -
                 errors.append(f"[{domain}] Duplicate {unique_key}: {rid}")
             seen_ids.add(rid)
 
-        for req in schema.get("required_fields", []):
+        for req in req_fields:
             if rec.get(req) is None or rec.get(req) == "":
                 errors.append(f"[{domain}:{rid}] Missing required field '{req}'")
 
