@@ -7,6 +7,9 @@
   <style>
     :root {
       --bg: #0d1117;
+      --surface: #161b22;
+      --surface-hover: #21262d;
+      --surface-active: #30363d;
       --card-bg: rgba(22, 27, 34, 0.85);
       --border: #30363d;
       --text: #e6edf3;
@@ -14,6 +17,7 @@
       --accent: #58a6ff;
       --green: #3fb950;
       --amber: #d29922;
+      --red: #f85149;
       --purple: #bc8cff;
       --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     }
@@ -32,12 +36,14 @@
     }
 
     header {
-      background: #161b22;
+      background: var(--surface);
       border-bottom: 1px solid var(--border);
       padding: 12px 24px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
       flex-shrink: 0;
     }
 
@@ -51,6 +57,10 @@
       font-weight: 700;
       letter-spacing: -0.3px;
     }
+    .brand-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
     .badge-chip {
       background: rgba(88, 166, 255, 0.15);
       color: var(--accent);
@@ -63,58 +73,66 @@
 
     .nav-tabs {
       display: flex;
+      flex-wrap: wrap;
       gap: 8px;
     }
     .tab-btn {
       background: transparent;
       color: var(--text-muted);
       border: 1px solid transparent;
-      padding: 8px 16px;
+      padding: 8px 14px;
       border-radius: 6px;
       cursor: pointer;
       font-size: 13px;
       font-weight: 500;
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 6px;
-      transition: all 0.2s;
+      gap: 7px;
+      transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease;
     }
     .tab-btn:hover {
-      background: #21262d;
+      background: var(--surface-hover);
       color: var(--text);
     }
     .tab-btn.active {
-      background: #21262d;
+      background: var(--surface-hover);
       color: var(--accent);
       border-color: var(--border);
       font-weight: 600;
     }
+    .tab-icon {
+      width: 15px;
+      height: 15px;
+      flex-shrink: 0;
+    }
 
     .quick-links {
       display: flex;
+      flex-wrap: wrap;
       gap: 8px;
     }
     .link-btn {
-      background: #21262d;
+      background: var(--surface-hover);
       color: var(--text-muted);
       border: 1px solid var(--border);
       padding: 6px 12px;
       border-radius: 6px;
       text-decoration: none;
       font-size: 12px;
-      transition: all 0.2s;
+      transition: background-color 0.18s ease, color 0.18s ease;
     }
     .link-btn:hover {
       color: #fff;
-      background: #30363d;
+      background: var(--surface-active);
     }
 
     .stats-strip {
-      background: #0d1117;
+      background: var(--bg);
       border-bottom: 1px solid var(--border);
       padding: 10px 24px;
       display: flex;
-      gap: 24px;
+      align-items: center;
+      gap: 20px;
       font-size: 12px;
       color: var(--text-muted);
       flex-shrink: 0;
@@ -125,11 +143,32 @@
       font-weight: 600;
       margin-left: 4px;
     }
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2px 10px;
+      color: var(--text);
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--amber);
+    }
+    .status-pill[data-state="online"] .status-dot { background: var(--green); }
+    .status-pill[data-state="offline"] .status-dot { background: var(--red); }
 
     .main-viewport {
       flex: 1;
       position: relative;
       background: #090d13;
+      min-height: 0;
     }
 
     iframe {
@@ -144,6 +183,15 @@
     iframe.active {
       display: block;
     }
+
+    :focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition: none !important; animation: none !important; }
+    }
   </style>
 </head>
 <body>
@@ -152,59 +200,133 @@
     <div class="brand">
       <h1>Database Manager</h1>
       <span class="badge-chip">v1.0.0</span>
-      <span style="font-size: 13px; color: var(--text-muted);">Unified Multi-Domain Database Hub</span>
+      <span class="brand-sub">Unified Multi-Domain Database Hub</span>
     </div>
 
-    <div class="nav-tabs">
-      <button class="tab-btn active" onclick="switchTab('ai')">
-        🤖 AI Benchmark Matrix
+    <div class="nav-tabs" role="tablist" aria-label="Database domains">
+      <button id="tab-ai" class="tab-btn active" type="button" role="tab" aria-selected="true" aria-controls="frame-ai" data-tab="ai" title="AI Benchmark Matrix (Shortcut: 1)">
+        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"/></svg>
+        AI Benchmark Matrix
       </button>
-      <button class="tab-btn" onclick="switchTab('games')">
-        🎮 GameRank Simulator
+      <button id="tab-games" class="tab-btn" type="button" role="tab" aria-selected="false" aria-controls="frame-games" tabindex="-1" data-tab="games" title="GameRank Simulator (Shortcut: 2)">
+        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/><rect x="2" y="6" width="20" height="12" rx="2"/></svg>
+        GameRank Simulator
       </button>
-      <button class="tab-btn" onclick="switchTab('hardware')">
-        ⚡ PC Hardware & PSU Guard
+      <button id="tab-hardware" class="tab-btn" type="button" role="tab" aria-selected="false" aria-controls="frame-hardware" tabindex="-1" data-tab="hardware" title="PC Hardware &amp; PSU Guard (Shortcut: 3)">
+        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        PC Hardware &amp; PSU Guard
       </button>
     </div>
 
     <div class="quick-links">
-      <a href="ai/index.html" target="_blank" class="link-btn">AI Matrix Popout ↗</a>
-      <a href="games/index.html" target="_blank" class="link-btn">GameRank Popout ↗</a>
-      <a href="hardware/index.html" target="_blank" class="link-btn">Hardware Popout ↗</a>
-      <a href="/api/ai" target="_blank" class="link-btn">JSON API ↗</a>
+      <a href="ai/index.html" target="_blank" rel="noopener noreferrer" class="link-btn">AI Matrix Popout ↗</a>
+      <a href="games/index.html" target="_blank" rel="noopener noreferrer" class="link-btn">GameRank Popout ↗</a>
+      <a href="hardware/index.html" target="_blank" rel="noopener noreferrer" class="link-btn">Hardware Popout ↗</a>
+      <a href="/api/status" target="_blank" rel="noopener noreferrer" class="link-btn">JSON API ↗</a>
     </div>
   </header>
 
-  <div class="stats-strip">
-    <div class="stats-item">AI Models: <span id="stat-ai">26 frontier models</span></div>
-    <div class="stats-item">Benchmarked Games: <span id="stat-games">43 researched RTS titles</span></div>
-    <div class="stats-item">Baseline PC: <span>Ryzen 5 5600GT (16MB L3, Vega 7, 550W PSU)</span></div>
-    <div class="stats-item">Recommended Upgrade: <span style="color:var(--green);">Radeon RX 6600 (8 GB)</span></div>
-    <div class="stats-item">Local Server: <span style="color:var(--accent);">http://127.0.0.1:8770</span></div>
+  <div class="stats-strip" aria-live="polite">
+    <button id="server-status" class="status-pill" type="button" data-state="checking" title="Click to refresh live API status">
+      <span class="status-dot" aria-hidden="true"></span>
+      <span id="server-status-text">Checking API…</span>
+    </button>
+    <div class="stats-item">AI Models:<span id="stat-ai">33 models</span></div>
+    <div class="stats-item">Benchmarked Games:<span id="stat-games">43 titles</span></div>
+    <div class="stats-item">GPU Profiles:<span id="stat-gpus">8 tiers</span></div>
+    <div class="stats-item">Baseline PC:<span>Ryzen 5 5600GT (16MB L3, Vega 7, 550W PSU)</span></div>
+    <div class="stats-item">Recommended Upgrade:<span style="color:var(--green);">Radeon RX 6600 (8 GB)</span></div>
   </div>
 
   <div class="main-viewport">
-    <iframe id="frame-ai" src="ai/index.html" class="active"></iframe>
-    <iframe id="frame-games" src="games/index.html"></iframe>
-    <iframe id="frame-hardware" src="hardware/index.html"></iframe>
+    <iframe id="frame-ai" title="AI Benchmark Matrix" src="ai/index.html" role="tabpanel" aria-labelledby="tab-ai" class="active"></iframe>
+    <iframe id="frame-games" title="GameRank Simulator" data-src="games/index.html" role="tabpanel" aria-labelledby="tab-games"></iframe>
+    <iframe id="frame-hardware" title="PC Hardware &amp; PSU Guard" data-src="hardware/index.html" role="tabpanel" aria-labelledby="tab-hardware"></iframe>
   </div>
 
   <script>
-    function switchTab(tab) {
-      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-      document.querySelectorAll('iframe').forEach(frame => frame.classList.remove('active'));
+    const TAB_ORDER = ['ai', 'games', 'hardware'];
 
-      if (tab === 'ai') {
-        document.querySelectorAll('.tab-btn')[0].classList.add('active');
-        document.getElementById('frame-ai').classList.add('active');
-      } else if (tab === 'games') {
-        document.querySelectorAll('.tab-btn')[1].classList.add('active');
-        document.getElementById('frame-games').classList.add('active');
-      } else if (tab === 'hardware') {
-        document.querySelectorAll('.tab-btn')[2].classList.add('active');
-        document.getElementById('frame-hardware').classList.add('active');
+    function switchTab(tab, updateHash = true) {
+      if (!TAB_ORDER.includes(tab)) tab = 'ai';
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        const active = btn.dataset.tab === tab;
+        btn.classList.toggle('active', active);
+        btn.setAttribute('aria-selected', active ? 'true' : 'false');
+        btn.setAttribute('tabindex', active ? '0' : '-1');
+      });
+
+      document.querySelectorAll('iframe').forEach(frame => {
+        const active = frame.id === 'frame-' + tab;
+        frame.classList.toggle('active', active);
+        if (active && !frame.getAttribute('src') && frame.dataset.src) {
+          frame.setAttribute('src', frame.dataset.src);
+        }
+      });
+
+      if (updateHash && window.location.hash !== '#' + tab) {
+        history.replaceState(null, '', '#' + tab);
       }
     }
+
+    async function loadPortalStatus() {
+      const pill = document.getElementById('server-status');
+      const label = document.getElementById('server-status-text');
+      try {
+        const res = await fetch('/api/status', { cache: 'no-store' });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+        const counts = data.counts || {};
+        if (typeof counts.ai_models === 'number') {
+          document.getElementById('stat-ai').textContent = counts.ai_models + ' models';
+        }
+        if (typeof counts.games === 'number') {
+          document.getElementById('stat-games').textContent = counts.games + ' titles';
+        }
+        if (typeof counts.gpus === 'number') {
+          document.getElementById('stat-gpus').textContent = counts.gpus + ' tiers';
+        }
+        pill.dataset.state = 'online';
+        label.textContent = 'API Online (' + window.location.host + ')';
+      } catch (_) {
+        pill.dataset.state = 'offline';
+        label.textContent = 'Static / Offline Mode';
+      }
+    }
+
+    document.querySelectorAll('.tab-btn').forEach((btn, idx, list) => {
+      btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+      btn.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+          e.preventDefault();
+          const next = (idx + (e.key === 'ArrowRight' ? 1 : -1) + list.length) % list.length;
+          list[next].focus();
+          switchTab(list[next].dataset.tab);
+        }
+      });
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.altKey || e.ctrlKey || e.metaKey) return;
+      const tag = (document.activeElement && document.activeElement.tagName) || '';
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+      if (e.key === '1') switchTab('ai');
+      else if (e.key === '2') switchTab('games');
+      else if (e.key === '3') switchTab('hardware');
+    });
+
+    document.getElementById('server-status').addEventListener('click', loadPortalStatus);
+
+    window.addEventListener('hashchange', () => {
+      const target = window.location.hash.replace('#', '');
+      if (TAB_ORDER.includes(target)) switchTab(target, false);
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const initial = window.location.hash.replace('#', '');
+      if (TAB_ORDER.includes(initial)) switchTab(initial, false);
+      loadPortalStatus();
+    });
   </script>
 </body>
 </html>

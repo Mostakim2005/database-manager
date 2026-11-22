@@ -104,10 +104,13 @@
       padding: 10px 12px;
       border-radius: 6px;
       font-size: 14px;
-      outline: none;
       width: 100%;
     }
     select:focus, input:focus { border-color: var(--accent); }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition: none !important; animation: none !important; }
+    }
 
     .gauge-box {
       margin-top: 16px;
@@ -251,14 +254,14 @@
           </div>
         </div>
 
-        <div id="gauge-box" class="gauge-box pass">
+        <div id="gauge-box" class="gauge-box pass" aria-live="polite">
           <div class="gauge-header">
             <span id="gpu-name" style="font-weight:600;">Radeon RX 6600</span>
             <span id="status-badge" class="badge pass">Headroom Safe</span>
           </div>
           <div style="font-size:12px; color:var(--text-muted); display:flex; justify-content:space-between;">
             <span>Continuous: <strong id="val-continuous" style="color:var(--text);">217W</strong></span>
-            <span>Microsecond Spike: <strong id="val-peak" style="color:var(--text);">263W</strong> (1.35×)</span>
+            <span>Microsecond Spike: <strong id="val-peak" style="color:var(--text);">263W (1.35×)</strong></span>
             <span>Headroom: <strong id="val-headroom" style="color:var(--green);">+287W</strong></span>
           </div>
           <div class="meter-container">
@@ -303,9 +306,32 @@
   <script>
     let hardwareData = null;
 
+    function escapeHtml(val) {
+      return String(val ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+    }
+
+    function populateGpuSelect() {
+      const sel = document.getElementById("gpu-select");
+      if (!sel || !hardwareData || !Array.isArray(hardwareData.gpus)) return;
+      const prev = sel.value || "rx-6600";
+      sel.innerHTML = "";
+      hardwareData.gpus.forEach(gpu => {
+        const opt = document.createElement("option");
+        opt.value = gpu.id;
+        opt.textContent = `${gpu.name} (${gpu.tdp_watts}W TDP)`;
+        sel.appendChild(opt);
+      });
+      if (hardwareData.gpus.some(g => g.id === prev)) {
+        sel.value = prev;
+      } else if (hardwareData.gpus.length > 0) {
+        sel.value = hardwareData.gpus[0].id;
+      }
+    }
+
     async function loadData() {
       try {
-        const res = await fetch("../../data/hardware/hardware_specs.json");
+        const res = await fetch("/api/hardware", { cache: "no-store" });
+        if (!res.ok) throw new Error("HTTP " + res.status);
         hardwareData = await res.json();
       } catch (e) {
         // Fallback for direct browser file open
@@ -324,6 +350,7 @@
           ]
         };
       }
+      populateGpuSelect();
       renderTable();
       updateCalculator();
     }
@@ -333,19 +360,19 @@
       tbody.innerHTML = "";
       hardwareData.gpus.forEach(gpu => {
         const tr = document.createElement("tr");
-        const badgeCls = gpu.psu_550w_verdict;
+        const badgeCls = ["pass", "warn", "fail"].includes(gpu.psu_550w_verdict) ? gpu.psu_550w_verdict : "warn";
         const badgeLabel = badgeCls === "pass" ? "Safe" : (badgeCls === "warn" ? "Caution" : "Trip Risk");
         tr.innerHTML = `
-          <td><strong>${gpu.name}</strong></td>
-          <td>Tier ${gpu.tier}</td>
-          <td>${gpu.vram_gb} GB ${gpu.vram_type}</td>
-          <td>${gpu.tdp_watts}W</td>
-          <td>~${gpu.gpu_peak_spike_watts}W (${gpu.transient_multiplier}×)</td>
-          <td><strong>~${gpu.system_peak_watts}W</strong></td>
+          <td><strong>${escapeHtml(gpu.name)}</strong></td>
+          <td>Tier ${escapeHtml(gpu.tier)}</td>
+          <td>${escapeHtml(gpu.vram_gb)} GB ${escapeHtml(gpu.vram_type)}</td>
+          <td>${escapeHtml(gpu.tdp_watts)}W</td>
+          <td>~${escapeHtml(gpu.gpu_peak_spike_watts)}W (${escapeHtml(gpu.transient_multiplier)}×)</td>
+          <td><strong>~${escapeHtml(gpu.system_peak_watts)}W</strong></td>
           <td><span class="badge ${badgeCls}">${badgeLabel}</span></td>
-          <td>${gpu.price_bdt_used ? "৳" + gpu.price_bdt_used.toLocaleString() : "—"}</td>
-          <td>${gpu.price_bdt_retail ? "৳" + gpu.price_bdt_retail.toLocaleString() : "—"}</td>
-          <td>${gpu.price_usd ? "$" + gpu.price_usd : "—"}</td>
+          <td>${gpu.price_bdt_used ? "৳" + Number(gpu.price_bdt_used).toLocaleString() : "—"}</td>
+          <td>${gpu.price_bdt_retail ? "৳" + Number(gpu.price_bdt_retail).toLocaleString() : "—"}</td>
+          <td>${gpu.price_usd ? "$" + Number(gpu.price_usd) : "—"}</td>
         `;
         tbody.appendChild(tr);
       });

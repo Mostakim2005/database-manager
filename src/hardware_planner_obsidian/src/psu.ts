@@ -34,7 +34,7 @@ export function analyzePsuLoad(gpuTdpWatts: number, psuWattage = 550, systemBase
     status = "fail";
     badgeText = "OCP Trip Risk";
     explanation = `Microsecond transient power bursts can spike to ~${peakWatts}W, which exceeds your ${safePsu}W rated PSU capacity. This risks triggering Over-Current Protection (OCP) shutdowns during demanding games.`;
-  } else if (continuousWatts > 0.75 * safePsu) {
+  } else if (continuousWatts > 0.75 * safePsu || peakWatts > 0.85 * safePsu) {
     status = "warn";
     badgeText = "Heavy PSU Load";
     explanation = `Continuous consumption is ${continuousWatts}W with peak spikes around ~${peakWatts}W. The ${safePsu}W PSU will handle it, but the internal fan will run hot and loud under continuous gaming sessions.`;
