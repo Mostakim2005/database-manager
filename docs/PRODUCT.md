@@ -86,6 +86,24 @@
   * `data/cpus/cpus.json` -> 6 core processors catalog
   * `src/db_hub.py` -> `query_cpu_gpu_combos`
 
+### [FEATURE: Full-PC-And-Peripherals-Compatibility-Engine] | Aliases: compatibility engine, socket am4, ddr4 ram, pen display, smr hdd, tv 60hz
+> **1-Line Summary:** Evaluates complete PC rigs (motherboard, CPU, RAM, GPU, storage, PSU, monitors, drawing pen displays) for mechanical, electrical, and bus compatibility.
+* **User Intention (Non-Negotiable):** Prevent costly hardware purchase mistakes (socket mismatch, DDR generation conflict, PCIe lane throttling, missing DP-Alt-Mode for pen displays, SMR drive game-load freezes).
+* **Visual / UI Behavior:** CLI execution via `python src/compatibility_engine.py --demo` (or `--build <file.json>`) emitting formatted compatibility checks, warnings, and notes.
+* **Code Anchors (Grep Targets):**
+  * `src/compatibility_engine.py` -> `validate_pc_build`, `print_build_report`
+  * `data/pc_components/components.json` -> full component catalog
+  * `data/pc_components/schema.json` -> component spec validation
+
+### [FEATURE: Games-And-AI-Taxonomy-Classifiers] | Aliases: catalog classifier, chinese oss tiers, game taxonomy, strategy subgenres
+> **1-Line Summary:** Multi-axis taxonomy classifiers partitioning AI models (Chinese OSS vs Western OSS vs Closed Frontier) and RTS/Grand Strategy games into discoverable tactical subgenres.
+* **User Intention (Non-Negotiable):** Enable nuanced categorization for open-source AI models (DeepSeek, Qwen, GLM, Yi vs Llama, Mistral) and classify PC games by real-time micro vs macro tactical focus.
+* **Visual / UI Behavior:** CLI execution via `python src/catalog_classifier.py --ai --chinese-oss` or `python src/catalog_classifier.py --games`.
+* **Code Anchors (Grep Targets):**
+  * `src/catalog_classifier.py` -> `classify_ai_models`, `classify_games`
+  * `data/ai/taxonomy.json` -> AI geopolitical and capability taxonomy
+  * `data/games/taxonomy.json` -> Games subgenre and pacing taxonomy
+
 ## 3. Planned Features & App-Merge Wishlist
 
 ### [WISHLIST: Automated-Benchmark-Sync] | Aliases: github action benchmark sync, openrouter cron

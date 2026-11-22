@@ -1,0 +1,60 @@
+{
+  "version": "1.0.0",
+  "primary_categories": {
+    "classic-rts": "Classic Real-Time Strategy (base building + resource macro + army control)",
+    "4x-grand": "4X & Grand Strategy (empire diplomacy, long campaigns, map painting)",
+    "hybrid-td": "Hybrid Strategy & Tower Defense (survival waves, defense optimization)",
+    "army-sim": "Army, Colony & Settlement Simulation (logistics, city building, sandbox battles)",
+    "tactical-rpg": "Turn-Based & Real-Time Tactical RPG (squad tactics, positioning)"
+  },
+  "discovery_expansion_seeds": [
+    {
+      "name": "Beyond All Reason (BAR)",
+      "category": "classic-rts",
+      "price_model": "f2p",
+      "why": "Open-source Total Annihilation successor; massive battles, active MP"
+    },
+    {
+      "name": "Tempest Rising",
+      "category": "classic-rts",
+      "price_model": "paid",
+      "why": "Modern Command & Conquer spiritual successor with full campaigns"
+    },
+    {
+      "name": "Sins of a Solar Empire II",
+      "category": "4x-grand",
+      "price_model": "paid",
+      "why": "Real-time space 4X/RTS hybrid with strong late-game multicore scaling"
+    },
+    {
+      "name": "Manor Lords",
+      "category": "army-sim",
+      "price_model": "paid",
+      "why": "Organic medieval city builder + tactical battles"
+    },
+    {
+      "name": "Against the Storm",
+      "category": "army-sim",
+      "price_model": "paid",
+      "why": "Roguelite dark-fantasy city builder; lightweight on Vega 7"
+    },
+    {
+      "name": "Songs of Conquest",
+      "category": "tactical-rpg",
+      "price_model": "paid",
+      "why": "Modern Heroes of Might & Magic III successor; runs great on iGPU"
+    },
+    {
+      "name": "Mechabellum",
+      "category": "hybrid-td",
+      "price_model": "paid",
+      "why": "Tactical mech auto-battler with high strategic depth"
+    },
+    {
+      "name": "Factorio",
+      "category": "army-sim",
+      "price_model": "paid",
+      "why": "Ultimate automation/logistics sim; CPU-focused and silky smooth on 5600GT"
+    }
+  ]
+}

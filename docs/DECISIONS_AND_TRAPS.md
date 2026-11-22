@@ -59,6 +59,15 @@ flowchart LR
   * **Option B (Chosen):** Domain-isolated databases with SHA-256 metadata tables, tracked in `registry.json`, federated on-demand via SQLite `ATTACH DATABASE` in `src/db_hub.py`.
 * **Plain-English Summary of Pivot:** Each domain retains its own schema, TTL expiration, and export pipeline, while cross-domain views (`v_games_by_gpu`, `v_cpu_gpu_combos`) provide unified multi-domain querying.
 
+### [DECISION: Multi-Axis-Taxonomy-Over-Single-Tag] | Aliases: taxonomy engine, multi axis classification, chinese oss
+> **1-Line Summary:** Decoupled model and game metadata into multi-axis taxonomy trees (`data/ai/taxonomy.json`, `data/games/taxonomy.json`) rather than single flat strings.
+* **Decision Maker:** `[DECIDED BY: HUMAN]`
+* **Original User Intention:** Categorize AI models across multiple dimensions (geopolitical origin, weights openness, modality, architecture) and games across mechanics (pacing, perspective, strategy tier).
+* **Options Considered:**
+  * **Option A (Rejected):** A single `category: "RTS"` or `type: "Open"` string, losing crucial distinctions like Chinese open-source breakthroughs (DeepSeek, Qwen) or APM-heavy micro vs macro strategy.
+  * **Option B (Chosen):** Multi-axis JSON taxonomies with classifier utilities in `src/catalog_classifier.py`.
+* **Plain-English Summary of Pivot:** Multi-axis classification enables precise filtering (e.g., querying specifically for Chinese open-source models with coding ELO >= 1200 or slow-paced strategy games).
+
 ---
 
 ## 2. Critical Engineering Traps & Landmines
@@ -90,6 +99,18 @@ flowchart LR
 * **Where It Lurks:** `src/db_export.py` -> dynamic JSON ingestion
 * **What Goes Wrong:** Nested JSON catalog structures (e.g., `pricing` or `specs`) passed into `cursor.execute("INSERT ... VALUES (?, ?)", (id, obj))` fail because SQLite only supports native scalars (int, float, str, bytes, None).
 * **The Permanent Fix:** Explicitly serialize nested dicts/lists to JSON strings (`json.dumps(obj)`) or extract primitive scalar fields before binding.
+
+### [TRAP: Motherboard-USB-C-DP-Alt-Mode-Absence] | Aliases: dp alt mode, pen display black screen, xp-pen artist 12
+> **1-Line Summary:** Budget motherboards (e.g., MSI B450M PRO-VDH MAX) lack USB Type-C DisplayPort Alternate Mode; plugging a drawing pen display directly into the motherboard Type-C port results in 'No Signal'.
+* **Where It Lurks:** `src/compatibility_engine.py` -> `validate_pc_build`
+* **What Goes Wrong:** Pen displays (XP-Pen Artist, Huion Kamvas) support single-cable USB-C video, but only if the host USB-C port routes DisplayPort lanes. AM4 budget motherboards only route USB 3.2 Gen 1 data (5Gbps).
+* **The Permanent Fix:** Warn users when pen displays are paired with motherboards lacking DP-Alt-Mode, advising connection via 3-in-1 HDMI + USB-A cables directly to the dedicated GPU.
+
+### [TRAP: SMR-HDD-Gaming-IOWait-Freezes] | Aliases: smr vs cmr hdd, seagate barracuda lag, 100% disk usage
+> **1-Line Summary:** Shingled Magnetic Recording (SMR) hard drives suffer catastrophic write penalties and elevated read queue latency during background updates, freezing modern games.
+* **Where It Lurks:** `data/pc_components/components.json`, `src/compatibility_engine.py`
+* **What Goes Wrong:** SMR drives (such as Seagate BarraCuda 2TB) overlap data tracks, requiring read-modify-write passes for small writes. When Windows or Steam updates in the background, disk response times surge to 2,000ms+, causing severe stuttering and asset streaming pop-in.
+* **The Permanent Fix:** Flag SMR drives as 'Secondary Storage Only' in the compatibility engine, strongly recommending NVMe SSDs or CMR drives for game libraries.
 
 ### [TRAP: High-TDP-Transient-Power-Spikes] | Aliases: psu trip, 550w cx550, transient excursion
 > **1-Line Summary:** High-TDP GPUs (>= 250W) produce 2.0x microsecond transient excursions that trip Over-Current Protection (OCP) on 550W power supplies.

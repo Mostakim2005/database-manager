@@ -16,16 +16,18 @@
 * **Domain Scaffold & Scraper Stack Probe:** `python src/db_export.py --init-domain <name>` & `python src/scrapers/test_stack.py`
 * **Live Scraper Probing & BD Retail Sync:** `python src/scrapers/test_stack.py --live --dry-run` & `python src/scrapers/bd_hardware.py --dry-run`
 * **Game Benchmark Ingest:** `python src/scrapers/benchmark_ingest.py --verify`
-* **Python Syntax Check:** `python -m py_compile src/server.py src/db_export.py src/db_hub.py src/db_verify.py src/scrapers/base.py src/scrapers/adapters.py src/scrapers/test_stack.py src/scrapers/bd_hardware.py src/scrapers/benchmark_ingest.py`
-* **JSON Schema Verification:** `python -c "import json; json.load(open('data/hardware/hardware_specs.json', encoding='utf-8')); json.load(open('data/games/games.json', encoding='utf-8')); json.load(open('data/ai/models_master.json', encoding='utf-8')); json.load(open('data/cpus/cpus.json', encoding='utf-8'))"`
+* **Compatibility Engine & Catalog Classifiers:** `python src/compatibility_engine.py --demo` & `python src/catalog_classifier.py --ai --chinese-oss`
+* **Python Syntax Check:** `python -m py_compile src/server.py src/db_export.py src/db_hub.py src/db_verify.py src/scrapers/base.py src/scrapers/adapters.py src/scrapers/test_stack.py src/scrapers/bd_hardware.py src/scrapers/benchmark_ingest.py src/compatibility_engine.py src/catalog_classifier.py`
+* **JSON Schema Verification:** `python -c "import json; json.load(open('data/hardware/hardware_specs.json', encoding='utf-8')); json.load(open('data/games/games.json', encoding='utf-8')); json.load(open('data/ai/models_master.json', encoding='utf-8')); json.load(open('data/cpus/cpus.json', encoding='utf-8')); json.load(open('data/pc_components/components.json', encoding='utf-8')); json.load(open('data/ai/taxonomy.json', encoding='utf-8')); json.load(open('data/games/taxonomy.json', encoding='utf-8'))"`
 * **Local Verification Runner:** `powershell -NoProfile -ExecutionPolicy Bypass -File .\local-ci.ps1`
 
 ## 3. Repository Directory Structure & Conventions
 * `data/` - Normalized master datasets across registered domains:
-  * `data/ai/` - AI model benchmark catalogs (`models_master.*`, `model-comparison.*`, `raw_api_dumps/`).
-  * `data/games/` - PC strategy/RTS benchmark database and telemetry (`games.js`, `games.json`, `benchmarks.csv`, `schema.md`).
+  * `data/ai/` - AI model benchmark catalogs and taxonomy (`models_master.*`, `taxonomy.json`, `raw_api_dumps/`).
+  * `data/games/` - PC strategy/RTS benchmark database and taxonomy (`games.js`, `games.json`, `taxonomy.json`, `benchmarks.csv`).
   * `data/hardware/` - PC hardware specs, GPU upgrade tiers, and PSU transient excursion tables (`hardware_specs.*`).
   * `data/cpus/` - Desktop processor specifications and socket architectures (`cpus.json`, `schema.json`).
+  * `data/pc_components/` - Full PC rigs and peripherals catalog (`components.json`, `schema.json`).
   * `data/registry.json` - Domain registry and health monitoring ledger.
 * `web/` - Multi-tabbed dashboard interface:
   * `web/index.html` - Unified Portal integrating AI, Game, and Hardware views.
@@ -37,6 +39,8 @@
   * `src/db_export.py` - Consolidated and multi-domain SQLite compilation pipeline.
   * `src/db_hub.py` - In-memory SQLite ATTACH federation and cross-domain analytical query views.
   * `src/db_verify.py` - Domain schema integrity, constraint, and foreign key verifier.
+  * `src/compatibility_engine.py` - Full PC component and peripheral compatibility validator.
+  * `src/catalog_classifier.py` - Multi-axis taxonomy classifiers for AI models and PC games.
   * `src/scrapers/` - Multi-tier scraping stack (`base.py`, `adapters.py`, `test_stack.py`, `bd_hardware.py`, `benchmark_ingest.py`).
   * `src/update_models.ps1` - Upstream AI benchmark data fetcher and normalizer.
   * `src/hardware_planner_obsidian/` - Complete archived Obsidian plugin source for PC hardware planning.
@@ -51,3 +55,5 @@
 * **TRAP 5:** In selectolax 1.0+, use `selectolax.lexbor.LexborHTMLParser` to avoid deprecated Modest backend — see `docs/DECISIONS_AND_TRAPS.md` -> `[TRAP: Selectolax-Lexbor-Deprecation-In-Python-3-13-Plus]`.
 * **TRAP 6:** Star Tech price spans concatenate `.price-new` and `.price-old` into merged numbers unless targeting `.price-new` first — see `docs/DECISIONS_AND_TRAPS.md` -> `[TRAP: Star-Tech-Price-Span-Concatenation]`.
 * **TRAP 7:** SQLite parameter binding rejects Python dictionaries; serialize objects with `json.dumps()` — see `docs/DECISIONS_AND_TRAPS.md` -> `[TRAP: SQLite-Dict-Parameter-Binding-Error]`.
+* **TRAP 8:** Budget motherboards lack USB-C DP-Alt-Mode; route drawing pen displays via 3-in-1 HDMI + USB to GPU — see `docs/DECISIONS_AND_TRAPS.md` -> `[TRAP: Motherboard-USB-C-DP-Alt-Mode-Absence]`.
+* **TRAP 9:** SMR hard drives cause severe IO-wait stutter and game freezes; keep games on NVMe SSD or CMR drives — see `docs/DECISIONS_AND_TRAPS.md` -> `[TRAP: SMR-HDD-Gaming-IOWait-Freezes]`.

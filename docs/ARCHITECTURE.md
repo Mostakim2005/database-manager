@@ -191,6 +191,61 @@ flowchart LR
     end
 ```
 
+### [SUBSYSTEM: Full-Rig-Compatibility-Validator] | Aliases: compatibility validator, pc build checker, peripheral guard
+> **1-Line Summary:** Rule-based validation engine checking physical socket, RAM generation, PCIe bandwidth, PSU headroom, and peripheral cable constraints.
+
+* **Plain-English Overview:** Validates complete PC component selections against physical, electrical, and bus constraints, warning about CPU-motherboard socket mismatches, DDR generation incompatibilities, drawing tablet display connections, and SMR storage lag.
+
+```mermaid
+flowchart LR
+    %% Color Definitions
+    classDef startNode fill:#1d4ed8,stroke:#1e3a8a,color:#ffffff
+    classDef processNode fill:#0f766e,stroke:#115e59,color:#ffffff
+    classDef passNode fill:#15803d,stroke:#14532d,color:#ffffff
+    classDef warnNode fill:#b45309,stroke:#78350f,color:#ffffff
+
+    B1[Component Manifest: CPU, MB, RAM, GPU, PSU, Display]:::startNode -->|validate_pc_build| C1[Compatibility Engine]:::processNode
+    C1 -->|Check Socket & RAM Gen| S1{Socket & DDR Match?}:::processNode
+    C1 -->|Check TDP + Transients| P1{Peak Spike <= PSU?}:::processNode
+    C1 -->|Check Peripheral Ports| D1{DP-Alt-Mode / Cable?}:::processNode
+    S1 -->|Valid| R1[PASS: Mechanically Sound]:::passNode
+    P1 -->|Within Limit| R1
+    D1 -->|Port Note / Advice| R2[NOTE: Cable Guidance Emitted]:::warnNode
+
+    subgraph Legend["Legend"]
+        L1[Blue = Build Input]:::startNode
+        L2[Teal = Validation Rules]:::processNode
+        L3[Green = Verified Compatible]:::passNode
+        L4[Amber = Advisory Warning]:::warnNode
+    end
+```
+
+### [SUBSYSTEM: Multi-Axis-Catalog-Taxonomy-Engine] | Aliases: catalog taxonomy, llm classifier, rts taxonomy
+> **1-Line Summary:** Multi-axis taxonomy classifier categorizing AI models by geopolitical origin/capability and games by tactical pacing.
+
+* **Plain-English Overview:** Analyzes catalog entries against structured taxonomies (`data/ai/taxonomy.json`, `data/games/taxonomy.json`) to tag AI models into Chinese OSS vs Western Frontier tiers and classify strategy titles into micro, macro, and 4X subgenres.
+
+```mermaid
+flowchart LR
+    %% Color Definitions
+    classDef startNode fill:#1d4ed8,stroke:#1e3a8a,color:#ffffff
+    classDef processNode fill:#0f766e,stroke:#115e59,color:#ffffff
+    classDef dataNode fill:#15803d,stroke:#14532d,color:#ffffff
+    classDef outNode fill:#6b21a8,stroke:#581c87,color:#ffffff
+
+    M1[(data/ai/models_master.json)]:::dataNode -->|classify_ai_models| T1[src/catalog_classifier.py]:::processNode
+    G1[(data/games/games.json)]:::dataNode -->|classify_games| T1
+    X1[(data/*/taxonomy.json)]:::dataNode -->|Taxonomy Rules| T1
+    T1 -->|--ai --chinese-oss| O1[Chinese OSS Tiers: DeepSeek, Qwen, GLM, Yi]:::outNode
+    T1 -->|--games| O2[RTS Subgenres: Micro RTS, Macro RTS, 4X]:::outNode
+
+    subgraph Legend["Legend"]
+        L1[(Green = Catalog & Taxonomy Files)]:::dataNode
+        L2[Teal = Classifier Engine]:::processNode
+        L3[Purple = Classified Tiers & Subgenres]:::outNode
+    end
+```
+
 ## 4. Extension Recipes: Adding New Datasets
 
 1. **Adding a New AI Model:**

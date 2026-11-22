@@ -1,0 +1,51 @@
+{
+  "version": "1.0.0",
+  "chinese_labs": [
+    "deepseek",
+    "qwen",
+    "alibaba",
+    "z.ai",
+    "z-ai",
+    "zhipu",
+    "glm",
+    "minimax",
+    "xiaomi",
+    "mimo",
+    "moonshot",
+    "kimi",
+    "bytedance",
+    "doubao",
+    "seed",
+    "stepfun",
+    "01-ai",
+    "yi",
+    "baidu",
+    "ernie",
+    "tencent",
+    "hunyuan"
+  ],
+  "origin_buckets": {
+    "chinese_oss": "Chinese Open-Weights / Open-Source Frontier & Near-Frontier Models",
+    "chinese_proprietary": "Chinese Proprietary / API-First Models",
+    "western_frontier": "Western Proprietary Frontier Models (Anthropic, OpenAI, Google, xAI)",
+    "western_oss": "Western Open-Weights Models (Meta, Mistral, Reflection)",
+    "other": "Other Global Models"
+  },
+  "vram_quant_tiers": [
+    {
+      "tier": "8GB_local",
+      "max_params_b": 9,
+      "example_gpu": "RX 6600 / RTX 4060 (8GB)"
+    },
+    {
+      "tier": "12GB_16GB_local",
+      "max_params_b": 27,
+      "example_gpu": "RX 6700 XT (12GB) / RX 7800 XT (16GB)"
+    },
+    {
+      "tier": "cloud_or_multi_gpu",
+      "max_params_b": 9999,
+      "example_gpu": "Cloud API / Multi-GPU Workstation"
+    }
+  ]
+}

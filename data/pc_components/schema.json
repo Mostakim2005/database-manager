@@ -1,0 +1,22 @@
+{
+  "domain": "pc_components",
+  "schema_version": "1.0.0",
+  "categories": [
+    "cpus",
+    "gpus",
+    "motherboards",
+    "ram",
+    "ssds",
+    "hdds",
+    "monitors",
+    "tvs",
+    "keyboards",
+    "mice",
+    "graphics_tablets"
+  ],
+  "required_common_fields": [
+    "id",
+    "name",
+    "brand"
+  ]
+}
