@@ -118,6 +118,17 @@
   * `data/games/games.json` -> 53 verified strategy games
   * `data/ai/models_master.json` -> 52 verified LLM models
 
+### [FEATURE: Manga-Catalog-And-Adaptation-Hub] | Aliases: manga manager, manhua links, comix sitemaps, adaptation refresh, link health
+> **1-Line Summary:** Unified 104-title manga, manhwa, manhua, and web-novel catalog with canonical `comix.to` sitemap lookup, adaptation research probes, streaming link health checks, Obsidian `Manhua Links.md` sync, and a dedicated Web Portal tab.
+* **User Intention (Non-Negotiable):** Consolidate `Manga Manager` into `Database Manager` as the 6th registered domain (`data/manga/manga.sqlite`), keeping `data/manga/sitemaps/*.xml` gitignored, preserving `### Outlander` on Obsidian sync, and exposing non-destructive `--doctor` / `--propose` / `--check-links` workflows.
+* **Visual / UI Behavior:** Tab 4 (`Manga & Adaptations`, shortcut `4`) in `web/index.html` rendering `web/manga/index.html` with origin/adaptation filters and inline Doctor & Link Audit panels, plus `/api/manga`, `/api/manga/doctor`, `/api/manga/links`, and `/api/manga/classified`.
+* **Code Anchors (Grep Targets):**
+  * `src/manga/cli.py` -> `main`
+  * `src/manga/adaptation_refresh.py` -> `inspect_catalog_doctor`, `propose_link_upgrades`, `probe_public_adaptation_sources`, `run_adaptation_refresh`
+  * `src/manga/link_health.py` -> `audit_catalog_links_offline`, `check_catalog_links_live`
+  * `src/manga/sync_vault.py` -> `sync_to_obsidian`
+  * `web/manga/index.html` -> `renderTable`, `loadCatalog`
+
 ## 3. Planned Features & App-Merge Wishlist
 
 ### [WISHLIST: Automated-Benchmark-Sync] | Aliases: github action benchmark sync, openrouter cron

@@ -68,6 +68,20 @@
         "tier1_httpx",
         "tier2_scrapling"
       ]
+    },
+    "manga": {
+      "title": "Manga, Manhwa & Adaptations",
+      "source_json": "data/manga/manga_catalog.json",
+      "records_key": null,
+      "schema_file": "data/manga/schema.json",
+      "sqlite_file": "data/manga/manga.sqlite",
+      "primary_table": "manga_catalog",
+      "max_age_days": 30,
+      "scraper_tiers": [
+        "tier0_api",
+        "tier1_curl_cffi",
+        "tier4_sitemap"
+      ]
     }
   },
   "cross_domain_views": [
@@ -94,7 +108,8 @@
         "games",
         "hardware",
         "cpus",
-        "pc_components"
+        "pc_components",
+        "manga"
       ],
       "description": "Unifies freshness timestamps, checksums, and record counts across all domain databases."
     }

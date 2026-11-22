@@ -90,6 +90,18 @@ def load_components_data() -> dict[str, Any]:
     return {}
 
 
+def load_manga_data() -> list[dict[str, Any]]:
+    """Load Manga, Manhwa & Adaptations catalog from JSON."""
+    manga_json = DATA_DIR / "manga" / "manga_catalog.json"
+    if manga_json.exists():
+        try:
+            with open(manga_json, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception as e:
+            sys.stderr.write(f"[ERROR] Failed to load manga data from {manga_json}: {e}\n")
+    return []
+
+
 def _extract_ai_model_fields(m: dict[str, Any]) -> dict[str, Any]:
     """Normalize AI model fields across v1 and v2 catalog schemas."""
     name = m.get("name") or m.get("model") or "Unknown"
@@ -171,6 +183,7 @@ class DatabaseHandler(http.server.SimpleHTTPRequestHandler):
                         "gpus": len(load_hardware_data().get("gpus", [])),
                         "cpus": len(load_cpus_data()),
                         "pc_components": comp_count,
+                        "manga": len(load_manga_data()),
                     },
                 }
             )
@@ -243,6 +256,55 @@ class DatabaseHandler(http.server.SimpleHTTPRequestHandler):
             self._send_json(classify_games_catalog())
             return
 
+        if url_path == "/api/manga":
+            qs = parse_qs(urlparse(self.path).query)
+            q = qs.get("q", [""])[0].strip().lower()
+            origin_f = qs.get("origin", [""])[0].strip().lower()
+            items = load_manga_data()
+            if q:
+                items = [
+                    it for it in items
+                    if q in str(it.get("name", "")).lower()
+                    or q in str(it.get("alt", "")).lower()
+                    or q in str(it.get("anime", "")).lower()
+                    or q in str(it.get("live_action", "")).lower()
+                ]
+            if origin_f:
+                items = [it for it in items if origin_f in str(it.get("origin", "")).lower()]
+            self._send_json(items)
+            return
+
+        if url_path == "/api/manga/classified":
+            from catalog_classifier import classify_manga_catalog
+            self._send_json(classify_manga_catalog())
+            return
+
+        if url_path == "/api/manga/doctor":
+            from manga.adaptation_refresh import inspect_catalog_doctor, propose_link_upgrades
+            catalog = load_manga_data()
+            self._send_json(
+                {
+                    "doctor": inspect_catalog_doctor(catalog),
+                    "link_proposals": propose_link_upgrades(catalog),
+                }
+            )
+            return
+
+        if url_path == "/api/manga/links":
+            from manga.link_health import audit_catalog_links_offline, check_catalog_links_live
+            qs = parse_qs(urlparse(self.path).query)
+            is_live = qs.get("live", ["false"])[0].lower() in ("true", "1", "yes")
+            if is_live:
+                try:
+                    limit = max(1, min(25, int(qs.get("limit", ["5"])[0])))
+                except ValueError:
+                    limit = 5
+                host_f = qs.get("host", [None])[0]
+                self._send_json(check_catalog_links_live(limit=limit, host_filter=host_f))
+            else:
+                self._send_json(audit_catalog_links_offline())
+            return
+
         # Serve static web content from WEB_DIR
         super().do_GET()
 
@@ -273,6 +335,7 @@ def search_databases(query: str) -> dict[str, Any]:
         models = ai_data.get("records", [])
     games = load_games_data()
     gpus = load_hardware_data().get("gpus", [])
+    manga_items = load_manga_data()
 
     matched_models: list[dict[str, Any]] = []
     for m in models:
@@ -299,11 +362,19 @@ def search_databases(query: str) -> dict[str, Any]:
         if q in str(gpu.get("name", "")).lower() or q in str(gpu.get("vendor", "")).lower()
     ]
 
+    matched_manga = [
+        item for item in manga_items
+        if q in str(item.get("name", "")).lower()
+        or q in str(item.get("alt", "")).lower()
+        or q in str(item.get("origin", "")).lower()
+    ]
+
     return {
         "query": query,
         "ai_models": matched_models,
         "games": matched_games,
         "gpus": matched_gpus,
+        "manga": matched_manga,
     }
 
 
@@ -316,6 +387,7 @@ def run_cli_summary(query: str | None = None, as_json: bool = False) -> None:
     games = load_games_data()
     hw_data = load_hardware_data()
     gpus = hw_data.get("gpus", [])
+    manga_items = load_manga_data()
 
     if as_json:
         if query:
@@ -326,6 +398,7 @@ def run_cli_summary(query: str | None = None, as_json: bool = False) -> None:
                     "ai_models": len(models),
                     "games": len(games),
                     "gpus": len(gpus),
+                    "manga": len(manga_items),
                 },
                 "top_ai_models": [_extract_ai_model_fields(m) for m in models[:6]],
                 "sample_games": [
@@ -362,6 +435,7 @@ def run_cli_summary(query: str | None = None, as_json: bool = False) -> None:
         print(f"  • AI Models Catalog:       {len(models)} models benchmarked")
         print(f"  • PC Games Database:       {len(games)} strategy & RTS titles")
         print(f"  • Hardware GPU Tiers:      {len(gpus)} upgrade profiles")
+        print(f"  • Manga & Adaptations:     {len(manga_items)} catalog titles")
         print("  • Baseline PC:             Ryzen 5 5600GT (Vega 7, 16MB L3, 550W PSU)")
 
         print("\n🤖 TOP AI MODELS (BY INTELLIGENCE INDEX):")
@@ -426,8 +500,14 @@ def run_cli_summary(query: str | None = None, as_json: bool = False) -> None:
             spike = gpu.get("system_peak_watts", 0)
             print(f"  • {name} — Peak Spike: ~{spike}W | PSU: {status}")
 
-    if not (matched_models or matched_games or matched_gpus):
-        print("  (No matching records found across AI models, PC games, or hardware GPUs.)")
+    matched_manga = results.get("manga", [])
+    if matched_manga:
+        print(f"\n[Manga & Adaptations — {len(matched_manga)} matches]")
+        for m in matched_manga:
+            print(f"  • {m.get('name')} ({m.get('origin')}) — {m.get('link')}")
+
+    if not (matched_models or matched_games or matched_gpus or matched_manga):
+        print("  (No matching records found across AI models, PC games, hardware GPUs, or manga.)")
 
     print("\n" + "=" * 76 + "\n")
 

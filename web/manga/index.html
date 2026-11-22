@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manga, Manhwa &amp; Adaptations — Database Manager</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --surface-hover: #21262d;
+      --border: #30363d;
+      --text: #e6edf3;
+      --text-muted: #8b949e;
+      --accent: #58a6ff;
+      --green: #3fb950;
+      --amber: #d29922;
+      --red: #f85149;
+      --purple: #bc8cff;
+      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-family);
+      line-height: 1.5;
+      padding: 20px 24px 40px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+    }
+    h1 { font-size: 22px; font-weight: 600; }
+    .subtitle { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+
+    .actions { display: flex; flex-wrap: wrap; gap: 8px; }
+    .btn {
+      background: var(--surface-hover);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 7px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn:hover { border-color: var(--accent); color: var(--accent); }
+    .btn-primary {
+      background: rgba(88, 166, 255, 0.14);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .kpi-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+    }
+    .kpi-label { font-size: 12px; color: var(--text-muted); }
+    .kpi-value { font-size: 22px; font-weight: 700; margin-top: 4px; }
+    .kpi-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+    .controls {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: flex-end;
+      margin-bottom: 16px;
+    }
+    .control-group { display: flex; flex-direction: column; gap: 4px; min-width: 170px; flex: 1; }
+    label { font-size: 11px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; }
+    input, select {
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 7px 10px;
+      font-size: 13px;
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-bottom: 16px;
+      display: none;
+    }
+    .panel.open { display: block; }
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .panel-body { font-size: 13px; color: var(--text-muted); }
+    .panel-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px;
+      margin-top: 8px;
+    }
+    .mini-box {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px;
+      font-size: 12px;
+      color: var(--text);
+    }
+
+    .table-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    th, td {
+      text-align: left;
+      padding: 11px 14px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    th {
+      background: #1c2128;
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 600;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+    tr:hover td { background: rgba(88, 166, 255, 0.04); }
+
+    .title-link { color: var(--accent); font-weight: 600; text-decoration: none; font-size: 14px; }
+    .title-link:hover { text-decoration: underline; }
+    .alt-text { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+    .badge {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-top: 5px;
+      margin-right: 4px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text-muted);
+    }
+    .badge-direct { border-color: rgba(63, 185, 80, 0.45); color: var(--green); }
+    .badge-browse { border-color: rgba(210, 153, 34, 0.45); color: var(--amber); }
+    .badge-origin { border-color: rgba(188, 140, 255, 0.4); color: var(--purple); }
+
+    .cell-rich a { color: var(--accent); text-decoration: none; }
+    .cell-rich a:hover { text-decoration: underline; }
+    .muted-none { color: var(--text-muted); font-style: italic; }
+    .result-bar { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
+
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Manga, Manhwa &amp; Adaptation Catalog</h1>
+      <p class="subtitle">104+ tracked titles with canonical comix.to links, anime/donghua adaptations, and live-action tracking</p>
+    </div>
+    <div class="actions">
+      <button id="btn-doctor" type="button" class="btn btn-primary">Catalog Doctor</button>
+      <button id="btn-links-offline" type="button" class="btn">Link Audit (Offline)</button>
+      <button id="btn-links-live" type="button" class="btn">Probe 5 Links Live</button>
+      <a href="/api/manga" target="_blank" rel="noopener noreferrer" class="btn">JSON API</a>
+    </div>
+  </header>
+
+  <section class="kpi-grid" aria-label="Catalog Metrics">
+    <div class="kpi-card">
+      <div class="kpi-label">Tracked Titles</div>
+      <div id="kpi-total" class="kpi-value">--</div>
+      <div id="kpi-origins" class="kpi-sub">Loading catalog...</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Direct comix.to Links</div>
+      <div id="kpi-direct" class="kpi-value" style="color:var(--green);">--</div>
+      <div id="kpi-fallback" class="kpi-sub">-- browse fallbacks</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Anime / Donghua / Motion</div>
+      <div id="kpi-anime" class="kpi-value" style="color:var(--accent);">--</div>
+      <div class="kpi-sub">Official, teaser, or fan motion</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Live-Action Adapted</div>
+      <div id="kpi-live" class="kpi-value" style="color:var(--purple);">--</div>
+      <div class="kpi-sub">C-Drama, K-Drama &amp; J-Film</div>
+    </div>
+  </section>
+
+  <section class="controls" aria-label="Filter Manga Catalog">
+    <div class="control-group" style="flex:2;">
+      <label for="search-input">Search Title, Alt Name, Studio or Platform</label>
+      <input id="search-input" type="search" placeholder="e.g. Joy of Life, Bilibili, Pierrot, Lookism...">
+    </div>
+    <div class="control-group">
+      <label for="origin-select">Origin Medium</label>
+      <select id="origin-select">
+        <option value="all">All Origins</option>
+        <option value="manhua">Manhua (Chinese)</option>
+        <option value="manhwa">Manhwa (Korean)</option>
+        <option value="manga">Manga (Japanese)</option>
+        <option value="web novel">Web Novel</option>
+      </select>
+    </div>
+    <div class="control-group">
+      <label for="adapt-select">Adaptation Filter</label>
+      <select id="adapt-select">
+        <option value="all">All Adaptations</option>
+        <option value="anime">Has Anime / Donghua / Motion</option>
+        <option value="live">Has Live-Action</option>
+        <option value="production">In Production (News)</option>
+        <option value="direct">Direct comix.to Link Only</option>
+        <option value="browse">Browse Fallback Only</option>
+      </select>
+    </div>
+  </section>
+
+  <section id="diag-panel" class="panel" aria-live="polite">
+    <div class="panel-header">
+      <span id="diag-title">Diagnostic Output</span>
+      <button id="diag-close" type="button" class="btn">Close</button>
+    </div>
+    <div id="diag-body" class="panel-body"></div>
+  </section>
+
+  <div id="result-bar" class="result-bar">Loading catalog...</div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:28%;">Title &amp; Read Link</th>
+          <th style="width:40%;">Anime / Donghua / Fan Motion</th>
+          <th style="width:32%;">Live-Action Adaptation</th>
+        </tr>
+      </thead>
+      <tbody id="catalog-body"></tbody>
+    </table>
+  </div>
+
+  <script>
+    let ALL_ITEMS = [];
+
+    function appendSafeFormattedText(container, rawText) {
+      const text = String(rawText || '');
+      if (text.trim() === '**None**') {
+        const span = document.createElement('span');
+        span.className = 'muted-none';
+        span.textContent = 'None';
+        container.appendChild(span);
+        return;
+      }
+
+      const lines = text.split(/<br\s*\/?>/i);
+      lines.forEach((line, lineIdx) => {
+        if (lineIdx > 0) container.appendChild(document.createElement('br'));
+        // Tokenize [Label](https://...) and **bold** safely without innerHTML
+        const tokenRe = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)|\*\*([^*]+)\*\*/g;
+        let lastIndex = 0;
+        let match;
+        while ((match = tokenRe.exec(line)) !== null) {
+          if (match.index > lastIndex) {
+            container.appendChild(document.createTextNode(line.slice(lastIndex, match.index)));
+          }
+          if (match[1] && match[2]) {
+            const a = document.createElement('a');
+            a.href = match[2];
+            a.target = '_blank';
+            a.rel = 'noopener noreferrer';
+            a.textContent = match[1];
+            container.appendChild(a);
+          } else if (match[3]) {
+            const strong = document.createElement('strong');
+            strong.textContent = match[3];
+            container.appendChild(strong);
+          }
+          lastIndex = tokenRe.lastIndex;
+        }
+        if (lastIndex < line.length) {
+          container.appendChild(document.createTextNode(line.slice(lastIndex)));
+        }
+      });
+    }
+
+    function updateKPIs(items) {
+      const direct = items.filter(i => String(i.link || '').includes('comix.to/title/')).length;
+      const anime = items.filter(i => !String(i.anime || '').startsWith('**None**')).length;
+      const live = items.filter(i => !String(i.live_action || '').startsWith('**None**')).length;
+      document.getElementById('kpi-total').textContent = String(items.length);
+      document.getElementById('kpi-direct').textContent = String(direct);
+      document.getElementById('kpi-fallback').textContent = (items.length - direct) + ' browse fallbacks';
+      document.getElementById('kpi-anime').textContent = String(anime);
+      document.getElementById('kpi-live').textContent = String(live);
+      document.getElementById('kpi-origins').textContent = 'Synced with Database Manager SQLite';
+    }
+
+    function renderTable() {
+      const q = document.getElementById('search-input').value.trim().toLowerCase();
+      const originF = document.getElementById('origin-select').value;
+      const adaptF = document.getElementById('adapt-select').value;
+
+      const filtered = ALL_ITEMS.filter(item => {
+        const hay = [item.name, item.alt, item.origin, item.anime, item.live_action].join(' ').toLowerCase();
+        if (q && !hay.includes(q)) return false;
+        if (originF !== 'all' && !String(item.origin || '').toLowerCase().includes(originF)) return false;
+        if (adaptF === 'anime' && String(item.anime || '').startsWith('**None**')) return false;
+        if (adaptF === 'live' && String(item.live_action || '').startsWith('**None**')) return false;
+        if (adaptF === 'production' && !(String(item.anime || '') + ' ' + String(item.live_action || '')).toLowerCase().includes('in production')) return false;
+        if (adaptF === 'direct' && !String(item.link || '').includes('comix.to/title/')) return false;
+        if (adaptF === 'browse' && String(item.link || '').includes('comix.to/title/')) return false;
+        return true;
+      });
+
+      document.getElementById('result-bar').textContent = 'Showing ' + filtered.length + ' of ' + ALL_ITEMS.length + ' titles';
+      const tbody = document.getElementById('catalog-body');
+      tbody.textContent = '';
+
+      filtered.forEach(item => {
+        const tr = document.createElement('tr');
+
+        const tdName = document.createElement('td');
+        const link = document.createElement('a');
+        link.className = 'title-link';
+        link.href = item.link || '#';
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.textContent = item.name || 'Untitled';
+        tdName.appendChild(link);
+
+        if (item.alt) {
+          const alt = document.createElement('div');
+          alt.className = 'alt-text';
+          alt.textContent = item.alt;
+          tdName.appendChild(alt);
+        }
+
+        const originBadge = document.createElement('span');
+        originBadge.className = 'badge badge-origin';
+        originBadge.textContent = item.origin || 'Unknown';
+        tdName.appendChild(originBadge);
+
+        const isDirect = String(item.link || '').includes('comix.to/title/');
+        const linkBadge = document.createElement('span');
+        linkBadge.className = 'badge ' + (isDirect ? 'badge-direct' : 'badge-browse');
+        linkBadge.textContent = isDirect ? 'Direct Link' : 'Browse Search';
+        tdName.appendChild(linkBadge);
+
+        const tdAnime = document.createElement('td');
+        tdAnime.className = 'cell-rich';
+        appendSafeFormattedText(tdAnime, item.anime);
+
+        const tdLive = document.createElement('td');
+        tdLive.className = 'cell-rich';
+        appendSafeFormattedText(tdLive, item.live_action);
+
+        tr.appendChild(tdName);
+        tr.appendChild(tdAnime);
+        tr.appendChild(tdLive);
+        tbody.appendChild(tr);
+      });
+    }
+
+    function showDiagnosticPanel(title, blocks) {
+      const panel = document.getElementById('diag-panel');
+      document.getElementById('diag-title').textContent = title;
+      const body = document.getElementById('diag-body');
+      body.textContent = '';
+      const grid = document.createElement('div');
+      grid.className = 'panel-grid';
+      blocks.forEach(([heading, lines]) => {
+        const box = document.createElement('div');
+        box.className = 'mini-box';
+        const strong = document.createElement('strong');
+        strong.textContent = heading;
+        box.appendChild(strong);
+        lines.forEach(line => {
+          const div = document.createElement('div');
+          div.style.marginTop = '4px';
+          div.style.color = 'var(--text-muted)';
+          div.textContent = line;
+          box.appendChild(div);
+        });
+        grid.appendChild(box);
+      });
+      body.appendChild(grid);
+      panel.classList.add('open');
+    }
+
+    async function loadCatalog() {
+      try {
+        const res = await fetch('/api/manga', { cache: 'no-store' });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        ALL_ITEMS = await res.json();
+        updateKPIs(ALL_ITEMS);
+        renderTable();
+      } catch (err) {
+        document.getElementById('result-bar').textContent = 'Failed to load /api/manga (' + err.message + '). Start python src/server.py on port 8770.';
+      }
+    }
+
+    document.getElementById('search-input').addEventListener('input', renderTable);
+    document.getElementById('origin-select').addEventListener('change', renderTable);
+    document.getElementById('adapt-select').addEventListener('change', renderTable);
+    document.getElementById('diag-close').addEventListener('click', () => {
+      document.getElementById('diag-panel').classList.remove('open');
+    });
+
+    document.getElementById('btn-doctor').addEventListener('click', async () => {
+      const res = await fetch('/api/manga/doctor', { cache: 'no-store' });
+      const data = await res.json();
+      const doc = data.doctor || {};
+      const props = data.link_proposals || [];
+      showDiagnosticPanel('Catalog Doctor & Sitemap Link Proposals', [
+        ['Integrity Summary', [
+          'Healthy: ' + (doc.healthy ? 'YES' : 'ISSUES FOUND'),
+          'Direct comix.to links: ' + (doc.direct_comix_links ?? 0),
+          'Browse fallbacks: ' + (doc.browse_fallback_count ?? 0),
+          'Duplicate names: ' + ((doc.duplicate_names || []).length)
+        ]],
+        ['Adaptation Coverage', [
+          'Anime / Donghua / Motion: ' + (doc.with_anime_or_motion ?? 0),
+          'Live-Action: ' + (doc.with_live_action ?? 0),
+          'In Production: ' + (doc.in_production_count ?? 0)
+        ]],
+        ['Sitemap Link Upgrades (' + props.length + ')', props.length
+          ? props.slice(0, 5).map(p => p.name + ' -> ' + p.proposed_link)
+          : ['No unapplied sitemap upgrades detected (or local sitemaps cache empty).']]
+      ]);
+    });
+
+    document.getElementById('btn-links-offline').addEventListener('click', async () => {
+      const res = await fetch('/api/manga/links', { cache: 'no-store' });
+      const data = await res.json();
+      const hosts = Object.entries(data.top_hosts || {}).slice(0, 6).map(([h, c]) => h + ': ' + c);
+      showDiagnosticPanel('Offline Link Health Audit', [
+        ['Link Inventory', [
+          'Total extracted URLs: ' + (data.total_links ?? 0),
+          'Malformed URLs: ' + (data.malformed_count ?? 0),
+          'Direct URLs: ' + ((data.kind_counts || {}).direct ?? 0),
+          'Search URLs: ' + ((data.kind_counts || {}).browse_search ?? 0)
+        ]],
+        ['Top Hosts', hosts]
+      ]);
+    });
+
+    document.getElementById('btn-links-live').addEventListener('click', async () => {
+      showDiagnosticPanel('Live Link Probe (5 URLs)', [['Status', ['Probing 5 catalog URLs politely...']]]);
+      const res = await fetch('/api/manga/links?live=true&limit=5', { cache: 'no-store' });
+      const data = await res.json();
+      const rows = (data.results || []).map(r => r.state.toUpperCase() + ' (' + r.status + ') — ' + r.url);
+      showDiagnosticPanel('Live Link Probe Results', [
+        ['Summary', ['Probed: ' + (data.probed_count ?? 0), 'Broken: ' + ((data.broken_links || []).length)]],
+        ['Sample Results', rows.length ? rows : ['No results returned.']]
+      ]);
+    });
+
+    window.addEventListener('DOMContentLoaded', loadCatalog);
+  </script>
+</body>
+</html>

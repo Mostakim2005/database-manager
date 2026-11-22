@@ -30,6 +30,7 @@ flowchart TB
         DataHW[(data/hardware/ — GPU & PSU Specs)]:::dataNode
         DataCPUs[(data/cpus/ — Desktop CPUs)]:::dataNode
         DataComp[(data/pc_components/ — Components)]:::dataNode
+        DataManga[(data/manga/ — Manga & Adaptations)]:::dataNode
         Registry[data/registry.json — Domain Hub]:::dataNode
     end
 
@@ -37,6 +38,7 @@ flowchart TB
         Portal -->|Tab 1| AIView[AI Model Matrix]:::outputNode
         Portal -->|Tab 2| GameView[GameRank FPS Simulator]:::outputNode
         Portal -->|Tab 3| HWView[PSU Transient Guard]:::outputNode
+        Portal -->|Tab 4| MangaView[Manga & Adaptations]:::outputNode
     end
 
     DataAI -->|Loaded by| Server
@@ -44,12 +46,14 @@ flowchart TB
     DataHW -->|Loaded by| Server
     DataCPUs -->|Loaded by| Server
     DataComp -->|Loaded by| Server
+    DataManga -->|Loaded by| Server
 
     DataAI -->|Ingested by| Compiler
     DataGames -->|Ingested by| Compiler
     DataHW -->|Ingested by| Compiler
     DataCPUs -->|Ingested by| Compiler
     DataComp -->|Ingested by| Compiler
+    DataManga -->|Ingested by| Compiler
 
     Server -->|JSON REST Endpoints| Portal
 
@@ -279,6 +283,33 @@ flowchart TD
         L2[Teal = Scraping & Normalization Pipeline]:::processNode
         L3[Red = Cross-Site Spread Alert]:::alertNode
         L4[(Green = Compiled SQLite Databases)]:::dataNode
+    end
+```
+
+### [SUBSYSTEM: Manga-Catalog-And-Adaptation-Pipeline] | Aliases: manga pipeline, comix sitemaps, link health, obsidian manhua sync
+> **1-Line Summary:** Sitemap indexing, Chrome-impersonated adaptation probing, link-health verification, SQLite compilation, and non-destructive Obsidian vault synchronization for 104+ comic titles.
+
+* **Plain-English Overview:** `src/manga/crawler.py` caches `comix.to` sitemaps locally (gitignored), `indexer.py` + `matcher.py` propose canonical series URLs, `adaptation_refresh.py` + `link_health.py` audit adaptations and URL health via `fetch_helper.py` (`curl_cffi` with `urllib` fallback), and `sync_vault.py` updates `Manhua Links.md` while keeping everything beneath `### Outlander` intact.
+
+```mermaid
+flowchart LR
+    %% Color Definitions
+    classDef startNode fill:#1d4ed8,stroke:#1e3a8a,color:#ffffff
+    classDef processNode fill:#0f766e,stroke:#115e59,color:#ffffff
+    classDef dataNode fill:#15803d,stroke:#14532d,color:#ffffff
+    classDef outNode fill:#6b21a8,stroke:#581c87,color:#ffffff
+
+    M1[(data/manga/manga_catalog.json)]:::dataNode -->|Compiled by db_export.py| M2[(data/manga/manga.sqlite)]:::dataNode
+    S1[comix.to Sitemaps & Public APIs]:::startNode -->|crawler.py & fetch_helper.py| P1[adaptation_refresh.py & link_health.py]:::processNode
+    M1 -->|Read & Audited| P1
+    P1 -->|Non-destructive Proposals| UI1[web/manga/index.html & /api/manga/*]:::outNode
+    M1 -->|sync_vault.py preserving Outlander| OBS[Obsidian Manhua Links.md]:::outNode
+
+    subgraph Legend["Legend"]
+        L1[Blue = External Sitemaps & Sources]:::startNode
+        L2[Teal = Fetch, Match & Health Pipeline]:::processNode
+        L3[(Green = Catalog JSON & SQLite)]:::dataNode
+        L4[Purple = Web Tab & Obsidian Sync]:::outNode
     end
 ```
 

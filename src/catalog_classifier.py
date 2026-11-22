@@ -123,19 +123,80 @@ def classify_games_catalog() -> dict[str, Any]:
     }
 
 
+def classify_manga_entry(entry: dict[str, Any]) -> dict[str, Any]:
+    """Assign origin family and adaptation/link-status tags to a manga catalog record."""
+    origin_raw = str(entry.get("origin", "Unknown"))
+    origin_l = origin_raw.lower()
+    if "manhua" in origin_l:
+        origin_family = "manhua"
+    elif "manhwa" in origin_l:
+        origin_family = "manhwa"
+    elif "manga" in origin_l:
+        origin_family = "manga"
+    elif "web novel" in origin_l or "novel" in origin_l:
+        origin_family = "web_novel"
+    else:
+        origin_family = "other"
+
+    anime = str(entry.get("anime", "**None**"))
+    live = str(entry.get("live_action", "**None**"))
+    link = str(entry.get("link", ""))
+    tags: list[str] = [origin_family]
+    if "comix.to/title/" in link:
+        tags.append("direct_comix_link")
+    else:
+        tags.append("browse_fallback")
+    if not anime.startswith("**None**"):
+        if "fan motion" in anime.lower() or "unofficial" in anime.lower():
+            tags.append("fan_motion_or_unofficial")
+        else:
+            tags.append("official_anime_or_donghua")
+    if not live.startswith("**None**"):
+        tags.append("has_live_action")
+    if "in production" in (anime + " " + live).lower():
+        tags.append("in_production")
+
+    return {
+        "name": entry.get("name", ""),
+        "alt": entry.get("alt", ""),
+        "origin": origin_raw,
+        "origin_family": origin_family,
+        "tags": tags,
+    }
+
+
+def classify_manga_catalog() -> dict[str, Any]:
+    """Classify all titles in data/manga/manga_catalog.json."""
+    manga_path = DATA_DIR / "manga" / "manga_catalog.json"
+    items = _load_json(manga_path) if manga_path.exists() else []
+    classified = [classify_manga_entry(item) for item in items]
+    origin_counts = dict(Counter(c["origin_family"] for c in classified))
+    tag_counts = dict(Counter(t for c in classified for t in c["tags"]))
+    return {
+        "total": len(classified),
+        "origin_counts": origin_counts,
+        "tag_counts": tag_counts,
+        "manga": classified,
+    }
+
+
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Classify Games & LLM catalogs into multi-axis taxonomies")
+    parser = argparse.ArgumentParser(description="Classify Games, LLM & Manga catalogs into multi-axis taxonomies")
     parser.add_argument("--games", action="store_true", help="Classify PC games catalog")
     parser.add_argument("--ai", action="store_true", help="Classify AI models catalog")
+    parser.add_argument("--manga", action="store_true", help="Classify Manga/Manhwa/Manhua catalog")
     parser.add_argument("--chinese-oss", action="store_true", help="Filter AI output to Chinese & Open-Source models")
     parser.add_argument("--json", action="store_true", help="Emit JSON output")
     args = parser.parse_args()
 
     out: dict[str, Any] = {}
-    if args.games or not args.ai:
+    all_default = not (args.games or args.ai or args.manga)
+    if args.games or all_default:
         out["games"] = classify_games_catalog()
-    if args.ai or not args.games:
+    if args.ai or all_default:
         out["ai"] = classify_ai_catalog(only_chinese_oss=args.chinese_oss)
+    if args.manga or all_default:
+        out["manga"] = classify_manga_catalog()
 
     if args.json:
         print(json.dumps(out, indent=2))
@@ -152,6 +213,11 @@ def main() -> None:
         for genre, cnt in sorted(gm["genre_counts"].items()):
             print(f"  • {genre:<22} {cnt}")
         print(f"  • Curated discovery expansion seeds: {len(gm['discovery_seeds'])}")
+    if "manga" in out:
+        mg = out["manga"]
+        print(f"\n=== MANGA CATALOG CLASSIFICATION ({mg['total']} titles) ===")
+        for fam, cnt in sorted(mg["origin_counts"].items()):
+            print(f"  • {fam:<22} {cnt}")
     print("")
 
 

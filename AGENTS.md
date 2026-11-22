@@ -16,9 +16,10 @@
 * **Domain Scaffold & Scraper Stack Probe:** `python src/db_export.py --init-domain <name>` & `python src/scrapers/test_stack.py`
 * **Live Scraper Probing & BD Retail Sync:** `python src/scrapers/test_stack.py --live --dry-run` & `python src/scrapers/bd_hardware.py --dry-run`
 * **Game Benchmark Ingest:** `python src/scrapers/benchmark_ingest.py --verify`
-* **Compatibility Engine & Catalog Classifiers:** `python src/compatibility_engine.py --demo` & `python src/catalog_classifier.py --ai --chinese-oss`
-* **Python Syntax Check:** `python -m py_compile src/server.py src/db_export.py src/db_hub.py src/db_verify.py src/scrapers/base.py src/scrapers/adapters.py src/scrapers/test_stack.py src/scrapers/bd_hardware.py src/scrapers/benchmark_ingest.py src/scrapers/multi_site_components.py src/scrapers/multi_site_games.py src/scrapers/multi_site_ai.py src/compatibility_engine.py src/catalog_classifier.py`
-* **JSON Schema Verification:** `python -c "import json; json.load(open('data/hardware/hardware_specs.json', encoding='utf-8')); json.load(open('data/games/games.json', encoding='utf-8')); json.load(open('data/ai/models_master.json', encoding='utf-8')); json.load(open('data/cpus/cpus.json', encoding='utf-8')); json.load(open('data/pc_components/components.json', encoding='utf-8')); json.load(open('data/ai/taxonomy.json', encoding='utf-8')); json.load(open('data/games/taxonomy.json', encoding='utf-8'))"`
+* **Compatibility Engine & Catalog Classifiers:** `python src/compatibility_engine.py --demo` & `python src/catalog_classifier.py --ai --chinese-oss` & `python src/catalog_classifier.py --manga`
+* **Manga Catalog, Refresh & Link Health CLI:** `python src/manga/cli.py --verify --json`, `python src/manga/cli.py --doctor --json`, `python src/manga/cli.py --check-links`
+* **Python Syntax Check:** `python -m py_compile src/server.py src/db_export.py src/db_hub.py src/db_verify.py src/scrapers/base.py src/scrapers/adapters.py src/scrapers/test_stack.py src/scrapers/bd_hardware.py src/scrapers/benchmark_ingest.py src/scrapers/multi_site_components.py src/scrapers/multi_site_games.py src/scrapers/multi_site_ai.py src/compatibility_engine.py src/catalog_classifier.py src/manga/__init__.py src/manga/fetch_helper.py src/manga/crawler.py src/manga/indexer.py src/manga/matcher.py src/manga/sync_vault.py src/manga/adaptation_refresh.py src/manga/link_health.py src/manga/cli.py`
+* **JSON Schema Verification:** `python -c "import json; json.load(open('data/hardware/hardware_specs.json', encoding='utf-8')); json.load(open('data/games/games.json', encoding='utf-8')); json.load(open('data/ai/models_master.json', encoding='utf-8')); json.load(open('data/cpus/cpus.json', encoding='utf-8')); json.load(open('data/pc_components/components.json', encoding='utf-8')); json.load(open('data/manga/manga_catalog.json', encoding='utf-8')); json.load(open('data/ai/taxonomy.json', encoding='utf-8')); json.load(open('data/games/taxonomy.json', encoding='utf-8'))"`
 * **Local Verification Runner:** `powershell -NoProfile -ExecutionPolicy Bypass -File .\local-ci.ps1`
 
 ## 3. Repository Directory Structure & Conventions
@@ -28,19 +29,22 @@
   * `data/hardware/` - PC hardware specs, GPU upgrade tiers, and PSU transient excursion tables (`hardware_specs.*`).
   * `data/cpus/` - Desktop processor specifications and socket architectures (`cpus.json`, `schema.json`).
   * `data/pc_components/` - Full PC rigs and peripherals catalog (`components.json`, `schema.json`).
+  * `data/manga/` - 104-title Manga/Manhwa/Manhua catalog (`manga_catalog.json`, `schema.json`, gitignored `sitemaps/*.xml`).
   * `data/registry.json` - Domain registry and health monitoring ledger.
 * `web/` - Multi-tabbed dashboard interface:
-  * `web/index.html` - Unified Portal integrating AI, Game, and Hardware views.
+  * `web/index.html` - Unified Portal integrating AI, Game, Hardware, and Manga views.
   * `web/ai/` - Interactive AI Model Matrix visualizer and visual explorer.
   * `web/games/` - GameRank cards & table simulator.
   * `web/hardware/` - PC Hardware & PSU Transient Guard calculator.
+  * `web/manga/` - Manga, Manhwa & Adaptations catalog, doctor, and link audit view.
 * `src/` - Server, CLI, and data processing utilities:
   * `src/server.py` - Standard library HTTP web server on port `8770` and multi-domain CLI search engine.
   * `src/db_export.py` - Consolidated and multi-domain SQLite compilation pipeline.
   * `src/db_hub.py` - In-memory SQLite ATTACH federation and cross-domain analytical query views.
   * `src/db_verify.py` - Domain schema integrity, constraint, and foreign key verifier.
   * `src/compatibility_engine.py` - Full PC component and peripheral compatibility validator.
-  * `src/catalog_classifier.py` - Multi-axis taxonomy classifiers for AI models and PC games.
+  * `src/catalog_classifier.py` - Multi-axis taxonomy classifiers for AI models, PC games, and manga.
+  * `src/manga/` - Manga sitemap crawler, matcher, adaptation refresher, link health checker, and Obsidian vault sync (`cli.py`, `fetch_helper.py`, `crawler.py`, `indexer.py`, `matcher.py`, `sync_vault.py`, `adaptation_refresh.py`, `link_health.py`).
   * `src/scrapers/` - Multi-tier scraping stack (`base.py`, `adapters.py`, `test_stack.py`, `bd_hardware.py`, `benchmark_ingest.py`).
   * `src/update_models.ps1` - Upstream AI benchmark data fetcher and normalizer.
   * `src/hardware_planner_obsidian/` - Complete archived Obsidian plugin source for PC hardware planning.
@@ -61,3 +65,5 @@
 * **TRAP 11:** Flag price spreads >20% across retailers as `spread_alert` for SKU mismatch check — see `docs/DECISIONS_AND_TRAPS.md` -> `[TRAP: Multi-Site-Retailer-Price-Spread-SKU-Mismatch]`.
 * **TRAP 12:** Filter YouTube description regex to benchmark keywords to prevent refresh rates from corrupting FPS — see `docs/DECISIONS_AND_TRAPS.md` -> `[TRAP: YouTube-Description-FPS-Regex-Noise]`.
 * **TRAP 13:** Never call `.is_integer()` directly on `int` types in Python 3.11 CI — see `docs/DECISIONS_AND_TRAPS.md` -> `[TRAP: Int-Object-Has-No-Attribute-Is-Integer-Python-3-11]`.
+* **TRAP 14:** `api.jikan.moe` times out from this host and Viki/iQIYI return JS-rendered HTTP 200 shells — see `docs/DECISIONS_AND_TRAPS.md` -> `[TRAP: Manga-Jikan-And-JS-Rendered-Search-Pages]`.
+* **TRAP 15:** Obsidian vault sync must target `Manhua Links.md` and preserve `### Outlander` — see `docs/DECISIONS_AND_TRAPS.md` -> `[TRAP: Obsidian-Manhua-Vault-Outlander-Preservation]`.

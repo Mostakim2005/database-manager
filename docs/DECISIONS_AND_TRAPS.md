@@ -77,6 +77,15 @@ flowchart LR
   * **Option B (Chosen):** Query at least 3 sites per domain, store `retailer_prices` / `sources` provenance arrays, select lowest in-stock BDT as `price_bdt`, and flag spreads >20% as `spread_alert` for human review.
 * **Plain-English Summary of Pivot:** Multi-source consensus gives an auditable trail of where every BDT price, FPS metric, and intelligence score originated, catching SKU divergence before writing to disk.
 
+### [DECISION: Manga-Manager-Consolidation] | Aliases: manga domain merge, comix crawler merge, fetch helper chrome impersonation
+> **1-Line Summary:** Merged the standalone `Manga Manager` repository into `Database Manager` as the 6th registered SQLite/Web domain (`manga`) while keeping cached XML sitemaps gitignored.
+* **Decision Maker:** `[DECIDED BY: HUMAN]`
+* **Original User Intention:** Eliminate another standalone local-only repo by folding `Manga Manager`'s 104-title catalog, `comix.to` sitemap matcher, Obsidian `Manhua Links.md` sync, and planned adaptation/link-health pipelines into the unified `Database Manager` hub.
+* **Options Considered:**
+  * **Option A (Rejected):** Keep `Manga Manager` as a separate local-only Python repository or store 15 MB of raw XML sitemaps in Git.
+  * **Option B (Chosen):** Port modules into `src/manga/`, register `data/manga/manga_catalog.json` + `manga.sqlite` in `data/registry.json`, keep `data/manga/sitemaps/*.xml` gitignored, expose `/api/manga/*` + Web Portal Tab 4 (`web/manga/index.html`), and preserve `curl_cffi` -> `urllib` fallback in `src/manga/fetch_helper.py`.
+* **Plain-English Summary of Pivot:** All personal reference catalogs (AI, Games, Hardware, CPUs, Components, Manga) now share one server (`127.0.0.1:8770`), one SQLite compilation/verification gate, and one CI pipeline.
+
 ---
 
 ## 2. Critical Engineering Traps & Landmines
@@ -162,3 +171,15 @@ flowchart LR
 * **Where It Lurks:** `src/scrapers/multi_site_components.py`
 * **What Goes Wrong:** Python 3.12 added `int.is_integer()`, but Python 3.11 (used in GitHub Actions runners) only supports `.is_integer()` on `float` objects.
 * **The Permanent Fix:** Always check `isinstance(val, int)` first or use `float(val).is_integer()`.
+
+### [TRAP: Manga-Jikan-And-JS-Rendered-Search-Pages] | Aliases: api.jikan.moe timeout, viki iqiyi empty html, comix spa cloudflare
+> **1-Line Summary:** `api.jikan.moe` times out on this host (`WinError 10060`), `comix.to/browse?q=` is Cloudflare/SPA-gated, and Viki/iQIYI return HTTP 200 HTML shells with JS-rendered search results.
+* **Where It Lurks:** `src/manga/crawler.py`, `src/manga/adaptation_refresh.py`
+* **What Goes Wrong:** Direct HTTP probes to Jikan time out, and `HTTP 200` on Viki/iQIYI search shells can falsely look like "no adaptation exists".
+* **The Permanent Fix:** Use `comix.to` XML sitemaps for canonical series URLs (`src/manga/crawler.py`), probe reachable sources (IMDb suggestion JSON, MyDramaList, YouTube, DuckDuckGo HTML) via `fetch_helper.safe_get`, and treat empty HTTP 200 shells on JS-heavy platforms as inconclusive rather than absent.
+
+### [TRAP: Obsidian-Manhua-Vault-Outlander-Preservation] | Aliases: Movie Links.md rename, Outlander section overwrite
+> **1-Line Summary:** The Obsidian comic note was renamed from `Movie Links.md` to `Manhua Links.md` and contains a personal `### Outlander` section at the bottom that must never be overwritten.
+* **Where It Lurks:** `src/manga/sync_vault.py` -> `sync_to_obsidian`
+* **What Goes Wrong:** Overwriting the entire vault note wipes the user's personal MEGA preview links beneath `### Outlander`.
+* **The Permanent Fix:** Always target `Manhua Links.md`, create a `.bak` copy before writing, and slice/re-append everything starting at `### Outlander`.

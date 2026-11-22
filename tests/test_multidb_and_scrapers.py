@@ -37,11 +37,11 @@ class TestMultiDomainHubAndVerify(unittest.TestCase):
         report = db_verify.verify_all()
         self.assertTrue(report["ok"], f"Schema verification errors: {report}")
         names = {d["domain"] for d in report["domains"]}
-        self.assertEqual(names, {"ai", "games", "hardware", "cpus", "pc_components"})
+        self.assertEqual(names, {"ai", "games", "hardware", "cpus", "pc_components", "manga"})
 
     def test_domain_health_and_cross_domain_views(self) -> None:
         health = db_hub.query_domain_health()
-        self.assertEqual(len(health), 5)
+        self.assertEqual(len(health), 6)
         for item in health:
             self.assertTrue(item["compiled"])
             self.assertGreater(item["record_count"], 0)
@@ -79,7 +79,7 @@ class TestMultiDomainHubAndVerify(unittest.TestCase):
             base = f"http://127.0.0.1:{port}"
             with urllib.request.urlopen(f"{base}/api/domains", timeout=5) as resp:
                 data = json.loads(resp.read().decode("utf-8"))
-                self.assertEqual(len(data["health"]), 5)
+                self.assertEqual(len(data["health"]), 6)
             with urllib.request.urlopen(f"{base}/api/cross/games-by-gpu?gpu=rx-6600&psu=550", timeout=5) as resp:
                 data = json.loads(resp.read().decode("utf-8"))
                 self.assertTrue(data["psu_safe"])
@@ -194,7 +194,7 @@ class TestMultiSiteCatalogExpansion(unittest.TestCase):
                 self.assertIn("capabilities", m["fact_check"])
                 self.assertIn("sources", m["fact_check"])
 
-    def test_all_five_domains_record_counts(self) -> None:
+    def test_all_six_domains_record_counts(self) -> None:
         health = db_hub.query_domain_health()
         counts = {h["domain"]: h["record_count"] for h in health}
         self.assertGreaterEqual(counts.get("ai", 0), 45)
@@ -202,6 +202,123 @@ class TestMultiSiteCatalogExpansion(unittest.TestCase):
         self.assertGreaterEqual(counts.get("hardware", 0), 8)
         self.assertGreaterEqual(counts.get("cpus", 0), 6)
         self.assertGreaterEqual(counts.get("pc_components", 0), 55)
+        self.assertGreaterEqual(counts.get("manga", 0), 100)
+
+
+class TestMangaDomainIntegration(unittest.TestCase):
+    def test_manga_doctor_classifier_and_offline_links(self) -> None:
+        from manga import adaptation_refresh, link_health, sync_vault
+        import catalog_classifier
+
+        catalog = sync_vault.load_catalog()
+        self.assertGreaterEqual(len(catalog), 100)
+
+        doc = adaptation_refresh.inspect_catalog_doctor(catalog)
+        self.assertTrue(doc["healthy"], f"Manga doctor reported issues: {doc}")
+        self.assertGreater(doc["direct_comix_links"], 80)
+
+        links_report = link_health.audit_catalog_links_offline()
+        self.assertTrue(links_report["healthy"])
+        self.assertGreater(links_report["total_links"], 100)
+        self.assertIn("comix.to", links_report["top_hosts"])
+
+        cls_report = catalog_classifier.classify_manga_catalog()
+        self.assertEqual(cls_report["total"], len(catalog))
+        self.assertIn("manhua", cls_report["origin_counts"])
+
+    def test_manga_sitemap_proposals_and_vault_sync_preservation(self) -> None:
+        from manga import adaptation_refresh, sync_vault
+
+        with tempfile.TemporaryDirectory() as td:
+            td_path = Path(td)
+            sitemaps_dir = td_path / "sitemaps"
+            sitemaps_dir.mkdir()
+            (sitemaps_dir / "list-1.xml").write_text(
+                "<urlset><url><loc>https://comix.to/title/abc1-rebirth-of-the-ultimate-master</loc></url></urlset>",
+                encoding="utf-8",
+            )
+            fake_catalog = [
+                {
+                    "name": "Rebirth of the Ultimate Master",
+                    "alt": "The Ultimate of All Ages",
+                    "link": "https://comix.to/browse?q=Rebirth&sort=relevance%3Adesc",
+                    "origin": "Chinese Manhua",
+                    "anime": "**None**",
+                    "live_action": "**None**",
+                }
+            ]
+            proposals = adaptation_refresh.propose_link_upgrades(fake_catalog, sitemaps_dir=sitemaps_dir)
+            self.assertEqual(len(proposals), 1)
+            self.assertEqual(proposals[0]["proposed_link"], "https://comix.to/title/abc1-rebirth-of-the-ultimate-master")
+
+            vault_file = td_path / "Manhua Links.md"
+            vault_file.write_text("# Old\n\n### Outlander\n\nhttps://mega.nz/example\n", encoding="utf-8")
+            synced = sync_vault.sync_to_obsidian(vault_path=vault_file, create_backup=True)
+            self.assertGreaterEqual(synced, 100)
+            written = vault_file.read_text(encoding="utf-8")
+            self.assertIn("### Outlander", written)
+            self.assertIn("https://mega.nz/example", written)
+            self.assertTrue((td_path / "Manhua Links.md.bak").exists())
+
+    def test_manga_http_endpoints_and_fetch_helper(self) -> None:
+        from http.server import BaseHTTPRequestHandler, HTTPServer
+        from manga import fetch_helper
+
+        class ProbeHandler(BaseHTTPRequestHandler):
+            def do_GET(self):
+                if self.path == "/missing":
+                    self.send_response(404)
+                    self.end_headers()
+                    return
+                self.send_response(200)
+                self.send_header("Content-Type", "text/html; charset=utf-8")
+                self.end_headers()
+                self.wfile.write(b"<html><body>Joy of Life probe</body></html>")
+
+            def log_message(self, *args):
+                pass
+
+        probe_srv = HTTPServer(("127.0.0.1", 0), ProbeHandler)
+        probe_port = probe_srv.server_address[1]
+        probe_thread = threading.Thread(target=probe_srv.serve_forever, daemon=True)
+        probe_thread.start()
+
+        api_srv = server.ReusableThreadingHTTPServer(("127.0.0.1", 0), server.DatabaseHandler)
+        api_port = api_srv.server_address[1]
+        api_thread = threading.Thread(target=api_srv.serve_forever, daemon=True)
+        api_thread.start()
+
+        orig_cf = fetch_helper.HAVE_CURL_CFFI
+        try:
+            fetch_helper.HAVE_CURL_CFFI = False
+            ok_res = fetch_helper.probe_url_status(f"http://127.0.0.1:{probe_port}/ok", delay_sec=0)
+            self.assertTrue(ok_res["ok"])
+            self.assertEqual(ok_res["state"], "ok")
+
+            bad_res = fetch_helper.probe_url_status(f"http://127.0.0.1:{probe_port}/missing", delay_sec=0)
+            self.assertFalse(bad_res["ok"])
+            self.assertEqual(bad_res["state"], "broken")
+
+            base = f"http://127.0.0.1:{api_port}"
+            with urllib.request.urlopen(f"{base}/api/manga?q=Joy%20of%20Life", timeout=5) as resp:
+                items = json.loads(resp.read().decode("utf-8"))
+                self.assertGreaterEqual(len(items), 1)
+                self.assertEqual(items[0]["name"], "Joy of Life")
+            with urllib.request.urlopen(f"{base}/api/manga/doctor", timeout=5) as resp:
+                doc = json.loads(resp.read().decode("utf-8"))
+                self.assertTrue(doc["doctor"]["healthy"])
+            with urllib.request.urlopen(f"{base}/api/manga/links", timeout=5) as resp:
+                lnk = json.loads(resp.read().decode("utf-8"))
+                self.assertTrue(lnk["healthy"])
+            with urllib.request.urlopen(f"{base}/api/manga/classified", timeout=5) as resp:
+                cls = json.loads(resp.read().decode("utf-8"))
+                self.assertGreaterEqual(cls["total"], 100)
+        finally:
+            fetch_helper.HAVE_CURL_CFFI = orig_cf
+            probe_srv.shutdown()
+            probe_srv.server_close()
+            api_srv.shutdown()
+            api_srv.server_close()
 
 
 if __name__ == "__main__":

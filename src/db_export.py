@@ -98,6 +98,25 @@ def create_schema(conn: sqlite3.Connection) -> None:
     cursor.execute("CREATE INDEX IF NOT EXISTS idx_gpu_tier ON hardware_gpus(tier);")
     cursor.execute("CREATE INDEX IF NOT EXISTS idx_gpu_psu ON hardware_gpus(psu_550w_verdict);")
 
+    # 4. Manga Catalog Table
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS manga_catalog (
+        id TEXT PRIMARY KEY,
+        name TEXT NOT NULL,
+        alt TEXT,
+        link TEXT,
+        origin TEXT,
+        anime TEXT,
+        live_action TEXT,
+        has_direct_link INTEGER,
+        has_anime INTEGER,
+        has_live_action INTEGER,
+        raw_json TEXT
+    );
+    """)
+    cursor.execute("CREATE INDEX IF NOT EXISTS idx_manga_origin ON manga_catalog(origin);")
+    cursor.execute("CREATE INDEX IF NOT EXISTS idx_manga_name ON manga_catalog(name);")
+
     conn.commit()
 
 
@@ -451,6 +470,52 @@ def export_pc_components(conn: sqlite3.Connection) -> int:
     return count
 
 
+def export_manga(conn: sqlite3.Connection) -> int:
+    """Ingest Manga, Manhwa & Adaptations catalog from JSON into SQLite."""
+    manga_json_path = DATA_DIR / "manga" / "manga_catalog.json"
+    if not manga_json_path.exists():
+        return 0
+
+    with open(manga_json_path, "r", encoding="utf-8") as f:
+        items = json.load(f)
+
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM manga_catalog;")
+
+    count = 0
+    for idx, item in enumerate(items):
+        name = str(item.get("name") or f"manga-{idx}").strip()
+        slug = re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-") or f"manga-{idx}"
+        link = str(item.get("link", ""))
+        anime = str(item.get("anime", "**None**"))
+        live_action = str(item.get("live_action", "**None**"))
+        cursor.execute(
+            """
+            INSERT OR REPLACE INTO manga_catalog (
+                id, name, alt, link, origin, anime, live_action,
+                has_direct_link, has_anime, has_live_action, raw_json
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                slug,
+                name,
+                str(item.get("alt", "")),
+                link,
+                str(item.get("origin", "")),
+                anime,
+                live_action,
+                1 if "comix.to/title/" in link else 0,
+                0 if anime.startswith("**None**") else 1,
+                0 if live_action.startswith("**None**") else 1,
+                json.dumps(item, ensure_ascii=False),
+            ),
+        )
+        count += 1
+
+    conn.commit()
+    return count
+
+
 def verify_database(conn: sqlite3.Connection) -> None:
     """Run test queries across all tables and print results."""
     cursor = conn.cursor()
@@ -473,6 +538,11 @@ def verify_database(conn: sqlite3.Connection) -> None:
     gpu_count, avg_tdp = cursor.fetchone()
     print(f"  ✓ hardware_gpus: {gpu_count} records (Avg TDP: {(avg_tdp or 0.0):.1f}W)")
 
+    # Count Manga
+    cursor.execute("SELECT COUNT(*), SUM(has_direct_link) FROM manga_catalog;")
+    manga_count, direct_cnt = cursor.fetchone()
+    print(f"  ✓ manga_catalog: {manga_count} records (Direct links: {direct_cnt or 0})")
+
     print("=" * 60 + "\n")
 
 
@@ -493,6 +563,7 @@ def compile_database(target_path: Path = SQLITE_PATH) -> None:
         gpu_cnt = export_hardware_gpus(conn)
         cpu_cnt = export_cpus(conn)
         comp_cnt = export_pc_components(conn)
+        manga_cnt = export_manga(conn)
         verify_database(conn)
     except Exception:
         conn.close()
@@ -508,6 +579,7 @@ def compile_database(target_path: Path = SQLITE_PATH) -> None:
         print(f"  • Hardware GPUs ingested:{gpu_cnt}")
         print(f"  • Desktop CPUs ingested:{cpu_cnt}")
         print(f"  • PC Components ingested:{comp_cnt}")
+        print(f"  • Manga titles ingested:{manga_cnt}")
 
 
 
@@ -642,6 +714,7 @@ def compile_separated_domains(data_root: Path = DATA_DIR) -> dict[str, int]:
         ("hardware", data_root / "hardware" / "hardware.sqlite", data_root / "hardware" / "hardware_specs.json", "1.0.0", export_hardware_gpus),
         ("cpus", data_root / "cpus" / "cpus.sqlite", data_root / "cpus" / "cpus.json", "1.0.0", export_cpus),
         ("pc_components", data_root / "pc_components" / "pc_components.sqlite", data_root / "pc_components" / "components.json", "1.0.0", export_pc_components),
+        ("manga", data_root / "manga" / "manga.sqlite", data_root / "manga" / "manga_catalog.json", "1.0.0", export_manga),
     ]
     for domain, db_path, src_path, schema_ver, exporter in domain_specs:
         db_path.parent.mkdir(parents=True, exist_ok=True)

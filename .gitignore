@@ -25,3 +25,7 @@ Thumbs.db
 # CI Logs & Reports
 .ci-logs/
 .ci-report/
+
+# Manga Sitemap XML Cache (large regenerated crawl dumps; keep catalog JSON committed)
+data/manga/sitemaps/*.xml
+!data/manga/sitemaps/.gitkeep
