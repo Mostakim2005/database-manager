@@ -1,0 +1,40 @@
+{
+  "domain": "games",
+  "schema_version": "3.0.0",
+  "records_key": null,
+  "required_fields": [
+    "id",
+    "name",
+    "genre",
+    "priceModel",
+    "gpuMinTier",
+    "gpuRecTier"
+  ],
+  "field_types": {
+    "id": "str",
+    "name": "str",
+    "priceUsd": "number",
+    "installGB": "number"
+  },
+  "enums": {
+    "priceModel": [
+      "f2p",
+      "paid"
+    ]
+  },
+  "ranges": {
+    "gpuMinTier": [
+      0,
+      10
+    ],
+    "gpuRecTier": [
+      0,
+      10
+    ],
+    "installGB": [
+      0.01,
+      500
+    ]
+  },
+  "unique_key": "id"
+}

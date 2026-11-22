@@ -1,0 +1,28 @@
+{
+  "domain": "ai",
+  "schema_version": "2.0.0",
+  "records_key": "models",
+  "required_fields": [
+    "id",
+    "name"
+  ],
+  "field_types": {
+    "id": "str",
+    "name": "str"
+  },
+  "ranges": {
+    "scores.intelligence_index": [
+      0,
+      100
+    ],
+    "scores.coding_power": [
+      0,
+      100
+    ],
+    "scores.code_arena_elo": [
+      800,
+      2000
+    ]
+  },
+  "unique_key": "id"
+}

@@ -1,0 +1,74 @@
+{
+  "version": "1.0.0",
+  "domains": {
+    "ai": {
+      "title": "AI Models & Benchmarks",
+      "source_json": "data/ai/models_master.json",
+      "records_key": "models",
+      "schema_file": "data/ai/schema.json",
+      "sqlite_file": "data/ai/ai.sqlite",
+      "primary_table": "ai_models",
+      "max_age_days": 30,
+      "scraper_tiers": [
+        "tier0_api",
+        "tier2_scrapling",
+        "tier3_crawl4ai"
+      ]
+    },
+    "games": {
+      "title": "PC Games & Compatibility",
+      "source_json": "data/games/games.json",
+      "records_key": null,
+      "schema_file": "data/games/schema.json",
+      "sqlite_file": "data/games/games.sqlite",
+      "primary_table": "pc_games",
+      "max_age_days": 60,
+      "scraper_tiers": [
+        "tier0_api",
+        "tier1_httpx",
+        "tier4_ytdlp"
+      ]
+    },
+    "hardware": {
+      "title": "PC Hardware & PSU Guard",
+      "source_json": "data/hardware/hardware_specs.json",
+      "records_key": "gpus",
+      "schema_file": "data/hardware/schema.json",
+      "sqlite_file": "data/hardware/hardware.sqlite",
+      "primary_table": "hardware_gpus",
+      "max_age_days": 30,
+      "scraper_tiers": [
+        "tier1_httpx",
+        "tier2_scrapling",
+        "tier4_manual_paste"
+      ]
+    }
+  },
+  "cross_domain_views": [
+    {
+      "name": "v_games_by_gpu",
+      "domains": [
+        "games",
+        "hardware"
+      ],
+      "description": "Maps PC games against candidate GPUs, PSU 550W safety, and BDT/USD prices."
+    },
+    {
+      "name": "v_local_ai_vram_fit",
+      "domains": [
+        "ai",
+        "hardware"
+      ],
+      "description": "Matches open-weights AI models against GPU VRAM tiers for local inference planning."
+    },
+    {
+      "name": "v_domain_health",
+      "domains": [
+        "ai",
+        "games",
+        "hardware"
+      ],
+      "description": "Unifies freshness timestamps, checksums, and record counts across all domain databases."
+    }
+  ]
+}

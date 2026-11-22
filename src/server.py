@@ -16,7 +16,7 @@ import json
 import sys
 from pathlib import Path
 from typing import Any
-from urllib.parse import urlparse
+from urllib.parse import parse_qs, urlparse
 
 # Directory anchors
 ROOT_DIR = Path(__file__).resolve().parent.parent
@@ -157,6 +157,29 @@ class DatabaseHandler(http.server.SimpleHTTPRequestHandler):
 
         if url_path == "/api/hardware":
             self._send_json(load_hardware_data())
+            return
+
+        if url_path == "/api/domains":
+            from db_hub import load_registry, query_domain_health
+            self._send_json({"registry": load_registry(), "health": query_domain_health()})
+            return
+
+        if url_path == "/api/cross/games-by-gpu":
+            from db_hub import query_games_by_gpu
+            qs = parse_qs(urlparse(self.path).query)
+            gpu_id = qs.get("gpu", ["rx-6600"])[0]
+            try:
+                psu = int(qs.get("psu", ["550"])[0])
+            except ValueError:
+                psu = 550
+            self._send_json(query_games_by_gpu(gpu_id=gpu_id, max_psu_watts=psu))
+            return
+
+        if url_path == "/api/cross/ai-vram-fit":
+            from db_hub import query_ai_vram_fit
+            qs = parse_qs(urlparse(self.path).query)
+            gpu_id = qs.get("gpu", ["rx-6600"])[0]
+            self._send_json(query_ai_vram_fit(gpu_id=gpu_id))
             return
 
         # Serve static web content from WEB_DIR

@@ -11,8 +11,11 @@ Zero third-party dependencies (Python 3.10+ Standard Library only).
 from __future__ import annotations
 
 import argparse
+import datetime
+import hashlib
 import json
 import os
+import re
 import sqlite3
 import sys
 from pathlib import Path
@@ -163,7 +166,12 @@ def export_ai_models(conn: sqlite3.Connection) -> int:
         pin = _first_not_none(pricing.get("prompt_per_m"), m.get("price_in_1m"), default=0.0)
         pout = _first_not_none(pricing.get("completion_per_m"), m.get("price_out_1m"), default=0.0)
         ctx = m.get("context_window") or m.get("context") or m.get("context_tokens") or 128000
-        open_w = 1 if (m.get("open_weights") or m.get("classification") == "open_weights") else 0
+        fc_caps = (m.get("fact_check", {}).get("capabilities") or {}) if isinstance(m.get("fact_check"), dict) else {}
+        open_w = 1 if (
+            m.get("open_weights")
+            or fc_caps.get("open_weights")
+            or str(m.get("classification", "")).lower() in ("open_weights", "open-source", "open source")
+        ) else 0
 
         cursor.execute(
             """
@@ -369,11 +377,228 @@ def compile_database(target_path: Path = SQLITE_PATH) -> None:
         print(f"  • Hardware GPUs ingested:{gpu_cnt}")
 
 
+
+
+REGISTRY_PATH = DATA_DIR / "registry.json"
+
+
+def _file_sha256(path: Path) -> str:
+    """Compute SHA-256 hex digest of a file for drift telemetry."""
+    if not path.exists():
+        return ""
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(65536), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def _write_meta_table(
+    conn: sqlite3.Connection,
+    domain: str,
+    schema_version: str,
+    record_count: int,
+    source_path: Path,
+) -> None:
+    """Create and populate the standardized _meta freshness & drift table."""
+    cur = conn.cursor()
+    cur.execute(
+        """
+        CREATE TABLE IF NOT EXISTS _meta (
+            domain TEXT PRIMARY KEY,
+            schema_version TEXT NOT NULL,
+            record_count INTEGER NOT NULL,
+            content_sha256 TEXT NOT NULL,
+            source_file TEXT NOT NULL,
+            updated_at TEXT NOT NULL
+        );
+        """
+    )
+    updated_at = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    rel_src = str(source_path.relative_to(ROOT_DIR)).replace("\\", "/") if source_path.exists() else str(source_path)
+    cur.execute(
+        """
+        INSERT OR REPLACE INTO _meta (
+            domain, schema_version, record_count, content_sha256, source_file, updated_at
+        ) VALUES (?, ?, ?, ?, ?, ?)
+        """,
+        (domain, schema_version, record_count, _file_sha256(source_path), rel_src, updated_at),
+    )
+    conn.commit()
+
+
+def create_extended_domain_tables(conn: sqlite3.Connection, domain: str) -> None:
+    """Create domain-specific auxiliary tables for benchmarks and price history."""
+    cur = conn.cursor()
+    if domain == "games":
+        cur.execute(
+            """
+            CREATE TABLE IF NOT EXISTS game_benchmarks (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                game_id TEXT NOT NULL,
+                cpu_name TEXT NOT NULL,
+                gpu_id TEXT NOT NULL,
+                resolution TEXT NOT NULL,
+                preset TEXT NOT NULL,
+                avg_fps REAL,
+                low_1pct_fps REAL,
+                low_01pct_fps REAL,
+                source_url TEXT,
+                recorded_at TEXT
+            );
+            """
+        )
+        cur.execute("CREATE INDEX IF NOT EXISTS idx_bench_game_gpu ON game_benchmarks(game_id, gpu_id);")
+    elif domain == "hardware":
+        cur.execute(
+            """
+            CREATE TABLE IF NOT EXISTS hardware_prices (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                gpu_id TEXT NOT NULL,
+                market TEXT NOT NULL,
+                condition TEXT NOT NULL,
+                currency TEXT NOT NULL,
+                price REAL NOT NULL,
+                source_name TEXT NOT NULL,
+                source_url TEXT,
+                recorded_at TEXT NOT NULL
+            );
+            """
+        )
+        cur.execute("CREATE INDEX IF NOT EXISTS idx_prices_gpu_market ON hardware_prices(gpu_id, market);")
+    conn.commit()
+
+
+def _seed_auxiliary_tables(conn: sqlite3.Connection, domain: str) -> None:
+    """Populate initial benchmark / price snapshot rows from master JSON."""
+    now = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    cur = conn.cursor()
+    if domain == "hardware":
+        hw_path = DATA_DIR / "hardware" / "hardware_specs.json"
+        if hw_path.exists():
+            data = json.loads(hw_path.read_text(encoding="utf-8"))
+            cur.execute("DELETE FROM hardware_prices;")
+            for gpu in data.get("gpus", []):
+                gid = gpu.get("id")
+                if not gid:
+                    continue
+                if gpu.get("price_bdt_retail"):
+                    cur.execute(
+                        "INSERT INTO hardware_prices (gpu_id, market, condition, currency, price, source_name, source_url, recorded_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                        (gid, "BD", "new", "BDT", float(gpu["price_bdt_retail"]), "BD Retail Baseline", "", now),
+                    )
+                if gpu.get("price_bdt_used"):
+                    cur.execute(
+                        "INSERT INTO hardware_prices (gpu_id, market, condition, currency, price, source_name, source_url, recorded_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                        (gid, "BD", "used", "BDT", float(gpu["price_bdt_used"]), "BD Used Baseline", "", now),
+                    )
+                if gpu.get("price_usd"):
+                    cur.execute(
+                        "INSERT INTO hardware_prices (gpu_id, market, condition, currency, price, source_name, source_url, recorded_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                        (gid, "US", "reference", "USD", float(gpu["price_usd"]), "US Reference Baseline", "", now),
+                    )
+            conn.commit()
+
+
+def compile_separated_domains(data_root: Path = DATA_DIR) -> dict[str, int]:
+    """Compile each domain into its own isolated atomic SQLite database."""
+    counts: dict[str, int] = {}
+    domain_specs = [
+        ("ai", data_root / "ai" / "ai.sqlite", data_root / "ai" / "models_master.json", "2.0.0", export_ai_models),
+        ("games", data_root / "games" / "games.sqlite", data_root / "games" / "games.json", "3.0.0", export_pc_games),
+        ("hardware", data_root / "hardware" / "hardware.sqlite", data_root / "hardware" / "hardware_specs.json", "1.0.0", export_hardware_gpus),
+    ]
+    for domain, db_path, src_path, schema_ver, exporter in domain_specs:
+        db_path.parent.mkdir(parents=True, exist_ok=True)
+        tmp_path = db_path.with_suffix(".sqlite.tmp")
+        if tmp_path.exists():
+            tmp_path.unlink()
+        conn = sqlite3.connect(tmp_path)
+        try:
+            conn.execute("PRAGMA foreign_keys=ON;")
+            create_schema(conn)
+            create_extended_domain_tables(conn, domain)
+            cnt = exporter(conn)
+            _seed_auxiliary_tables(conn, domain)
+            _write_meta_table(conn, domain, schema_ver, cnt, src_path)
+        except Exception:
+            conn.close()
+            if tmp_path.exists():
+                tmp_path.unlink()
+            raise
+        else:
+            conn.close()
+            os.replace(tmp_path, db_path)
+            counts[domain] = cnt
+    return counts
+
+
+def init_domain_scaffold(name: str, data_root: Path = DATA_DIR) -> Path:
+    """Scaffold a new isolated domain folder, starter JSON, schema, and registry entry."""
+    slug = re.sub(r"[^a-z0-9_]+", "_", name.strip().lower()).strip("_")
+    if not slug:
+        raise ValueError("Domain name must contain at least one alphanumeric character.")
+    domain_dir = data_root / slug
+    domain_dir.mkdir(parents=True, exist_ok=True)
+
+    json_file = domain_dir / f"{slug}.json"
+    if not json_file.exists():
+        json_file.write_text(
+            json.dumps({"metadata": {"domain": slug, "version": "1.0.0"}, "records": []}, indent=2) + "\n",
+            encoding="utf-8",
+        )
+
+    schema_file = domain_dir / "schema.json"
+    if not schema_file.exists():
+        schema_file.write_text(
+            json.dumps(
+                {
+                    "domain": slug,
+                    "schema_version": "1.0.0",
+                    "records_key": "records",
+                    "required_fields": ["id", "name"],
+                    "field_types": {"id": "str", "name": "str"},
+                    "ranges": {},
+                    "unique_key": "id",
+                },
+                indent=2,
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+
+    reg_path = data_root / "registry.json"
+    if reg_path.exists():
+        reg = json.loads(reg_path.read_text(encoding="utf-8"))
+    else:
+        reg = {"version": "1.0.0", "domains": {}, "cross_domain_views": []}
+
+    reg.setdefault("domains", {})[slug] = {
+        "title": slug.replace("_", " ").title(),
+        "source_json": f"data/{slug}/{slug}.json",
+        "records_key": "records",
+        "schema_file": f"data/{slug}/schema.json",
+        "sqlite_file": f"data/{slug}/{slug}.sqlite",
+        "primary_table": f"{slug}_records",
+        "max_age_days": 30,
+        "scraper_tiers": ["tier0_api", "tier1_httpx"],
+    }
+    reg_path.write_text(json.dumps(reg, indent=2) + "\n", encoding="utf-8")
+    return domain_dir
+
+
 def main() -> None:
     """CLI Entry point."""
-    parser = argparse.ArgumentParser(description="Compile multi-domain SQLite database")
+    parser = argparse.ArgumentParser(description="Compile multi-domain SQLite databases")
     parser.add_argument("--verify", action="store_true", help="Verify existing database")
+    parser.add_argument("--init-domain", metavar="NAME", help="Scaffold a new domain folder, schema, and registry entry")
     args = parser.parse_args()
+
+    if args.init_domain:
+        created = init_domain_scaffold(args.init_domain)
+        print(f"Scaffolded new domain at: {created}")
+        print(f"  • Updated registry: {REGISTRY_PATH}")
+        return
 
     if args.verify:
         if not SQLITE_PATH.exists():
@@ -386,6 +611,10 @@ def main() -> None:
             conn.close()
     else:
         compile_database()
+        dom_counts = compile_separated_domains()
+        print("Compiled separated domain SQLite databases:")
+        for d, cnt in dom_counts.items():
+            print(f"  • data/{d}/{d}.sqlite ({cnt} records + _meta)")
 
 
 if __name__ == "__main__":
