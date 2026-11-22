@@ -59,6 +59,7 @@ $stages = @(
     [ordered]@{ Name = '04 SQLite Verification';       Command = 'python src/db_export.py --verify' }
     [ordered]@{ Name = '05 CLI Search Smoke Test';     Command = 'python src/server.py --cli' }
     [ordered]@{ Name = '06 Documentation Parity Check';Command = 'python -c "import pathlib, re; docs=[p.read_text(encoding=''utf-8'') for p in pathlib.Path(''docs'').glob(''*.md'')]; assert all(re.search(r''^### \['', d, re.M) for d in docs)"' }
+    [ordered]@{ Name = '07 Unit & Regression Tests';   Command = 'python -m unittest discover -s tests -v' }
 )
 
 $results = New-Object System.Collections.Generic.List[object]

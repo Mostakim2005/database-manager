@@ -41,7 +41,7 @@
 ### [FEATURE: Multi-Domain-CLI-And-REST-API] | Aliases: server py, cli search, json endpoints
 > **1-Line Summary:** Standard Python HTTP server serving static dashboards and JSON API endpoints (`/api/ai`, `/api/games`, `/api/hardware`), with a formatted terminal search CLI.
 * **User Intention (Non-Negotiable):** Run zero-dependency local queries directly from PowerShell or external scripts without launching a heavy browser.
-* **Visual / UI Behavior:** Prints formatted ANSI tables in terminal via `python src/server.py --cli [query]`.
+* **Visual / UI Behavior:** Prints formatted terminal tables via `python src/server.py --cli [query]` or machine-readable JSON via `--json`.
 * **Code Anchors (Grep Targets):**
   * `src/server.py` -> `run_cli_summary`, `DatabaseHandler.do_GET`
 

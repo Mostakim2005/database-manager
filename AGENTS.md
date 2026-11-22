@@ -10,7 +10,8 @@
 * **Shared Libraries & Local Ports:** Local HTTP server port `8770`.
 
 ## 2. Verification & Build Commands (Mirrored in CI)
-* **CLI Smoke Test:** `python src/server.py --cli`
+* **CLI Smoke Test:** `python src/server.py --cli` (or `--cli "claude" --json`)
+* **Unit & Regression Tests:** `python -m unittest discover -s tests -v`
 * **SQLite Compilation & Verification:** `python src/db_export.py --verify`
 * **Python Syntax Check:** `python -m py_compile src/server.py src/db_export.py`
 * **JSON Schema Verification:** `python -c "import json; json.load(open('data/hardware/hardware_specs.json', encoding='utf-8')); json.load(open('data/games/games.json', encoding='utf-8')); json.load(open('data/ai/models_master.json', encoding='utf-8'))"`

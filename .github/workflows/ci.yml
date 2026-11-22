@@ -58,6 +58,11 @@ jobs:
           set -o pipefail
           python -c "import pathlib, re; docs=[p.read_text(encoding='utf-8') for p in pathlib.Path('docs').glob('*.md')]; assert all(re.search(r'^### \[', d, re.M) for d in docs)" 2>&1 | tee .ci-logs/06-doc-parity.log
 
+      - name: 7. Unit & Regression Tests
+        run: |
+          set -o pipefail
+          python -m unittest discover -s tests -v 2>&1 | tee .ci-logs/07-unit-tests.log
+
       - name: Generate patch-ready CI failure report
         if: failure()
         shell: bash

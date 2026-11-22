@@ -138,7 +138,7 @@ flowchart LR
    * Run `python src/db_export.py` to refresh `data/database.sqlite`.
 
 2. **Adding a New PC Game:**
-   * Append game record to `data/games/games.js` and run `python src/db_export.py` to sync `games.json` and SQLite.
+   * Append game record to `data/games/games.json` (and mirror in `web/games/data/games.js`), then run `python src/db_export.py` to atomically rebuild `data/database.sqlite`.
 
 3. **Adding a New GPU / Hardware Component:**
    * Add GPU entry to `data/hardware/hardware_specs.json` with TDP, tier, and local market prices.

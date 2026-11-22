@@ -1,0 +1,109 @@
+#!/usr/bin/env python3
+"""Zero-dependency unittest regression suite for Database Manager."""
+
+from __future__ import annotations
+
+import json
+import sqlite3
+import sys
+import tempfile
+import threading
+import unittest
+import urllib.error
+import urllib.request
+from pathlib import Path
+
+ROOT_DIR = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT_DIR / "src"))
+
+import db_export  # noqa: E402
+import server  # noqa: E402
+
+
+class TestDbExport(unittest.TestCase):
+    def test_parse_context_window_variants(self) -> None:
+        self.assertEqual(db_export.parse_context_window("1M"), 1_000_000)
+        self.assertEqual(db_export.parse_context_window("200k"), 200_000)
+        self.assertEqual(db_export.parse_context_window(128000), 128_000)
+        self.assertEqual(db_export.parse_context_window(None), 128_000)
+        self.assertEqual(db_export.parse_context_window("invalid"), 128_000)
+
+    def test_compile_database_atomic_and_install_gb_populated(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            db_path = Path(td) / "test.sqlite"
+            db_export.compile_database(target_path=db_path)
+            self.assertTrue(db_path.exists())
+            self.assertFalse(db_path.with_suffix(".sqlite.tmp").exists())
+
+            conn = sqlite3.connect(db_path)
+            try:
+                cur = conn.cursor()
+                ai_cnt = cur.execute("SELECT COUNT(*) FROM ai_models").fetchone()[0]
+                game_cnt = cur.execute("SELECT COUNT(*) FROM pc_games").fetchone()[0]
+                nonzero_gb = cur.execute("SELECT COUNT(*) FROM pc_games WHERE install_gb > 0").fetchone()[0]
+                gpu_cnt = cur.execute("SELECT COUNT(*) FROM hardware_gpus").fetchone()[0]
+                self.assertGreaterEqual(ai_cnt, 26)
+                self.assertEqual(game_cnt, 43)
+                self.assertEqual(nonzero_gb, 43)
+                self.assertGreaterEqual(gpu_cnt, 8)
+            finally:
+                conn.close()
+
+    def test_verify_database_handles_empty_tables(self) -> None:
+        conn = sqlite3.connect(":memory:")
+        try:
+            db_export.create_schema(conn)
+            db_export.verify_database(conn)
+        finally:
+            conn.close()
+
+
+class TestServerCliAndHttp(unittest.TestCase):
+    def test_search_databases_matches_provider_and_scores(self) -> None:
+        res = server.search_databases("anthropic")
+        self.assertGreaterEqual(len(res["ai_models"]), 1)
+        for m in res["ai_models"]:
+            self.assertNotEqual(m["provider"], "N/A")
+            self.assertIsNotNone(m["intelligence_index"])
+
+        res_gpu = server.search_databases("rx 6600")
+        self.assertGreaterEqual(len(res_gpu["gpus"]), 1)
+
+    def test_http_endpoints_headers_and_cors(self) -> None:
+        httpd = server.ReusableThreadingHTTPServer(("127.0.0.1", 0), server.DatabaseHandler)
+        port = httpd.server_address[1]
+        thread = threading.Thread(target=httpd.serve_forever, daemon=True)
+        thread.start()
+        try:
+            base = f"http://127.0.0.1:{port}"
+
+            # 1. /api/status with loopback Origin
+            req = urllib.request.Request(f"{base}/api/status", headers={"Origin": base})
+            with urllib.request.urlopen(req, timeout=5) as resp:
+                self.assertEqual(resp.status, 200)
+                self.assertEqual(resp.headers.get("X-Content-Type-Options"), "nosniff")
+                self.assertEqual(resp.headers.get("Access-Control-Allow-Origin"), base)
+                data = json.loads(resp.read().decode("utf-8"))
+                self.assertEqual(data["status"], "online")
+                self.assertEqual(data["counts"]["games"], 43)
+                self.assertGreaterEqual(data["counts"]["ai_models"], 26)
+
+            # 2. /api/hardware with untrusted Origin must not reflect CORS
+            req_evil = urllib.request.Request(f"{base}/api/hardware", headers={"Origin": "https://evil.example"})
+            with urllib.request.urlopen(req_evil, timeout=5) as resp:
+                self.assertEqual(resp.status, 200)
+                self.assertIsNone(resp.headers.get("Access-Control-Allow-Origin"))
+                hw = json.loads(resp.read().decode("utf-8"))
+                self.assertIn("gpus", hw)
+
+            # 3. Directory listing must be forbidden (403)
+            with self.assertRaises(urllib.error.HTTPError) as ctx:
+                urllib.request.urlopen(f"{base}/games/js/", timeout=5)
+            self.assertEqual(ctx.exception.code, 403)
+        finally:
+            httpd.shutdown()
+            httpd.server_close()
+
+
+if __name__ == "__main__":
+    unittest.main()
