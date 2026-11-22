@@ -322,6 +322,76 @@ def export_hardware_gpus(conn: sqlite3.Connection) -> int:
     return count
 
 
+def export_cpus(conn: sqlite3.Connection) -> int:
+    """Ingest Desktop CPUs from JSON catalog into SQLite."""
+    cpus_json_path = DATA_DIR / "cpus" / "cpus.json"
+    if not cpus_json_path.exists():
+        return 0
+
+    with open(cpus_json_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    cpus = data.get("cpus", data.get("records", []))
+    cursor = conn.cursor()
+    cursor.execute(
+        """
+        CREATE TABLE IF NOT EXISTS pc_cpus (
+            id TEXT PRIMARY KEY,
+            name TEXT NOT NULL,
+            socket TEXT,
+            cores INTEGER,
+            threads INTEGER,
+            base_clock_ghz REAL,
+            boost_clock_ghz REAL,
+            l3_cache_mb REAL,
+            tdp_watts REAL,
+            tier REAL,
+            integrated_gpu TEXT,
+            price_bdt REAL,
+            price_usd REAL,
+            notes TEXT,
+            raw_json TEXT
+        );
+        """
+    )
+    cursor.execute("CREATE INDEX IF NOT EXISTS idx_cpu_socket ON pc_cpus(socket);")
+    cursor.execute("CREATE INDEX IF NOT EXISTS idx_cpu_tier ON pc_cpus(tier);")
+    cursor.execute("DELETE FROM pc_cpus;")
+
+    count = 0
+    for c in cpus:
+        cursor.execute(
+            """
+            INSERT OR REPLACE INTO pc_cpus (
+                id, name, socket, cores, threads, base_clock_ghz, boost_clock_ghz,
+                l3_cache_mb, tdp_watts, tier, integrated_gpu, price_bdt, price_usd,
+                notes, raw_json
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                c.get("id"),
+                c.get("name"),
+                c.get("socket"),
+                int(c.get("cores", 0)),
+                int(c.get("threads", 0)),
+                float(c.get("base_clock_ghz", 0)),
+                float(c.get("boost_clock_ghz", 0)),
+                float(c.get("l3_cache_mb", 0)),
+                float(c.get("tdp_watts", 0)),
+                float(c.get("tier", 0)),
+                c.get("integrated_gpu", "None"),
+                float(c.get("price_bdt", 0)),
+                float(c.get("price_usd", 0)),
+                c.get("notes", ""),
+                json.dumps(c, ensure_ascii=False),
+            ),
+        )
+        count += 1
+
+    conn.commit()
+    return count
+
+
 def verify_database(conn: sqlite3.Connection) -> None:
     """Run test queries across all tables and print results."""
     cursor = conn.cursor()
@@ -362,6 +432,7 @@ def compile_database(target_path: Path = SQLITE_PATH) -> None:
         ai_cnt = export_ai_models(conn)
         game_cnt = export_pc_games(conn)
         gpu_cnt = export_hardware_gpus(conn)
+        cpu_cnt = export_cpus(conn)
         verify_database(conn)
     except Exception:
         conn.close()
@@ -375,6 +446,7 @@ def compile_database(target_path: Path = SQLITE_PATH) -> None:
         print(f"  • AI Models ingested:   {ai_cnt}")
         print(f"  • PC Games ingested:    {game_cnt}")
         print(f"  • Hardware GPUs ingested:{gpu_cnt}")
+        print(f"  • Desktop CPUs ingested:{cpu_cnt}")
 
 
 
@@ -507,6 +579,7 @@ def compile_separated_domains(data_root: Path = DATA_DIR) -> dict[str, int]:
         ("ai", data_root / "ai" / "ai.sqlite", data_root / "ai" / "models_master.json", "2.0.0", export_ai_models),
         ("games", data_root / "games" / "games.sqlite", data_root / "games" / "games.json", "3.0.0", export_pc_games),
         ("hardware", data_root / "hardware" / "hardware.sqlite", data_root / "hardware" / "hardware_specs.json", "1.0.0", export_hardware_gpus),
+        ("cpus", data_root / "cpus" / "cpus.sqlite", data_root / "cpus" / "cpus.json", "1.0.0", export_cpus),
     ]
     for domain, db_path, src_path, schema_ver, exporter in domain_specs:
         db_path.parent.mkdir(parents=True, exist_ok=True)

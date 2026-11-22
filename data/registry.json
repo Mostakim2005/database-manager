@@ -42,6 +42,19 @@
         "tier2_scrapling",
         "tier4_manual_paste"
       ]
+    },
+    "cpus": {
+      "title": "Desktop Processors & Upgrades",
+      "source_json": "data/cpus/cpus.json",
+      "records_key": "cpus",
+      "schema_file": "data/cpus/schema.json",
+      "sqlite_file": "data/cpus/cpus.sqlite",
+      "primary_table": "pc_cpus",
+      "max_age_days": 45,
+      "scraper_tiers": [
+        "tier0_api",
+        "tier1_httpx"
+      ]
     }
   },
   "cross_domain_views": [
@@ -66,7 +79,8 @@
       "domains": [
         "ai",
         "games",
-        "hardware"
+        "hardware",
+        "cpus"
       ],
       "description": "Unifies freshness timestamps, checksums, and record counts across all domain databases."
     }

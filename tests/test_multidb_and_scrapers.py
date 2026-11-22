@@ -20,6 +20,8 @@ import db_verify  # noqa: E402
 import server  # noqa: E402
 from scrapers.adapters import parse_bd_retail_html, parse_facebook_group_posts  # noqa: E402
 from scrapers.base import compute_record_diff, detect_installed_tiers  # noqa: E402
+from scrapers.bd_hardware import compute_live_price_sync  # noqa: E402
+from scrapers.benchmark_ingest import ingest_csv  # noqa: E402
 from scrapers.test_stack import SAMPLE_BD_HTML, SAMPLE_FB_TEXT, run_offline_self_test  # noqa: E402
 
 
@@ -32,11 +34,11 @@ class TestMultiDomainHubAndVerify(unittest.TestCase):
         report = db_verify.verify_all()
         self.assertTrue(report["ok"], f"Schema verification errors: {report}")
         names = {d["domain"] for d in report["domains"]}
-        self.assertEqual(names, {"ai", "games", "hardware"})
+        self.assertEqual(names, {"ai", "games", "hardware", "cpus"})
 
     def test_domain_health_and_cross_domain_views(self) -> None:
         health = db_hub.query_domain_health()
-        self.assertEqual(len(health), 3)
+        self.assertEqual(len(health), 4)
         for item in health:
             self.assertTrue(item["compiled"])
             self.assertGreater(item["record_count"], 0)
@@ -50,6 +52,11 @@ class TestMultiDomainHubAndVerify(unittest.TestCase):
 
         ai_res = db_hub.query_ai_vram_fit(gpu_id="rx-6600")
         self.assertGreater(ai_res["matched_open_models"], 0)
+
+        combos_res = db_hub.query_cpu_gpu_combos(cpu_id="ryzen-5-5600gt")
+        self.assertGreater(combos_res["total_combos"], 0)
+        self.assertIn("cpu_id", combos_res["combos"][0])
+        self.assertIn("gpu_id", combos_res["combos"][0])
 
     def test_init_domain_scaffold_in_temp_dir(self) -> None:
         with tempfile.TemporaryDirectory() as td:
@@ -69,7 +76,7 @@ class TestMultiDomainHubAndVerify(unittest.TestCase):
             base = f"http://127.0.0.1:{port}"
             with urllib.request.urlopen(f"{base}/api/domains", timeout=5) as resp:
                 data = json.loads(resp.read().decode("utf-8"))
-                self.assertEqual(len(data["health"]), 3)
+                self.assertEqual(len(data["health"]), 4)
             with urllib.request.urlopen(f"{base}/api/cross/games-by-gpu?gpu=rx-6600&psu=550", timeout=5) as resp:
                 data = json.loads(resp.read().decode("utf-8"))
                 self.assertTrue(data["psu_safe"])
@@ -77,6 +84,9 @@ class TestMultiDomainHubAndVerify(unittest.TestCase):
             with urllib.request.urlopen(f"{base}/api/cross/ai-vram-fit?gpu=rx-6600", timeout=5) as resp:
                 data = json.loads(resp.read().decode("utf-8"))
                 self.assertGreater(data["matched_open_models"], 0)
+            with urllib.request.urlopen(f"{base}/api/cross/cpu-gpu-combos?cpu=ryzen-5-5600gt", timeout=5) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+                self.assertGreater(data["total_combos"], 0)
         finally:
             httpd.shutdown()
             httpd.server_close()
@@ -110,6 +120,14 @@ class TestScrapersAndDryRunDiff(unittest.TestCase):
         offline = run_offline_self_test()
         self.assertEqual(offline["bd_retail_parsed"], 2)
         self.assertEqual(offline["fb_posts_parsed"], 2)
+
+    def test_bd_hardware_offline_diff_and_benchmark_ingest(self) -> None:
+        catalog, diff_table = compute_live_price_sync(offline=True)
+        self.assertGreater(len(diff_table), 0)
+        self.assertIn("rx-6600", [row["id"] for row in diff_table])
+
+        ingested = ingest_csv()
+        self.assertEqual(ingested, 19)
 
 
 if __name__ == "__main__":

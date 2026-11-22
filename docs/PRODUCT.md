@@ -46,18 +46,47 @@
   * `src/server.py` -> `run_cli_summary`, `DatabaseHandler.do_GET`
 
 ### [FEATURE: Consolidated-SQLite-Pipeline] | Aliases: db export, sqlite compiler, database sqlite
-> **1-Line Summary:** Automated compilation script that maps AI, Game, and Hardware JSON catalogs into relational tables in `data/database.sqlite`.
-* **User Intention (Non-Negotiable):** Enable standard SQL queries and analytical aggregation across all three data domains.
+> **1-Line Summary:** Automated compilation script that maps AI, Game, Hardware, and CPU JSON catalogs into relational tables in `data/database.sqlite`.
+* **User Intention (Non-Negotiable):** Enable standard SQL queries and analytical aggregation across all data domains.
 * **Visual / UI Behavior:** CLI execution via `python src/db_export.py` reporting verified record counts and schema validation.
 * **Code Anchors (Grep Targets):**
   * `src/db_export.py` -> `compile_database`, `verify_database`
 
-## 3. Planned Features & App-Merge Wishlist
+### [FEATURE: Multi-Domain-SQLite-Hub-And-Federation] | Aliases: multidb hub, separated domain dbs, cross-domain views
+> **1-Line Summary:** Separated domain SQLite architecture (`ai.sqlite`, `games.sqlite`, `hardware.sqlite`, `cpus.sqlite`) with in-memory ATTACH federation and cross-domain SQL views.
+* **User Intention (Non-Negotiable):** Maintain clean domain boundaries with independent TTL freshness tracking while enabling zero-copy cross-domain queries.
+* **Visual / UI Behavior:** Programmatic Python API `db_hub.py`, HTTP endpoints (`/api/domains`, `/api/cross/*`), and integrity verification via `db_verify.py`.
+* **Code Anchors (Grep Targets):**
+  * `src/db_hub.py` -> `open_federated_connection`, `query_domain_health`
+  * `src/db_verify.py` -> `verify_all`
+  * `data/registry.json` -> `domains`
 
-### [WISHLIST: Live-Price-Scrapers] | Aliases: star tech scraper, ryans price sync, bd retail sync
-> **1-Line Summary:** Automated market price scraping from major Bangladeshi tech retailers (Star Tech, Ryans) and global trackers (Framework implemented in `src/scrapers/`).
-* **User Intention:** Automatically refresh used and retail GPU/RAM/SSD prices in BDT without manual entry. Full multi-tier fallback architecture documented in `docs/guides/SCRAPER_AND_MULTIDB_GUIDE.md`.
-* **Target Integration Point:** `src/scrapers/` -> `adapters.py` feeding `data/hardware/hardware_specs.json`.
+### [FEATURE: BD-Retail-Hardware-Price-Sync] | Aliases: bd hardware scraper, star tech sync, ryans sync, ucc sync
+> **1-Line Summary:** Multi-tier live web scraper targeting Star Tech, Ryans, and UCC to track GPU prices in BDT with non-destructive diff previews.
+* **User Intention (Non-Negotiable):** Keep hardware upgrade pricing current with actual Bangladesh local retail stock without manual data entry.
+* **Visual / UI Behavior:** CLI execution via `python src/scrapers/bd_hardware.py --dry-run` displaying tabular price deltas before optional `--apply` writing.
+* **Code Anchors (Grep Targets):**
+  * `src/scrapers/bd_hardware.py` -> `compute_live_price_sync`, `render_diff_table`
+  * `src/scrapers/adapters.py` -> `parse_bd_retail_html`
+
+### [FEATURE: Low-FPS-Benchmark-Telemetry] | Aliases: game benchmarks, 1% low fps, 0.1% low fps, 5600gt telemetry
+> **1-Line Summary:** Real-world gaming telemetry recording Avg, 1% Low, and 0.1% Low FPS for Ryzen 5 5600GT across Vega 7, RX 6600, and RTX 4060 GPUs.
+* **User Intention (Non-Negotiable):** Provide realistic frame-pacing and stutter assessments beyond deceptive average FPS numbers.
+* **Visual / UI Behavior:** Ingestion CLI via `python src/scrapers/benchmark_ingest.py --verify` rendering stability indices and percentiles.
+* **Code Anchors (Grep Targets):**
+  * `src/scrapers/benchmark_ingest.py` -> `ingest_csv`, `print_stability_report`
+  * `data/games/benchmarks.csv` -> benchmark dataset
+
+### [FEATURE: Desktop-CPUs-Domain-And-Combo-Planner] | Aliases: cpus domain, cpu gpu combos, socket am4 am5 lga1700
+> **1-Line Summary:** 4th registered domain database (`data/cpus/cpus.sqlite`) modeling desktop processors, socket architectures, and balanced CPU+GPU build combinations.
+* **User Intention (Non-Negotiable):** Evaluate upgrade paths from Ryzen 5 5600GT (AM4) to 5700X3D or AM5/LGA1700 while checking combined power consumption against a 550W PSU.
+* **Visual / UI Behavior:** REST API endpoint `/api/cpus` and `/api/cross/cpu-gpu-combos`, plus SQL view `v_cpu_gpu_combos`.
+* **Code Anchors (Grep Targets):**
+  * `data/cpus/schema.json` -> CPU schema definition
+  * `data/cpus/cpus.json` -> 6 core processors catalog
+  * `src/db_hub.py` -> `query_cpu_gpu_combos`
+
+## 3. Planned Features & App-Merge Wishlist
 
 ### [WISHLIST: Automated-Benchmark-Sync] | Aliases: github action benchmark sync, openrouter cron
 > **1-Line Summary:** Scheduled GitHub Actions workflow to periodically query OpenRouter and models.dev APIs for newly released models.

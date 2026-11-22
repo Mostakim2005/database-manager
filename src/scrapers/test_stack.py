@@ -88,11 +88,16 @@ def main() -> None:
     if args.live:
         or_res, or_models = fetch_openrouter_models()
         steam_res, steam_data = fetch_steam_app_specs(813780)  # Age of Empires II: DE
-        bd_res = fetch_with_fallback("https://www.startech.com.bd/component/graphics-card", tiers=("tier1", "tier2", "tier0"))
+        star_res = fetch_with_fallback("https://www.startech.com.bd/component/graphics-card", tiers=("tier1", "tier2", "tier0"))
+        ryans_res = fetch_with_fallback("https://www.ryans.com/category/desktop-component-graphics-card", tiers=("tier1", "tier2", "tier0"))
+        bikroy_res = fetch_with_fallback("https://bikroy.com/en/ads/bangladesh?query=rx+6600", tiers=("tier2", "tier1", "tier0"))
+
         report["live_probes"] = {
             "openrouter_tier0": {"ok": or_res.ok, "tier": or_res.tier_used, "models_found": len(or_models), "error": or_res.error},
             "steam_tier0": {"ok": steam_res.ok, "tier": steam_res.tier_used, "game": steam_data.get("name"), "error": steam_res.error},
-            "startech_bd": {"ok": bd_res.ok, "tier": bd_res.tier_used, "status": bd_res.status_code, "error": bd_res.error},
+            "startech_bd": {"ok": star_res.ok, "tier": star_res.tier_used, "status": star_res.status_code, "error": star_res.error},
+            "ryans_bd": {"ok": ryans_res.ok, "tier": ryans_res.tier_used, "status": ryans_res.status_code, "error": ryans_res.error},
+            "bikroy_bd": {"ok": bikroy_res.ok, "tier": bikroy_res.tier_used, "status": bikroy_res.status_code, "error": bikroy_res.error},
         }
 
     if args.json:

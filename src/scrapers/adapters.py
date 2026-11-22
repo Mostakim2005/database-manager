@@ -19,7 +19,10 @@ def parse_bd_retail_html(raw_html: str, source_name: str = "BD Retail") -> list[
     """
     items: list[dict[str, Any]] = []
     if importlib.util.find_spec("selectolax") is not None:
-        from selectolax.parser import HTMLParser  # type: ignore[import-not-found]
+        try:
+            from selectolax.lexbor import LexborHTMLParser as HTMLParser  # type: ignore[import-not-found]
+        except ImportError:
+            from selectolax.parser import HTMLParser  # type: ignore[import-not-found]
         tree = HTMLParser(raw_html)
         for card in tree.css(".p-item, .product-card, .product-thumb"):
             title_el = card.css_first("h4 a, .p-item-name a, .product-title")

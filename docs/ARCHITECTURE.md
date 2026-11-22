@@ -18,12 +18,16 @@ flowchart TB
     subgraph Backend["Python Standard Library Services (src/)"]
         CLI -->|Serves Web & REST API| Server[server.py HTTP Server]:::processNode
         Compiler[db_export.py Compiler]:::processNode -->|Compiles & Indexes| SQLite[(database.sqlite)]:::dataNode
+        Hub[db_hub.py Multi-DB Hub]:::processNode -->|In-Memory ATTACH Federation| SQLite
+        Scrapers[src/scrapers/ Engine]:::processNode -->|Multi-tier fetch & diff| DataHW
     end
 
-    subgraph DataLayer["Unified Master Datasets (data/)"]
+    subgraph DataLayer["Multi-Domain Datasets (data/)"]
         DataAI[(data/ai/ — Models Master)]:::dataNode
-        DataGames[(data/games/ — RTS Database)]:::dataNode
+        DataGames[(data/games/ — Games & Benchmarks)]:::dataNode
         DataHW[(data/hardware/ — GPU & PSU Specs)]:::dataNode
+        DataCPUs[(data/cpus/ — Desktop CPUs)]:::dataNode
+        Registry[data/registry.json — Domain Hub]:::dataNode
     end
 
     subgraph WebDashboards["Client-Side Visualizers (web/)"]
@@ -35,10 +39,12 @@ flowchart TB
     DataAI -->|Loaded by| Server
     DataGames -->|Loaded by| Server
     DataHW -->|Loaded by| Server
+    DataCPUs -->|Loaded by| Server
 
     DataAI -->|Ingested by| Compiler
     DataGames -->|Ingested by| Compiler
     DataHW -->|Ingested by| Compiler
+    DataCPUs -->|Ingested by| Compiler
 
     Server -->|JSON REST Endpoints| Portal
 
@@ -131,6 +137,60 @@ flowchart LR
     end
 ```
 
+### [SUBSYSTEM: Multi-Tier-Scraper-And-BD-Retail-Sync] | Aliases: scraper stack, bd retail sync, star tech scraper
+> **1-Line Summary:** Multi-tier fallback architecture (Tier 1 httpx/selectolax -> Tier 0 urllib/regex) scraping retail pricing with non-destructive diff previews.
+
+* **Plain-English Overview:** Fetches live product listings from local retailers (Star Tech, Ryans, UCC) for candidate GPUs, extracts prices with CSS selectors or regex, and computes changes against the catalog before writing.
+
+```mermaid
+flowchart LR
+    %% Color Definitions
+    classDef startNode fill:#1d4ed8,stroke:#1e3a8a,color:#ffffff
+    classDef processNode fill:#0f766e,stroke:#115e59,color:#ffffff
+    classDef diffNode fill:#b45309,stroke:#78350f,color:#ffffff
+    classDef dataNode fill:#15803d,stroke:#14532d,color:#ffffff
+
+    S1[Target GPUs: RX 6600, RTX 4060, etc.]:::startNode -->|Fetch queries| S2[fetch_with_fallback]:::processNode
+    S2 -->|Tier 1: httpx + selectolax| S3[Fast HTML Parsing]:::processNode
+    S2 -->|Tier 0: urllib + regex fallback| S3
+    S3 -->|Extracted Price BDT| S4[compute_record_diff]:::diffNode
+    S4 -->|--dry-run| S5[Render Markdown Diff Table]:::startNode
+    S4 -->|--apply| S6[Write hardware_specs.json & recompile]:::dataNode
+
+    subgraph Legend["Legend"]
+        L1[Blue = Target GPU & CLI Output]:::startNode
+        L2[Teal = Multi-Tier HTTP & Parsing]:::processNode
+        L3[Amber = Non-Destructive Diff Computation]:::diffNode
+        L4[(Green = Persistent Catalog Storage)]:::dataNode
+    end
+```
+
+### [SUBSYSTEM: Cross-Domain-Federated-Hub] | Aliases: db hub, in memory attach, cross domain views
+> **1-Line Summary:** In-memory SQLite ATTACH federation combining domain databases into cross-domain analytical views.
+
+* **Plain-English Overview:** Opens an in-memory SQLite connection, dynamically attaches all registered domain databases (`ai`, `games`, `hardware`, `cpus`), and creates cross-domain views (`v_games_by_gpu`, `v_local_ai_vram_fit`, `v_cpu_gpu_combos`) without duplicating tables.
+
+```mermaid
+flowchart LR
+    %% Color Definitions
+    classDef startNode fill:#1d4ed8,stroke:#1e3a8a,color:#ffffff
+    classDef processNode fill:#0f766e,stroke:#115e59,color:#ffffff
+    classDef dataNode fill:#15803d,stroke:#14532d,color:#ffffff
+
+    D1[data/registry.json]:::dataNode -->|Loads domain paths| F1[open_federated_connection]:::processNode
+    F1 -->|ATTACH DATABASE| D2[(ai.sqlite, games.sqlite, hardware.sqlite, cpus.sqlite)]:::dataNode
+    F1 -->|Installs| V1[Cross-Domain SQL Views]:::processNode
+    V1 -->|v_games_by_gpu| Q1[Compatibility by GPU]:::startNode
+    V1 -->|v_local_ai_vram_fit| Q2[VRAM Fit by GPU]:::startNode
+    V1 -->|v_cpu_gpu_combos| Q3[CPU+GPU Build Combos]:::startNode
+
+    subgraph Legend["Legend"]
+        L1[(Green = Domain Database Files)]:::dataNode
+        L2[Teal = SQLite In-Memory Engine]:::processNode
+        L3[Blue = Cross-Domain Query Outputs]:::startNode
+    end
+```
+
 ## 4. Extension Recipes: Adding New Datasets
 
 1. **Adding a New AI Model:**
@@ -143,3 +203,9 @@ flowchart LR
 3. **Adding a New GPU / Hardware Component:**
    * Add GPU entry to `data/hardware/hardware_specs.json` with TDP, tier, and local market prices.
    * Run `python src/db_export.py` to regenerate the relational table.
+
+4. **Adding a New Domain Database (e.g. SSDs, Laptops, Monitors):**
+   * Run `python src/db_export.py --init-domain <domain_name>` to scaffold `data/<domain_name>/`.
+   * Define field rules in `data/<domain_name>/schema.json` and records in `data/<domain_name>/<domain_name>.json`.
+   * Add export compiler function in `src/db_export.py` and run `python src/db_export.py` to compile `<domain_name>.sqlite`.
+   * Run `python src/db_verify.py` to confirm zero errors and zero warnings across all domains.

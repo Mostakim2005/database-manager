@@ -102,6 +102,38 @@ def open_federated_connection(root_dir: Path = ROOT_DIR) -> sqlite3.Connection:
             """
         )
 
+    # Logical cross-domain view 3: CPUs x GPUs platform power & upgrade combos
+    if "cpus" in attached and "hardware" in attached:
+        conn.execute(
+            """
+            CREATE TEMP VIEW v_cpu_gpu_combos AS
+            SELECT
+                c.id AS cpu_id,
+                c.name AS cpu_name,
+                c.socket,
+                c.cores,
+                c.threads,
+                c.l3_cache_mb,
+                c.tdp_watts AS cpu_tdp,
+                h.id AS gpu_id,
+                h.name AS gpu_name,
+                h.tier AS gpu_tier,
+                h.tdp_watts AS gpu_tdp,
+                (c.tdp_watts + h.tdp_watts + 35) AS estimated_continuous_draw_watts,
+                ROUND(c.tdp_watts + (h.tdp_watts * h.transient_multiplier) + 35) AS estimated_peak_spike_watts,
+                CASE
+                    WHEN (c.tdp_watts + (h.tdp_watts * h.transient_multiplier) + 35) > 550.0 THEN 'fail'
+                    WHEN (c.tdp_watts + h.tdp_watts + 35) > 412.5 THEN 'warn'
+                    ELSE 'pass'
+                END AS psu_550w_combo_status,
+                c.price_bdt AS cpu_price_bdt,
+                h.price_bdt_retail AS gpu_price_bdt,
+                (c.price_bdt + h.price_bdt_retail) AS total_upgrade_cost_bdt
+            FROM cpus.pc_cpus c
+            CROSS JOIN hardware.hardware_gpus h;
+            """
+        )
+
     return conn
 
 
@@ -198,5 +230,30 @@ def query_ai_vram_fit(gpu_id: str = "rx-6600", root_dir: Path = ROOT_DIR) -> dic
         return {"gpu_id": gpu_id, "matched_open_models": len(items), "models": items}
     except sqlite3.OperationalError as e:
         return {"error": str(e), "models": []}
+    finally:
+        conn.close()
+
+
+def query_cpu_gpu_combos(cpu_id: str = "ryzen-5-5600gt", root_dir: Path = ROOT_DIR) -> dict[str, Any]:
+    """Query cross-domain v_cpu_gpu_combos for a target CPU."""
+    conn = open_federated_connection(root_dir)
+    try:
+        rows = conn.execute(
+            """
+            SELECT * FROM v_cpu_gpu_combos
+            WHERE cpu_id = ?
+            ORDER BY estimated_peak_spike_watts ASC
+            """,
+            (cpu_id,),
+        ).fetchall()
+        items = [dict(r) for r in rows]
+        return {
+            "cpu_id": cpu_id,
+            "total_combos": len(items),
+            "safe_combos_550w": sum(1 for c in items if c.get("psu_550w_combo_status") == "pass"),
+            "combos": items,
+        }
+    except sqlite3.OperationalError as e:
+        return {"error": str(e), "combos": []}
     finally:
         conn.close()

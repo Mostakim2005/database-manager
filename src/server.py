@@ -65,6 +65,19 @@ def load_hardware_data() -> dict[str, Any]:
     return {"system_baseline": {}, "gpus": []}
 
 
+def load_cpus_data() -> list[dict[str, Any]]:
+    """Load Desktop CPUs data from JSON."""
+    cpus_json = DATA_DIR / "cpus" / "cpus.json"
+    if cpus_json.exists():
+        try:
+            with open(cpus_json, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                return data.get("cpus", data.get("records", []))
+        except Exception as e:
+            sys.stderr.write(f"[ERROR] Failed to load CPUs data from {cpus_json}: {e}\n")
+    return []
+
+
 def _extract_ai_model_fields(m: dict[str, Any]) -> dict[str, Any]:
     """Normalize AI model fields across v1 and v2 catalog schemas."""
     name = m.get("name") or m.get("model") or "Unknown"
@@ -142,6 +155,7 @@ class DatabaseHandler(http.server.SimpleHTTPRequestHandler):
                         "ai_models": len(ai_models),
                         "games": len(load_games_data()),
                         "gpus": len(load_hardware_data().get("gpus", [])),
+                        "cpus": len(load_cpus_data()),
                     },
                 }
             )
@@ -157,6 +171,10 @@ class DatabaseHandler(http.server.SimpleHTTPRequestHandler):
 
         if url_path == "/api/hardware":
             self._send_json(load_hardware_data())
+            return
+
+        if url_path == "/api/cpus":
+            self._send_json(load_cpus_data())
             return
 
         if url_path == "/api/domains":
@@ -180,6 +198,13 @@ class DatabaseHandler(http.server.SimpleHTTPRequestHandler):
             qs = parse_qs(urlparse(self.path).query)
             gpu_id = qs.get("gpu", ["rx-6600"])[0]
             self._send_json(query_ai_vram_fit(gpu_id=gpu_id))
+            return
+
+        if url_path == "/api/cross/cpu-gpu-combos":
+            from db_hub import query_cpu_gpu_combos
+            qs = parse_qs(urlparse(self.path).query)
+            cpu_id = qs.get("cpu", ["ryzen-5-5600gt"])[0]
+            self._send_json(query_cpu_gpu_combos(cpu_id=cpu_id))
             return
 
         # Serve static web content from WEB_DIR
