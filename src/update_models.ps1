@@ -2,11 +2,34 @@
 # Usage: powershell -ExecutionPolicy Bypass -File update_models.ps1
 
 $ErrorActionPreference = "Stop"
-$destDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-if (-not $destDir) { $destDir = "C:\Users\kazir\Documents\Antigravity\AI-Research-and-Learning" }
+$scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+if (-not $scriptDir) { $scriptDir = Join-Path (Get-Location).Path "src" }
+$repoRoot  = Split-Path -Parent $scriptDir
+$aiDataDir = Join-Path $repoRoot "data\ai"
+$webAiDir  = Join-Path $repoRoot "web\ai"
+if (-not (Test-Path $aiDataDir)) { New-Item -ItemType Directory -Path $aiDataDir -Force | Out-Null }
+if (-not (Test-Path $webAiDir))  { New-Item -ItemType Directory -Path $webAiDir -Force | Out-Null }
 
-# BOM-free UTF-8 writer - prevents the leading BOM that breaks strict JSON/CSV parsers
+# BOM-free UTF-8 writer & atomic write helper - prevents BOM corruption and partial writes
 $utf8NoBomGlobal = New-Object System.Text.UTF8Encoding($false)
+
+function Write-AtomicUtf8 {
+    param([string]$Path, [string]$Content)
+    $tmpPath = "$Path.tmp"
+    [System.IO.File]::WriteAllText($tmpPath, $Content, $utf8NoBomGlobal)
+    Move-Item -Path $tmpPath -Destination $Path -Force
+}
+
+function Read-Utf8Text {
+    param([string]$Path)
+    return [System.IO.File]::ReadAllText($Path, [System.Text.Encoding]::UTF8)
+}
+
+function ConvertTo-CsvField {
+    param($Value)
+    $s = if ($null -eq $Value) { "" } else { [string]$Value }
+    return '"' + $s.Replace('"', '""') + '"'
+}
 
 Write-Host "Fetching primary telemetry from OpenRouter API..." -ForegroundColor Cyan
 
@@ -17,9 +40,9 @@ try {
     Write-Host "Successfully fetched $($apiModels.Count) models from OpenRouter." -ForegroundColor Green
 } catch {
     Write-Host "Network fetch failed or offline. Checking local backup cache..." -ForegroundColor Yellow
-    $backupPath = Join-Path $destDir "raw_api_dumps\openrouter_raw_compared_models.json"
+    $backupPath = Join-Path $aiDataDir "raw_api_dumps\openrouter_raw_compared_models.json"
     if (Test-Path $backupPath) {
-        $apiModels = Get-Content -Raw $backupPath | ConvertFrom-Json
+        $apiModels = (Read-Utf8Text $backupPath) | ConvertFrom-Json
         Write-Host "Loaded $($apiModels.Count) models from local backup cache." -ForegroundColor Green
     } else {
         throw "Failed to fetch from OpenRouter and no backup cache found: $_"
@@ -256,22 +279,32 @@ $jsonOutput = [PSCustomObject]@{
     }
     models = $masterList
 }
-$jsonFile = Join-Path $destDir "models_master_catalog.json"
+$jsonFile = Join-Path $aiDataDir "models_master.json"
 $jsonContent = $jsonOutput | ConvertTo-Json -Depth 6
-[System.IO.File]::WriteAllText($jsonFile, $jsonContent, $utf8NoBomGlobal)
+Write-AtomicUtf8 -Path $jsonFile -Content $jsonContent
 Write-Host "Wrote master JSON catalog to: $jsonFile" -ForegroundColor Green
 
 # 2. Output CSV
-$csvFile = Join-Path $destDir "models_master_catalog.csv"
+$csvFile = Join-Path $aiDataDir "models_master.csv"
 $csvLines = @("Model_Name,Model_ID,Provider,Provider_Family,Classification,Frontier_Tier,Frontier_Delta_Pct,Context_Window,Intel_Index,Coding_Power,Code_Arena_ELO,STEM_Accuracy_Pct,Prompt_Price_M_USD,Completion_Price_M_USD,Cache_Read_M_USD,Batch_Prompt_M_USD,Is_Free,Access_Quota,FactCheck_Status,Pricing_Concordance,Reasoning_Supported,ToolCall_Supported")
 foreach ($m in $masterList) {
-    $csvLines += "$($m.name),$($m.id),$($m.provider),$($m.provider_family),$($m.classification),$($m.frontier_tier),$($m.frontier_delta_pct),$($m.context_window),$($m.scores.intelligence_index),$($m.scores.coding_power),$($m.scores.code_arena_elo),$($m.scores.stem_accuracy_pct),$($m.pricing.prompt_per_m),$($m.pricing.completion_per_m),$($m.pricing.cache_read_per_m),$($m.pricing.batch_prompt_per_m),$($m.pricing.is_free),""$($m.quota_and_access)"",""$($m.fact_check.status)"",""$($m.fact_check.pricing_concordance)"",$($m.fact_check.capabilities.reasoning),$($m.fact_check.capabilities.tool_call)"
+    $row = @(
+        (ConvertTo-CsvField $m.name), (ConvertTo-CsvField $m.id), (ConvertTo-CsvField $m.provider),
+        (ConvertTo-CsvField $m.provider_family), (ConvertTo-CsvField $m.classification), (ConvertTo-CsvField $m.frontier_tier),
+        $m.frontier_delta_pct, (ConvertTo-CsvField $m.context_window), $m.scores.intelligence_index,
+        $m.scores.coding_power, $m.scores.code_arena_elo, $m.scores.stem_accuracy_pct,
+        $m.pricing.prompt_per_m, $m.pricing.completion_per_m, $m.pricing.cache_read_per_m,
+        $m.pricing.batch_prompt_per_m, $m.pricing.is_free, (ConvertTo-CsvField $m.quota_and_access),
+        (ConvertTo-CsvField $m.fact_check.status), (ConvertTo-CsvField $m.fact_check.pricing_concordance),
+        $m.fact_check.capabilities.reasoning, $m.fact_check.capabilities.tool_call
+    )
+    $csvLines += ($row -join ",")
 }
-[System.IO.File]::WriteAllText($csvFile, ($csvLines -join "`n"), $utf8NoBomGlobal)
+Write-AtomicUtf8 -Path $csvFile -Content ($csvLines -join "`n")
 Write-Host "Wrote master CSV catalog to: $csvFile" -ForegroundColor Green
 
 # 3. Output Markdown Reference Table
-$mdFile = Join-Path $destDir "models_master_catalog.md"
+$mdFile = Join-Path $aiDataDir "models_master.md"
 $mdContent = @"
 # Master AI Models Benchmark & Pricing Catalog (v1.3.1)
 
@@ -294,17 +327,16 @@ foreach ($m in $masterList) {
     $mdContent += "`n| **$($m.name)** | $($m.provider_family) | $($m.classification) | $($m.frontier_tier) | $deltaStr | $($m.context_window) | **$($m.scores.intelligence_index)** | **$($m.scores.coding_power)** | **$($m.scores.code_arena_elo)** | **$($m.scores.stem_accuracy_pct)%** | $promptStr | $complStr | $cacheStr | $freeBadge | $factPill | $($m.quota_and_access) |"
 }
 
-[System.IO.File]::WriteAllText($mdFile, $mdContent, $utf8NoBomGlobal)
+Write-AtomicUtf8 -Path $mdFile -Content $mdContent
 Write-Host "Wrote master Markdown matrix to: $mdFile" -ForegroundColor Green
 
 # 4. Output Modular data.js for model_matrix Dashboard
-$dataJsDir = Join-Path $destDir "model_matrix"
+$dataJsDir = Join-Path $webAiDir "model_matrix"
 if (-not (Test-Path $dataJsDir)) { New-Item -ItemType Directory -Path $dataJsDir -Force | Out-Null }
 $dataJsFile = Join-Path $dataJsDir "data.js"
 $jsModelsJson = $masterList | ConvertTo-Json -Depth 6
 $jsContent = "/** Master AI Models Data Catalog (v1.3.1 Dual-Source Verified by update_models.ps1) **/`nwindow.MASTER_CATALOG = $jsModelsJson;`n"
-$utf8NoBom = New-Object System.Text.UTF8Encoding($false)
-[System.IO.File]::WriteAllText($dataJsFile, $jsContent, $utf8NoBom)
+Write-AtomicUtf8 -Path $dataJsFile -Content $jsContent
 Write-Host "Wrote modular data.js to: $dataJsFile" -ForegroundColor Green
 
 # 5. Output Standalone Bundled interactive_model_matrix.html
@@ -313,14 +345,14 @@ $stylesCssFile = Join-Path $dataJsDir "styles.css"
 $chartsJsFile  = Join-Path $dataJsDir "charts.js"
 $tableJsFile   = Join-Path $dataJsDir "table.js"
 $appJsFile     = Join-Path $dataJsDir "app.js"
-$bundledFile   = Join-Path $destDir "interactive_model_matrix.html"
+$bundledFile   = Join-Path $webAiDir "index.html"
 
 if ((Test-Path $indexHtmlFile) -and (Test-Path $stylesCssFile) -and (Test-Path $chartsJsFile) -and (Test-Path $tableJsFile) -and (Test-Path $appJsFile)) {
-    $cssContent = Get-Content -Raw -Path $stylesCssFile
-    $chartsContent = Get-Content -Raw -Path $chartsJsFile
-    $tableContent = Get-Content -Raw -Path $tableJsFile
-    $appContent = Get-Content -Raw -Path $appJsFile
-    $htmlContent = Get-Content -Raw -Path $indexHtmlFile
+    $cssContent = Read-Utf8Text -Path $stylesCssFile
+    $chartsContent = Read-Utf8Text -Path $chartsJsFile
+    $tableContent = Read-Utf8Text -Path $tableJsFile
+    $appContent = Read-Utf8Text -Path $appJsFile
+    $htmlContent = Read-Utf8Text -Path $indexHtmlFile
 
     # IMPORTANT: use .NET String.Replace (literal) — PowerShell -replace treats '$' sequences in
     # the replacement text (e.g. JS template literals like '${m.id}') as group substitutions and
@@ -335,8 +367,8 @@ if ((Test-Path $indexHtmlFile) -and (Test-Path $stylesCssFile) -and (Test-Path $
     # otherwise the CDN <script> tag is left untouched (graceful offline fallback exists in charts.js).
     $vendorChart = Join-Path $dataJsDir "vendor\chart.umd.min.js"
     if (Test-Path $vendorChart) {
-        $chartLib = Get-Content -Raw -Path $vendorChart
-        $bundled = $bundled.Replace('<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>', ("<script>`n" + $chartLib + "`n</script>"))
+        $chartLib = Read-Utf8Text -Path $vendorChart
+        $bundled = $bundled.Replace('<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>', ("<script>`n" + $chartLib + "`n</script>")).Replace('<script src="vendor/chart.umd.min.js"></script>', ("<script>`n" + $chartLib + "`n</script>"))
         Write-Host "Inlined vendored Chart.js into bundle (offline-safe)." -ForegroundColor Green
     } else {
         Write-Host "Vendor Chart.js not found at model_matrix\vendor\chart.umd.min.js - bundle keeps CDN reference." -ForegroundColor Yellow
@@ -348,7 +380,7 @@ if ((Test-Path $indexHtmlFile) -and (Test-Path $stylesCssFile) -and (Test-Path $
         Write-Host ("WARNING: bundle still references external files: " + (($extRefs | ForEach-Object { $_.Value }) -join ', ')) -ForegroundColor Yellow
     }
 
-    [System.IO.File]::WriteAllText($bundledFile, $bundled, $utf8NoBom)
+    Write-AtomicUtf8 -Path $bundledFile -Content $bundled
     Write-Host "Bundled standalone interactive_model_matrix.html to: $bundledFile" -ForegroundColor Green
 }
 

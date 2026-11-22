@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sqlite3
 import sys
 from pathlib import Path
@@ -97,6 +98,14 @@ def create_schema(conn: sqlite3.Connection) -> None:
     conn.commit()
 
 
+def _first_not_none(*values: Any, default: Any = None) -> Any:
+    """Return the first value that is not None (preserving explicit 0 / 0.0)."""
+    for v in values:
+        if v is not None:
+            return v
+    return default
+
+
 def parse_context_window(ctx: Any) -> int:
     """Parse context window strings like '1M', '200k', or integer values."""
     if not ctx:
@@ -145,14 +154,14 @@ def export_ai_models(conn: sqlite3.Connection) -> int:
         slug = slug_val if isinstance(slug_val, str) else json.dumps(slug_val)
 
         scores = m.get("scores", {}) if isinstance(m.get("scores"), dict) else {}
-        intel = float(scores.get("intelligence_index") or m.get("intelligence_index") or m.get("aa_intelligence_raw") or m.get("aa_index_v5") or 0.0)
+        intel = float(_first_not_none(scores.get("intelligence_index"), m.get("intelligence_index"), m.get("aa_intelligence_raw"), m.get("aa_index_v5"), default=0.0))
 
         elo = scores.get("code_arena_elo") or m.get("effective_scores", {}).get("code_arena_elo") or m.get("coding_elo") or m.get("or_coding")
         bench = scores.get("stem_accuracy_pct") or m.get("terminalbench_hard_percent") or m.get("benchmarks", {}).get("terminalbench_hard_pct")
 
         pricing = m.get("pricing", {}) if isinstance(m.get("pricing"), dict) else {}
-        pin = pricing.get("prompt_per_m") or m.get("price_in_1m") or 0.0
-        pout = pricing.get("completion_per_m") or m.get("price_out_1m") or 0.0
+        pin = _first_not_none(pricing.get("prompt_per_m"), m.get("price_in_1m"), default=0.0)
+        pout = _first_not_none(pricing.get("completion_per_m"), m.get("price_out_1m"), default=0.0)
         ctx = m.get("context_window") or m.get("context") or m.get("context_tokens") or 128000
         open_w = 1 if (m.get("open_weights") or m.get("classification") == "open_weights") else 0
 
@@ -216,7 +225,7 @@ def export_pc_games(conn: sqlite3.Connection) -> int:
         gfx_s = float(gfx.get("score", 0.0)) if isinstance(gfx, dict) else None
 
         setting = g.get("setting", "")
-        install_gb = float(g.get("size", {}).get("installGB") or 0.0)
+        install_gb = float(_first_not_none(g.get("installGB"), g.get("size", {}).get("installGB") if isinstance(g.get("size"), dict) else None, default=0.0))
         gpu_min = float(g.get("gpuMinTier") or 0.0)
         gpu_rec = float(g.get("gpuRecTier") or 0.0)
         note = g.get("compatNote", "")
@@ -315,37 +324,49 @@ def verify_database(conn: sqlite3.Connection) -> None:
     # Count AI
     cursor.execute("SELECT COUNT(*), AVG(intelligence_index) FROM ai_models;")
     ai_count, avg_intel = cursor.fetchone()
-    print(f"  ✓ ai_models:     {ai_count} records (Avg Intelligence: {avg_intel:.2f})")
+    print(f"  ✓ ai_models:     {ai_count} records (Avg Intelligence: {(avg_intel or 0.0):.2f})")
 
     # Count Games
     cursor.execute("SELECT COUNT(*), AVG(price_usd) FROM pc_games;")
     game_count, avg_price = cursor.fetchone()
-    print(f"  ✓ pc_games:      {game_count} records (Avg Price: ${avg_price:.2f})")
+    print(f"  ✓ pc_games:      {game_count} records (Avg Price: ${(avg_price or 0.0):.2f})")
 
     # Count GPUs
     cursor.execute("SELECT COUNT(*), AVG(tdp_watts) FROM hardware_gpus;")
     gpu_count, avg_tdp = cursor.fetchone()
-    print(f"  ✓ hardware_gpus: {gpu_count} records (Avg TDP: {avg_tdp:.1f}W)")
+    print(f"  ✓ hardware_gpus: {gpu_count} records (Avg TDP: {(avg_tdp or 0.0):.1f}W)")
 
     print("=" * 60 + "\n")
 
 
-def compile_database() -> None:
-    """Run full compilation pipeline."""
-    DATA_DIR.mkdir(parents=True, exist_ok=True)
-    conn = sqlite3.connect(SQLITE_PATH)
+def compile_database(target_path: Path = SQLITE_PATH) -> None:
+    """Run full compilation pipeline atomically via temp file swap."""
+    target_path.parent.mkdir(parents=True, exist_ok=True)
+    tmp_path = target_path.with_suffix(".sqlite.tmp")
+    if tmp_path.exists():
+        tmp_path.unlink()
+
+    conn = sqlite3.connect(tmp_path)
     try:
+        conn.execute("PRAGMA foreign_keys=ON;")
+        conn.execute("PRAGMA journal_mode=DELETE;")
         create_schema(conn)
         ai_cnt = export_ai_models(conn)
         game_cnt = export_pc_games(conn)
         gpu_cnt = export_hardware_gpus(conn)
-        print(f"Compiled SQLite database at: {SQLITE_PATH}")
+        verify_database(conn)
+    except Exception:
+        conn.close()
+        if tmp_path.exists():
+            tmp_path.unlink()
+        raise
+    else:
+        conn.close()
+        os.replace(tmp_path, target_path)
+        print(f"Compiled SQLite database at: {target_path}")
         print(f"  • AI Models ingested:   {ai_cnt}")
         print(f"  • PC Games ingested:    {game_cnt}")
         print(f"  • Hardware GPUs ingested:{gpu_cnt}")
-        verify_database(conn)
-    finally:
-        conn.close()
 
 
 def main() -> None:

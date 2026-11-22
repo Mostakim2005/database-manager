@@ -21,3 +21,7 @@ Thumbs.db
 *.zip
 *.tar.gz
 *.log
+
+# CI Logs & Reports
+.ci-logs/
+.ci-report/
