@@ -187,45 +187,90 @@ def evaluate_build(build: dict[str, Any]) -> dict[str, Any]:
 
 def evaluate_default_build() -> dict[str, Any]:
     """Evaluate a representative Ryzen 5 5600GT + RX 6600 + Peripherals build."""
+    return evaluate_preset_build("am4-budget")
+
+
+def evaluate_preset_build(preset: str = "am4-budget") -> dict[str, Any]:
+    """Evaluate named representative builds for compatibility stress testing."""
     cat = load_components()
     by_id = lambda sec, key: next(x for x in cat[sec] if x["id"] == key)
-    build = {
-        "cpu": by_id("cpus", "ryzen-5-5600gt"),
-        "motherboard": by_id("motherboards", "msi-b450m-pro-vdh-max"),
-        "ram": by_id("ram", "corsair-16gb-ddr4-3200"),
-        "gpu": by_id("gpus", "rx-6600"),
-        "ssds": [by_id("ssds", "wd-sn580-1tb")],
-        "hdds": [by_id("hdds", "wd-blue-1tb-cmr")],
-        "monitor": by_id("monitors", "msi-g2412f-1080p-180"),
-        "keyboard": by_id("keyboards", "keychron-k2-v2"),
-        "mouse": by_id("mice", "logitech-g304"),
-        "graphics_tablet": by_id("graphics_tablets", "xppen-artist-12-gen2"),
-        "psu_watts": 550,
-    }
+
+    if preset == "am4-upgrade":
+        build = {
+            "name": "AM4 Mid-Range Upgrade (5700X3D + RX 6700 XT + 1440p)",
+            "cpu": by_id("cpus", "ryzen-7-5700x3d"),
+            "motherboard": by_id("motherboards", "gigabyte-b550m-ds3h"),
+            "ram": by_id("ram", "corsair-16gb-ddr4-3200"),
+            "gpu": by_id("gpus", "rx-6700-xt"),
+            "ssds": [by_id("ssds", "kingston-kc3000-1tb")],
+            "hdds": [by_id("hdds", "toshiba-p300-2tb-cmr")],
+            "monitor": by_id("monitors", "lg-27gr75q-1440p-165"),
+            "keyboard": by_id("keyboards", "keychron-k2-v2"),
+            "mouse": by_id("mice", "logitech-g304"),
+            "graphics_tablet": by_id("graphics_tablets", "huion-h640p"),
+            "psu_watts": 550,
+        }
+    elif preset == "am5-highend":
+        build = {
+            "name": "AM5 High-End Build (Ryzen 5 7600 + RX 7800 XT + 4K OLED)",
+            "cpu": by_id("cpus", "ryzen-5-7600"),
+            "motherboard": by_id("motherboards", "msi-pro-b650m-p"),
+            "ram": by_id("ram", "gskill-32gb-ddr5-6000"),
+            "gpu": by_id("gpus", "rx-7800-xt"),
+            "ssds": [by_id("ssds", "lexar-nm790-2tb")],
+            "hdds": [by_id("hdds", "seagate-ironwolf-4tb-cmr")],
+            "tv": by_id("tvs", "lg-c4-42-oled"),
+            "keyboard": by_id("keyboards", "epomaker-th80-pro"),
+            "mouse": by_id("mice", "attack-shark-x3-wireless"),
+            "graphics_tablet": by_id("graphics_tablets", "huion-kamvas-13-gen2"),
+            "psu_watts": 550,
+        }
+    else:  # am4-budget (default)
+        build = {
+            "name": "AM4 Budget Baseline (Ryzen 5 5600GT + RX 6600 + Pen Display)",
+            "cpu": by_id("cpus", "ryzen-5-5600gt"),
+            "motherboard": by_id("motherboards", "msi-b450m-pro-vdh-max"),
+            "ram": by_id("ram", "corsair-16gb-ddr4-3200"),
+            "gpu": by_id("gpus", "rx-6600"),
+            "ssds": [by_id("ssds", "wd-sn580-1tb")],
+            "hdds": [by_id("hdds", "wd-blue-1tb-cmr")],
+            "monitor": by_id("monitors", "msi-g2412f-1080p-180"),
+            "keyboard": by_id("keyboards", "keychron-k2-v2"),
+            "mouse": by_id("mice", "logitech-g304"),
+            "graphics_tablet": by_id("graphics_tablets", "xppen-artist-12-gen2"),
+            "psu_watts": 550,
+        }
     return evaluate_build(build)
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="PC & Peripherals Compatibility Engine")
     parser.add_argument("--demo", action="store_true", help="Evaluate default Ryzen 5 5600GT + RX 6600 build")
+    parser.add_argument("--preset", type=str, default="am4-budget", choices=["am4-budget", "am4-upgrade", "am5-highend"], help="Preset build to evaluate")
+    parser.add_argument("--stress-test", action="store_true", help="Run compatibility stress test across all 3 presets")
     parser.add_argument("--json", action="store_true", help="Emit JSON output")
     args = parser.parse_args()
 
-    result = evaluate_default_build()
+    presets_to_run = ["am4-budget", "am4-upgrade", "am5-highend"] if args.stress_test else [args.preset]
+
+    results = {p: evaluate_preset_build(p) for p in presets_to_run}
+
     if args.json:
-        print(json.dumps(result, indent=2))
+        out = results if args.stress_test else results[args.preset]
+        print(json.dumps(out, indent=2))
         return
 
-    print("\n=== PC & PERIPHERALS COMPATIBILITY REPORT ===")
-    print(f"  Compatible: {'YES' if result['compatible'] else 'NO'} ({result['error_count']} errors, {result['warning_count']} warnings)")
-    print(f"  PSU Peak:   ~{result['psu_analysis'].get('peak_spike_watts', 0)}W / {result['psu_analysis']['psu_watts']}W ({result['psu_analysis']['status'].upper()})")
-    print(f"  Total Est.: ৳{result['estimated_total_bdt']:,.0f} | ${result['estimated_total_usd']:,.0f}")
-    for e in result["errors"]:
-        print(f"  [ERROR] {e}")
-    for w in result["warnings"]:
-        print(f"  [WARN]  {w}")
-    for n in result["notes"]:
-        print(f"  [NOTE]  {n}")
+    for p, result in results.items():
+        print(f"\n=== PC COMPATIBILITY REPORT: {p.upper()} ===")
+        print(f"  Compatible: {'YES' if result['compatible'] else 'NO'} ({result['error_count']} errors, {result['warning_count']} warnings)")
+        print(f"  PSU Peak:   ~{result['psu_analysis'].get('peak_spike_watts', 0)}W / {result['psu_analysis']['psu_watts']}W ({result['psu_analysis']['status'].upper()})")
+        print(f"  Total Est.: ৳{result['estimated_total_bdt']:,.0f} | ${result['estimated_total_usd']:,.0f}")
+        for e in result["errors"]:
+            print(f"  [ERROR] {e}")
+        for w in result["warnings"]:
+            print(f"  [WARN]  {w}")
+        for n in result["notes"]:
+            print(f"  [NOTE]  {n}")
     print("")
 
 

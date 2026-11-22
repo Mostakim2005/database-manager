@@ -251,6 +251,37 @@ flowchart LR
     end
 ```
 
+### [SUBSYSTEM: Multi-Site-Scraping-Pipeline] | Aliases: multi site scrapers, retail reconciliation, fallback tiers
+> **1-Line Summary:** Multi-tier scraper architecture reconciling live pricing, hardware specifications, and LLM telemetry across 3+ independent sources per domain.
+
+* **Plain-English Overview:** Fetches live pricing and specs across Star Tech, Ryans, UCC BD, Steam Store API, PCGamingWiki, OpenRouter API, and Models.dev. Automatically falls back from Tier 0 (stdlib) to Tier 1 (httpx + selectolax lexbor) and Tier 2 (Scrapling stealth). Computes price spread deltas and prompts confirmation before persisting via `--apply`.
+
+```mermaid
+flowchart TD
+    %% Color Definitions
+    classDef startNode fill:#1d4ed8,stroke:#1e3a8a,color:#ffffff
+    classDef processNode fill:#0f766e,stroke:#115e59,color:#ffffff
+    classDef dataNode fill:#15803d,stroke:#14532d,color:#ffffff
+    classDef alertNode fill:#b91c1c,stroke:#7f1d1d,color:#ffffff
+
+    S1[External Sources: BD Retailers / Steam / OpenRouter]:::startNode -->|Tier 0 / Tier 1 / Tier 2 Probe| F1[src/scrapers/base.py]:::processNode
+    F1 -->|Parse HTML / JSON API| M1[src/scrapers/multi_site_*.py]:::processNode
+    M1 -->|Cross-Source Reconciliation| R1{Price Spread >20%?}:::processNode
+    R1 -->|Yes: SKU Mismatch Risk| A1[Flag spread_alert & Log Review]:::alertNode
+    R1 -->|No: Concordant| D1[Compute Best Retailer & Lowest BDT]:::processNode
+    A1 --> V1[--dry-run Diff Preview]:::processNode
+    D1 --> V1
+    V1 -->|Validate schema.json| P1[--apply Write Gate]:::processNode
+    P1 -->|Compile Atomically| DB[(data/*.sqlite Databases)]:::dataNode
+
+    subgraph Legend["Legend"]
+        L1[Blue = External Web & API Targets]:::startNode
+        L2[Teal = Scraping & Normalization Pipeline]:::processNode
+        L3[Red = Cross-Site Spread Alert]:::alertNode
+        L4[(Green = Compiled SQLite Databases)]:::dataNode
+    end
+```
+
 ## 4. Extension Recipes: Adding New Datasets
 
 1. **Adding a New AI Model:**

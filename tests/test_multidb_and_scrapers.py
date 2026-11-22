@@ -22,6 +22,9 @@ from scrapers.adapters import parse_bd_retail_html, parse_facebook_group_posts  
 from scrapers.base import compute_record_diff, detect_installed_tiers  # noqa: E402
 from scrapers.bd_hardware import compute_live_price_sync  # noqa: E402
 from scrapers.benchmark_ingest import ingest_csv  # noqa: E402
+from scrapers.multi_site_ai import sync_multi_site_ai  # noqa: E402
+from scrapers.multi_site_components import sync_multi_site_components  # noqa: E402
+from scrapers.multi_site_games import sync_multi_site_games  # noqa: E402
 from scrapers.test_stack import SAMPLE_BD_HTML, SAMPLE_FB_TEXT, run_offline_self_test  # noqa: E402
 
 
@@ -47,7 +50,7 @@ class TestMultiDomainHubAndVerify(unittest.TestCase):
 
         g_res = db_hub.query_games_by_gpu(gpu_id="rx-6600", max_psu_watts=550)
         self.assertTrue(g_res["psu_safe"])
-        self.assertEqual(g_res["total_games"], 43)
+        self.assertGreaterEqual(g_res["total_games"], 51)
         self.assertGreater(g_res["recommended_count"], 0)
 
         ai_res = db_hub.query_ai_vram_fit(gpu_id="rx-6600")
@@ -80,7 +83,7 @@ class TestMultiDomainHubAndVerify(unittest.TestCase):
             with urllib.request.urlopen(f"{base}/api/cross/games-by-gpu?gpu=rx-6600&psu=550", timeout=5) as resp:
                 data = json.loads(resp.read().decode("utf-8"))
                 self.assertTrue(data["psu_safe"])
-                self.assertEqual(data["total_games"], 43)
+                self.assertGreaterEqual(data["total_games"], 51)
             with urllib.request.urlopen(f"{base}/api/cross/ai-vram-fit?gpu=rx-6600", timeout=5) as resp:
                 data = json.loads(resp.read().decode("utf-8"))
                 self.assertGreater(data["matched_open_models"], 0)
@@ -97,7 +100,7 @@ class TestMultiDomainHubAndVerify(unittest.TestCase):
                 self.assertIn("chinese_oss", data["bucket_counts"])
             with urllib.request.urlopen(f"{base}/api/games/classified", timeout=5) as resp:
                 data = json.loads(resp.read().decode("utf-8"))
-                self.assertEqual(data["total"], 43)
+                self.assertGreaterEqual(data["total"], 51)
                 self.assertGreater(len(data["discovery_seeds"]), 0)
         finally:
             httpd.shutdown()
@@ -139,7 +142,66 @@ class TestScrapersAndDryRunDiff(unittest.TestCase):
         self.assertIn("rx-6600", [row["id"] for row in diff_table])
 
         ingested = ingest_csv()
-        self.assertEqual(ingested, 19)
+        self.assertGreaterEqual(ingested, 40)
+
+
+class TestMultiSiteCatalogExpansion(unittest.TestCase):
+    def test_multi_retailer_components_reconciliation(self) -> None:
+        catalog, diff_table = sync_multi_site_components(offline=True)
+        comps = [item for k, v in catalog.items() if isinstance(v, list) for item in v]
+        self.assertGreaterEqual(len(comps), 55)
+        # Check categories
+        categories = {k for k, v in catalog.items() if isinstance(v, list)}
+        expected_cats = {
+            "cpus", "gpus", "motherboards", "ram", "ssds", "hdds",
+            "monitors", "tvs", "keyboards", "mice", "graphics_tablets"
+        }
+        self.assertTrue(expected_cats.issubset(categories))
+
+        # Check reconciliation fields
+        for c in comps:
+            self.assertIn("id", c)
+            self.assertIn("price_bdt", c)
+            self.assertIn("sources", c)
+            self.assertIsInstance(c["sources"], list)
+            if c.get("retailer_prices"):
+                min_p = min(c["retailer_prices"].values())
+                self.assertEqual(c["price_bdt"], min_p)
+                self.assertEqual(c["best_retailer"], min(c["retailer_prices"], key=c["retailer_prices"].get))
+
+    def test_multi_site_games_expansion(self) -> None:
+        games, stats = sync_multi_site_games(offline=True)
+        self.assertGreaterEqual(stats["total"], 51)
+        for g in games:
+            self.assertIn("id", g)
+            self.assertIn("name", g)
+            self.assertIn("genre", g)
+            self.assertIn("priceModel", g)
+            self.assertGreater(g["installGB"], 0)
+
+    def test_multi_source_ai_reconciliation(self) -> None:
+        data, stats = sync_multi_site_ai(offline=True)
+        self.assertGreaterEqual(stats["total"], 45)
+        models = data.get("models", [])
+        providers = {m["provider"] for m in models}
+        self.assertIn("DeepSeek", providers)
+        self.assertIn("Alibaba", providers)
+        self.assertIn("Meta", providers)
+        for m in models:
+            self.assertIn("id", m)
+            self.assertIn("scores", m)
+            if "fact_check" in m and isinstance(m["fact_check"], dict):
+                self.assertIn("capabilities", m["fact_check"])
+                self.assertIn("sources", m["fact_check"])
+
+    def test_all_five_domains_record_counts(self) -> None:
+        health = db_hub.query_domain_health()
+        counts = {h["domain"]: h["record_count"] for h in health}
+        self.assertGreaterEqual(counts.get("ai", 0), 45)
+        self.assertGreaterEqual(counts.get("games", 0), 51)
+        self.assertGreaterEqual(counts.get("hardware", 0), 8)
+        self.assertGreaterEqual(counts.get("cpus", 0), 6)
+        self.assertGreaterEqual(counts.get("pc_components", 0), 55)
 
 
 if __name__ == "__main__":

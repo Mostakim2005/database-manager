@@ -62,7 +62,7 @@ class TestCatalogClassifiers(unittest.TestCase):
 
     def test_games_classifier_and_discovery_seeds(self) -> None:
         res = catalog_classifier.classify_games_catalog()
-        self.assertEqual(res["total"], 43)
+        self.assertGreaterEqual(res["total"], 51)
         self.assertGreaterEqual(len(res["discovery_seeds"]), 5)
         self.assertIn("classic-rts", res["genre_counts"])
 

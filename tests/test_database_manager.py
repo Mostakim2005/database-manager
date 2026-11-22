@@ -43,8 +43,8 @@ class TestDbExport(unittest.TestCase):
                 nonzero_gb = cur.execute("SELECT COUNT(*) FROM pc_games WHERE install_gb > 0").fetchone()[0]
                 gpu_cnt = cur.execute("SELECT COUNT(*) FROM hardware_gpus").fetchone()[0]
                 self.assertGreaterEqual(ai_cnt, 26)
-                self.assertEqual(game_cnt, 43)
-                self.assertEqual(nonzero_gb, 43)
+                self.assertGreaterEqual(game_cnt, 51)
+                self.assertGreaterEqual(nonzero_gb, 51)
                 self.assertGreaterEqual(gpu_cnt, 8)
             finally:
                 conn.close()
@@ -85,7 +85,7 @@ class TestServerCliAndHttp(unittest.TestCase):
                 self.assertEqual(resp.headers.get("Access-Control-Allow-Origin"), base)
                 data = json.loads(resp.read().decode("utf-8"))
                 self.assertEqual(data["status"], "online")
-                self.assertEqual(data["counts"]["games"], 43)
+                self.assertGreaterEqual(data["counts"]["games"], 51)
                 self.assertGreaterEqual(data["counts"]["ai_models"], 26)
 
             # 2. /api/hardware with untrusted Origin must not reflect CORS

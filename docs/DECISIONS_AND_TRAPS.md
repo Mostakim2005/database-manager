@@ -68,6 +68,15 @@ flowchart LR
   * **Option B (Chosen):** Multi-axis JSON taxonomies with classifier utilities in `src/catalog_classifier.py`.
 * **Plain-English Summary of Pivot:** Multi-axis classification enables precise filtering (e.g., querying specifically for Chinese open-source models with coding ELO >= 1200 or slow-paced strategy games).
 
+### [DECISION: Multi-Site-Consensus-And-Spread-Alerts] | Aliases: multi retailer price consensus, spread alert, dry run diff
+> **1-Line Summary:** Mandated multi-source consensus (>2 independent retailers/APIs per record) with automatic price spread tracking and divergence alerts (>20%).
+* **Decision Maker:** `[DECIDED BY: HUMAN]`
+* **Original User Intention:** Prevent single-retailer pricing anomalies, out-of-stock ghost pricing, or inaccurate hardware/model specs from corrupting the local database.
+* **Options Considered:**
+  * **Option A (Rejected):** Trust a single retailer (e.g., Star Tech only or OpenRouter only) and overwrite database values unconditionally.
+  * **Option B (Chosen):** Query at least 3 sites per domain, store `retailer_prices` / `sources` provenance arrays, select lowest in-stock BDT as `price_bdt`, and flag spreads >20% as `spread_alert` for human review.
+* **Plain-English Summary of Pivot:** Multi-source consensus gives an auditable trail of where every BDT price, FPS metric, and intelligence score originated, catching SKU divergence before writing to disk.
+
 ---
 
 ## 2. Critical Engineering Traps & Landmines
@@ -129,3 +138,21 @@ flowchart LR
 * **Where It Lurks:** `src/update_models.ps1` and PowerShell download scripts.
 * **What Goes Wrong:** In Windows PowerShell 5.1, `curl.exe ... > file.bin` or `Invoke-WebRequest ... > file.bin` applies text encoding, corrupting binary archives and images.
 * **The Permanent Fix:** Always use `Invoke-WebRequest -Uri ... -OutFile file.bin` or `[System.IO.File]::WriteAllBytes()`.
+
+### [TRAP: JavaScript-Booleans-In-Python-Dictionaries] | Aliases: NameError name true is not defined, json literal in python
+> **1-Line Summary:** Copying raw JSON fixtures with lowercase `true`/`false` directly into Python dictionaries causes `NameError: name 'true' is not defined`.
+* **Where It Lurks:** `src/scrapers/multi_site_games.py`, `src/scrapers/multi_site_ai.py`
+* **What Goes Wrong:** Web APIs and JSON dumps use lowercase `true`, `false`, `null`. Pasting raw fixture blocks into Python source raises `NameError` at runtime.
+* **The Permanent Fix:** Always sanitize fixture definitions to Python capitalized `True`, `False`, `None` or load via `json.loads(r'''...''')`.
+
+### [TRAP: Multi-Site-Retailer-Price-Spread-SKU-Mismatch] | Aliases: spread alert, gpu sku mismatch, 20 percent price delta
+> **1-Line Summary:** Merging retailer prices by coarse GPU chip name (e.g. 'RTX 4060') without matching sub-brand cooler tiers causes false >20% price spread alerts.
+* **Where It Lurks:** `src/scrapers/multi_site_components.py`, `src/scrapers/bd_hardware.py`
+* **What Goes Wrong:** One retailer lists a dual-fan budget card at ৳38,000 while another lists an ROG Strix triple-fan OC model at ৳49,000. Comparing by chip alone flags a 29% spread alert.
+* **The Permanent Fix:** Compute `price_spread_pct = ((max - min) / min) * 100`, flag `spread_alert: true` above 20%, but store individual `retailer_prices` so human reviewers can inspect exact retailer SKU names.
+
+### [TRAP: YouTube-Description-FPS-Regex-Noise] | Aliases: yt-dlp description fps, greedy regex benchmark
+> **1-Line Summary:** Greedy regex parsing on YouTube video descriptions mistakes memory frequencies or monitor refresh rates for game frame rates.
+* **Where It Lurks:** `src/scrapers/benchmark_ingest.py` -> `parse_ytdlp_metadata`
+* **What Goes Wrong:** Video descriptions list PC test specs like "RAM: 16GB DDR4 3200MHz, Monitor: 144Hz". A loose regex matching `\d+\s*fps` or `\d+\s*hz` captures 3200 or 144 instead of the actual game FPS.
+* **The Permanent Fix:** Restrict extraction to explicit benchmark chapter headings or lines containing both `avg` and `1% low` keywords.

@@ -53,7 +53,7 @@ $repoTitle = ConvertTo-TitleCaseName $folderName
 
 # Modular verification stages for Database Manager
 $stages = @(
-    [ordered]@{ Name = '01 Python Syntax Check';       Command = 'python -m py_compile src/server.py src/db_export.py src/db_hub.py src/db_verify.py src/scrapers/base.py src/scrapers/adapters.py src/scrapers/test_stack.py src/scrapers/bd_hardware.py src/scrapers/benchmark_ingest.py src/compatibility_engine.py src/catalog_classifier.py' }
+    [ordered]@{ Name = '01 Python Syntax Check';       Command = 'python -m py_compile src/server.py src/db_export.py src/db_hub.py src/db_verify.py src/scrapers/base.py src/scrapers/adapters.py src/scrapers/test_stack.py src/scrapers/bd_hardware.py src/scrapers/benchmark_ingest.py src/scrapers/multi_site_components.py src/scrapers/multi_site_games.py src/scrapers/multi_site_ai.py src/compatibility_engine.py src/catalog_classifier.py' }
     [ordered]@{ Name = '02 JSON Schema Validation';    Command = 'python -c "import json; json.load(open(''data/hardware/hardware_specs.json'', encoding=''utf-8'')); json.load(open(''data/games/games.json'', encoding=''utf-8'')); json.load(open(''data/ai/models_master.json'', encoding=''utf-8'')); json.load(open(''data/cpus/cpus.json'', encoding=''utf-8'')); json.load(open(''data/pc_components/components.json'', encoding=''utf-8'')); json.load(open(''data/ai/taxonomy.json'', encoding=''utf-8'')); json.load(open(''data/games/taxonomy.json'', encoding=''utf-8''))"' }
     [ordered]@{ Name = '03 SQLite Compilation';        Command = 'python src/db_export.py' }
     [ordered]@{ Name = '04 SQLite Verification';       Command = 'python src/db_export.py --verify' }

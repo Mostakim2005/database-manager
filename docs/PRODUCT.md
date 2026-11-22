@@ -2,7 +2,7 @@
 > **1-Line Summary:** Unified benchmark, compatibility, and specifications database manager across AI models, PC games, and hardware upgrades.
 
 ## 1. Core Vision & User Experience Intent
-* **What This App Does (Plain English):** Consolidates multiple fragmented datasets into one unified database and web portal: tracking AI model intelligence and coding benchmarks, 43 researched PC strategy games with compatibility scores for a Ryzen 5 5600GT (Vega 7) setup, and hardware GPU upgrade forecasting with PSU transient spike safety analysis.
+* **What This App Does (Plain English):** Consolidates multiple fragmented datasets into one unified database and web portal: tracking 52 frontier & Chinese/OSS AI models with intelligence and coding benchmarks, 53 researched PC strategy games with compatibility scores for a Ryzen 5 5600GT (Vega 7) setup, 51 real-world 1% and 0.1% Low benchmark runs, 69 PC components and peripherals with multi-retailer price reconciliation across Bangladesh retailers (Star Tech, Ryans, UCC), and hardware GPU upgrade forecasting with PSU transient spike safety analysis.
 * **How It Must Feel to Use:** Ultra-fast, zero-dependency, local-first dashboard with dark-mode glassmorphic styling, instant client-side filtering, and dual terminal CLI and SQLite query capabilities.
 
 ## 2. Active Features (Do Not Break)
@@ -105,6 +105,18 @@
   * `src/server.py` -> `/api/ai/classified`, `/api/games/classified`
   * `data/ai/taxonomy.json` -> AI geopolitical and capability taxonomy
   * `data/games/taxonomy.json` -> Games subgenre and pacing taxonomy
+
+### [FEATURE: Multi-Site-Catalog-Expansion] | Aliases: multi site scrapers, retail reconciliation, steam api, openrouter sync
+> **1-Line Summary:** Multi-source scraping, price reconciliation, and catalog expansion engine across PC Components (Star Tech, Ryans, UCC), Games (Steam, PCGamingWiki, BAR), and LLMs (OpenRouter, Models.dev, Arena).
+* **User Intention (Non-Negotiable):** Eliminate manual data curation and single-retailer bias through multi-source consensus, tracking BDT price spreads, SKU divergence alerts, and dual-source capability concordance.
+* **Visual / UI Behavior:** Modular scrapers `src/scrapers/multi_site_components.py`, `src/scrapers/multi_site_games.py`, and `src/scrapers/multi_site_ai.py` supporting `--dry-run` and `--apply`.
+* **Code Anchors (Grep Targets):**
+  * `src/scrapers/multi_site_components.py` -> `sync_multi_site_components`
+  * `src/scrapers/multi_site_games.py` -> `sync_multi_site_games`
+  * `src/scrapers/multi_site_ai.py` -> `sync_multi_site_ai`
+  * `data/pc_components/components.json` -> 69 verified components across 11 categories
+  * `data/games/games.json` -> 53 verified strategy games
+  * `data/ai/models_master.json` -> 52 verified LLM models
 
 ## 3. Planned Features & App-Merge Wishlist
 

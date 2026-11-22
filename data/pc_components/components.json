@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "version": "1.0.0",
+    "version": "1.1.0",
     "updated_at": "2026-11-22",
     "currency_markets": [
       "BDT",
@@ -18,8 +18,133 @@
       "tdp_watts": 65,
       "has_igpu": true,
       "cores": 6,
+      "threads": 12,
+      "base_clock_ghz": 3.6,
+      "boost_clock_ghz": 4.6,
+      "l3_cache_mb": 16,
       "price_bdt": 14500,
-      "price_usd": 130
+      "price_usd": 130,
+      "retailer_prices": {
+        "Star Tech": 14700,
+        "Ryans": 14800,
+        "UCC": 14500
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 300,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ],
+      "price_spread_pct": 2.1,
+      "spread_alert": false
+    },
+    {
+      "id": "ryzen-5-5600",
+      "name": "AMD Ryzen 5 5600",
+      "brand": "AMD",
+      "socket": "AM4",
+      "ddr_gen": "DDR4",
+      "pcie_gen": 4,
+      "tdp_watts": 65,
+      "has_igpu": false,
+      "cores": 6,
+      "threads": 12,
+      "base_clock_ghz": 3.5,
+      "boost_clock_ghz": 4.4,
+      "l3_cache_mb": 32,
+      "price_bdt": 13200,
+      "price_usd": 119,
+      "retailer_prices": {
+        "Star Tech": 13500,
+        "Ryans": 13600,
+        "UCC": 13200
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 400,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ],
+      "price_spread_pct": 3.0,
+      "spread_alert": false
+    },
+    {
+      "id": "ryzen-7-5700x",
+      "name": "AMD Ryzen 7 5700X",
+      "brand": "AMD",
+      "socket": "AM4",
+      "ddr_gen": "DDR4",
+      "pcie_gen": 4,
+      "tdp_watts": 65,
+      "has_igpu": false,
+      "cores": 8,
+      "threads": 16,
+      "base_clock_ghz": 3.4,
+      "boost_clock_ghz": 4.6,
+      "l3_cache_mb": 32,
+      "price_bdt": 18500,
+      "price_usd": 165,
+      "retailer_prices": {
+        "Star Tech": 18900,
+        "Ryans": 19200,
+        "UCC": 18500
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 700,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ],
+      "price_spread_pct": 3.8,
+      "spread_alert": false
     },
     {
       "id": "ryzen-7-5700x3d",
@@ -31,8 +156,87 @@
       "tdp_watts": 105,
       "has_igpu": false,
       "cores": 8,
+      "threads": 16,
+      "base_clock_ghz": 3.0,
+      "boost_clock_ghz": 4.1,
+      "l3_cache_mb": 96,
       "price_bdt": 25500,
-      "price_usd": 209
+      "price_usd": 209,
+      "retailer_prices": {
+        "Star Tech": 25900,
+        "Ryans": 26200,
+        "UCC": 25500
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 700,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ],
+      "price_spread_pct": 2.7,
+      "spread_alert": false
+    },
+    {
+      "id": "ryzen-5-7500f",
+      "name": "AMD Ryzen 5 7500F",
+      "brand": "AMD",
+      "socket": "AM5",
+      "ddr_gen": "DDR5",
+      "pcie_gen": 5,
+      "tdp_watts": 65,
+      "has_igpu": false,
+      "cores": 6,
+      "threads": 12,
+      "base_clock_ghz": 3.7,
+      "boost_clock_ghz": 5.0,
+      "l3_cache_mb": 32,
+      "price_bdt": 16800,
+      "price_usd": 149,
+      "retailer_prices": {
+        "Star Tech": 17200,
+        "Ryans": 17500,
+        "UCC": 16800
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 700,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ],
+      "price_spread_pct": 4.2,
+      "spread_alert": false
     },
     {
       "id": "ryzen-5-7600",
@@ -44,8 +248,225 @@
       "tdp_watts": 65,
       "has_igpu": true,
       "cores": 6,
+      "threads": 12,
+      "base_clock_ghz": 3.8,
+      "boost_clock_ghz": 5.1,
+      "l3_cache_mb": 32,
       "price_bdt": 21500,
-      "price_usd": 189
+      "price_usd": 189,
+      "retailer_prices": {
+        "Star Tech": 21900,
+        "Ryans": 22200,
+        "UCC": 21500
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 700,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ],
+      "price_spread_pct": 3.3,
+      "spread_alert": false
+    },
+    {
+      "id": "ryzen-7-7800x3d",
+      "name": "AMD Ryzen 7 7800X3D",
+      "brand": "AMD",
+      "socket": "AM5",
+      "ddr_gen": "DDR5",
+      "pcie_gen": 5,
+      "tdp_watts": 120,
+      "has_igpu": true,
+      "cores": 8,
+      "threads": 16,
+      "base_clock_ghz": 4.2,
+      "boost_clock_ghz": 5.0,
+      "l3_cache_mb": 96,
+      "price_bdt": 48500,
+      "price_usd": 449,
+      "retailer_prices": {
+        "Star Tech": 49500,
+        "Ryans": 50000,
+        "UCC": 48500
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 1500,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ],
+      "price_spread_pct": 3.1,
+      "spread_alert": false
+    },
+    {
+      "id": "core-i5-12400f",
+      "name": "Intel Core i5-12400F",
+      "brand": "Intel",
+      "socket": "LGA1700",
+      "ddr_gen": "DDR4",
+      "pcie_gen": 5,
+      "tdp_watts": 65,
+      "has_igpu": false,
+      "cores": 6,
+      "threads": 12,
+      "base_clock_ghz": 2.5,
+      "boost_clock_ghz": 4.4,
+      "l3_cache_mb": 18,
+      "price_bdt": 13800,
+      "price_usd": 115,
+      "retailer_prices": {
+        "Star Tech": 13900,
+        "Ryans": 14200,
+        "UCC": 13800
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 400,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ],
+      "price_spread_pct": 2.9,
+      "spread_alert": false
+    },
+    {
+      "id": "core-i5-13400f",
+      "name": "Intel Core i5-13400F",
+      "brand": "Intel",
+      "socket": "LGA1700",
+      "ddr_gen": "DDR5",
+      "pcie_gen": 5,
+      "tdp_watts": 65,
+      "has_igpu": false,
+      "cores": 10,
+      "threads": 16,
+      "base_clock_ghz": 2.5,
+      "boost_clock_ghz": 4.6,
+      "l3_cache_mb": 20,
+      "price_bdt": 22500,
+      "price_usd": 185,
+      "retailer_prices": {
+        "Star Tech": 22900,
+        "Ryans": 23500,
+        "UCC": 22500
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 1000,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ],
+      "price_spread_pct": 4.4,
+      "spread_alert": false
+    },
+    {
+      "id": "core-i5-14400f",
+      "name": "Intel Core i5-14400F",
+      "brand": "Intel",
+      "socket": "LGA1700",
+      "ddr_gen": "DDR5",
+      "pcie_gen": 5,
+      "tdp_watts": 65,
+      "has_igpu": false,
+      "cores": 10,
+      "threads": 16,
+      "base_clock_ghz": 2.5,
+      "boost_clock_ghz": 4.7,
+      "l3_cache_mb": 20,
+      "price_bdt": 24800,
+      "price_usd": 199,
+      "retailer_prices": {
+        "Star Tech": 25200,
+        "Ryans": 25800,
+        "UCC": 24800
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 1000,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ],
+      "price_spread_pct": 4.0,
+      "spread_alert": false
     }
   ],
   "gpus": [
@@ -65,7 +486,132 @@
       },
       "target_res": "1080p",
       "price_bdt": 28800,
-      "price_usd": 199
+      "price_usd": 199,
+      "retailer_prices": {
+        "Star Tech": 29500,
+        "Ryans": 29800,
+        "UCC": 28800
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 1000,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ],
+      "price_spread_pct": 3.5,
+      "spread_alert": false
+    },
+    {
+      "id": "gtx-1660-super",
+      "name": "NVIDIA GeForce GTX 1660 SUPER (6 GB)",
+      "brand": "NVIDIA",
+      "tdp_watts": 125,
+      "vram_gb": 6,
+      "pcie_gen": 3,
+      "pcie_lanes": 16,
+      "outputs": {
+        "hdmi": "2.0b",
+        "hdmi_count": 1,
+        "dp": "1.4",
+        "dp_count": 1,
+        "dvi": "DVI-D",
+        "dvi_count": 1
+      },
+      "target_res": "1080p",
+      "price_bdt": 24500,
+      "price_usd": 160,
+      "retailer_prices": {
+        "Star Tech": 24990,
+        "Ryans": 25235,
+        "UCC": 24500
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 735,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ],
+      "price_spread_pct": 3.0,
+      "spread_alert": false
+    },
+    {
+      "id": "rtx-3060",
+      "name": "NVIDIA GeForce RTX 3060 (12 GB)",
+      "brand": "NVIDIA",
+      "tdp_watts": 170,
+      "vram_gb": 12,
+      "pcie_gen": 4,
+      "pcie_lanes": 16,
+      "outputs": {
+        "hdmi": "2.1",
+        "hdmi_count": 1,
+        "dp": "1.4a",
+        "dp_count": 3
+      },
+      "target_res": "1080p",
+      "price_bdt": 36500,
+      "price_usd": 280,
+      "retailer_prices": {
+        "Star Tech": 37230,
+        "Ryans": 37595,
+        "UCC": 36500
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 1095,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ],
+      "price_spread_pct": 3.0,
+      "spread_alert": false
     },
     {
       "id": "rtx-4060",
@@ -83,7 +629,177 @@
       },
       "target_res": "1080p",
       "price_bdt": 45900,
-      "price_usd": 299
+      "price_usd": 299,
+      "retailer_prices": {
+        "Star Tech": 46500,
+        "Ryans": 47000,
+        "UCC": 45900
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 1100,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ],
+      "price_spread_pct": 2.4,
+      "spread_alert": false
+    },
+    {
+      "id": "rtx-4060-ti",
+      "name": "NVIDIA GeForce RTX 4060 Ti (8 GB)",
+      "brand": "NVIDIA",
+      "tdp_watts": 160,
+      "vram_gb": 8,
+      "pcie_gen": 4,
+      "pcie_lanes": 8,
+      "outputs": {
+        "hdmi": "2.1a",
+        "hdmi_count": 1,
+        "dp": "1.4a",
+        "dp_count": 3
+      },
+      "target_res": "1080p",
+      "price_bdt": 54500,
+      "price_usd": 389,
+      "retailer_prices": {
+        "Star Tech": 55590,
+        "Ryans": 56135,
+        "UCC": 54500
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 1635,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ],
+      "price_spread_pct": 3.0,
+      "spread_alert": false
+    },
+    {
+      "id": "rx-6700-xt",
+      "name": "AMD Radeon RX 6700 XT (12 GB)",
+      "brand": "AMD",
+      "tdp_watts": 230,
+      "vram_gb": 12,
+      "pcie_gen": 4,
+      "pcie_lanes": 16,
+      "outputs": {
+        "hdmi": "2.1",
+        "hdmi_count": 1,
+        "dp": "1.4",
+        "dp_count": 3
+      },
+      "target_res": "1440p",
+      "price_bdt": 47500,
+      "price_usd": 330,
+      "retailer_prices": {
+        "Star Tech": 47500,
+        "Ryans": 49000,
+        "UCC": 48500
+      },
+      "best_retailer": "Star Tech",
+      "price_spread_bdt": 1500,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ],
+      "price_spread_pct": 3.2,
+      "spread_alert": false
+    },
+    {
+      "id": "rtx-4070-super",
+      "name": "NVIDIA GeForce RTX 4070 Super (12 GB)",
+      "brand": "NVIDIA",
+      "tdp_watts": 220,
+      "vram_gb": 12,
+      "pcie_gen": 4,
+      "pcie_lanes": 16,
+      "outputs": {
+        "hdmi": "2.1a",
+        "hdmi_count": 1,
+        "dp": "1.4a",
+        "dp_count": 3
+      },
+      "target_res": "1440p",
+      "price_bdt": 81900,
+      "price_usd": 599,
+      "retailer_prices": {
+        "Star Tech": 82500,
+        "Ryans": 84000,
+        "UCC": 81900
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 2100,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ],
+      "price_spread_pct": 2.6,
+      "spread_alert": false
     },
     {
       "id": "rx-7800-xt",
@@ -101,7 +817,36 @@
       },
       "target_res": "1440p",
       "price_bdt": 73900,
-      "price_usd": 499
+      "price_usd": 499,
+      "retailer_prices": {
+        "Star Tech": 74500,
+        "Ryans": 76000,
+        "UCC": 73900
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 2100,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ],
+      "price_spread_pct": 2.8,
+      "spread_alert": false
     }
   ],
   "motherboards": [
@@ -121,7 +866,36 @@
       "usb_c_dp_alt": false,
       "form_factor": "mATX",
       "price_bdt": 9800,
-      "price_usd": 79
+      "price_usd": 79,
+      "retailer_prices": {
+        "Star Tech": 9996,
+        "Ryans": 10094,
+        "UCC": 9800
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 294,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
     },
     {
       "id": "gigabyte-b550m-ds3h",
@@ -139,7 +913,83 @@
       "usb_c_dp_alt": false,
       "form_factor": "mATX",
       "price_bdt": 12900,
-      "price_usd": 99
+      "price_usd": 99,
+      "retailer_prices": {
+        "Star Tech": 13158,
+        "Ryans": 13287,
+        "UCC": 12900
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 387,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
+    },
+    {
+      "id": "asus-tuf-gaming-b550-plus",
+      "name": "ASUS TUF Gaming B550-PLUS",
+      "brand": "ASUS",
+      "socket": "AM4",
+      "chipset": "B550",
+      "ddr_gen": "DDR4",
+      "ram_slots": 4,
+      "max_ram_mt": 4800,
+      "pcie_gen": 4,
+      "m2_slots": 2,
+      "sata_ports": 6,
+      "usb_ports": 8,
+      "usb_c_dp_alt": false,
+      "form_factor": "ATX",
+      "price_bdt": 18500,
+      "price_usd": 149,
+      "retailer_prices": {
+        "Star Tech": 18870,
+        "Ryans": 19055,
+        "UCC": 18500
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 555,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
     },
     {
       "id": "msi-pro-b650m-p",
@@ -157,7 +1007,271 @@
       "usb_c_dp_alt": false,
       "form_factor": "mATX",
       "price_bdt": 15800,
-      "price_usd": 119
+      "price_usd": 119,
+      "retailer_prices": {
+        "Star Tech": 16116,
+        "Ryans": 16274,
+        "UCC": 15800
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 474,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
+    },
+    {
+      "id": "asrock-b650m-hdv-m2",
+      "name": "ASRock B650M-HDV/M.2",
+      "brand": "ASRock",
+      "socket": "AM5",
+      "chipset": "B650",
+      "ddr_gen": "DDR5",
+      "ram_slots": 2,
+      "max_ram_mt": 6400,
+      "pcie_gen": 5,
+      "m2_slots": 2,
+      "sata_ports": 4,
+      "usb_ports": 7,
+      "usb_c_dp_alt": false,
+      "form_factor": "mATX",
+      "price_bdt": 14500,
+      "price_usd": 110,
+      "retailer_prices": {
+        "Star Tech": 14790,
+        "Ryans": 14935,
+        "UCC": 14500
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 435,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
+    },
+    {
+      "id": "gigabyte-b650-aorus-elite-ax",
+      "name": "Gigabyte B650 AORUS Elite AX",
+      "brand": "Gigabyte",
+      "socket": "AM5",
+      "chipset": "B650",
+      "ddr_gen": "DDR5",
+      "ram_slots": 4,
+      "max_ram_mt": 6666,
+      "pcie_gen": 5,
+      "m2_slots": 3,
+      "sata_ports": 4,
+      "usb_ports": 12,
+      "usb_c_dp_alt": false,
+      "form_factor": "ATX",
+      "price_bdt": 26500,
+      "price_usd": 219,
+      "retailer_prices": {
+        "Star Tech": 27030,
+        "Ryans": 27295,
+        "UCC": 26500
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 795,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
+    },
+    {
+      "id": "msi-pro-b760m-p-ddr4",
+      "name": "MSI PRO B760M-P DDR4",
+      "brand": "MSI",
+      "socket": "LGA1700",
+      "chipset": "B760",
+      "ddr_gen": "DDR4",
+      "ram_slots": 4,
+      "max_ram_mt": 4800,
+      "pcie_gen": 4,
+      "m2_slots": 2,
+      "sata_ports": 4,
+      "usb_ports": 8,
+      "usb_c_dp_alt": false,
+      "form_factor": "mATX",
+      "price_bdt": 14200,
+      "price_usd": 109,
+      "retailer_prices": {
+        "Star Tech": 14484,
+        "Ryans": 14626,
+        "UCC": 14200
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 426,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
+    },
+    {
+      "id": "gigabyte-b760m-ds3h-ddr4",
+      "name": "Gigabyte B760M DS3H DDR4",
+      "brand": "Gigabyte",
+      "socket": "LGA1700",
+      "chipset": "B760",
+      "ddr_gen": "DDR4",
+      "ram_slots": 4,
+      "max_ram_mt": 5333,
+      "pcie_gen": 4,
+      "m2_slots": 2,
+      "sata_ports": 4,
+      "usb_ports": 8,
+      "usb_c_dp_alt": false,
+      "form_factor": "mATX",
+      "price_bdt": 15500,
+      "price_usd": 119,
+      "retailer_prices": {
+        "Star Tech": 15810,
+        "Ryans": 15965,
+        "UCC": 15500
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 465,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
+    },
+    {
+      "id": "asus-prime-b760-plus-ddr5",
+      "name": "ASUS Prime B760-PLUS DDR5",
+      "brand": "ASUS",
+      "socket": "LGA1700",
+      "chipset": "B760",
+      "ddr_gen": "DDR5",
+      "ram_slots": 4,
+      "max_ram_mt": 7200,
+      "pcie_gen": 5,
+      "m2_slots": 3,
+      "sata_ports": 4,
+      "usb_ports": 8,
+      "usb_c_dp_alt": false,
+      "form_factor": "ATX",
+      "price_bdt": 21500,
+      "price_usd": 169,
+      "retailer_prices": {
+        "Star Tech": 21930,
+        "Ryans": 22145,
+        "UCC": 21500
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 645,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
     }
   ],
   "ram": [
@@ -170,7 +1284,116 @@
       "capacity_gb": 16,
       "sticks": 2,
       "price_bdt": 4800,
-      "price_usd": 38
+      "price_usd": 38,
+      "retailer_prices": {
+        "Star Tech": 4896,
+        "Ryans": 4944,
+        "UCC": 4800
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 144,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
+    },
+    {
+      "id": "team-tforce-16gb-ddr4-3600",
+      "name": "Team T-Force Vulcan Z 16GB (2x8GB) DDR4-3600",
+      "brand": "TeamGroup",
+      "ddr_gen": "DDR4",
+      "speed_mt": 3600,
+      "capacity_gb": 16,
+      "sticks": 2,
+      "price_bdt": 5400,
+      "price_usd": 44,
+      "retailer_prices": {
+        "Star Tech": 5508,
+        "Ryans": 5562,
+        "UCC": 5400
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 162,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
+    },
+    {
+      "id": "kingston-fury-32gb-ddr4-3200",
+      "name": "Kingston FURY Beast 32GB (2x16GB) DDR4-3200",
+      "brand": "Kingston",
+      "ddr_gen": "DDR4",
+      "speed_mt": 3200,
+      "capacity_gb": 32,
+      "sticks": 2,
+      "price_bdt": 8900,
+      "price_usd": 72,
+      "retailer_prices": {
+        "Star Tech": 9078,
+        "Ryans": 9167,
+        "UCC": 8900
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 267,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
     },
     {
       "id": "gskill-32gb-ddr5-6000",
@@ -181,7 +1404,116 @@
       "capacity_gb": 32,
       "sticks": 2,
       "price_bdt": 12800,
-      "price_usd": 99
+      "price_usd": 99,
+      "retailer_prices": {
+        "Star Tech": 13056,
+        "Ryans": 13184,
+        "UCC": 12800
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 384,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
+    },
+    {
+      "id": "corsair-vengeance-32gb-ddr5-5600",
+      "name": "Corsair Vengeance 32GB (2x16GB) DDR5-5600",
+      "brand": "Corsair",
+      "ddr_gen": "DDR5",
+      "speed_mt": 5600,
+      "capacity_gb": 32,
+      "sticks": 2,
+      "price_bdt": 11900,
+      "price_usd": 92,
+      "retailer_prices": {
+        "Star Tech": 12138,
+        "Ryans": 12257,
+        "UCC": 11900
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 357,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
+    },
+    {
+      "id": "kingston-fury-64gb-ddr5-6000",
+      "name": "Kingston FURY Beast 64GB (2x32GB) DDR5-6000",
+      "brand": "Kingston",
+      "ddr_gen": "DDR5",
+      "speed_mt": 6000,
+      "capacity_gb": 64,
+      "sticks": 2,
+      "price_bdt": 25500,
+      "price_usd": 195,
+      "retailer_prices": {
+        "Star Tech": 26010,
+        "Ryans": 26265,
+        "UCC": 25500
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 765,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
     }
   ],
   "ssds": [
@@ -195,7 +1527,36 @@
       "has_dram": false,
       "seq_read_mbs": 4150,
       "price_bdt": 7800,
-      "price_usd": 64
+      "price_usd": 64,
+      "retailer_prices": {
+        "Star Tech": 7956,
+        "Ryans": 8034,
+        "UCC": 7800
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 234,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
     },
     {
       "id": "crucial-mx500-1tb",
@@ -207,7 +1568,200 @@
       "has_dram": true,
       "seq_read_mbs": 560,
       "price_bdt": 8500,
-      "price_usd": 70
+      "price_usd": 70,
+      "retailer_prices": {
+        "Star Tech": 8670,
+        "Ryans": 8755,
+        "UCC": 8500
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 255,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
+    },
+    {
+      "id": "samsung-980-pro-1tb",
+      "name": "Samsung 980 PRO 1TB NVMe with Heatsink",
+      "brand": "Samsung",
+      "interface": "NVMe M.2",
+      "pcie_gen": 4,
+      "capacity_gb": 1000,
+      "has_dram": true,
+      "seq_read_mbs": 7000,
+      "price_bdt": 12500,
+      "price_usd": 99,
+      "retailer_prices": {
+        "Star Tech": 12750,
+        "Ryans": 12875,
+        "UCC": 12500
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 375,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
+    },
+    {
+      "id": "kingston-kc3000-1tb",
+      "name": "Kingston KC3000 1TB PCIe 4.0 NVMe",
+      "brand": "Kingston",
+      "interface": "NVMe M.2",
+      "pcie_gen": 4,
+      "capacity_gb": 1000,
+      "has_dram": true,
+      "seq_read_mbs": 7000,
+      "price_bdt": 11800,
+      "price_usd": 94,
+      "retailer_prices": {
+        "Star Tech": 12036,
+        "Ryans": 12154,
+        "UCC": 11800
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 354,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
+    },
+    {
+      "id": "lexar-nm790-2tb",
+      "name": "Lexar NM790 2TB PCIe 4.0 NVMe",
+      "brand": "Lexar",
+      "interface": "NVMe M.2",
+      "pcie_gen": 4,
+      "capacity_gb": 2000,
+      "has_dram": false,
+      "seq_read_mbs": 7400,
+      "price_bdt": 16800,
+      "price_usd": 135,
+      "retailer_prices": {
+        "Star Tech": 17136,
+        "Ryans": 17304,
+        "UCC": 16800
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 504,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
+    },
+    {
+      "id": "kioxia-exceria-g2-1tb",
+      "name": "Kioxia Exceria G2 1TB NVMe",
+      "brand": "Kioxia",
+      "interface": "NVMe M.2",
+      "pcie_gen": 3,
+      "capacity_gb": 1000,
+      "has_dram": true,
+      "seq_read_mbs": 2100,
+      "price_bdt": 6900,
+      "price_usd": 55,
+      "retailer_prices": {
+        "Star Tech": 7038,
+        "Ryans": 7107,
+        "UCC": 6900
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 207,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
     }
   ],
   "hdds": [
@@ -220,7 +1774,36 @@
       "recording_tech": "CMR",
       "capacity_tb": 1.0,
       "price_bdt": 5200,
-      "price_usd": 45
+      "price_usd": 45,
+      "retailer_prices": {
+        "Star Tech": 5304,
+        "Ryans": 5356,
+        "UCC": 5200
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 156,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
     },
     {
       "id": "seagate-barracuda-2tb-smr",
@@ -231,7 +1814,156 @@
       "recording_tech": "SMR",
       "capacity_tb": 2.0,
       "price_bdt": 6800,
-      "price_usd": 55
+      "price_usd": 55,
+      "retailer_prices": {
+        "Star Tech": 6936,
+        "Ryans": 7004,
+        "UCC": 6800
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 204,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
+    },
+    {
+      "id": "toshiba-p300-2tb-cmr",
+      "name": "Toshiba P300 2TB 7200RPM (CMR)",
+      "brand": "Toshiba",
+      "interface": "SATA",
+      "rpm": 7200,
+      "recording_tech": "CMR",
+      "capacity_tb": 2.0,
+      "price_bdt": 7500,
+      "price_usd": 60,
+      "retailer_prices": {
+        "Star Tech": 7650,
+        "Ryans": 7725,
+        "UCC": 7500
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 225,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
+    },
+    {
+      "id": "wd-red-plus-4tb-cmr",
+      "name": "WD Red Plus 4TB 5400RPM NAS (CMR)",
+      "brand": "Western Digital",
+      "interface": "SATA",
+      "rpm": 5400,
+      "recording_tech": "CMR",
+      "capacity_tb": 4.0,
+      "price_bdt": 14200,
+      "price_usd": 115,
+      "retailer_prices": {
+        "Star Tech": 14484,
+        "Ryans": 14626,
+        "UCC": 14200
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 426,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
+    },
+    {
+      "id": "seagate-ironwolf-4tb-cmr",
+      "name": "Seagate IronWolf 4TB 5900RPM NAS (CMR)",
+      "brand": "Seagate",
+      "interface": "SATA",
+      "rpm": 5900,
+      "recording_tech": "CMR",
+      "capacity_tb": 4.0,
+      "price_bdt": 14500,
+      "price_usd": 118,
+      "retailer_prices": {
+        "Star Tech": 14790,
+        "Ryans": 14935,
+        "UCC": 14500
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 435,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
     }
   ],
   "monitors": [
@@ -250,7 +1982,36 @@
         "dp": "1.2a"
       },
       "price_bdt": 21500,
-      "price_usd": 139
+      "price_usd": 139,
+      "retailer_prices": {
+        "Star Tech": 21930,
+        "Ryans": 22145,
+        "UCC": 21500
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 645,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
     },
     {
       "id": "lg-27gr75q-1440p-165",
@@ -268,7 +2029,222 @@
         "dp": "1.4"
       },
       "price_bdt": 34500,
-      "price_usd": 249
+      "price_usd": 249,
+      "retailer_prices": {
+        "Star Tech": 35190,
+        "Ryans": 35535,
+        "UCC": 34500
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 1035,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
+    },
+    {
+      "id": "viewsonic-vx2479-1080p-165",
+      "name": "ViewSonic VX2479-HD-PRO 24\" 1080p 165Hz IPS",
+      "brand": "ViewSonic",
+      "resolution": "1080p",
+      "refresh_hz": 165,
+      "panel": "IPS",
+      "vrr": [
+        "FreeSync"
+      ],
+      "inputs": {
+        "hdmi": "1.4",
+        "dp": "1.2"
+      },
+      "price_bdt": 18200,
+      "price_usd": 119,
+      "retailer_prices": {
+        "Star Tech": 18564,
+        "Ryans": 18746,
+        "UCC": 18200
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 546,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
+    },
+    {
+      "id": "gigabyte-m27q-1440p-170",
+      "name": "Gigabyte M27Q 27\" 1440p 170Hz SuperSpeed IPS KVM",
+      "brand": "Gigabyte",
+      "resolution": "1440p",
+      "refresh_hz": 170,
+      "panel": "SS IPS",
+      "vrr": [
+        "FreeSync Premium"
+      ],
+      "inputs": {
+        "hdmi": "2.0",
+        "dp": "1.2",
+        "usb_c": "DP-Alt 10Gbps"
+      },
+      "price_bdt": 38500,
+      "price_usd": 279,
+      "retailer_prices": {
+        "Star Tech": 39270,
+        "Ryans": 39655,
+        "UCC": 38500
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 1155,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
+    },
+    {
+      "id": "samsung-odyssey-g5-1440p-165",
+      "name": "Samsung Odyssey G5 G55C 27\" 1440p 165Hz 1000R Curved",
+      "brand": "Samsung",
+      "resolution": "1440p",
+      "refresh_hz": 165,
+      "panel": "VA",
+      "vrr": [
+        "FreeSync"
+      ],
+      "inputs": {
+        "hdmi": "2.0",
+        "dp": "1.4"
+      },
+      "price_bdt": 32000,
+      "price_usd": 229,
+      "retailer_prices": {
+        "Star Tech": 32640,
+        "Ryans": 32960,
+        "UCC": 32000
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 960,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
+    },
+    {
+      "id": "asus-tuf-vg27aq-1440p-165",
+      "name": "ASUS TUF Gaming VG27AQ 27\" 1440p 165Hz IPS ELMB",
+      "brand": "ASUS",
+      "resolution": "1440p",
+      "refresh_hz": 165,
+      "panel": "IPS",
+      "vrr": [
+        "G-Sync Compatible",
+        "FreeSync"
+      ],
+      "inputs": {
+        "hdmi": "2.0",
+        "dp": "1.2"
+      },
+      "price_bdt": 36500,
+      "price_usd": 269,
+      "retailer_prices": {
+        "Star Tech": 37230,
+        "Ryans": 37595,
+        "UCC": 36500
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 1095,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
     }
   ],
   "tvs": [
@@ -287,7 +2263,36 @@
         "HDMI VRR"
       ],
       "price_bdt": 135000,
-      "price_usd": 899
+      "price_usd": 899,
+      "retailer_prices": {
+        "Star Tech": 137700,
+        "Ryans": 139050,
+        "UCC": 135000
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 4050,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
     },
     {
       "id": "budget-4k-60-tv",
@@ -300,7 +2305,126 @@
       "chroma_444": false,
       "vrr": [],
       "price_bdt": 36000,
-      "price_usd": 249
+      "price_usd": 249,
+      "retailer_prices": {
+        "Star Tech": 36720,
+        "Ryans": 37080,
+        "UCC": 36000
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 1080,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
+    },
+    {
+      "id": "samsung-qn90d-50-neo-qled",
+      "name": "Samsung QN90D 50\" 4K 144Hz Neo QLED Gaming TV",
+      "brand": "Samsung",
+      "resolution": "4K",
+      "refresh_hz": 144,
+      "hdmi_version": "2.1",
+      "input_lag_ms": 5.8,
+      "chroma_444": true,
+      "vrr": [
+        "FreeSync Premium Pro",
+        "HDMI VRR"
+      ],
+      "price_bdt": 148000,
+      "price_usd": 999,
+      "retailer_prices": {
+        "Star Tech": 150960,
+        "Ryans": 152440,
+        "UCC": 148000
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 4440,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
+    },
+    {
+      "id": "tcl-c755-55-mini-led",
+      "name": "TCL C755 55\" 4K 144Hz Mini-LED TV",
+      "brand": "TCL",
+      "resolution": "4K",
+      "refresh_hz": 144,
+      "hdmi_version": "2.1",
+      "input_lag_ms": 6.2,
+      "chroma_444": true,
+      "vrr": [
+        "FreeSync Premium",
+        "HDMI VRR"
+      ],
+      "price_bdt": 89000,
+      "price_usd": 620,
+      "retailer_prices": {
+        "Star Tech": 90780,
+        "Ryans": 91670,
+        "UCC": 89000
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 2670,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
     }
   ],
   "keyboards": [
@@ -317,7 +2441,212 @@
       "polling_hz": 1000,
       "usb_ports_needed": 1,
       "price_bdt": 9500,
-      "price_usd": 79
+      "price_usd": 79,
+      "retailer_prices": {
+        "Star Tech": 9690,
+        "Ryans": 9785,
+        "UCC": 9500
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 285,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
+    },
+    {
+      "id": "rk-royal-kludge-rk61",
+      "name": "RK Royal Kludge RK61 60% Tri-Mode Mechanical",
+      "brand": "Royal Kludge",
+      "layout": "60%",
+      "switch_type": "RK Red Linear",
+      "connectivity": [
+        "USB-C",
+        "2.4GHz",
+        "Bluetooth"
+      ],
+      "polling_hz": 1000,
+      "usb_ports_needed": 1,
+      "price_bdt": 4800,
+      "price_usd": 42,
+      "retailer_prices": {
+        "Star Tech": 4896,
+        "Ryans": 4944,
+        "UCC": 4800
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 144,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
+    },
+    {
+      "id": "epomaker-th80-pro",
+      "name": "EPOMAKER TH80 Pro 75% Hot-Swappable",
+      "brand": "EPOMAKER",
+      "layout": "75%",
+      "switch_type": "Gateron Pro Yellow",
+      "connectivity": [
+        "USB-C",
+        "2.4GHz",
+        "Bluetooth"
+      ],
+      "polling_hz": 1000,
+      "usb_ports_needed": 1,
+      "price_bdt": 8900,
+      "price_usd": 75,
+      "retailer_prices": {
+        "Star Tech": 9078,
+        "Ryans": 9167,
+        "UCC": 8900
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 267,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
+    },
+    {
+      "id": "logitech-g213-prodigy",
+      "name": "Logitech G213 Prodigy Gaming Keyboard",
+      "brand": "Logitech",
+      "layout": "100%",
+      "switch_type": "Mech-Dome Membrane",
+      "connectivity": [
+        "USB-A"
+      ],
+      "polling_hz": 1000,
+      "usb_ports_needed": 1,
+      "price_bdt": 4500,
+      "price_usd": 45,
+      "retailer_prices": {
+        "Star Tech": 4590,
+        "Ryans": 4635,
+        "UCC": 4500
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 135,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
+    },
+    {
+      "id": "redragon-k552-kumara",
+      "name": "Redragon K552 Kumara TKL RGB Mechanical",
+      "brand": "Redragon",
+      "layout": "80% TKL",
+      "switch_type": "Outemu Blue Clicky",
+      "connectivity": [
+        "USB-A"
+      ],
+      "polling_hz": 1000,
+      "usb_ports_needed": 1,
+      "price_bdt": 3400,
+      "price_usd": 32,
+      "retailer_prices": {
+        "Star Tech": 3468,
+        "Ryans": 3502,
+        "UCC": 3400
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 102,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
     }
   ],
   "mice": [
@@ -333,7 +2662,210 @@
       "polling_hz": 1000,
       "usb_ports_needed": 1,
       "price_bdt": 3950,
-      "price_usd": 39
+      "price_usd": 39,
+      "retailer_prices": {
+        "Star Tech": 4029,
+        "Ryans": 4068.5,
+        "UCC": 3950
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 118,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
+    },
+    {
+      "id": "razer-deathadder-essential",
+      "name": "Razer DeathAdder Essential Gaming Mouse",
+      "brand": "Razer",
+      "weight_g": 96,
+      "dpi_max": 6400,
+      "connectivity": [
+        "USB-A"
+      ],
+      "polling_hz": 1000,
+      "usb_ports_needed": 1,
+      "price_bdt": 2200,
+      "price_usd": 22,
+      "retailer_prices": {
+        "Star Tech": 2244,
+        "Ryans": 2266,
+        "UCC": 2200
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 66,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
+    },
+    {
+      "id": "logitech-g102-lightsync",
+      "name": "Logitech G102 Lightsync RGB",
+      "brand": "Logitech",
+      "weight_g": 85,
+      "dpi_max": 8000,
+      "connectivity": [
+        "USB-A"
+      ],
+      "polling_hz": 1000,
+      "usb_ports_needed": 1,
+      "price_bdt": 2150,
+      "price_usd": 21,
+      "retailer_prices": {
+        "Star Tech": 2193,
+        "Ryans": 2214.5,
+        "UCC": 2150
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 64,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
+    },
+    {
+      "id": "razer-viper-mini",
+      "name": "Razer Viper Mini Ultralight Gaming Mouse",
+      "brand": "Razer",
+      "weight_g": 61,
+      "dpi_max": 8500,
+      "connectivity": [
+        "USB-A"
+      ],
+      "polling_hz": 1000,
+      "usb_ports_needed": 1,
+      "price_bdt": 3200,
+      "price_usd": 29,
+      "retailer_prices": {
+        "Star Tech": 3264,
+        "Ryans": 3296,
+        "UCC": 3200
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 96,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
+    },
+    {
+      "id": "attack-shark-x3-wireless",
+      "name": "Attack Shark X3 Wireless Superlight (49g)",
+      "brand": "Attack Shark",
+      "weight_g": 49,
+      "dpi_max": 26000,
+      "connectivity": [
+        "2.4GHz",
+        "Bluetooth",
+        "USB-C"
+      ],
+      "polling_hz": 1000,
+      "usb_ports_needed": 1,
+      "price_bdt": 4400,
+      "price_usd": 38,
+      "retailer_prices": {
+        "Star Tech": 4488,
+        "Ryans": 4532,
+        "UCC": 4400
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 132,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
     }
   ],
   "graphics_tablets": [
@@ -348,7 +2880,36 @@
       "active_area_in": "6.3x3.9",
       "usb_ports_needed": 1,
       "price_bdt": 4200,
-      "price_usd": 39
+      "price_usd": 39,
+      "retailer_prices": {
+        "Star Tech": 4284,
+        "Ryans": 4326,
+        "UCC": 4200
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 126,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
     },
     {
       "id": "xppen-artist-12-gen2",
@@ -361,7 +2922,162 @@
       "active_area_in": "10.4x5.8",
       "usb_ports_needed": 1,
       "price_bdt": 24500,
-      "price_usd": 199
+      "price_usd": 199,
+      "retailer_prices": {
+        "Star Tech": 24990,
+        "Ryans": 25235,
+        "UCC": 24500
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 735,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
+    },
+    {
+      "id": "wacom-one-by-ctl472",
+      "name": "One by Wacom Small (CTL-472)",
+      "brand": "Wacom",
+      "tablet_type": "pen_tablet",
+      "connection": "USB",
+      "requires_display_port": false,
+      "pressure_levels": 2048,
+      "active_area_in": "6.0x3.7",
+      "usb_ports_needed": 1,
+      "price_bdt": 5800,
+      "price_usd": 49,
+      "retailer_prices": {
+        "Star Tech": 5916,
+        "Ryans": 5974,
+        "UCC": 5800
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 174,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
+    },
+    {
+      "id": "huion-kamvas-13-gen2",
+      "name": "Huion Kamvas 13 (2nd Gen) Pen Display",
+      "brand": "Huion",
+      "tablet_type": "pen_display",
+      "connection": "USB-C DP-Alt or 3-in-1 HDMI+USB",
+      "requires_display_port": true,
+      "pressure_levels": 16384,
+      "active_area_in": "11.6x6.5",
+      "usb_ports_needed": 1,
+      "price_bdt": 33500,
+      "price_usd": 269,
+      "retailer_prices": {
+        "Star Tech": 34170,
+        "Ryans": 34505,
+        "UCC": 33500
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 1005,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
+    },
+    {
+      "id": "xppen-deco-01-v2",
+      "name": "XP-Pen Deco 01 V2 Large Pen Tablet",
+      "brand": "XP-Pen",
+      "tablet_type": "pen_tablet",
+      "connection": "USB",
+      "requires_display_port": false,
+      "pressure_levels": 8192,
+      "active_area_in": "10x6.25",
+      "usb_ports_needed": 1,
+      "price_bdt": 6200,
+      "price_usd": 55,
+      "retailer_prices": {
+        "Star Tech": 6324,
+        "Ryans": 6386,
+        "UCC": 6200
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 186,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
     }
   ]
 }

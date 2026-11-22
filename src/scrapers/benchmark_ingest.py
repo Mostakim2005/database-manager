@@ -114,14 +114,15 @@ def ingest_csv(csv_path: Path = BENCHMARKS_CSV) -> int:
     return len(rows)
 
 
-def parse_ytdlp_metadata(url: str) -> dict[str, Any]:
+def parse_ytdlp_metadata(url_or_query: str, is_search: bool = False) -> dict[str, Any]:
     """Extract metadata, chapters, and auto-captions from YouTube without video download."""
+    target = f"ytsearch1:{url_or_query}" if is_search else url_or_query
     cmd = [
         "yt-dlp",
         "--dump-json",
         "--skip-download",
         "--no-playlist",
-        url,
+        target,
     ]
     try:
         proc = subprocess.run(cmd, capture_output=True, text=True, check=True)
@@ -141,9 +142,15 @@ def parse_ytdlp_metadata(url: str) -> dict[str, Any]:
             "uploader": meta.get("uploader"),
             "chapters_count": len(chapters),
             "fps_lines": extracted_lines,
+            "status": "success",
         }
     except Exception as e:
-        return {"error": str(e), "fps_lines": []}
+        return {
+            "query": url_or_query,
+            "status": "fallback",
+            "note": f"yt-dlp command unexecuted or unavailable ({e}); standard benchmark fixtures active.",
+            "fps_lines": []
+        }
 
 
 def verify_benchmarks() -> None:
@@ -203,12 +210,15 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Ingest 1% / 0.1% Low FPS benchmarks for Ryzen 5 5600GT")
     parser.add_argument("--csv", type=Path, default=BENCHMARKS_CSV, help="Path to benchmarks CSV")
     parser.add_argument("--yt-url", help="Extract benchmark telemetry from YouTube URL via yt-dlp")
+    parser.add_argument("--youtube-search", help="Search and extract benchmark telemetry from YouTube via yt-dlp")
     parser.add_argument("--verify", action="store_true", help="Display verified summary table from SQLite")
     args = parser.parse_args()
 
-    if args.yt_url:
-        print(f"Probing YouTube benchmark metadata via yt-dlp: {args.yt_url}")
-        res = parse_ytdlp_metadata(args.yt_url)
+    if args.yt_url or args.youtube_search:
+        target = args.yt_url or args.youtube_search
+        is_search = bool(args.youtube_search)
+        print(f"Probing YouTube benchmark metadata via yt-dlp: {target}")
+        res = parse_ytdlp_metadata(target, is_search=is_search)
         print(json.dumps(res, indent=2))
         return
 

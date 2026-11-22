@@ -17,7 +17,7 @@
 * **Live Scraper Probing & BD Retail Sync:** `python src/scrapers/test_stack.py --live --dry-run` & `python src/scrapers/bd_hardware.py --dry-run`
 * **Game Benchmark Ingest:** `python src/scrapers/benchmark_ingest.py --verify`
 * **Compatibility Engine & Catalog Classifiers:** `python src/compatibility_engine.py --demo` & `python src/catalog_classifier.py --ai --chinese-oss`
-* **Python Syntax Check:** `python -m py_compile src/server.py src/db_export.py src/db_hub.py src/db_verify.py src/scrapers/base.py src/scrapers/adapters.py src/scrapers/test_stack.py src/scrapers/bd_hardware.py src/scrapers/benchmark_ingest.py src/compatibility_engine.py src/catalog_classifier.py`
+* **Python Syntax Check:** `python -m py_compile src/server.py src/db_export.py src/db_hub.py src/db_verify.py src/scrapers/base.py src/scrapers/adapters.py src/scrapers/test_stack.py src/scrapers/bd_hardware.py src/scrapers/benchmark_ingest.py src/scrapers/multi_site_components.py src/scrapers/multi_site_games.py src/scrapers/multi_site_ai.py src/compatibility_engine.py src/catalog_classifier.py`
 * **JSON Schema Verification:** `python -c "import json; json.load(open('data/hardware/hardware_specs.json', encoding='utf-8')); json.load(open('data/games/games.json', encoding='utf-8')); json.load(open('data/ai/models_master.json', encoding='utf-8')); json.load(open('data/cpus/cpus.json', encoding='utf-8')); json.load(open('data/pc_components/components.json', encoding='utf-8')); json.load(open('data/ai/taxonomy.json', encoding='utf-8')); json.load(open('data/games/taxonomy.json', encoding='utf-8'))"`
 * **Local Verification Runner:** `powershell -NoProfile -ExecutionPolicy Bypass -File .\local-ci.ps1`
 
@@ -57,3 +57,6 @@
 * **TRAP 7:** SQLite parameter binding rejects Python dictionaries; serialize objects with `json.dumps()` — see `docs/DECISIONS_AND_TRAPS.md` -> `[TRAP: SQLite-Dict-Parameter-Binding-Error]`.
 * **TRAP 8:** Budget motherboards lack USB-C DP-Alt-Mode; route drawing pen displays via 3-in-1 HDMI + USB to GPU — see `docs/DECISIONS_AND_TRAPS.md` -> `[TRAP: Motherboard-USB-C-DP-Alt-Mode-Absence]`.
 * **TRAP 9:** SMR hard drives cause severe IO-wait stutter and game freezes; keep games on NVMe SSD or CMR drives — see `docs/DECISIONS_AND_TRAPS.md` -> `[TRAP: SMR-HDD-Gaming-IOWait-Freezes]`.
+* **TRAP 10:** Sanitize JSON lowercase booleans to Python `True`/`False` to prevent `NameError: name 'true' is not defined` — see `docs/DECISIONS_AND_TRAPS.md` -> `[TRAP: JavaScript-Booleans-In-Python-Dictionaries]`.
+* **TRAP 11:** Flag price spreads >20% across retailers as `spread_alert` for SKU mismatch check — see `docs/DECISIONS_AND_TRAPS.md` -> `[TRAP: Multi-Site-Retailer-Price-Spread-SKU-Mismatch]`.
+* **TRAP 12:** Filter YouTube description regex to benchmark keywords to prevent refresh rates from corrupting FPS — see `docs/DECISIONS_AND_TRAPS.md` -> `[TRAP: YouTube-Description-FPS-Regex-Noise]`.

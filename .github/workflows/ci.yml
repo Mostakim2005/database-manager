@@ -31,7 +31,7 @@ jobs:
       - name: 1. Python Syntax Check
         run: |
           set -o pipefail
-          python -m py_compile src/server.py src/db_export.py src/db_hub.py src/db_verify.py src/scrapers/base.py src/scrapers/adapters.py src/scrapers/test_stack.py src/scrapers/bd_hardware.py src/scrapers/benchmark_ingest.py src/compatibility_engine.py src/catalog_classifier.py 2>&1 | tee .ci-logs/01-syntax.log
+          python -m py_compile src/server.py src/db_export.py src/db_hub.py src/db_verify.py src/scrapers/base.py src/scrapers/adapters.py src/scrapers/test_stack.py src/scrapers/bd_hardware.py src/scrapers/benchmark_ingest.py src/scrapers/multi_site_components.py src/scrapers/multi_site_games.py src/scrapers/multi_site_ai.py src/compatibility_engine.py src/catalog_classifier.py 2>&1 | tee .ci-logs/01-syntax.log
 
       - name: 2. JSON Schema Validation
         run: |
