@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Intelligence vs. Cost per Task Strategic Visualizer</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card-bg: #161b22;
+      --border: #30363d;
+      --text: #f0f6fc;
+      --text-muted: #8b949e;
+      --accent: #58a6ff;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background: var(--bg); color: var(--text); padding: 24px; }
+    header { max-width: 1600px; margin: 0 auto 20px; }
+    h1 { font-size: 26px; font-weight: 800; margin-bottom: 6px; }
+    p.sub { color: var(--text-muted); font-size: 14px; margin-bottom: 16px; }
+    
+    .toolbar {
+      display: flex; gap: 14px; align-items: center; background: var(--card-bg);
+      padding: 12px 18px; border-radius: 10px; border: 1px solid var(--border); margin-bottom: 20px;
+    }
+    .btn {
+      background: #21262d; border: 1px solid #363b42; color: #c9d1d9; padding: 6px 14px;
+      border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600;
+    }
+    .btn.active { background: #1f6feb; border-color: #388bfd; color: #fff; }
+    
+    .chart-box {
+      max-width: 1600px; margin: 0 auto; background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 12px; padding: 12px; overflow-x: auto; box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+    svg { display: block; max-width: 100%; height: auto; }
+    
+    .stats-grid {
+      max-width: 1600px; margin: 24px auto 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+    }
+    .stat-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+    .stat-card h3 { font-size: 13px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; }
+    .stat-card .val { font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 4px; }
+    .stat-card p { font-size: 12px; color: #8b949e; line-height: 1.4; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>AI Model Intelligence vs. Cost per Task Strategic Matrix</h1>
+  <p class="sub">Artificial Analysis Intelligence Index v5 (Y-Axis) vs. Real-World Blended Cost per Task (X-Axis Logarithmic Scale)</p>
+  
+  <div class="toolbar">
+    <span style="font-size:13px; color:var(--text-muted);">Quick Filter:</span>
+    <button class="btn active" onclick="location.reload()">All 37 Models</button>
+    <a href="../assets/tierlist/intelligence_cost_chart.svg" download class="btn" style="text-decoration:none; margin-left:auto;">📥 Download Raw SVG</a>
+    <a href="../assets/tierlist/intelligence_cost_chart.png" download class="btn" style="text-decoration:none;">🖼️ Download PNG Poster</a>
+    <a href="index.html" class="btn" style="text-decoration:none; background:#238636; color:#fff;">📋 Switch to 5-Point Tier List</a>
+  </div>
+</header>
+
+<main class="chart-box">
+  <!-- Embedded Vector SVG Chart -->
+  <object data="../assets/tierlist/intelligence_cost_chart.svg" type="image/svg+xml" width="100%" style="min-height: 850px;"></object>
+</main>
+
+<section class="stats-grid">
+  <div class="stat-card" style="border-left: 4px solid #8B5CF6;">
+    <h3>Frontier Category [50 - 60]</h3>
+    <div class="val">Opus 5.5 vs. Astra</div>
+    <p>Claude Opus 5.5 Max achieves top score (58), but costs $8.50/task. Dropping to GPT-6 Astra High (55) saves 44% at $4.80/task.</p>
+  </div>
+  <div class="stat-card" style="border-left: 4px solid #3B82F6;">
+    <h3>Argon Frontier Sweet Spot</h3>
+    <div class="val">Gemini 4 Argon ($0.85)</div>
+    <p>Scores 50 points (tied with GPT-6.1 Sol High and Muse Wonder Full), but costs 60% less per task than Sol High ($2.10).</p>
+  </div>
+  <div class="stat-card" style="border-left: 4px solid #10B981;">
+    <h3>The 15x Flash Arbitrage</h3>
+    <div class="val">Gemini 3.8 Flash vs Sonnet</div>
+    <p>Gemini 3.8 Flash Med (30 pts, $0.015) matches Claude Sonnet 5.5 Med (30 pts, $0.22) at 1/15th the price.</p>
+  </div>
+  <div class="stat-card" style="border-left: 4px solid #64748B;">
+    <h3>Hyper-Efficiency King</h3>
+    <div class="val">DeepSeek V4.1 Flash</div>
+    <p>Reaches 32 intelligence index at only $0.012/task at Max effort, delivering the highest index points per cent in the industry.</p>
+  </div>
+</section>
+
+</body>
+</html>

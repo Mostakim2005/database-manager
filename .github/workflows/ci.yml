@@ -1,0 +1,156 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Prepare CI log directory
+        run: mkdir -p .ci-logs
+
+      - name: 1. Python Syntax Check
+        run: |
+          set -o pipefail
+          python -m py_compile src/server.py src/db_export.py 2>&1 | tee .ci-logs/01-syntax.log
+
+      - name: 2. JSON Schema Validation
+        run: |
+          set -o pipefail
+          python -c "import json; json.load(open('data/hardware/hardware_specs.json', encoding='utf-8')); json.load(open('data/games/games.json', encoding='utf-8')); json.load(open('data/ai/models_master.json', encoding='utf-8'))" 2>&1 | tee .ci-logs/02-schema.log
+
+      - name: 3. SQLite Compilation Pipeline
+        run: |
+          set -o pipefail
+          python src/db_export.py 2>&1 | tee .ci-logs/03-sqlite-compile.log
+
+      - name: 4. SQLite Verification
+        run: |
+          set -o pipefail
+          python src/db_export.py --verify 2>&1 | tee .ci-logs/04-sqlite-verify.log
+
+      - name: 5. CLI Smoke Test
+        run: |
+          set -o pipefail
+          python src/server.py --cli 2>&1 | tee .ci-logs/05-cli-smoke.log
+
+      - name: 6. Documentation Parity Check
+        run: |
+          set -o pipefail
+          python -c "import pathlib, re; docs=[p.read_text(encoding='utf-8') for p in pathlib.Path('docs').glob('*.md')]; assert all(re.search(r'^### \[', d, re.M) for d in docs)" 2>&1 | tee .ci-logs/06-doc-parity.log
+
+      - name: Generate patch-ready CI failure report
+        if: failure()
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import datetime
+          import os
+          import pathlib
+          import re
+          import subprocess
+
+          repo_slug = os.environ.get("GITHUB_REPOSITORY", "unknown/repo").split("/")[-1]
+          repo_title = " ".join(w.capitalize() for w in re.split(r"[-_]+", repo_slug) if w) or repo_slug
+          report_dir = pathlib.Path(".ci-report")
+          report_dir.mkdir(exist_ok=True)
+          report_name = f"{repo_title} - CI Failure Report.md"
+          report_path = report_dir / report_name
+
+          def run_cmd(cmd):
+              proc = subprocess.run(cmd, capture_output=True, text=True)
+              return proc.stdout.strip()
+
+          branch = os.environ.get("GITHUB_REF_NAME", "unknown")
+          sha = os.environ.get("GITHUB_SHA", "unknown")
+          short_sha = sha[:8]
+          run_url = f"{os.environ.get('GITHUB_SERVER_URL', 'https://github.com')}/{os.environ.get('GITHUB_REPOSITORY', '')}/actions/runs/{os.environ.get('GITHUB_RUN_ID', '')}"
+          timestamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+
+          commit_msg = run_cmd(["git", "log", "-1", "--pretty=%s"])
+          diff_stat = run_cmd(["git", "show", "--stat", "--no-color", "--format=", "HEAD"])
+          diff_patch = run_cmd(["git", "show", "--no-color", "--format=", "HEAD"])
+          if len(diff_patch) > 12000:
+              diff_patch = diff_patch[:12000] + "\n... [diff truncated for size; inspect full commit in repo] ..."
+
+          log_dir = pathlib.Path(".ci-logs")
+          log_files = sorted(log_dir.glob("*.log")) if log_dir.is_dir() else []
+          last_log_name = log_files[-1].name if log_files else "none"
+
+          sections = [
+              f"# {repo_title} - CI Failure Report",
+              "",
+              "## Metadata",
+              "| Field | Value |",
+              "| :--- | :--- |",
+              f"| **Repository** | `{os.environ.get('GITHUB_REPOSITORY', '')}` (`{repo_title}`) |",
+              f"| **Branch / Ref** | `{branch}` |",
+              f"| **Commit** | `{short_sha}` (`{sha}`) — {commit_msg} |",
+              f"| **Job** | `{os.environ.get('GITHUB_JOB', 'verify')}` |",
+              f"| **Last Executed Stage Log** | `{last_log_name}` |",
+              f"| **Workflow Run** | {run_url} |",
+              f"| **Generated** | {timestamp} |",
+              "",
+              "## Triggering Commit Summary (`git show --stat`)",
+              "```text",
+              diff_stat or "(no diff stat available)",
+              "```",
+              "",
+              "## Stage Logs (Most Recent Last)",
+          ]
+
+          if not log_files:
+              sections.append("*(no stage log files captured in `.ci-logs/`)*")
+          else:
+              for lf in log_files:
+                  content = lf.read_text(encoding="utf-8", errors="replace").strip()
+                  sections.append(f"### Stage: `{lf.name}`")
+                  sections.append("```text")
+                  sections.append(content or "(empty log)")
+                  sections.append("```")
+                  sections.append("")
+
+          sections.extend([
+              "## Triggering Commit Full Patch (`git show`)",
+              "```diff",
+              diff_patch or "# (no diff available)",
+              "```",
+              "",
+              "## Actionable Next Steps",
+              f"1. Download `{report_name}` directly to `%USERPROFILE%\\Downloads\\`.",
+              f"2. Inspect the failing stage above and reproduce locally via `local-ci.ps1`.",
+              "3. Commit the fix and push to re-trigger CI.",
+          ])
+
+          report_path.write_text("\n".join(sections), encoding="utf-8")
+          print(f"Generated patch-ready failure report at: {report_path}")
+          PY
+
+      - name: Upload patch-ready CI failure report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-failure-report
+          path: .ci-report/*.md
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14

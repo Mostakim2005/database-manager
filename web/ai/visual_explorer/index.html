@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Architecture & Ecosystem Explorer</title>
+  <!-- Tailwind CSS Core -->
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <!-- Decoupled Modular Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="min-h-screen flex flex-col bg-slate-950 text-slate-100">
+
+  <!-- Top Navigation Header -->
+  <header class="border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-50 px-6 py-3.5 flex flex-wrap items-center justify-between gap-4">
+    
+    <!-- Branding & Mode Subtitle -->
+    <div class="flex items-center space-x-3">
+      <div class="w-9 h-9 rounded-lg bg-gradient-to-tr from-blue-600 via-indigo-600 to-purple-600 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/20">
+        AI
+      </div>
+      <div>
+        <h1 class="text-base font-bold text-white flex items-center gap-2">
+          AI Architecture & Ecosystem Explorer
+          <span class="text-[10px] px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30 font-mono">v2.0 Modular</span>
+        </h1>
+        <p id="modeSubtitle" class="text-xs text-slate-400">
+          ⚡ Simple View: Core journey from AI to Claude Code, Antigravity, MCP & Agents.
+        </p>
+      </div>
+    </div>
+
+    <!-- Center Control: Simple vs Complex Mode Toggle -->
+    <div class="flex items-center gap-2">
+      <div class="mode-toggle">
+        <button id="btnSimpleMode" onclick="setViewMode('simple')" class="mode-toggle-btn active">
+          ⚡ Simple View
+        </button>
+        <button id="btnComplexMode" onclick="setViewMode('complex')" class="mode-toggle-btn">
+          🔬 Complex Mode
+        </button>
+      </div>
+    </div>
+
+    <!-- Right Controls: Obsidian Markdown & Standalone Sub-page links -->
+    <div class="flex items-center gap-3 text-xs">
+      <a href="../../docs/guides/ai_ecosystem_map.md" target="_blank" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 flex items-center gap-1.5 transition">
+        <span>📖 Open in Obsidian</span>
+      </a>
+      <a id="directFileLink" href="hierarchy.html" target="_blank" class="text-indigo-400 hover:text-indigo-300 transition">
+        Open hierarchy.html Directly ↗
+      </a>
+    </div>
+
+  </header>
+
+  <!-- Clean Direct Tab Navigation (Option A) -->
+  <nav class="border-b border-slate-800 bg-slate-900/50 px-6 py-2 flex items-center gap-2 overflow-x-auto text-sm">
+    <button id="tab-hierarchy" onclick="setActiveTab('hierarchy')" class="tab-btn px-3.5 py-1.5 rounded-lg font-medium text-xs md:text-sm bg-blue-600 text-white transition shadow-sm">
+      Hierarchy
+    </button>
+    <button id="tab-agent-stack" onclick="setActiveTab('agent-stack')" class="tab-btn px-3.5 py-1.5 rounded-lg font-medium text-xs md:text-sm text-slate-400 hover:text-white hover:bg-slate-800 transition">
+      Agent Stack
+    </button>
+    <button id="tab-pipeline" onclick="setActiveTab('pipeline')" class="tab-btn px-3.5 py-1.5 rounded-lg font-medium text-xs md:text-sm text-slate-400 hover:text-white hover:bg-slate-800 transition">
+      Pipeline
+    </button>
+    <button id="tab-ecosystem" onclick="setActiveTab('ecosystem')" class="tab-btn px-3.5 py-1.5 rounded-lg font-medium text-xs md:text-sm text-slate-400 hover:text-white hover:bg-slate-800 transition">
+      Ecosystem
+    </button>
+    <button id="tab-builder-studio" onclick="setActiveTab('builder-studio')" class="tab-btn px-3.5 py-1.5 rounded-lg font-medium text-xs md:text-sm text-slate-400 hover:text-white hover:bg-slate-800 transition">
+      Builder Studio
+    </button>
+  </nav>
+
+  <!-- Dynamic Content Viewport -->
+  <main class="flex-1 flex flex-col p-4 md:p-6 bg-slate-950">
+    <div class="flex-1 w-full rounded-2xl border border-slate-800 bg-slate-900/40 shadow-2xl overflow-hidden flex flex-col min-h-[680px]">
+      <div id="contentViewport" class="flex-1">
+        <!-- Rendered dynamically by app.js based on activeTab and viewMode -->
+      </div>
+    </div>
+  </main>
+
+  <!-- Modular Codebase Footer -->
+  <footer class="border-t border-slate-800/80 bg-slate-900/80 px-6 py-3 text-xs text-slate-500 flex flex-wrap items-center justify-between gap-4">
+    <div class="flex items-center gap-2 font-mono">
+      <span>Modular Codebase:</span>
+      <span class="text-slate-400 font-semibold">styles.css</span> •
+      <span class="text-slate-400 font-semibold">data.js</span> •
+      <span class="text-slate-400 font-semibold">app.js</span>
+    </div>
+    <div class="text-slate-400">
+      Obsidian Anchor: <a href="../../docs/guides/ai_ecosystem_map.md#table-of-contents" class="text-indigo-400 hover:underline">ai_ecosystem_map.md</a>
+    </div>
+  </footer>
+
+  <!-- Modular Application Scripts -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

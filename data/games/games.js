@@ -1,0 +1,1851 @@
+"use strict";
+/* ==========================================================================
+   GameRank — data/games.js
+   Curated dataset of 35 RTS-family games, researched October 2026.
+   Sources are listed per game under the `sources` key.
+
+   Field guide (full definitions in data/schema.md):
+   - genre:        "classic-rts" | "4x-grand" | "hybrid-td"
+   - priceModel:   "f2p" | "paid"        priceUsd: 0 for free games
+   - campaign:     { exists, freeOrPaid: "free"|"paid"|"paid-dlc"|"n/a",
+                     quality: 0-10, notes }
+   - ai:           { score: 0-10 (campaign/skirmish/enemy AI), notes }
+   - setting:      "ancient" | "realistic-modern" | "futuristic" | "fantasy"
+   - graphics:     { score: 0-10, notes }
+   - players:      { status, notes }  n/a-sp = single-player only
+   - specs:        { min/recommended { cpu, gpu, ram, storage, os } } — verbatim store-page text
+   - size:         { download, install }  installGB: numeric approx
+   - gpuMinTier / gpuRecTier: 0–10 GPU class scale. Vega 7 iGPU ≈ tier 3 (GTX 750 Ti class).
+   - cpuDemand:    "low"|"medium"|"high" — simulation/mass-unit CPU load
+   - compatNote:   researcher's 1-line hand verdict for the target PC
+   - bench:        { playable:{fps,settings}, sixty:{fps,settings}, source[] }
+                   1080p performance on Vega 7/8-class iGPU; both presets aim at
+                   ~30–40 fps ("playable") and ~60 fps ("sixty"). "(est.)" marks
+                   reasoned estimates from nearby hardware.
+   - stores:       [{ name, url }] — where the game is sold/launched in 2026
+   - storeNote:    launcher / client / storefront nuances
+   ========================================================================== */
+
+window.GAMES = [
+
+  /* ============================ CLASSIC RTS ============================ */
+
+  {
+    id: "starcraft-2",
+    name: "StarCraft II",
+    genre: "classic-rts",
+    priceModel: "f2p",
+    priceUsd: 0,
+    priceNote: "MP + Wings of Liberty campaign free; Campaign Collection (HotS + LotV + Nova Covert Ops) $39.99",
+    campaign: { exists: true, freeOrPaid: "free (WoL free; HotS/LotV/Nova paid)", quality: 9,
+      notes: "Three acclaimed campaigns with huge mission variety (Metacritic 93/86/88)." },
+    ai: { score: 7, notes: "Skirmish AI has many difficulty tiers incl. cheater AI; solid but predictable at high skill." },
+    setting: "futuristic",
+    graphics: { score: 7, notes: "Clean 2010-era 3D; aged but sharp and very readable." },
+    players: { status: "active", notes: "Healthy ladder, arcade and esports scene; est. 100k+ monthly players, no official concurrency." },
+    specs: {
+      min: { cpu: "Intel Core 2 Duo / AMD Athlon 64 X2 5600+", gpu: "GeForce 7600 GT / Radeon HD 2600 XT / Intel HD 3000", ram: "2 GB", storage: "30 GB HD space", os: "Windows 7/8/10" },
+      rec: { cpu: "Intel Core i5 / AMD FX series", gpu: "GTX 650 / HD 7790", ram: "4 GB", storage: "30 GB HD space", os: "Windows 10 64-bit" }
+    },
+    size: { download: "~30 GB", install: "~30 GB" }, installGB: 30,
+    storageAdvice: { verdict: "hdd-fine", note: "~30 GB but the client preloads most data; HDD only adds a few seconds per mission/map start. SSD trims 10-20s off boots, no FPS impact." },
+    cpuDemand: "high",
+    gpuMinTier: 1, gpuRecTier: 2.5,
+    compatNote: "Runs very well on Vega 7 at medium-high settings (Intel HD 3000 is a minimum spec). CPU-heavy in big battles but a 6-core Zen 3 handles it.",
+    bench: {
+      playable: { fps: "55–70 fps at 1080p Low–Medium; dips to 30–40 in big 4v4 endgame armies (CPU-bound)",
+        settings: "Low–Medium preset, shadows/ambient effects Low, 100% render scale." },
+      sixty: { fps: "60+ fps at 1080p Medium realistic in 1v1/2v2; massive 8-player maps drop to 40s",
+        settings: "Medium preset, 100% render scale, shadows Low." },
+      source: ["https://www.build-gaming-computers.com/starcraft2-pc-build.html", "https://github.com/iXit/Mesa-3D/issues/333"]
+    },
+    stores: [{ name: "Battle.net (Blizzard)", url: "https://starcraft2.blizzard.com/" }],
+    storeNote: "Battle.net client required; no Steam/Epic version exists. F2P covers WoL campaign, co-op and ladder.",
+    quality30: {fps1080: "40–55 typical; big battles 30–35 (est.)",settings1080: "Medium preset; shadows Medium, AA Low, effects Low",fps900: "50–65 typical; battles ~40 (est.)",settings900: "High preset, shadows Medium, effects Low–Medium (est.)"},
+    hddSp: {loads: "Campaign missions load once: ~15–40s HDD vs 5–15s SSD (est.)",fpsEffect: "None after load (est.)",stutter: "none",verdict: "fine",note: "Whole mission is memory-resident; no disk streaming during play."},
+    upgradeTiers: {gtx1660s: "Ultra 1080p ~80–120 fps; max-population battles still CPU-bound (est.)",rtx2060: "Ultra 1080p 120+ fps; same CPU-sim ceiling (est.)",rx6600: "Ultra 1080p 100–150 fps; NVIDIA-matched tier (est.)"},
+    sources: [
+      "https://us.shop.battle.net/en-us/product/starcraft-ii",
+      "https://us.support.blizzard.com/en/article/647",
+      "https://news.blizzard.com/en-us/article/21173629/starcraft-ii-going-free-to-play-explained",
+      "https://en.wikipedia.org/wiki/StarCraft_II",
+      "https://activeplayer.io/starcraft-2/"
+    ]
+  },
+
+  {
+    id: "aoe2-de",
+    name: "Age of Empires II: Definitive Edition",
+    genre: "classic-rts",
+    priceModel: "paid",
+    priceUsd: 19.99,
+    priceNote: "Base includes 3 expansions; newest campaign DLCs extra ($7.99–$15.99)",
+    campaign: { exists: true, freeOrPaid: "paid (base has 229 missions; latest campaigns are paid DLC)", quality: 9,
+      notes: "Enormous remastered classic campaign library, incl. free Chronicles mods." },
+    ai: { score: 7, notes: "DE AI is competent for casual play with readable macro; no match for skilled humans." },
+    setting: "ancient",
+    graphics: { score: 8, notes: "4K sprite/terrain remaster; optional Enhanced Graphics Pack." },
+    players: { status: "very-active", notes: "~10k playing now, ~18k 30-day avg, 30k+ peaks (SteamCharts, Oct 2026)." },
+    specs: {
+      min: { cpu: "Intel Core 2 Duo / AMD Athlon 64 X2 5600+", gpu: "GT 420 / HD 6850 / Intel HD 4000 (2 GB VRAM)", ram: "4 GB", storage: "15 GB available", os: "Windows 10 64-bit" },
+      rec: { cpu: "2.4 GHz Intel i5 or equivalent", gpu: "GTX 650 / HD 5850", ram: "8 GB", storage: "15 GB available", os: "Windows 10 64-bit" }
+    },
+    size: { download: "~7 GB base / ~12 GB with graphics pack", install: "~15 GB" }, installGB: 15,
+    storageAdvice: { verdict: "hdd-fine", note: "All gameplay assets live in RAM; the optional 4K Enhanced Graphics Pack (~5 GB) just makes HDD first-boot/decompress slower. SSD mainly speeds setup + boots." },
+    cpuDemand: "medium",
+    gpuMinTier: 1.5, gpuRecTier: 2.5,
+    compatNote: "Vega 7 comfortably playable at low-medium 1080p (HD 4000 is min spec); 15 GB is HDD-friendly.",
+    bench: {
+      playable: { fps: "50–60+ fps at 1080p Low–Medium in normal play; 25–35 fps in 8-player late-game massed fights (CPU sim bottleneck)",
+        settings: "Low/Medium preset, 100% scale, water/reflections Low; very light remaster." },
+      sixty: { fps: "Solid ~60 fps at 1080p Low–Medium in 1v1–4v4 mid-game (est.); big battles stay CPU-bound regardless",
+        settings: "Low preset, 100% scale; unit count matters more than settings." },
+      source: ["https://pcgamebenchmarks.com/game/age-of-empires-ii-definitive-edition-50655", "https://steamcommunity.com/app/813780/discussions/0/1645418448930329679"]
+    },
+    stores: [{ name: "Steam", url: "https://store.steampowered.com/app/813780/Age_of_Empires_II_Definitive_Edition/" }],
+    storeNote: "Also on Microsoft Store and in PC Game Pass; Steam↔Xbox crossplay supported.",
+    quality30: {fps1080: "45–60 casual; 30–40 in 4-player max-pop late game (est.)",settings1080: "Medium preset, unit detail Medium, shadows off, water Low",fps900: "55–70 casual; holds ~35 in big fights (est.)",settings900: "High preset, shadows off, effects Medium (est.)"},
+    hddSp: {loads: "Scenario/campaign load +20–60s on HDD (est.)",fpsEffect: "None during play (est.)",stutter: "none",verdict: "fine",note: "Lightweight assets; worst case is a slow initial map generation."},
+    upgradeTiers: {gtx1660s: "Ultra 1080p, locked 60 everywhere but max-pop endgames (est.)",rtx2060: "Ultra 1080p/even 1440p; sim-bound in huge fights regardless (est.)",rx6600: "Ultra 1080p, same profile as NVIDIA tier (est.)"},
+    sources: [
+      "https://store.steampowered.com/app/813780/",
+      "https://steamcharts.com/app/813780",
+      "https://www.metacritic.com/game/pc/age-of-empires-ii-definitive-edition"
+    ]
+  },
+
+  {
+    id: "aoe4",
+    name: "Age of Empires IV",
+    genre: "classic-rts",
+    priceModel: "paid",
+    priceUsd: 19.99,
+    priceNote: "Digital Deluxe $25.99; campaign/pantheon DLC packs $7.50–$19.99",
+    campaign: { exists: true, freeOrPaid: "paid (4 campaigns / 35 missions included; Sultans Ascend + newer packs are paid)", quality: 8,
+      notes: "Polished, teachable campaigns with documentary-style interludes." },
+    ai: { score: 7, notes: "Decent skirmish AI with distinct difficulty personalities; fine for casual offline play." },
+    setting: "ancient",
+    graphics: { score: 9, notes: "Excellent 4K historical visuals with dynamic maps." },
+    players: { status: "active", notes: "~4.8k playing now, ~8.2k 30-day avg, ~17k daily peaks (SteamCharts, Oct 2026)." },
+    specs: {
+      min: { cpu: "Intel Core i5-6300U / AMD Ryzen 5 2400G (AVX required)", gpu: "Intel HD 520 / Radeon RX Vega 11", ram: "8 GB", storage: "50 GB available", os: "Windows 10/11 64-bit" },
+      rec: { cpu: "3.6 GHz 6-core i5 / Ryzen 5 1600 (AVX required)", gpu: "GTX 970 / RX 570 (4 GB VRAM)", ram: "16 GB", storage: "50 GB available", os: "Windows 10/11 64-bit" }
+    },
+    size: { download: "~35 GB", install: "~50 GB" }, installGB: 50,
+    storageAdvice: { verdict: "ssd-strongly-advised", note: "50 GB asset pool streams skins/terrain mid-match. On HDD expect 1-3 min boots, slow mission starts and pop-in; SSD removes most of it. Runs OK but this is the bigger HDD cost of the classic batch." },
+    cpuDemand: "high",
+    gpuMinTier: 2, gpuRecTier: 5.5,
+    compatNote: "Min spec literally targets an Intel HD 520 iGPU, so Vega 7 works at low settings — but a 50 GB install loads slowly on HDD and big late games stutter.",
+    bench: {
+      playable: { fps: "30–40 fps at 1080p Low on Vega 8-class (ext., Ryzen 2500U test); 720p or 85% scale gives steadier 40s",
+        settings: "Image Quality Low (auto minimum-spec mode: shadows Off, physics Off), render scale ~85%." },
+      sixty: { fps: "Not realistic natively; ~60 fps at 720p Low with 66–80% render scale; still dips in big sieges",
+        settings: "720p upscaled (or 1080p @ ~70% scale), Low, shadows/physics/AA Off." },
+      source: ["https://www.youtube.com/watch?v=jwhzK6wotLM", "https://www.digitaltrends.com/computing/age-of-empires-4-performance-best-settings-high-frame-rate", "https://www.ghostarrow.com/age-of-empires-4-fps-boost-guide"]
+    },
+    stores: [
+      { name: "Steam", url: "https://store.steampowered.com/app/1466860/" },
+      { name: "Microsoft Store / Xbox", url: "https://www.xbox.com/en-us/games/store/age-of-empires-iv-anniversary-edition/9N94NCGM1Q2N" }
+    ],
+    storeNote: "Anniversary Edition is the current SKU; in PC Game Pass; Xbox Play Anywhere.",
+    quality30: {fps1080: "Skirmish ~40; big AI battles dip to 25–30 (est.)",settings1080: "Medium preset, textures High, shadows Low, physics/effects Low, FSR Balanced",fps900: "50–60 typical (est.)",settings900: "Medium–High preset, shadows Medium, effects Low (est.)"},
+    hddSp: {loads: "Campaign/skirmish loads +1–2 min on HDD vs SSD (est.)",fpsEffect: "Minor: texture pop-in on fast camera pans (est.)",stutter: "moderate",verdict: "slower-loads",note: "Dev specs call for SSD; long loads and occasional hitches in big battles."},
+    upgradeTiers: {gtx1660s: "High preset 1080p ~50–70 fps normal play; late-game CPU-bound (est.)",rtx2060: "High/Ultra 1080p ~60–80 fps; sim stalls still cap big fights (est.)",rx6600: "High/Ultra 1080p ~70–90 fps (est.)"},
+    sources: [
+      "https://store.steampowered.com/app/1466860/",
+      "https://steamcharts.com/app/1466860",
+      "https://www.metacritic.com/game/pc/age-of-empires-iv"
+    ]
+  },
+
+  {
+    id: "aom-retold",
+    name: "Age of Mythology: Retold",
+    genre: "classic-rts",
+    priceModel: "paid",
+    priceUsd: 29.99,
+    priceNote: "Standard (often ~$14.99 on sale / on Game Pass); Premium $49.99; new expansions are paid DLC",
+    campaign: { exists: true, freeOrPaid: "paid (Greek/Egyptian/Norse ~50 missions included; Immortal Pillars + Heavenly Spear are paid DLC)", quality: 8,
+      notes: "Loving retelling of the classic saga; great VO and pacing." },
+    ai: { score: 7, notes: "Skirmish AI is competent at casual difficulty with visible scripting; fine for offline play." },
+    setting: "fantasy",
+    graphics: { score: 8, notes: "Vibrant modern 3D remaster; well lit, good unit readability." },
+    players: { status: "small", notes: "~1k playing now, ~1.3k daily peak, 25.8k all-time peak (Oct 2026)." },
+    specs: {
+      min: { cpu: "Intel i3-4130 / AMD FX 4350 2.4 GHz+ (AVX required)", gpu: "GTX 645 / Radeon Vega 8 / Intel Iris 550", ram: "8 GB", storage: "25 GB available", os: "Windows 10 64-bit" },
+      rec: { cpu: "3.6 GHz i5 or equivalent (AVX)", gpu: "GTX 970 / RX 570", ram: "16 GB", storage: "25 GB available", os: "Windows 10 64-bit" }
+    },
+    size: { download: "~20 GB", install: "~25 GB" }, installGB: 25,
+    storageAdvice: { verdict: "ssd-helps", note: "25 GB; HDD = slower first-launch asset/shader compile and campaign mission loads. No FPS impact after load; SSD is a comfort upgrade." },
+    cpuDemand: "medium",
+    gpuMinTier: 3, gpuRecTier: 5.5,
+    compatNote: "Vega 8 is in the minimum spec, so your Vega 7 sits right at the edge: expect medium/low settings for playable FPS; 25 GB on HDD is tolerable.",
+    bench: {
+      playable: { fps: "(est.) 25–35 fps at 1080p Lowest — Vega 8 is exactly the listed minimum GPU (GTX 645 class); 720p gives steadier 40s",
+        settings: "Lowest preset (shadows off, particles low), render scale 80–90%." },
+      sixty: { fps: "(est.) Not realistic native 1080p; ~60 fps needs 720p Lowest + ~80% scale; big battles drop to 45–55",
+        settings: "720p, Lowest preset, ~80% render scale, shadows/effects off." },
+      source: ["https://en.gamegpu.com/test-gpu/rts-strategii/age-of-mythology-retold-test-gpu-cpu", "https://fpshq.com/en/settings/age-of-mythology-retold/mid/"]
+    },
+    stores: [
+      { name: "Steam", url: "https://store.steampowered.com/app/1938690/Age_of_Mythology_Retold/" },
+      { name: "Microsoft Store / Xbox", url: "https://www.xbox.com/en-us/games/store/age-of-mythology-retold/9NPKGVXPFRSX" }
+    ],
+    storeNote: "In PC Game Pass; Xbox Play Anywhere; Premium Edition bundles the expansions.",
+    quality30: {fps1080: "~30 only with heavy tuning; 25–35 range (est.)",settings1080: "Low preset, textures Medium, shadows off, FSR Performance, unit detail trimmed",fps900: "35–45 typical (est.)",settings900: "Low–Medium preset, textures Medium, FSR Balanced (est.)"},
+    hddSp: {loads: "Skirmish/campaign loads noticeably slower; +1–3 min (est.)",fpsEffect: "Assets stream continuously; occasional hitches as disk catches up (est.)",stutter: "moderate",verdict: "stutter-risk",note: "God powers + big armies spike loads; manifest asks for 25 GB SSD."},
+    upgradeTiers: {gtx1660s: "Medium 1080p ~50–70 fps; High needs trims in 4-player (est.)",rtx2060: "High 1080p ~60–90 fps (est.)",rx6600: "High 1080p ~60–90 fps; upscaling headroom for max-pop god-power storms (est.)"},
+    sources: [
+      "https://store.steampowered.com/app/1934680/Age_of_Mythology_Retold/",
+      "https://steamraw.com/app/1934680/age-of-mythology-retold/",
+      "https://www.metacritic.com/game/pc/age-of-mythology-retold"
+    ]
+  },
+
+  {
+    id: "coh3",
+    name: "Company of Heroes 3",
+    genre: "classic-rts",
+    priceModel: "paid",
+    priceUsd: 59.99,
+    priceNote: "Frequent −75% sales (~$15); new factions / battlegroups are paid DLC",
+    campaign: { exists: true, freeOrPaid: "paid (Italian dynamic campaign + North Africa included; factions DLC paid)", quality: 6,
+      notes: "North Africa is solid; the dynamic Italian campaign was contentious and heavily patched since 2023." },
+    ai: { score: 6, notes: "Skirmish AI plays competently but telegraphs its attacks; late-game cheese streams, and dynamic-campaign AI coordination was criticized." },
+    setting: "realistic-modern",
+    graphics: { score: 7, notes: "Busy WW2 look with good lighting; VRAM-hungry on high textures." },
+    players: { status: "active", notes: "~2k playing now, ~5.1k daily peak; mixed recent-review sentiment (SteamCharts, Oct 2026)." },
+    specs: {
+      min: { cpu: "Intel i5 6th-gen / AMD Ryzen 4 cores @3 GHz", gpu: "GTX 950 / R9 370 or equivalent", ram: "8 GB", storage: "40 GB available", os: "Windows 10" },
+      rec: { cpu: "Intel i7 8th-gen / AMD Ryzen 8 cores @3 GHz", gpu: "GTX 1660 / RX 5600", ram: "16 GB", storage: "40 GB available", os: "Windows 10 64-bit" }
+    },
+    size: { download: "~26 GB", install: "~32 GB" }, installGB: 32,
+    storageAdvice: { verdict: "ssd-strongly-advised", note: "Streams world assets in the Italian dynamic campaign; HDD shows texture pop-in and long scenario loads. Frequent large patches hurt more from slow disk IO. Officially lists SSD under recommended setup." },
+    cpuDemand: "high",
+    gpuMinTier: 4, gpuRecTier: 6.5,
+    compatNote: "GTX 950 minimum is roughly Vega 7 class: barely playable at low settings with everything turned down; 40 GB of assets is painful on HDD.",
+    bench: {
+      playable: { fps: "25–35 fps at 1080p Lowest (NotebookCheck: laptop Vega 7 ≈ 30 fps, Vega 8 5000-series ≈ 27 fps at 1080p low); 720p reaches the 40s; big battles below 25",
+        settings: "Low preset, render scale 80–90%, shadows/physics low; or 720p Low for stability." },
+      sixty: { fps: "(est.) Not realistic at 1080p on iGPU; ~60 only at 720p Low + ~70% scale in small skirmishes",
+        settings: "720p native or 1080p @ ~70% scale, Low, effects/shadows low." },
+      source: ["https://www.notebookcheck.net/Company-of-Heroes-3-review-Laptop-and-desktop-benchmarks.700327.0.html", "https://en.gamegpu.com/test-gpu/rts-strategii/company-of-heroes-3-test-old-gpu-cpu"]
+    },
+    stores: [{ name: "Steam", url: "https://store.steampowered.com/app/1677280/.Company_of_Heroes_3/" }],
+    storeNote: "Steam-only for PC (self-published by Relic); no GOG/EA-app version.",
+    quality30: {fps1080: "~30 borderline on Lowest; dips under 25 in big battles (NotebookCheck: Vega 7 Low ≈ 30 fps)",settings1080: "Lowest–Low preset, shadows off, effects Low, ~85% render scale — 30 fps is not comfortable",fps900: "35–45 typical (est.)",settings900: "Low preset, shadows Low, textures Medium, 90–100% scale (est.)"},
+    hddSp: {loads: "Map loads +30–90s; Italian dynamic-campaign turn transitions drag (est.)",fpsEffect: "Minor after load; texture streaming stalls in the first minutes of battle (est.)",stutter: "moderate",verdict: "stutter-risk",note: "Dynamic campaign streams world/persistence data between skirmishes; SSD wanted."},
+    upgradeTiers: {gtx1660s: "High preset 1080p ~55–75 fps in skirmishes (est.)",rtx2060: "High/Very High 1080p ~75–105 fps; still sim-bound in maxed AI battles (est.)",rx6600: "Same as RTX 2060 (NotebookCheck: ~94 fps at Very High) (est.)"},
+    sources: [
+      "https://store.steampowered.com/app/1677280/Company_of_Heroes_3/",
+      "https://steamraw.com/app/1677280/company-of-heroes-3/",
+      "https://www.companyofheroes.com/en/post/company-of-heroes-3-launch-faq"
+    ]
+  },
+
+  {
+    id: "dow2-mc",
+    name: "Warhammer 40,000: Dawn of War II (Master Collection)",
+    genre: "classic-rts",
+    priceModel: "paid",
+    priceUsd: 49.99,
+    priceNote: "Master Collection (all 3 campaigns + all DLC); currently ~$13.74 at −75%",
+    campaign: { exists: true, freeOrPaid: "paid-dlc (all 3 campaigns + DLC included in the Collection)", quality: 9,
+      notes: "Squad-RPG Space Marine campaigns (DoW II, Chaos Rising, Retribution) with co-op; Retribution playable as all 6 factions." },
+    ai: { score: 6, notes: "Squad/encounter AI is okay and skirmish AI is functional, but 2009-era pathfinding shows its age." },
+    setting: "futuristic",
+    graphics: { score: 5, notes: "2009-engine visuals; readable squads, dated textures." },
+    players: { status: "small", notes: "~70–150 concurrent (SteamCharts, Oct 2026); MP is thin, co-op campaigns still viable." },
+    specs: {
+      min: { cpu: "Intel Core 2 Duo / Athlon 64 X2 (~2.2 GHz)", gpu: "GeForce 6600 GT / Radeon X1600 class (256 MB)", ram: "2 GB", storage: "~6.5 GB", os: "Windows 10/11 64-bit (legacy engine, modern OS compatible)" },
+      rec: { cpu: "Intel Core i5 class or better", gpu: "GeForce 8800 GT / HD 3850 class", ram: "4 GB", storage: "~12 GB", os: "Windows 10 64-bit" }
+    },
+    size: { download: "~8 GB", install: "~12 GB" }, installGB: 12,
+    storageAdvice: { verdict: "hdd-fine", note: "12 GB, 2009 engine loads nearly instantly; no streaming pressure. SSD irrelevant here." },
+    cpuDemand: "low",
+    gpuMinTier: 0.5, gpuRecTier: 2,
+    compatNote: "Runs maxed at 1080p/60fps on Vega 7 — the 2009 engine is trivial for it, and the small 12 GB install is HDD-friendly.",
+    bench: {
+      playable: { fps: "50–60+ fps at 1080p Medium on an iGPU of this class (est.); scripted big fights dip to mid-40s",
+        settings: "Medium preset, 100% scale — this game is nowhere near Vega 7's ceiling; Medium/High both fine." },
+      sixty: { fps: "(est.) 60 fps at 1080p High is realistic; largest Retribution battles CPU/script-dip to 45–55",
+        settings: "High preset (textures High, shadows Medium), 100% scale." },
+      source: ["https://www.pcgamingwiki.com/wiki/Warhammer_40,000:_Dawn_of_War_II", "https://store.steampowered.com/app/15620/"]
+    },
+    stores: [
+      { name: "Steam", url: "https://store.steampowered.com/app/15620/" },
+      { name: "GOG (Anniversary Edition, DRM-free)", url: "https://www.gog.com/en/game/warhammer_40000_dawn_of_war_ii_anniversary_edition" }
+    ],
+    storeNote: "Sold as Anniversary Edition on both stores since Sep 2024 (old Master Collection content + all DLC); GOG multiplayer is GOG-only (no Steam crossplay).",
+    quality30: {fps1080: "45–60 typical; 30 covered easily (est.)",settings1080: "High preset, shadows High, most effects Medium (2009 Essence engine scales well)",fps900: "55–75 typical (est.)",settings900: "High/Ultra preset, shadows Medium (est.)"},
+    hddSp: {loads: "Mission load +15–40s on HDD (est.)",fpsEffect: "None once loaded (est.)",stutter: "none",verdict: "fine",note: "Old DX9-level engine, small maps, whole mission loads upfront."},
+    upgradeTiers: {gtx1660s: "Ultra 1080p 60+ fps locked; sim is CPU-bound not GPU (est.)",rtx2060: "Ultra 1440p possible; engine-era frame caps apply (est.)",rx6600: "Ultra 1080p 60+ fps, same tier (est.)"},
+    sources: [
+      "https://store.steampowered.com/app/15620/",
+      "https://steamcommunity.com/app/15620/announcements",
+      "https://steamcharts.com/app/15620"
+    ]
+  },
+
+  {
+    id: "cnc-remastered",
+    name: "Command & Conquer Remastered Collection",
+    genre: "classic-rts",
+    priceModel: "paid",
+    priceUsd: 19.99,
+    priceNote: "One purchase includes all 7 campaigns; EA Play subscription also unlocks it",
+    campaign: { exists: true, freeOrPaid: "paid (all ~100 TD + RA missions and 3 expansions included)", quality: 8,
+      notes: "Faithful remasters of all campaigns with upscaled FMV and a legacy music playlist." },
+    ai: { score: 7, notes: "Classic-era AI modernized with skirmish difficulty tiers; historically brutal-but-fragile behaviour remains." },
+    setting: "realistic-modern",
+    graphics: { score: 8, notes: "Good 4K sprite remaster with a live legacy/4K graphics toggle." },
+    players: { status: "small", notes: "~400–700 concurrent (SteamCharts, Oct 2026); CnCNet community keeps MP alive." },
+    specs: {
+      min: { cpu: "Intel Core 2 Duo E4600 2.4 GHz / Athlon 64 X2 6400", gpu: "GT 420 / HD 5570", ram: "4 GB", storage: "32 GB available", os: "Windows 8.1/10 64-bit" },
+      rec: { cpu: "Intel i5 4690K / Ryzen 7 1700", gpu: "GTX 660 / HD 7850", ram: "4 GB", storage: "32 GB (SSD wanted)", os: "Windows 8.1/10 64-bit" }
+    },
+    size: { download: "~28 GB", install: "~32 GB" }, installGB: 32,
+    storageAdvice: { verdict: "ssd-helps", note: "Recommended spec explicitly suggests 32 GB on SSD; on HDD boots and mission loads are a bit slower but fine. FPS unaffected." },
+    cpuDemand: "medium",
+    gpuMinTier: 2, gpuRecTier: 3.5,
+    compatNote: "Vega 7 runs it easily at 1080p medium (GT 420 is min); 32 GB is awkward but playable from HDD.",
+    bench: {
+      playable: { fps: "60+ fps at 1080p High–Ultra on Vega-class iGPU (est.); skirmish with huge armies dips to ~40–50 (CPU)",
+        settings: "High/Ultra, 100% scale — no tuning needed for 30–40 fps; sprite-based renderer is light." },
+      sixty: { fps: "Stable 60 fps at 1080p Ultra (est.); massive late-game armies are the only hitch",
+        settings: "Ultra/High, 100% scale, optional 60-fps cap." },
+      source: ["https://store.steampowered.com/app/1213210/Command__Conquer_Remastered_Collection", "https://arstechnica.com/gaming/2020/06/command-conquer-remastered-collection-review-loving-the-smell-of-tiberium"]
+    },
+    stores: [
+      { name: "Steam", url: "https://store.steampowered.com/app/1213210/Command__Conquer_Remastered_Collection" },
+      { name: "Epic Games Store", url: "https://store.epicgames.com/en-US/p/command-and-conquer-remastered-collection" },
+      { name: "EA app", url: "https://www.ea.com/ea-app" },
+      { name: "Microsoft Store", url: "https://apps.microsoft.com/detail/9n0lfrxldjhz" }
+    ],
+    storeNote: "Also in the EA Play subscription; no content differences between storefronts.",
+    quality30: {fps1080: "60+ fps (engine caps at 60); 30 easy (est.)",settings1080: "Ultra preset at native 1080p",fps900: "60 fps capped, same max settings (est.)",settings900: "Ultra preset; no need to drop anything (est.)"},
+    hddSp: {loads: "Mission load delta ~5–20s (est.)",fpsEffect: "None (est.)",stutter: "none",verdict: "fine",note: "Sprites and small models, tiny effective footprint, everything loads upfront."},
+    upgradeTiers: {gtx1660s: "Ultra 1080p locked 60; 120+ uncapped where engine allows (est.)",rtx2060: "Ultra 1080p locked 60; GPU is idle regardless (est.)",rx6600: "Ultra 1080p locked 60; any discrete card is overkill (est.)"},
+    sources: [
+      "https://store.steampowered.com/app/1213210/Command__Conquer_Remastered_Collection/",
+      "https://steamcharts.com/app/1213210",
+      "https://www.metacritic.com/game/pc/command-conquer-remastered-collection"
+    ]
+  },
+
+  {
+    id: "wc3-reforged",
+    name: "Warcraft III: Reforged",
+    genre: "classic-rts",
+    priceModel: "paid",
+    priceUsd: 29.99,
+    priceNote: "One-time purchase of both campaigns (RoC + TFT); also on Game Pass",
+    campaign: { exists: true, freeOrPaid: "paid (both full campaigns, 60+ missions, included)", quality: 6,
+      notes: "Contentious 2020 launch backlash over cinematic redesign and cut features; gameplay patches since improved it." },
+    ai: { score: 7, notes: "Battle-tested classic AI plus modernized skirmish improvements; solid ladder/quick-match vs AI." },
+    setting: "fantasy",
+    graphics: { score: 7, notes: "Nice 4K HD units and maps; UI was redesigned post-2020 around the classic look." },
+    players: { status: "active", notes: "No Steam; W3Champions reports ~7k games/day on top of Battle.net ladder." },
+    specs: {
+      min: { cpu: "Intel Core i3-530 / AMD Phenom II X4 910", gpu: "GTS 450 / HD 5750", ram: "4 GB", storage: "30 GB", os: "Windows 7/8/10 64-bit" },
+      rec: { cpu: "Intel i5-6400 / Ryzen 7 1700X", gpu: "GTX 960 / R9 280X", ram: "8 GB", storage: "30 GB", os: "Windows 10 64-bit" }
+    },
+    size: { download: "~27 GB", install: "~30 GB" }, installGB: 30,
+    storageAdvice: { verdict: "hdd-fine", note: "Chunked Battle.net install (~30 GB); campaign and map loads are a little slower on HDD; SSD trims boot/refresh only." },
+    cpuDemand: "medium",
+    gpuMinTier: 2.5, gpuRecTier: 4.5,
+    compatNote: "GTS 450 minimum is slightly above Vega 7 class, but the legacy engine is optimised: low-medium 1080p at 30–40 fps works; 30 GB on HDD is OK.",
+    bench: {
+      playable: { fps: "40–60 fps at 1080p Low/Medium (est. — GTX 1050 Ti gets ~70 fps maxed, so Vega 8 sits well below); occasional stutters historically patched",
+        settings: "Low with Reforged HD art ON, or Medium with Classic graphics; shadows low." },
+      sixty: { fps: "(est.) 60 fps at 1080p Low realistic; big 4v4 lategame drops to ~40; recent updates added lighter graphics modes",
+        settings: "Low preset or Classic graphics mode, 100% scale; vsync at 60." },
+      source: ["https://www.laptopmag.com/reviews/warcraft-iii-reforged", "https://www.hiveworkshop.com/threads/warcraft-3-reforged-forsaken-kingdom-expansion-and-major-updates.374111/"]
+    },
+    stores: [{ name: "Battle.net (Blizzard)", url: "https://shop.battle.net/en-us/product/warcraft-iii-reforged" }],
+    storeNote: "Battle.net-exclusive (client required); no Steam/Epic/GOG version; received major content/performance updates post-2020.",
+    quality30: {fps1080: "~30 on Medium; dips under 25 in huge melee (est.)",settings1080: "Medium preset, shadows Low, effects Low, Medium unit detail",fps900: "35–50 typical (est.)",settings900: "Medium–High preset, shadows Medium, effects Low (est.)"},
+    hddSp: {loads: "Campaign/map load delta ~10–40s (est.)",fpsEffect: "None during play (est.)",stutter: "none",verdict: "fine",note: "Classic WC3 engine, small maps, no streaming."},
+    upgradeTiers: {gtx1660s: "High 1080p ~60+ fps; engine is draw-call/CPU-bound so sim stutter stays (est.)",rtx2060: "High/Ultra 1080p 60+; huge custom-map scenes still CPU-bound (est.)",rx6600: "High 1080p ~50–70 fps; note AMD VRAM over-allocation stutter pattern (est.)"},
+    sources: [
+      "https://eu.shop.battle.net/en-us/product/warcraft-3-reforged",
+      "https://us.shop.battle.net/en-gb/product/warcraft-3-reforged",
+      "https://www.reddit.com/r/warcraft3/comments/1kl46sk/average_online_in_our_favorite_game/"
+    ]
+  },
+
+  {
+    id: "halo-wars-de",
+    name: "Halo Wars: Definitive Edition",
+    genre: "classic-rts",
+    priceModel: "paid",
+    priceUsd: 19.99,
+    priceNote: "Currently ~$4.99 at −75%; all original DLC included",
+    campaign: { exists: true, freeOrPaid: "paid-dlc (full 15-mission campaign + DLC in one purchase)", quality: 7,
+      notes: "Tight, cinematic console-designed campaign with great cutscenes/music; short runtime." },
+    ai: { score: 6, notes: "Simple skirmish AI without deep mechanics; MP hero-focus was never expanded." },
+    setting: "futuristic",
+    graphics: { score: 6, notes: "PC-port remaster of the 2009 Ensemble engine; serviceable, not special." },
+    players: { status: "small", notes: "~220 concurrent (SteamRegistry, Oct 2026); MP thin, co-op/SP fine." },
+    specs: {
+      min: { cpu: "Intel Core i3 or equivalent", gpu: "Intel HD 4200 / GT 740M / R5 M240", ram: "4 GB", storage: "12 GB", os: "Windows 7 SP1 64-bit+" },
+      rec: { cpu: "Intel Core i5 or equivalent", gpu: "GTX 560/650/750 / HD 5850–7790", ram: "8 GB", storage: "12 GB", os: "Windows 10 64-bit" }
+    },
+    size: { download: "~10 GB", install: "~12 GB" }, installGB: 12,
+    storageAdvice: { verdict: "hdd-fine", note: "12 GB, streams nothing mid-battle; HDD perfectly fine." },
+    cpuDemand: "low",
+    gpuMinTier: 1, gpuRecTier: 2.5,
+    compatNote: "Vega 7 handles it cheaply (Intel HD 4200 iGPU is min spec): 1080p medium-high 60 fps; tiny 12 GB install is great for HDD.",
+    bench: {
+      playable: { fps: "45–60 fps at 1080p Medium (est. — recommended GPU is only GTX 560-class, which iGPUs of this tier match); few dips",
+        settings: "Medium preset, 100% scale; borrowed Xbox One-era budget is easy for Vega-class." },
+      sixty: { fps: "(est.) 60 fps at 1080p Medium/High realistic; occasional drops in massive endgame battles only",
+        settings: "High preset, shadows/effects medium, 100% scale." },
+      source: ["https://store.steampowered.com/app/459220", "https://www.pcgamingwiki.com/wiki/Halo_Wars:_Definitive_Edition"]
+    },
+    stores: [
+      { name: "Steam", url: "https://store.steampowered.com/app/459220" },
+      { name: "Microsoft Store / Xbox", url: "https://www.xbox.com/en-US/games/store/halo-wars-definitive-edition/9nblggh52xvl" }
+    ],
+    storeNote: "Xbox Play Anywhere (shared progress) and in Game Pass; Steam version is a standalone non-UWP build.",
+    quality30: {fps1080: "35–55 typical; 60 on Low (est.)",settings1080: "Medium preset, shadows Medium, effects Low — or Low preset for rock-solid 60",fps900: "50–65 typical (est.)",settings900: "High preset, shadows Medium, effects Low (est.)"},
+    hddSp: {loads: "Campaign mission load +15–50s on HDD (est.)",fpsEffect: "None after load (est.)",stutter: "none",verdict: "fine",note: "Old Xbox-era engine; loads the full mission to RAM."},
+    upgradeTiers: {gtx1660s: "High/Ultra 1080p, locked 60 (est.)",rtx2060: "Ultra 1080p 60+; engine-era CPU ceiling unrelated (est.)",rx6600: "Ultra 1080p, locked 60 (est.)"},
+    sources: [
+      "https://store.steampowered.com/app/459220/Halo_Wars_Definitive_Edition/",
+      "https://www.steamregistry.com/app/459220"
+    ]
+  },
+
+  /* ==================== CLASSIC RTS — batch B ==================== */
+
+  {
+    id: "tempest-rising",
+    name: "Tempest Rising",
+    genre: "classic-rts",
+    priceModel: "paid",
+    priceUsd: 29.99,
+    priceNote: "Gold Edition $41.49; third campaign (The Veti's Wrath) is $14.99 DLC; Map Editor DLC free",
+    campaign: { exists: true, freeOrPaid: "paid (2 campaigns in base; 3rd Veti campaign paid DLC)", quality: 7,
+      notes: "Two solid 11-mission C&C-style campaigns with FMV-style briefings; serviceable story with a classic feel." },
+    ai: { score: 7, notes: "Skirmish AI competently expands and attacks; well regarded for a 2025 RTS though not a standout." },
+    setting: "realistic-modern",
+    graphics: { score: 8, notes: "Sharp UE4-era isometric look with great explosion/unit detail, on par with modern AAA RTS." },
+    players: { status: "small", notes: "~10k launch peak (Apr 2025), now niche; community reports declining multiplayer population." },
+    specs: {
+      min: { cpu: "Intel Core i5-8600 / AMD Ryzen 5 1600", gpu: "GTX 1060 3 GB / RX 580 8 GB", ram: "8 GB", storage: "45 GB (SSD recommended)", os: "Windows 10/11 64-bit, DX11" },
+      rec: { cpu: "Intel Core i5-11700 / AMD Ryzen 5 5600X", gpu: "RTX 3060 Ti / RX 7600 XT", ram: "16 GB", storage: "50 GB (SSD recommended)", os: "Windows 10/11 64-bit, DX12" }
+    },
+    size: { download: "~40 GB", install: "~45 GB" }, installGB: 45,
+    storageAdvice: { verdict: "ssd-strongly-advised", note: "~45 GB of UE4 streaming; on HDD loads ballooning and hitching get worse - the game is already past Vega 7 limits, so poor storage makes it a double no." },
+    cpuDemand: "high",
+    gpuMinTier: 5.5, gpuRecTier: 8,
+    compatNote: "No — the minimum GPU is a full class above Vega 7 (GTX 1060); expect it to choke, and 45 GB on HDD is heavy.",
+    bench: {
+      playable: { fps: "(est.) ~20–25 fps at 1080p Lowest; 720p low ~25–30 fps — the engine is far too heavy for Vega-class iGPU",
+        settings: "720p native, Low (shadows/reflections off), water minimum; at 1080p use Lowest + ~50% render scale + FSR Performance." },
+      sixty: { fps: "(est.) Not realistic at 1080p; ~35–40 fps only at 720p low with FSR",
+        settings: "720p native, Lowest everything, FSR Performance, no AA, reduced unit density." },
+      source: ["https://fpsgauge.com/gpus/radeon-vega-8", "https://www.thefpsreview.com/2022/03/07/intel-12900k-uhd-770-igpu-vs-amd-5700g-vega-8-apu-performance-benchmarks/5/"]
+    },
+    stores: [{ name: "Steam", url: "https://store.steampowered.com/app/1486920/Tempest_Rising/" }],
+    storeNote: "Windows PC is Steam-only (official FAQ: no Epic/GOG/own launcher); demo available on the same Steam page.",
+    quality30: {fps1080: "25–30 even on Lowest with FSR; not comfortable at 1080p (est.)",settings1080: "Lowest preset + FSR Performance, ~30 borderline — not a stable lock",fps900: "30–40 with FSR Performance (est.)",settings900: "Low preset, shadows off, effects Low, FSR Balanced (est.)"},
+    hddSp: {loads: "UE4/5 streaming: level loads several minutes slower, mission-start hitches (est.)",fpsEffect: "Asset-streaming hitches when panning to new sectors (est.)",stutter: "high",verdict: "stutter-risk",note: "Modern streaming engine on a ~45 GB install; HDD causes pop-in and microstutter — worst SP-HDD case in the dataset."},
+    upgradeTiers: {gtx1660s: "Low–Medium 1080p ~45–60; High needs FSR (est.)",rtx2060: "Medium–High 1080p ~55–70; UE streaming still causes frame spikes (est.)",rx6600: "High 1080p ~60–80 with FSR Quality (est.)"},
+    sources: [
+      "https://store.steampowered.com/app/1486920/",
+      "https://www.reddit.com/r/TempestRising/comments/1lfshve/so_where_did_everyone_go/"
+    ]
+  },
+
+  {
+    id: "beyond-all-reason",
+    name: "Beyond All Reason",
+    genre: "classic-rts",
+    priceModel: "f2p",
+    priceUsd: 0,
+    priceNote: "Free and open source; standalone launcher from beyondallreason.info (Steam release via Hooded Horse signed in 2026)",
+    campaign: { exists: false, freeOrPaid: "n/a", quality: 0,
+      notes: "No campaign yet — one is planned for the future Steam release; currently skirmish vs AI or online PvE (Scavengers/Raptors)." },
+    ai: { score: 4, notes: "No proper official skirmish AI; PvE is co-op 'Scavengers' mode rather than a classic RTS opponent." },
+    setting: "futuristic",
+    graphics: { score: 7, notes: "Open-source Alpha that is surprisingly pretty (PBR lighting, thousands of units); some dated unit assets." },
+    players: { status: "very-active", notes: "The most active epic-scale RTS around: 24/7 ladders, matchmaking and multiplayer battles." },
+    specs: {
+      min: { cpu: "Modern quad-core (community estimate, no official spec)", gpu: "GTX 750 / AMD equivalent (est.)", ram: "8 GB", storage: "~10 GB (est.)", os: "Windows 10/11 or Linux" },
+      rec: { cpu: "Modern 6-core (est.; big 16-player games are CPU-heavy)", gpu: "GTX 1060 / RX 5500 (est.)", ram: "16 GB", storage: "~15 GB (est.)", os: "Windows 10/11 64-bit" }
+    },
+    size: { download: "~3 GB (launcher updates)", install: "~4–10 GB (grows with maps)" }, installGB: 7,
+    storageAdvice: { verdict: "hdd-fine", note: "Small footprint (~4-10 GB) and streams maps fine from HDD; CPU cores and RAM speed matter far more than storage." },
+    cpuDemand: "high",
+    gpuMinTier: 2.5, gpuRecTier: 5.5,
+    compatNote: "Borderline-yes: free, and 1v1/2v2 on Vega 7 at medium-low runs fine; huge 8v8 late-game army counts will dip on iGPU.",
+    bench: {
+      playable: { fps: "(est.) 40–60 fps at 1080p Low in small/medium fights; 20–30 fps (or worse) in big 8+ player battles — CPU-bound, GPU rarely the limit",
+        settings: "Quality Low, shadows off, lens effects off, reduced unit render scale." },
+      sixty: { fps: "(est.) ~60 fps at 1080p Low in ≤4-player games; large 16-player games dip 20–40",
+        settings: "Low with all eye-candy off; CPU cores and RAM speed matter more than the GPU." },
+      source: ["https://www.beyondallreason.info/"]
+    },
+    stores: [{ name: "Official site (standalone launcher)", url: "https://www.beyondallreason.info/" }],
+    storeNote: "Free open-source RTS on its own RebEngine; downloadable launcher at beyondallreason.info — NOT on Steam/Epic/GOG (Steam release signed for later).",
+    quality30: {fps1080: "40–70 typical; MP late-game dips to ~25 (CPU sim-bound) (est.)",settings1080: "Medium preset, shadows Low, water Low, unit detail Low–Medium, particles Low",fps900: "55–80 typical (est.)",settings900: "Medium–High preset, cheap water, particle cap lowered (est.)"},
+    hddSp: {loads: "Map download/load +5–20s (maps ~50 MB) (est.)",fpsEffect: "None (est.)",stutter: "none",verdict: "fine",note: "Install is tiny (<5 GB); CPU sim, not disk, is the bottleneck."},
+    upgradeTiers: {gtx1660s: "Medium–High 1080p 60+; big team games CPU-bound regardless (est.)",rtx2060: "High/Ultra visuals comfortably; sim still limits huge battles (est.)",rx6600: "High/Ultra 1080p 70+ fps on most maps; Vulkan-friendly, CPU sim ceiling unchanged (est.)"},
+    sources: [
+      "https://www.beyondallreason.info/",
+      "https://www.beyondallreason.info/faq",
+      "https://www.beyondallreason.info/download",
+      "https://www.gamingonlinux.com/2026/06/open-source-rts-game-beyond-all-reason-signs-publishing-deal-with-hooded-horse/"
+    ]
+  },
+
+  {
+    id: "0ad",
+    name: "0 A.D.",
+    genre: "classic-rts",
+    priceModel: "f2p",
+    priceUsd: 0,
+    priceNote: "Free, open source (Alpha 28 'Boiorix'); download from play0ad.com / ModDB / itch.io — not on Steam",
+    campaign: { exists: false, freeOrPaid: "n/a", quality: 0,
+      notes: "No story campaign — skirmishes vs AI, random maps and scenarios only." },
+    ai: { score: 7, notes: "Skirmish AI is surprisingly good with adjustable difficulty and behaviour traits; catches casual players off guard." },
+    setting: "ancient",
+    graphics: { score: 7, notes: "Gorgeous historically-inspired art for open source, but optimisation is weak (alpha jank with big armies)." },
+    players: { status: "active", notes: "Steady multiplayer lobby community with 24/7 games; moderate rather than huge population." },
+    specs: {
+      min: { cpu: "3 GHz Intel or x86-compatible", gpu: "Any OpenGL 2.1 with 128 MB VRAM", ram: "2 GB", storage: "4 GB", os: "Windows 10/11, Linux, macOS" },
+      rec: { cpu: "3+ GHz dual/quad core", gpu: "Modern OpenGL 2.1+/3.0 GPU", ram: "4 GB", storage: "4 GB", os: "Windows 10/11 64-bit" }
+    },
+    size: { download: "~3.5 GB", install: "~4 GB" }, installGB: 4,
+    storageAdvice: { verdict: "hdd-fine", note: "4 GB; HDD fine. Only first map-load is slightly slower; FPS is alpha-engine/CPU-bound anyway." },
+    cpuDemand: "medium",
+    gpuMinTier: 1, gpuRecTier: 2,
+    compatNote: "Yes — the lowest floor of all games studied; Vega 7 handles it easily though very big army counts can still lag (alpha engine).",
+    bench: {
+      playable: { fps: "(est.) 25–45 fps at 1080p low; single-thread sim dips under 30 in large-unit battles",
+        settings: "Low quality preset, shadows/reflections off, ~70–80% render scale." },
+      sixty: { fps: "(est.) ~50–60 fps at 1080p low on small 2–4 player maps; not consistent with full armies",
+        settings: "1080p low, shadows/water off, low detail, small map." },
+      source: ["https://forums.guru3d.com/threads/0-a-d-demo-map-benchmarks.451202/", "https://play0ad.com/"]
+    },
+    stores: [{ name: "Official site (free download)", url: "https://play0ad.com/download/" }],
+    storeNote: "Free open-source alpha; direct installer from the site (also ModDB/itch.io); no official Steam/Epic presence.",
+    quality30: {fps1080: "30–45 typical; big 4-player maps dip to ~25 (est.)",settings1080: "Medium preset, shadows off, High textures, water Medium, particles Low",fps900: "40–55 typical (est.)",settings900: "Medium–High preset, shadows Low, water Low (est.)"},
+    hddSp: {loads: "Map gen/load +5–20s (est.)",fpsEffect: "None during play (est.)",stutter: "none",verdict: "fine",note: "~3–4 GB install, single-shot map loads."},
+    upgradeTiers: {gtx1660s: "High preset 1080p 60+; late-game sim hitches are engine/CPU-side (est.)",rtx2060: "High 1440p 60+; sim-bound in maxed 4-player (est.)",rx6600: "High 1080p ~60–80; minor driver quirks possible in older releases (est.)"},
+    sources: [
+      "https://play0ad.com/",
+      "https://play0ad.com/download/"
+    ]
+  },
+
+  {
+    id: "pa-titans",
+    name: "Planetary Annihilation: TITANS",
+    genre: "classic-rts",
+    priceModel: "paid",
+    priceUsd: 39.99,
+    priceNote: "Currently $10.49 on Steam; bundles base PA + TITANS",
+    campaign: { exists: true, freeOrPaid: "paid (included)", quality: 6,
+      notes: "'Galactic War' is a procedurally-generated dynamic galaxy mode — clever but repetitive and light on narrative." },
+    ai: { score: 7, notes: "AI is competent and difficulty-scaled; multi-planet AI moves feel smart but there is no deep diplomacy design." },
+    setting: "futuristic",
+    graphics: { score: 6, notes: "Cute stylized low-poly planets with impressive scale; technically dated, charming rather than gorgeous." },
+    players: { status: "small", notes: "~142 avg / ~63 concurrent (SteamCharts, Oct 2026); match-finding for new players is thin." },
+    specs: {
+      min: { cpu: "Modern quad-core", gpu: "Shader 3.0 / OpenGL 3.2+, 1 GB VRAM", ram: "8 GB", storage: "5 GB", os: "Windows 7 SP1 64-bit" },
+      rec: { cpu: "Modern quad-core", gpu: "Dedicated GPU (any), OpenGL 3.2+", ram: "16 GB", storage: "7 GB", os: "Windows 10 64-bit" }
+    },
+    size: { download: "~5 GB", install: "~7–8 GB" }, installGB: 8,
+    storageAdvice: { verdict: "hdd-fine", note: "8 GB and sim-bound; disk has no gameplay effect. HDD is fine." },
+    cpuDemand: "high",
+    gpuMinTier: 1.5, gpuRecTier: 2.5,
+    compatNote: "Yes-ish: the engine is undemanding and Vega 7 runs small maps fine; multi-planet 16-player games get CPU/fps heavy.",
+    bench: {
+      playable: { fps: "30–60 fps at 1080p low in small games; in big 10-player matches the SERVER sim is the limiter — FPS drops to 15–25 regardless of GPU",
+        settings: "Low preset, FXAA, moderate render scale; official support recommends 12 GB RAM for iGPU setups." },
+      sixty: { fps: "~60 fps feasible at 1080p low vs 1–2 AI; large multi-planet games stay sim-bound (20–50)",
+        settings: "1080p low, small system/maps, low unit counts — CPU/sim is the bottleneck, not the GPU." },
+      source: ["https://fpshq.com/en/games/planetary-annihilation-titans/", "https://planetaryannihilation.com/support/troubleshooting/"]
+    },
+    stores: [
+      { name: "Steam", url: "https://store.steampowered.com/app/386070/Planetary_Annihilation_TITANS/" },
+      { name: "Official site (links to Steam)", url: "https://planetaryannihilation.com/" }
+    ],
+    storeNote: "Only on Steam ('BUY ON STEAM' on the official site); no GOG sale (Dreamlist only); PA-Classic owners get a $1.89 upgrade.",
+    quality30: {fps1080: "~25–30 (est.)",settings1080: "Low, shadows off, water off, 75% subsample scaling",fps900: "~30–35 (est.)",settings900: "Low, subsample off, shadows off"},
+    hddSp: {loads: "Slow system/multi-planet loads (2–4× longer)",fpsEffect: "None",stutter: "none",verdict: "slower-loads",note: "Whole system loads at match start; no streaming. Big 8-player sims chug on CPU regardless of drive."},
+    upgradeTiers: {gtx1660s: "Ultra 1080p 60+ in small games; huge systems still CPU-bound",rtx2060: "Ultra 1080p 60+ (est.); same CPU wall",rx6600: "Ultra 1080p 60+ (est.); same CPU wall"},
+    sources: [
+      "https://store.steampowered.com/app/386070/",
+      "https://steamcharts.com/app/386070"
+    ]
+  },
+
+  {
+    id: "supreme-comm-fa",
+    name: "Supreme Commander: Forged Alliance",
+    genre: "classic-rts",
+    priceModel: "paid",
+    priceUsd: 8.99,
+    priceNote: "$9.99 Gold Edition with original SupCom; the free FAF community client adds matchmaker/reforged balance on top",
+    campaign: { exists: true, freeOrPaid: "paid (included)", quality: 10,
+      notes: "The 2007 campaign is widely considered one of the best ever written for the RTS genre." },
+    ai: { score: 8, notes: "Strong, adaptive skirmish AI — further enhanced by the Forged Alliance Forever (FAF) community's mods and matchmaking." },
+    setting: "futuristic",
+    graphics: { score: 5, notes: "2007 tech — clean minimalist look, weak textures by modern standards; the scale carries it." },
+    players: { status: "active", notes: "~600–800 Steam concurrents plus an equal or larger population on free FAF servers with rankings (Oct 2026)." },
+    specs: {
+      min: { cpu: "1.8 GHz processor", gpu: "128 MB VRAM, DX9 Shader 2.0 (ATI 9600+, GeForce 6200+)", ram: "512 MB", storage: "8 GB", os: "Windows XP SP2/Vista+" },
+      rec: { cpu: "3.0 GHz Intel or equivalent AMD", gpu: "256 MB VRAM, DX9 Shader 2.0 (GeForce 6800+)", ram: "1 GB", storage: "8 GB", os: "Windows XP SP2/Vista+" }
+    },
+    size: { download: "~7 GB", install: "~8 GB" }, installGB: 8,
+    storageAdvice: { verdict: "hdd-fine", note: "8 GB legacy game; HDD loads fine. End-game caps are CPU-bound, not IO-bound." },
+    cpuDemand: "high",
+    gpuMinTier: 0.5, gpuRecTier: 1.5,
+    compatNote: "Yes, trivially — 2007 game runs near max on Vega 7; only end-game in 8-player max-army maps stutters due to CPU (your 6-core helps). Best value-per-spec RTS here.",
+    bench: {
+      playable: { fps: "50–60+ fps at 1080p low/medium; GPU trivial (16-year-old cards hit 55 fps at Ultra). Late-game mass battles dip ~20–30 (single-thread CPU bound)",
+        settings: "Low–Medium preset, shadows low, AA off; gameplay speed matters more than frames." },
+      sixty: { fps: "Yes — ~60 fps at 1080p low/medium easily (FPSGauge even estimates ~45 fps at High for Vega 8); big FAF games are CPU-limited, not GPU-limited",
+        settings: "Low–Medium, AA off; unit count and map size drive FPS." },
+      source: ["https://pcgamebenchmarks.com/game/supreme-commander-forged-alliance-871", "https://fpsgauge.com/games/supreme-commander-forged-alliance", "https://fpsgauge.com/gpus/radeon-vega-8"]
+    },
+    stores: [
+      { name: "Steam", url: "https://store.steampowered.com/app/9420/Supreme_Commander_Forged_Alliance/" },
+      { name: "GOG (Gold Edition)", url: "https://www.gog.com/en/game/supreme_commander_gold_edition" },
+      { name: "FAF (free multiplayer client)", url: "https://faforever.com/" }
+    ],
+    storeNote: "The multiplayer community plays through the free FAF client (faforever.com), which uses your Steam or GOG copy and applies community balance.",
+    quality30: {fps1080: "60 (est.)",settings1080: "Medium–High; shadows low; HUD scale down",fps900: "60 (est.)",settings900: "High; shadows Medium"},
+    hddSp: {loads: "Map loads longer, otherwise fine",fpsEffect: "None",stutter: "none",verdict: "fine",note: "2007 engine, no streaming; big maps barely touch the GPU, all sim is CPU."},
+    upgradeTiers: {gtx1660s: "Max 1080p 60+; CPU-bound in 8-player mass battles",rtx2060: "Max 1080p 60+ (est.); CPU-bound",rx6600: "Max 1080p 60+ (est.); CPU-bound"},
+    sources: [
+      "https://store.steampowered.com/app/9420/",
+      "https://steamcharts.com/app/9420",
+      "https://www.beyondallreason.info/faq"
+    ]
+  },
+
+  {
+    id: "ashes-escalation",
+    name: "Ashes of the Singularity: Escalation",
+    genre: "classic-rts",
+    priceModel: "paid",
+    priceUsd: 39.99,
+    priceNote: "Currently $14.49; several paid campaign/map DLCs plus a ~$42 Ultimate Edition bundle",
+    campaign: { exists: true, freeOrPaid: "paid + paid DLC expansions", quality: 6,
+      notes: "Functional but story-thin; long, with plenty of scenarios, and the DLC adds more of the same." },
+    ai: { score: 8, notes: "Stardock's AI is a highlight: non-cheating, well-tuned, and one of the most respected skirmish AIs in strategy games." },
+    setting: "futuristic",
+    graphics: { score: 7, notes: "Nitrous 64-bit engine with huge unit counts and good visuals; terrain reads as abstract/sparse." },
+    players: { status: "small", notes: "Dedicated but tiny MP scene, mostly vs AI or with friends; not a matchmaking game in 2026." },
+    specs: {
+      min: { cpu: "Quad-core Intel / AMD", gpu: "GTX 660 / R7 360 (2 GB GDDR5)", ram: "6 GB", storage: "27 GB", os: "Windows 7/8.1/10 64-bit, DX11" },
+      rec: { cpu: "Intel Core i5 or equivalent", gpu: "GTX 970 / R9 390 (4 GB GDDR5)", ram: "16 GB", storage: "30 GB", os: "Windows 10, DX12" }
+    },
+    size: { download: "~26 GB", install: "~30 GB" }, installGB: 30,
+    storageAdvice: { verdict: "ssd-helps", note: "Nitrous engine streams entity/terrain data on big maps; HDD adds pop-in and slower map load on top of already-marginal iGPU fps. Not FPS-driver, but the pain shows in big fights." },
+    cpuDemand: "medium",
+    gpuMinTier: 4, gpuRecTier: 5.5,
+    compatNote: "No — minimum GPU is a GTX 660-class discrete card beyond Vega 7; would be unplayable on iGPU, plus a heavy ~30 GB HDD install.",
+    bench: {
+      playable: { fps: "(measured) ~19.5 fps at 1080p Medium, ~16.8 fps High on laptop Vega 8 (NotebookCheck); est. 20–25 fps at 1080p Low",
+        settings: "1080p Low, AA off (DX11 or Vulkan — Vulkan preferred on AMD); 720p Medium is an alternative." },
+      sixty: { fps: "Not realistic at 1080p; (est.) ~35–40 fps at 720p Low; very CPU-heavy in large battles too",
+        settings: "720p Low, AA off, smaller armies." },
+      source: ["https://www.notebookcheck.net/Ashes-of-the-Singularity-Notebook-and-Desktop-Benchmarks.171064.0.html"]
+    },
+    stores: [
+      { name: "Steam", url: "https://store.steampowered.com/app/507490/Ashes_of_the_Singularity_Escalation/" },
+      { name: "GOG (DRM-free)", url: "https://www.gog.com/en/game/ashes_of_the_singularity_escalation" },
+      { name: "Stardock store", url: "https://www.ashesofthesingularity.com/escalation/store" }
+    ],
+    storeNote: "Steam, GOG (DRM-free) and Stardock's own store; not on Epic; GOG multiplayer is GOG-only.",
+    quality30: {fps1080: "~25–30 (est.)",settings1080: "Low, post-FX off, surface detail low; 8-player battles still dip",fps900: "~30 (est.)",settings900: "Low, shadows off"},
+    hddSp: {loads: "Skirmish/campaign map loads 2–3× longer",fpsEffect: "Negligible",stutter: "none",verdict: "slower-loads",note: "Assets load at map start, little runtime streaming. 4X-scale battles stay CPU-heavy."},
+    upgradeTiers: {gtx1660s: "Medium–High 1080p 60; biggest battles dip (est.)",rtx2060: "High 1080p 60 (est.)",rx6600: "High 1080p 60+ (est.); large battles CPU-bound"},
+    sources: [
+      "https://store.steampowered.com/app/507490/",
+      "https://www.systemrequirementslab.com/cyri/requirements/ashes-of-the-singularity-escalation/14590"
+    ]
+  },
+
+  {
+    id: "iron-harvest",
+    name: "Iron Harvest",
+    genre: "classic-rts",
+    priceModel: "paid",
+    priceUsd: 29.99,
+    priceNote: "Currently $22.99; two paid DLC campaigns ($2.99 / $14.99) plus Deluxe bundle",
+    campaign: { exists: true, freeOrPaid: "paid (3 campaigns in base) + paid-dlc campaigns", quality: 7,
+      notes: "Beautiful dieselpunk story-driven campaign across three factions with co-op support; combat/polish issues make it repetitive." },
+    ai: { score: 5, notes: "Skirmish AI is mediocre: basic expansion and attack patterns, no clever pressure, rubber-band feel." },
+    setting: "realistic-modern",
+    graphics: { score: 8, notes: "Stunning art direction (Rózalski's 1920+ mechs, cinematic destruction) that punches above its weight." },
+    players: { status: "small", notes: "~85 avg / 32 concurrent (Oct 2026); multiplayer lobbies are rarely populated — primarily a single-player/campaign game." },
+    specs: {
+      min: { cpu: "Intel Core i5-4460 / AMD equivalent", gpu: "GTX 960 or equivalent (4 GB VRAM)", ram: "8 GB", storage: "30 GB", os: "Windows 10 x64, DX11" },
+      rec: { cpu: "Intel Core i7-8700K / AMD equivalent", gpu: "RTX 2060 (4 GB VRAM)", ram: "16 GB", storage: "30 GB", os: "Windows 10 x64, DX11" }
+    },
+    size: { download: "~28 GB", install: "~30 GB" }, installGB: 30,
+    storageAdvice: { verdict: "ssd-strongly-advised", note: "30 GB heavy asset-streaming engine: HDD = texture pop-in, extra hitching, slow mission loads, compounding the already-low iGPU fps. UC is a near must for expectable play; with HDD it feels worse." },
+    cpuDemand: "medium",
+    gpuMinTier: 4.5, gpuRecTier: 7,
+    compatNote: "No at recommended, marginal at minimum — Vega 7 can only scrape by on lowest settings with HDD streaming risk on its 30 GB asset load.",
+    bench: {
+      playable: { fps: "(est.) ~15–20 fps at 1080p Low; ~20–30 fps at 720p Low (GameGPU: even GTX 1050 Ti manages only ~25 fps at 1080p medium)",
+        settings: "720p, Low quality, shadows/fire/smoke effects off; a 30-fps cap is the honest target." },
+      sixty: { fps: "Not realistic on iGPU — even GTX 1660-class cards hover near 40 fps at 1080p high; very CPU-bound in big fights",
+        settings: "Accept 30 fps at 720p–1080p low." },
+      source: ["https://en.gamegpu.com/test-gpu/rts-strategii/iron-harvest-test-gpu-cpu"]
+    },
+    stores: [
+      { name: "Steam", url: "https://store.steampowered.com/app/826630/Iron_Harvest/" },
+      { name: "GOG (DRM-free)", url: "https://www.gog.com/en/game/iron_harvest" },
+      { name: "Epic Games Store", url: "https://store.epicgames.com/en-US/p/iron-harvest" }
+    ],
+    storeNote: "Also on Xbox/Microsoft PC Store; no own launcher; GOG version is fully DRM-free offline.",
+    quality30: {fps1080: "~25–30 (est.)",settings1080: "Low, shadows off, SSAO off, unit extras low",fps900: "~30–35 (est.)",settings900: "Low, shadows off"},
+    hddSp: {loads: "Mission/level loads noticeably longer",fpsEffect: "Occasional dips when many walkers/mechs spawn",stutter: "moderate",verdict: "stutter-risk",note: "Unity engine streams level assets mid-mission; HDD hitching on late-mission spawns + texture pop-in. SSD strongly preferred."},
+    upgradeTiers: {gtx1660s: "Medium 1080p 60 (est.); big battles dip to ~45",rtx2060: "Medium–High 1080p 60 (est.)",rx6600: "High 1080p 60+ (est.)"},
+    sources: [
+      "https://store.steampowered.com/app/826630/",
+      "https://steamcharts.com/app/826630"
+    ]
+  },
+
+  {
+    id: "homeworld-rm",
+    name: "Homeworld Remastered Collection",
+    genre: "classic-rts",
+    priceModel: "paid",
+    priceUsd: 11.99,
+    priceNote: "Currently $1.79 on sale; Deluxe Edition with soundtracks $13.42; soundtrack DLCs are paid",
+    campaign: { exists: true, freeOrPaid: "paid (included)", quality: 8,
+      notes: "Homeworld 1 + 2 remastered in one pack plus originals; atmospheric, story-rich space opera." },
+    ai: { score: 5, notes: "Skirmish AI is basic 2000s-era; fine for cruising through fleet battles but no modern sophistication." },
+    setting: "futuristic",
+    graphics: { score: 8, notes: "Faithful high-res ship remaster with modern effects; clearly shows its 15-year heritage up close." },
+    players: { status: "small", notes: "~79 avg / 64 concurrent (Oct 2026); a lingering but scattered multiplayer population." },
+    specs: {
+      min: { cpu: "2.2 GHz dual-core", gpu: "GeForce 8800 GTS (512 MB) / HD 4800 (512 MB)", ram: "1 GB", storage: "20 GB", os: "Windows Vista+ (OpenGL 3.3 required)" },
+      rec: { cpu: "2.3 GHz quad-core", gpu: "GTX 560 / HD 5850 (1 GB)", ram: "4 GB", storage: "20 GB", os: "Windows 7, OpenGL 3.3" }
+    },
+    size: { download: "~12 GB", install: "~20 GB" }, installGB: 20,
+    storageAdvice: { verdict: "hdd-fine", note: "20 GB mostly FMV + model packs; HDD loads missions slower but no streaming stutter. SSD optional." },
+    cpuDemand: "low",
+    gpuMinTier: 2, gpuRecTier: 3.5,
+    compatNote: "Yes, tricky — just below the GTX 560 minimum, Vega 7 runs it on low via OpenGL 3.3; 20 GB fleet-scale battles load slowly on HDD but it plays.",
+    bench: {
+      playable: { fps: "35–45 fps at 1080p low/medium in normal battles (TechSpot: a GTX 750 Ti — iGPU-class — manages ~40 fps at playable settings)",
+        settings: "Low–Medium preset; DoF + god-rays off, shadows low, AA off — engine is heavier than its age suggests." },
+      sixty: { fps: "~50–60 fps at 1080p low in small/light battles; bigger fleets drop to 30–40",
+        settings: "1080p low, DoF/god-rays/shadows off, AA off; Classic modes run ultra-light." },
+      source: ["https://www.techspot.com/review/970-homeworld-remastered-benchmarks/page2.html", "https://en.gamegpu.com/test-gpu/rts-strategii/homeworld-remastered-test-gpu"]
+    },
+    stores: [
+      { name: "Steam", url: "https://store.steampowered.com/app/244160/Homeworld_Remastered_Collection/" },
+      { name: "GOG (DRM-free)", url: "https://www.gog.com/en/game/homeworld_remastered_collection" },
+      { name: "Epic Games Store", url: "https://store.epicgames.com/en-US/p/homeworld-remastered-collection" }
+    ],
+    storeNote: "On Steam since 2015, GOG since 2016; GOG Galaxy optional for multiplayer; no own launcher.",
+    quality30: {fps1080: "60 (est.)",settings1080: "Full/High; big 8-player fleet battles stay smooth",fps900: "60 (est.)",settings900: "Full/High"},
+    hddSp: {loads: "Minor; mission loads slightly longer",fpsEffect: "None",stutter: "none",verdict: "fine",note: "2015 title, fully loads missions; trivial for any drive."},
+    upgradeTiers: {gtx1660s: "Max/Ultra 1080p 100+ (est.)",rtx2060: "Max/Ultra 1080p 100+ (est.)",rx6600: "Max/Ultra 1080p 100+ (est.); CPU-bound in huge fleet battles"},
+    sources: [
+      "https://store.steampowered.com/app/244160/",
+      "https://steamcharts.com/app/244160"
+    ]
+  },
+
+  {
+    id: "northgard",
+    name: "Northgard",
+    genre: "classic-rts",
+    priceModel: "paid",
+    priceUsd: 11.99,
+    priceNote: "Currently $3.35 on sale; many $2.99–$7 clan DLCs; base includes story + Conquest modes",
+    campaign: { exists: true, freeOrPaid: "paid (story + Conquest in base) + paid DLC clans", quality: 7,
+      notes: "Nice viking story mode across two chapters plus a replayable Conquest mode with 100+ hours of scenarios." },
+    ai: { score: 7, notes: "Challenging AI clans with aggressive expansion and targeted raids; tunable from peaceful to brutal." },
+    setting: "fantasy",
+    graphics: { score: 7, notes: "Stylized top-down Norse isometric look — clean, readable, endearing; not demanding." },
+    players: { status: "active", notes: "~1,100 avg / ~660 concurrent (Oct 2026); solid ranked MP plus a very active PvE population." },
+    specs: {
+      min: { cpu: "Intel 2.0 GHz Core 2 Duo or equivalent", gpu: "Nvidia 450 GTS / HD 5750", ram: "1 GB", storage: "1 GB", os: "Windows Vista+ 64-bit, DX10+" },
+      rec: { cpu: "Intel i5 3.1 GHz quad-core", gpu: "GTX 660 / HD 7800", ram: "2 GB", storage: "1 GB", os: "Windows 7+ 64-bit" }
+    },
+    size: { download: "~1.5 GB", install: "~2 GB" }, installGB: 2,
+    storageAdvice: { verdict: "hdd-fine", note: "2 GB and streaming-light; HDD is trivial." },
+    cpuDemand: "low",
+    gpuMinTier: 2.5, gpuRecTier: 3.5,
+    compatNote: "Yes — the lightest paid game in the dataset (2 GB footprint, ancient minimum specs); Vega 7 handles it comfortably on HDD.",
+    bench: {
+      playable: { fps: "(est.) 50–60+ fps at 1080p Medium — the game is very light (even mid-range cards run it at 255+ fps maxed)",
+        settings: "Medium preset; shadows off at most; nothing special needed." },
+      sixty: { fps: "Easily 60+ fps at 1080p medium/high (est.); 8-player late games slow from CPU, not GPU",
+        settings: "Medium or High at 1080p; cap vsync to 60 if preferred." },
+      source: ["https://overclockers.ru/lab/show/90446/northgard-test-proizvoditelnosti"]
+    },
+    stores: [
+      { name: "Steam", url: "https://store.steampowered.com/app/466560/northgard" },
+      { name: "GOG (Definitive Edition, DRM-free)", url: "https://www.gog.com/en/game/northgard_definitive_edition" },
+      { name: "Epic Games Store", url: "https://store.epicgames.com/en-US/p/northgard" }
+    ],
+    storeNote: "GOG multiplayer uses GOG Galaxy and cross-plays with Steam; clan DLCs sold on all stores.",
+    quality30: {fps1080: "60 (est.)",settings1080: "High/Ultra; already light",fps900: "60 (est.)",settings900: "Ultra"},
+    hddSp: {loads: "Minor",fpsEffect: "None",stutter: "none",verdict: "fine",note: "Light stylized game; HDD harmless."},
+    upgradeTiers: {gtx1660s: "Ultra 1080p 100+ (est.)",rtx2060: "Ultra 1080p ~144 (est.)",rx6600: "Ultra 1080p ~144 (est.); late-game many-clan sims CPU-bound"},
+    sources: [
+      "https://store.steampowered.com/app/466560/",
+      "https://steamcharts.com/app/466560"
+    ]
+  },
+
+  /* ======================= 4X / GRAND STRATEGY ======================= */
+
+  {
+    id: "civ6",
+    name: "Sid Meier's Civilization VI",
+    genre: "4x-grand",
+    priceModel: "paid",
+    priceUsd: 44.99,
+    priceNote: "Store page price; base often −50% to −75% in sales; Anthology bundle −53%",
+    campaign: { exists: false, freeOrPaid: "n/a", quality: 7,
+      notes: "Grand-strategy sandbox with scenario packs; no structured story campaign." },
+    ai: { score: 4, notes: "Notorious complaints: militarily incompetent, 'dishonest' trait AI that dogpiles, ignores armies on difficulty." },
+    setting: "ancient",
+    graphics: { score: 7, notes: "Stylized bright hex art that aged well; heavy district clutter late-game." },
+    players: { status: "very-active", notes: "~19k concurrent now (Oct 2026), ~28k last-30-day avg, 162k all-time peak; huge single-player audience." },
+    specs: {
+      min: { cpu: "Intel Core i3 2.5 GHz / AMD Phenom II 2.6 GHz", gpu: "1 GB: AMD 5570 / nVidia 450 / Intel iGPU HD 530", ram: "4 GB", storage: "17 GB", os: "Windows 7/8.1/10 x64" },
+      rec: { cpu: "4th-gen Intel Core i5 2.5 GHz / AMD FX 8350", gpu: "2 GB: AMD 7970 / nVidia 770", ram: "8 GB", storage: "23 GB", os: "Windows 7/8.1/10 x64" }
+    },
+    size: { download: "~14 GB", install: "17–23 GB" }, installGB: 23,
+    storageAdvice: { verdict: "hdd-fine", note: "Turn-time slowdown is CPU-side, not disk; HDD mainly slows boot/mod scanning. SSD speeds startup and modded games slightly." },
+    cpuDemand: "medium",
+    gpuMinTier: 1.5, gpuRecTier: 4,
+    compatNote: "Runs very well on Vega 7 (the minimum explicitly lists Intel integrated HD 530); watch turn-times on huge maps late-game.",
+    bench: {
+      playable: { fps: "40–55 fps at 1080p on desktop Vega 7/8 with dual-channel RAM (30–40 on weaker laptop memory); turn times slow regardless (est.)",
+        settings: "Medium preset, shadows + terrain detail Low, 100% scale, leader screens low, AA off." },
+      sixty: { fps: "60+ fps realistic at 1080p Low on desktop Vega 7/8; fps matters less than turn times (turn-based)",
+        settings: "Low preset, 100% scale, AA off; use the in-game benchmark at turn 100+ as the real metric." },
+      source: ["https://www.reddit.com/r/pcgaming/comments/8439va/civilization_vi_benchmark_tested_with_stock_ryzen/", "https://www.notebookcheck.net/Civilization-VI-Notebook-and-Desktop-Benchmarks.190374.0.html"]
+    },
+    stores: [
+      { name: "Steam", url: "https://store.steampowered.com/app/289070/Sid_Meiers_Civilization_VI/" },
+      { name: "Epic Games Store", url: "https://store.epicgames.com/p/sid-meiers-civilization-vi" },
+      { name: "Microsoft Store", url: "https://www.xbox.com/en-US/games/store/sid-meiers-civilization-vi-windows-pc/9n1wk3hzg0j6" }
+    ],
+    storeNote: "Epic has repeatedly given the base/Platinum editions away free; Microsoft Store is a separate Windows edition.",
+    quality30: {fps1080: "30–40 (est.)",settings1080: "Medium, leader screens low, bloom off",fps900: "35–45 (est.)",settings900: "Medium–High, leader screens low"},
+    hddSp: {loads: "Big map/world loads 2–3× longer",fpsEffect: "None",stutter: "none",verdict: "slower-loads",note: "No streaming during turns; only map gen and leader screens load. Late-game turn times are purely CPU."},
+    upgradeTiers: {gtx1660s: "High 1080p 60+; turn times unchanged (CPU-bound)",rtx2060: "High/Ultra 1080p 60+; turn times unchanged",rx6600: "Ultra 1080p 60 (est.); late-game turns CPU-bound"},
+    sources: [
+      "https://store.steampowered.com/app/289070/Sid_Meiers_Civilization_VI/",
+      "https://steamcharts.com/app/289070"
+    ]
+  },
+
+  {
+    id: "civ7",
+    name: "Sid Meier's Civilization VII",
+    genre: "4x-grand",
+    priceModel: "paid",
+    priceUsd: 52.49,
+    priceNote: "2K list $69.99; deluxe −50% at $37.49 currently; discounted frequently since its 2025 launch",
+    campaign: { exists: false, freeOrPaid: "n/a", quality: 6,
+      notes: "Grand-strategy sandbox structured by three Ages; narrative events but no story campaign." },
+    ai: { score: 5, notes: "Launch-era 'passive/harmless AI' complaints persist in Mixed review sentiment (51%); improved by patches but still off-pace." },
+    setting: "ancient",
+    graphics: { score: 8, notes: "Detailed 3D map and unit art with strong vistas; criticized UI density and VRAM heaviness on iGPUs." },
+    players: { status: "active", notes: "~4.9k concurrent now, ~8.4k 30-day avg (SteamCharts, Oct 2026) — down dramatically from the 84.5k launch peak." },
+    specs: {
+      min: { cpu: "Intel i5-4690 / i3-10100 / AMD Ryzen 3 1200", gpu: "GTX 1050 / RX 460 / Intel Arc A380", ram: "8 GB", storage: "20 GB", os: "Windows 10 64-bit" },
+      rec: { cpu: "Intel Core i5-10400 / AMD Ryzen 5 3600X", gpu: "RTX 2060 / RX 6600 / Arc A750", ram: "16 GB", storage: "20 GB", os: "Windows 10 64-bit" }
+    },
+    size: { download: "~15 GB", install: "20 GB" }, installGB: 20,
+    storageAdvice: { verdict: "ssd-helps", note: "era-switch and reboot load big texture/civ-data blobs; HDD lengthens boot and Age transitions. FPS is CPU/GPU-bound, not SSD-bound." },
+    cpuDemand: "medium",
+    gpuMinTier: 4, gpuRecTier: 7,
+    compatNote: "Vega 7 is below the min GPU spec (GTX 1050 / Arc A380 floor): expect 720–900p low ~30 fps with hitches; heavy late-era maps drag on iGPU.",
+    bench: {
+      playable: { fps: "(est.) 25–35 fps at 1080p Lowest — min spec is GTX 1050-class for 1080p/30 Low, and Vega 8 is below that",
+        settings: "Low preset, dynamic scaling ~50–70% (below 'Balance' looks blurry at 1080p), shadows/AO off." },
+      sixty: { fps: "Not realistic at 1080p; ~40–50 fps needs ~720p Lowest; late-game turns are CPU-bound on ANY hardware",
+        settings: "720p, Lowest preset, scaling ~70%, shadows/AO/reflections off, terrain low." },
+      source: ["https://www.pcgamer.com/hardware/civilization-7-pc-performance-analysis-playable-on-lots-of-systems-but-the-late-game-will-grind-down-whatever-cpu-you-have/", "https://support.civilization.com/hc/en-us/articles/37234975360019-Civilization-VII-PC-System-Requirements"]
+    },
+    stores: [
+      { name: "Steam", url: "https://store.steampowered.com/app/1295660/Sid_Meiers_Civilization_VII/" },
+      { name: "Epic Games Store", url: "https://store.epicgames.com/p/sid-meiers-civilization-vii" }
+    ],
+    storeNote: "Also on consoles and GeForce NOW per 2K's FAQ; no GOG version; no DLSS/FSR at launch.",
+    quality30: {fps1080: "~25–30 (est.)",settings1080: "Low, leader/character detail low, bloom off",fps900: "~30 (est.)",settings900: "Low–Medium"},
+    hddSp: {loads: "Era-transition loads longer",fpsEffect: "None",stutter: "none",verdict: "slower-loads",note: "Turn-based, no streaming; long era loads on HDD. Late-game turn times purely CPU."},
+    upgradeTiers: {gtx1660s: "Medium 1080p 60 (est.)",rtx2060: "Medium–High 1080p 60 (est.)",rx6600: "High 1080p 60+ (est.); turn times CPU-bound"},
+    sources: [
+      "https://store.steampowered.com/app/1295660/Sid_Meiers_Civilization_VII/",
+      "https://steamcharts.com/app/1295660"
+    ]
+  },
+
+  {
+    id: "stellaris",
+    name: "Stellaris",
+    genre: "4x-grand",
+    priceModel: "paid",
+    priceUsd: 36.49,
+    priceNote: "Base ~$49.99 list with extremely frequent −50% to −80% sales; 32 add-on DLCs (full set ~$280) but base is complete and playable alone",
+    campaign: { exists: false, freeOrPaid: "n/a", quality: 8,
+      notes: "Grand-strategy sandbox: emergent crises and story events provide narrative without a structured campaign." },
+    ai: { score: 6, notes: "Passable crisis/class AI in wars; common gripes about suicidal fleet moves — many players use AI-behaviour mods for a challenge." },
+    setting: "futuristic",
+    graphics: { score: 6, notes: "Readable 2D map UI plus modest 3D ship models; functional, not showy." },
+    players: { status: "active", notes: "~7.5k concurrent now, ~11.6k 30-day avg, 68k all-time peak; solid MP lobby culture (SteamCharts, Oct 2026)." },
+    specs: {
+      min: { cpu: "Intel Core i3-530 / AMD FX-6350", gpu: "GTX 460 / HD 5870 (1 GB), or Vega 11 / Intel HD 4600", ram: "4 GB", storage: "10 GB", os: "Windows 10 Home 64-bit" },
+      rec: { cpu: "Intel Core i5-3570K / AMD Ryzen 5 2400G", gpu: "GTX 560 Ti (1 GB) / R7 370 (2 GB)", ram: "4 GB", storage: "10 GB", os: "Windows 10 Home 64-bit" }
+    },
+    size: { download: "~8 GB", install: "10 GB" }, installGB: 10,
+    storageAdvice: { verdict: "hdd-fine", note: "Late-game speed is daily-tick CPU lag; disk irrelevant. Many installed mods = slower startup scans on HDD, that is all." },
+    cpuDemand: "high",
+    gpuMinTier: 1.5, gpuRecTier: 2.5,
+    compatNote: "Officially supports Intel HD 4600 / Vega 11 at minimum, so Vega 7 runs it fine; late-game large galaxies slow down on CPU/HDD.",
+    bench: {
+      playable: { fps: "(est.) 35–45 fps at 1080p low; late-game daily-tick slowdown is CPU-side and matters more than fps",
+        settings: "Lowest preset (textures Medium OK), 100% scale, Medium galaxy rather than Huge, AA off." },
+      sixty: { fps: "(est.) 1080p low sits ~45–60 with dips; 60 fps more assured at 720p low",
+        settings: "720–900p, Lowest, AA off, medium galaxy; in-game speed settings matter more." },
+      source: ["https://www.reddit.com/r/Stellaris/comments/1t91cce/hiii_stellaris_on_1080p_30fps_or_720p_60fps/"]
+    },
+    stores: [
+      { name: "Steam", url: "https://store.steampowered.com/app/281990/Stellaris/" },
+      { name: "Microsoft Store", url: "https://www.xbox.com/en-US/games/store/stellaris/9nxqpgmr917r" }
+    ],
+    storeNote: "Microsoft Store version cross-plays with Steam; was on PC Game Pass (announced leaving in mid-2026); not on GOG/Epic.",
+    quality30: {fps1080: "60 (est.)",settings1080: "High; entity count matters more than GPU settings",fps900: "60 (est.)",settings900: "High"},
+    hddSp: {loads: "Long save loads (10+ min on old HDDs for huge empires)",fpsEffect: "None",stutter: "none",verdict: "slower-loads",note: "Game runs from RAM after load; HDD only hurts save/map loading. Late-game monthly ticks are CPU-bound."},
+    upgradeTiers: {gtx1660s: "Max 1080p 60; no turn-time gain (CPU-bound)",rtx2060: "Max 1080p 60; no turn-time gain",rx6600: "Max 1080p 60 (est.); late-game sim CPU-bound"},
+    sources: [
+      "https://store.steampowered.com/app/281990/Stellaris/",
+      "https://steamcharts.com/app/281990"
+    ]
+  },
+
+  {
+    id: "twwh3",
+    name: "Total War: WARHAMMER III",
+    genre: "4x-grand",
+    priceModel: "paid",
+    priceUsd: 59.99,
+    priceNote: "Base; heavy −50%+ sales; many $8.99 faction DLCs (full set ~$413) — but the free Immortal Empires combined map is included with base",
+    campaign: { exists: true, freeOrPaid: "paid (Realms of Chaos narrative campaign + free Immortal Empires sandbox included)", quality: 8,
+      notes: "Battle-rich, story-light: the Realms of Chaos narrative campaign plus the huge Immortal Empires grand sandbox." },
+    ai: { score: 6, notes: "Battle AI is decent and fair, but persistent complaints about passive map AI, AI fleets ghosting, and mercenary spam." },
+    setting: "fantasy",
+    graphics: { score: 10, notes: "Best-in-class spectacle: thousands of units, full entity-based destruction, giant monsters; a visual benchmark for the genre." },
+    players: { status: "very-active", notes: "~21.6k concurrent now, 46.5k 30-day avg, 102k peak (Sep 2026); large MP battle/Domination scene (SteamCharts)." },
+    specs: {
+      min: { cpu: "Intel i3 / Ryzen 3 series", gpu: "GTX 900 / RX 400 series or Intel Iris Xe Graphics", ram: "6 GB", storage: "120 GB", os: "Windows 7 64-bit" },
+      rec: { cpu: "Intel i5 / Ryzen 5 series", gpu: "GTX 1660 Ti / RX 5600 XT / Arc A750", ram: "8 GB", storage: "120 GB", os: "Windows 10 64-bit" }
+    },
+    size: { download: "~100 GB", install: "~120 GB" }, installGB: 120,
+    storageAdvice: { verdict: "ssd-strongly-advised", note: "120 GB with streaming battle loads and historically massive patch re-downloads. On HDD: multi-minute boots and battle starts, painful patching. This is the single worst HDD candidate in the set." },
+    cpuDemand: "high",
+    gpuMinTier: 2, gpuRecTier: 6.5,
+    compatNote: "Playable at 720p low/min (Intel Iris Xe is listed as a minimum) with stutter in big fights; 100 GB+ on an HDD is brutal and turn-times crawl late-game.",
+    bench: {
+      playable: { fps: "(est.) 20–30 fps at 1080p Lowest in battles, 30–45 on the campaign map (scaled from Vega 56 ≈ 90 fps at 1080p Medium — an iGPU is ~1/4–1/5 that)",
+        settings: "Lowest preset, unit size Medium, shadows + sky/environment shadows off, AA off, grass/trees lowest; use the in-game battle benchmark." },
+      sixty: { fps: "(est.) Not realistic at 1080p in real battles; ~45–60 fps at 720p Lowest with small/medium unit size in light encounters",
+        settings: "720p, Lowest, unit size Small/Medium, all shadows off, 100% scale." },
+      source: ["https://www.kitguru.net/components/graphic-cards/dominic-moass/total-war-warhammer-iii-pc-performance-benchmark-30-gpus-tested/", "https://en.gamegpu.com/test-gpu/rts-strategii/total-war-warhammer-3-test-gpu-cpu"]
+    },
+    stores: [
+      { name: "Steam", url: "https://store.steampowered.com/app/1142710/Total_War_WARHAMMER_III/" },
+      { name: "Microsoft Store", url: "https://www.xbox.com/en-US/games/store/total-war-warhammer-iii/9n04gtdbfnh6" }
+    ],
+    storeNote: "Day-one PC Game Pass title, purchasable on MS Store; DLC cross-entitles between Steam and MS Store versions; not on GOG.",
+    quality30: {fps1080: "NOT REALISTIC: ~20–25 at custom low (est.)",settings1080: "Custom low: meshes low, shadows/water/magic/grass off, battle UI low",fps900: "~25–30 low; borderline in the worst sieges (est.)",settings900: "Same custom low at 1600×900"},
+    hddSp: {loads: "Battle/campaign loads 2–4× longer (60–120s+ per battle)",fpsEffect: "Minor",stutter: "moderate",verdict: "stutter-risk",note: "Battles stream environment/unit details from disk: texture pop-in and brief hitches at battle start, worse in big settlements. SSD strongly recommended."},
+    upgradeTiers: {gtx1660s: "Medium 1080p 40–50 in battles, 25–40 sieges (est.); turn times CPU-bound",rtx2060: "High 1080p 45–60 (est.)",rx6600: "High 1080p ~60 battles / 40–50 sieges (est.); map AI turns CPU-bound"},
+    sources: [
+      "https://store.steampowered.com/app/1142710/Total_War_WARHAMMER_III/",
+      "https://steamcharts.com/app/1142710"
+    ]
+  },
+
+  {
+    id: "tw-rome2",
+    name: "Total War: ROME II (Emperor Edition)",
+    genre: "4x-grand",
+    priceModel: "paid",
+    priceUsd: 18.99,
+    priceNote: "Emperor Edition; deeply discounted (−50% to −75%) in every major sale",
+    campaign: { exists: true, freeOrPaid: "paid (grand campaign + Imperator Augustus campaign included)", quality: 8,
+      notes: "Classic Total War mix: turn-based grand campaign sandbox plus structured Imperator Augustus scenario." },
+    ai: { score: 6, notes: "Field AI is OK post-patches, but siege AI remains weak (wall/auto-resolve abuse) and campaign ally behaviour can be erratic." },
+    setting: "ancient",
+    graphics: { score: 8, notes: "Still gorgeous large-scale army/siege battles for its age; dated UI and character models." },
+    players: { status: "active", notes: "~2.2k concurrent, ~4k 30-day avg (Oct 2026); tiny MP community, mostly single-player/co-op." },
+    specs: {
+      min: { cpu: "2 GHz Intel dual-core / 2.6 GHz single-core", gpu: "512 MB DX9.0c card (Shader 3, vertex texture fetch)", ram: "2 GB", storage: "35 GB", os: "XP/Vista/7/8" },
+      rec: { cpu: "2nd-gen Intel Core i5 or greater", gpu: "1 GB DX11-compatible card", ram: "4 GB", storage: "35 GB", os: "Windows 7/8" }
+    },
+    size: { download: "~30 GB", install: "35–40 GB" }, installGB: 40,
+    storageAdvice: { verdict: "ssd-helps", note: "35-40 GB; battle and siege scene loads noticeably slower on HDD; turn times unaffected (CPU). SSD is a nice-to-have, HDD workable." },
+    cpuDemand: "high",
+    gpuMinTier: 1, gpuRecTier: 2.5,
+    compatNote: "Extremely scalable and old — runs comfortably at 1080p medium on Vega 7; occasional UI/turn hitching, generally fine from HDD.",
+    bench: {
+      playable: { fps: "40–55 fps at 1080p Low (direct iGPU benchmark: Ryzen 3 3200G Vega 8 @ 1080p Low); big sieges dip to 35–40",
+        settings: "Low/medium mixed preset, unit size Normal/Large, shadows low, grass low, AA off." },
+      sixty: { fps: "60 fps reachable at 1080p Low in smaller engagements; mass sieges drop to the 40s",
+        settings: "Low preset (textures Medium), shadows off, SSAO off, AA off." },
+      source: ["https://www.youtube.com/watch?v=LKeVID704_w"]
+    },
+    stores: [{ name: "Steam", url: "https://store.steampowered.com/app/214950/Total_War_ROME_II_Emperor_Edition/" }],
+    storeNote: "Steam-only on PC (no GOG/Epic); Emperor Edition is the current updated base edition.",
+    quality30: {fps1080: "30–40 (est.)",settings1080: "Medium, shadows low, unit detail Medium, AA off",fps900: "40–50 (est.)",settings900: "Medium–High, shadows low"},
+    hddSp: {loads: "Battle loads 1.5–3× longer",fpsEffect: "None",stutter: "none",verdict: "slower-loads",note: "Battles fully load at start; occasional terrain pop-in only. Campaign turns CPU-bound on huge empires."},
+    upgradeTiers: {gtx1660s: "High 1080p 60; turn times unchanged",rtx2060: "Ultra 1080p 60+ (est.)",rx6600: "Ultra 1080p 60+ (est.); big-army AI turns CPU-bound"},
+    sources: [
+      "https://store.steampowered.com/app/214950/Total_War_ROME_II/",
+      "https://steamcharts.com/app/214950"
+    ]
+  },
+
+  {
+    id: "sins2",
+    name: "Sins of a Solar Empire II",
+    genre: "4x-grand",
+    priceModel: "paid",
+    priceUsd: 22.99,
+    priceNote: "Base; Premium Edition $45.99; modest sale cadence vs RTS peers",
+    campaign: { exists: false, freeOrPaid: "n/a", quality: 6,
+      notes: "Grand-strategy sandbox via skirmish/procedural paths; the classic TEC/Trinity mission structure was cut." },
+    ai: { score: 7, notes: "Notably competent/aggressive AI for the genre (manages economy and fleets); complaints mostly about difficulty ramp, not cheating." },
+    setting: "futuristic",
+    graphics: { score: 7, notes: "Zoom-out-to-galaxy spectacle with clean PBR fleet detail; ship models remain plain up close." },
+    players: { status: "small", notes: "~330 concurrent, ~620 30-day avg, 13.3k all-time peak (Oct 2026); MP niches via join-codes." },
+    specs: {
+      min: { cpu: "4-core (Intel Core i5 5th-gen / Ryzen 2x00 series)", gpu: "4 GB VRAM: GTX 950 / RX 450", ram: "8 GB", storage: "20 GB", os: "Windows 10 v1607+/11 64-bit" },
+      rec: { cpu: "8-core (Intel Core i7 9th-gen / Ryzen 3x00)", gpu: "8 GB VRAM: GTX 1060 / RX 580", ram: "16 GB", storage: "20 GB", os: "Windows 11" }
+    },
+    size: { download: "~8 GB", install: "20 GB" }, installGB: 20,
+    storageAdvice: { verdict: "ssd-helps", note: "20 GB + memory-hungry maps: with 16 GB RAM the OS pagefile does heavy work end-game, so keeping the game (and pagefile) on SSD avoids swap-stutter. HDD maps load slow and swap-chug in big battles." },
+    cpuDemand: "high",
+    gpuMinTier: 4.5, gpuRecTier: 5.5,
+    compatNote: "Just under the min GPU spec (GTX 950 4 GB): runs at low on Vega 7, but big late-games stutter — an SSD swap is strongly recommended for its swap-heavy map load.",
+    bench: {
+      playable: { fps: "(est.) 45–60 fps at 1080p Low–Medium (a UHD/Xe iGPU tester recorded 1080p 60 fps; Vega 8 comparable or better); late multi-fleet fights CPU-bound",
+        settings: "Low–Medium preset, 100% scale, AA off, shadows off; keep neutral-ship counts capped in-game if available." },
+      sixty: { fps: "60 fps realistic at 1080p Low/Medium in normal play; huge maps drop sim/UI rate in the late game (est.)",
+        settings: "Lowest preset, 100% scale, AA off; map size affects CPU sim more than fps." },
+      source: ["https://www.youtube.com/watch?v=SUISoAXVKBM", "https://www.reddit.com/r/SoSE/comments/1mwyjvn/sins_of_a_solar_empire_ii_performance/"]
+    },
+    stores: [
+      { name: "Steam", url: "https://store.steampowered.com/app/1575940/Sins_of_a_Solar_Empire_II/" },
+      { name: "Stardock", url: "https://www.sinsofasolarempire2.com/" }
+    ],
+    storeNote: "Early Access began Epic-exclusive (Oct 2022); 1.0 launched on Steam Aug 2024; expansions ship on Steam, Epic and Stardock direct.",
+    quality30: {fps1080: "~20–30 low in medium games; worse in big battles (est.; below the GTX 950 minimum)",settings1080: "Low, bloom off, textures low, effects low",fps900: "~30 low, small/medium maps only (est.)",settings900: "Low"},
+    hddSp: {loads: "Galaxy/save loads noticeably longer",fpsEffect: "None",stutter: "none",verdict: "slower-loads",note: "Loads map then runs from RAM; no streaming stutter. Large 8-player endgames are CPU-bound regardless of storage/GPU."},
+    upgradeTiers: {gtx1660s: "Medium 1080p 50–60; big battles CPU-dip (est.)",rtx2060: "High 1080p 60 (est.)",rx6600: "High 1080p 60 (est.); heavy fleet sims still CPU-bound"},
+    sources: [
+      "https://store.steampowered.com/app/1575940/Sins_of_a_Solar_Empire_II/",
+      "https://steamcharts.com/app/1575940"
+    ]
+  },
+
+  {
+    id: "aow4",
+    name: "Age of Wonders 4",
+    genre: "4x-grand",
+    priceModel: "paid",
+    priceUsd: 36.49,
+    priceNote: "Base $49.99 list; Premium $65.99; regular −50% to −60% sales; 19 DLCs stack up",
+    campaign: { exists: false, freeOrPaid: "n/a", quality: 7,
+      notes: "Grand-strategy sandbox with a story-event system and replayable realm runs; no linear story campaign." },
+    ai: { score: 6, notes: "Solid at tactical battles; strategic-map economy/threat logic goes out of depth on big maps, siege defence AI is known-weak." },
+    setting: "fantasy",
+    graphics: { score: 8, notes: "Beautiful fantasy hex/map stylization and tactical-battle zoom; visual punch with animation quirks." },
+    players: { status: "small", notes: "~1k concurrent, ~1.8k 30-day avg (Oct 2026); MP niche (needs Paradox account), mostly SP/co-op." },
+    specs: {
+      min: { cpu: "Intel Core i5-2500K / AMD Ryzen 5 1600X", gpu: "GTX 670 (2 GB) / HD 7870 (2 GB) / Arc A380 / Iris Xe G7 / Vega 8", ram: "8 GB", storage: "35 GB", os: "Windows 10 64-bit (21H1+)" },
+      rec: { cpu: "Intel Core i7-9700K / AMD Ryzen 5 5600X", gpu: "GTX 1070 Ti (8 GB) / RX 5700 XT", ram: "16 GB", storage: "35 GB", os: "Windows 10/11" }
+    },
+    size: { download: "~22 GB", install: "~35 GB" }, installGB: 35,
+    storageAdvice: { verdict: "ssd-helps", note: "35 GB assets load at realm generation and battle entry; HDD slows those two moments, no FPS effect. Fine playable from HDD." },
+    cpuDemand: "high",
+    gpuMinTier: 3, gpuRecTier: 6.5,
+    compatNote: "The minimum spec explicitly lists Vega 8/Intel Iris Xe — your Vega 7 basically meets it: fine at 1080p low-medium; big 16-player realms can jank.",
+    bench: {
+      playable: { fps: "30–40 fps at 1080p Lowest (Vega 8 is explicitly the listed minimum GPU); tactical battles dip first; turn-based so fps matters less",
+        settings: "Lowest preset, shadow detail lowest, SSAO off, fullscreen; enable the in-game 'Driver Workaround' toggle if launching issues occur." },
+      sixty: { fps: "Not realistic at 1080p tactical battles; (est.) ~50–60 fps at ~720p Lowest; overworld map lighter",
+        settings: "720–900p, Lowest, AO + shadows off, tighter camera zoom." },
+      source: ["https://www.systemrequirementslab.com/cyri/requirements/age-of-wonders-4/22229", "https://www.reddit.com/r/4Xgaming/comments/13g7lon/age_of_wonders_4_performance_guide_best_settings/"]
+    },
+    stores: [
+      { name: "Steam", url: "https://store.steampowered.com/app/1669000/Age_of_Wonders_4/" },
+      { name: "Microsoft Store", url: "https://www.xbox.com/en-US/games/store/age-of-wonders-4-pc/9p0m20727bvn" }
+    ],
+    storeNote: "MS Store purchase is a separate entitlement from Steam (no cross-entitlement); was day-one on PC Game Pass; Paradox site sells Steam keys.",
+    quality30: {fps1080: "~25–30 fps (est.)",settings1080: "Low preset, ~85% render scale, AA off",fps900: "~30–35 fps (est.)",settings900: "Low preset, 100% scale, shadows+textures Medium"},
+    hddSp: {loads: "Map loads 2–3× slower on HDD (est.)",fpsEffect: "None once loaded",stutter: "none",verdict: "fine",note: "Turn-based; a brief 1–2s freeze possible when big animations stream from a slow drive (est.)."},
+    upgradeTiers: {gtx1660s: "Medium–High 1080p ~60 fps incl. big armies (est.)",rtx2060: "High/Ultra 1080p smooth 60+; late-game army scenes stable",rx6600: "≈ RTX 2060; High 1080p 60 fps, best pick per dollar"},
+    sources: [
+      "https://store.steampowered.com/app/1669000/Age_of_Wonders_4/",
+      "https://steamcharts.com/app/1669000"
+    ]
+  },
+
+  {
+    id: "dune-spice-wars",
+    name: "Dune: Spice Wars",
+    genre: "4x-grand",
+    priceModel: "paid",
+    priceUsd: 11.99,
+    priceNote: "List $34.99 currently −66%; The Ixian Edition bundle $16.63; frequent deep discounts",
+    campaign: { exists: true, freeOrPaid: "paid (Conquest scenario chain included)", quality: 6,
+      notes: "Scenario-based 'Conquest mode' chain rather than a narrative story campaign; the main mode is real-time 4X skirmish on Arrakis." },
+    ai: { score: 5, notes: "AI factions are predictable at higher difficulty — mostly economy spam or passive expansion unless handed the upper hand." },
+    setting: "futuristic",
+    graphics: { score: 7, notes: "Clean Northgard-style stylized top-down; sandstorms and sandworms add life; not graph-ambitious." },
+    players: { status: "small", notes: "~79 concurrent, ~170 30-day avg (Oct 2026); MP niche stuck to friends-games." },
+    specs: {
+      min: { cpu: "Intel Core i5 2.5 GHz / AMD Ryzen 5", gpu: "GTX 1050 / RX 550", ram: "8 GB", storage: "4 GB", os: "Windows 10/11" },
+      rec: { cpu: "Intel Core i7 2.8 GHz / AMD Ryzen 7", gpu: "GTX 1080 / RX 6600", ram: "16 GB", storage: "4 GB", os: "Windows 10/11" }
+    },
+    size: { download: "~4 GB", install: "4–5 GB" }, installGB: 5,
+    storageAdvice: { verdict: "hdd-fine", note: "4-5 GB, no streaming pressure; HDD loads fast." },
+    cpuDemand: "low",
+    gpuMinTier: 4, gpuRecTier: 6,
+    compatNote: "Tiny install and low GPU bar — runs 900p–1080p low on Vega 7 without drama; small late-game lag only with many factions.",
+    bench: {
+      playable: { fps: "(est.) 30–45 fps at 1080p Lowest (Vega laptop testers see ~25–35 fps at 720p low; Vega 8 has ~30% headroom)",
+        settings: "Lowest preset, 100% scale, AA off, shadows off; keep camera mostly zoomed-out to hold fps." },
+      sixty: { fps: "Not realistic at 1080p; (est.) ~45–60 fps at 720p Lowest",
+        settings: "720p, Lowest, AA + shadows off; small map size in solo play." },
+      source: ["https://www.youtube.com/watch?v=fDJ4QGifeYw"]
+    },
+    stores: [{ name: "Steam", url: "https://store.steampowered.com/app/1605220/Dune_Spice_Wars/" }],
+    storeNote: "Steam-only on PC (published with Funcom); GOG has only a wishlist entry; not on Epic.",
+    quality30: {fps1080: "~28–30 fps (est.)",settings1080: "Low, 90% render scale",fps900: "~30–35 fps (est.)",settings900: "Low with Medium unit detail"},
+    hddSp: {loads: "Settlement/match generation roughly doubles on HDD (est.)",fpsEffect: "None",stutter: "none",verdict: "fine",note: "Short hitch at map generation possible; nothing gameplay-breaking (est.)."},
+    upgradeTiers: {gtx1660s: "Medium–High 1080p 60 fps; big multi-army scenes still CPU-headed (est.)",rtx2060: "High 1080p 60 fps flat",rx6600: "≈ RTX 2060 result; High 1080p 60 fps"},
+    sources: [
+      "https://store.steampowered.com/app/1605220/",
+      "https://steamcharts.com/app/1605220"
+    ]
+  },
+
+  {
+    id: "ron-ee",
+    name: "Rise of Nations: Extended Edition",
+    genre: "4x-grand",
+    priceModel: "paid",
+    priceUsd: 19.99,
+    priceNote: "4-pack $59.99; routinely −50% to −75% in strategy sales",
+    campaign: { exists: true, freeOrPaid: "paid (Conquer the World campaign included)", quality: 7,
+      notes: "'Conquer the World' hybrid: linked scenario-map across a world map plus short skirmish battles — a great structure." },
+    ai: { score: 7, notes: "Solid AI for 2003: actively expands and raids at Standard+; a bit predictable at very high difficulty by today's standards." },
+    setting: "realistic-modern",
+    graphics: { score: 5, notes: "2003-era art with a mild remaster (AA, water, textures); perfectly readable sprite-ish units." },
+    players: { status: "active", notes: "~384 concurrent, ~600 30-day avg; extremely stable decade-long traffic (SteamCharts, Oct 2026)." },
+    specs: {
+      min: { cpu: "1.6 GHz processor", gpu: "DirectX 10+ capable GPU (Intel HD 3000, 8600GT level)", ram: "1 GB", storage: "3 GB", os: "Windows Vista/7/8.1+" },
+      rec: { cpu: "2.6 GHz processor", gpu: "DirectX 11+ (GeForce 9800GTX, HD 4850)", ram: "4 GB", storage: "5 GB", os: "Windows 7/8.1+" }
+    },
+    size: { download: "~2 GB", install: "3–5 GB" }, installGB: 5,
+    storageAdvice: { verdict: "hdd-fine", note: "2-5 GB remake; HDD trivial." },
+    cpuDemand: "medium",
+    gpuMinTier: 1, gpuRecTier: 2.5,
+    compatNote: "Ridiculously light: maxes out at 60 fps on Vega 7 from a 2 GB install; ideal for HDD and low-end rigs, big 8-player maps stay smooth.",
+    bench: {
+      playable: { fps: "(est.) 60+ fps at 1080p Medium — a 2014 remake of a 2003 DX engine; vastly exceeds its requirements on Vega 8",
+        settings: "Medium–High preset, 100% scale; most battles are fine even higher." },
+      sixty: { fps: "(est.) 60–100+ fps at 1080p High; occasional dips with massive late-age armies on screen",
+        settings: "High preset, shadows medium, AA as tolerated; lower pop caps avoid dips." },
+      source: ["https://www.reddit.com/r/Amd/comments/b2h017/gaming_on_ryzen_3_2200g_vega_8_integrated/"]
+    },
+    stores: [
+      { name: "Steam", url: "https://store.steampowered.com/app/287450/Rise_of_Nations_Extended_Edition/" },
+      { name: "Microsoft Store", url: "https://www.xbox.com/en-US/games/store/rise-of-nations-extended-edition/9ns84hcwzd8b" }
+    ],
+    storeNote: "Published by Xbox Game Studios; MS Store version cross-plays with Steam multiplayer.",
+    quality30: {fps1080: "60+ fps, CPU-capped (est.)",settings1080: "Maxed (Ultra, AA on) at 1080p",fps900: "60+ fps maxed (est.)",settings900: "Maxed; 900p adds nothing over 1080p"},
+    hddSp: {loads: "Fast even on HDD (~4 GB install)",fpsEffect: "None",stutter: "none",verdict: "fine",note: "No streaming assets; late-game dips are CPU-sim, not storage."},
+    upgradeTiers: {gtx1660s: "Already maxed on Vega 7; GPU adds nothing",rtx2060: "Already maxed on Vega 7; GPU adds nothing",rx6600: "Already maxed on Vega 7; GPU adds nothing"},
+    sources: [
+      "https://store.steampowered.com/app/287450/",
+      "https://steamcharts.com/app/287450"
+    ]
+  },
+
+  /* ======================= HYBRIDS / TOWER DEFENSE ======================= */
+
+  {
+    id: "they-are-billions",
+    name: "They Are Billions",
+    genre: "hybrid-td",
+    priceModel: "paid",
+    priceUsd: 14.49,
+    priceNote: "Base $29.99 list (current −50%); only non-essential OST/artbook DLC is extra",
+    campaign: { exists: true, freeOrPaid: "paid (included; campaign + survival separated in the base)", quality: 7,
+      notes: "Campaign of 21 hand-crafted colonial missions increasing in complexity alongside endless survival — solid at the time of release." },
+    ai: { score: 6, notes: "Individual zombie noise/scent reactions across 20k units is impressive, but pathing is exploitable and swarms are predictable." },
+    setting: "fantasy",
+    graphics: { score: 8, notes: "Gorgeous hand-drawn steampunk/Victorian isometric art with very detailed animations." },
+    players: { status: "n/a-sp", notes: "Single-player only; ~2k concurrent (Oct 2026), 24h peak 3,464, all-time 22,295." },
+    specs: {
+      min: { cpu: "Any Intel/AMD 2-core 2 GHz", gpu: "Intel HD 3000 / Radeon / Nvidia card (SM3, 1 GB)", ram: "4 GB", storage: "4 GB", os: "Windows 7/8/10 (32/64-bit), DX9.0c" },
+      rec: { cpu: "Any Intel/AMD 4-core 3 GHz", gpu: "Radeon 7950 / GTX 670 (4 GB)", ram: "8 GB", storage: "4 GB", os: "Windows 7/8/10 64-bit, DX9.0c" }
+    },
+    size: { download: "~4 GB", install: "~4 GB" }, installGB: 4,
+    storageAdvice: { verdict: "hdd-fine", note: "4 GB, no streaming; HDD no effect. FPS dips at waves are CPU-bound." },
+    cpuDemand: "high",
+    gpuMinTier: 1, gpuRecTier: 4,
+    compatNote: "Runs great on Vega 7 (min spec is Intel HD 3000); late-game horde floods stress the CPU, but a Zen-3 6-core handles it and the tiny 4 GB install is HDD-negligible.",
+    bench: {
+      playable: { fps: "(est.) ~30–40 fps in normal play at 1080p Low; dips to 15–25 in huge final-wave hordes",
+        settings: "Low preset, 1080p, 85–100% render scale, shadows low, unit detail low, post-processing off." },
+      sixty: { fps: "Not realistic at 1080p; (est.) ~45–55 fps at 720p Low, worst waves still drop",
+        settings: "Lowest preset, 1280×720 or 1600×900, ~70% render scale, shadows off, reduced unit detail." },
+      source: ["https://store.steampowered.com/app/644930/"]
+    },
+    stores: [
+      { name: "Steam", url: "https://store.steampowered.com/app/644930/" },
+      { name: "GOG (DRM-free)", url: "https://www.gog.com/en/game/they_are_billions" }
+    ],
+    storeNote: "Official site links to Steam/Humble; GOG version is DRM-free.",
+    quality30: {fps1080: "~25–30 fps in swarms (est.)",settings1080: "Low–Medium, AA off, shadows low",fps900: "~30–35 fps (est.)",settings900: "Medium mostly, shadows/effects low"},
+    hddSp: {loads: "Map load slightly slower on HDD",fpsEffect: "None",stutter: "none",verdict: "fine",note: "Swarm dips are CPU/GPU-bound; HDD contributes nothing beyond load time."},
+    upgradeTiers: {gtx1660s: "Medium–High 1080p, much smoother swarms; still dips at 2000+ zombie waves (est.)",rtx2060: "High 1080p 60 fps in most cases; max-speed swarm peaks stay CPU-capped",rx6600: "≈ RTX 2060; High 1080p 60 fps, good fit"},
+    sources: [
+      "https://store.steampowered.com/app/644930/They_Are_Billions/",
+      "https://steamcharts.com/app/644930"
+    ]
+  },
+
+  {
+    id: "aod-final-stand",
+    name: "Age of Darkness: Final Stand",
+    genre: "hybrid-td",
+    priceModel: "paid",
+    priceUsd: 11.99,
+    priceNote: "Base $27.99 list (−57% currently); no content DLC — everything is in the base",
+    campaign: { exists: true, freeOrPaid: "free (included)", quality: 7,
+      notes: "Survive-the-Night 2-player co-op campaign story is included free; Battle map adds survival waves." },
+    ai: { score: 5, notes: "SwarmTech renders 70k+ Nightmares, but behaviour is mostly swarming with elite-unit quirks; pathing and Veil-aggro can feel dumb." },
+    setting: "fantasy",
+    graphics: { score: 7, notes: "Stylized dark-fantasy 3D with atmospheric fog/day-night; serviceable, not stunning." },
+    players: { status: "small", notes: "2-player co-op only; ~60 concurrent, 24h peak 131, all-time 6,458 (SteamCharts, Oct 2026)." },
+    specs: {
+      min: { cpu: "Intel Core i5-10600 / AMD Ryzen 5 3600XT", gpu: "GTX 770 (4 GB) / R9 380 (4 GB)", ram: "16 GB", storage: "10 GB", os: "Windows 10 64-bit" },
+      rec: { cpu: "Intel Core i5-12600K / AMD Ryzen 5 7600", gpu: "GTX 1070 (8 GB) / RX Vega 56 (8 GB)", ram: "16 GB", storage: "10 GB", os: "Windows 10 64-bit" }
+    },
+    size: { download: "~10 GB", install: "~10 GB" }, installGB: 10,
+    storageAdvice: { verdict: "hdd-fine", note: "10 GB; performance is CPU/RAM-bound during 50k-unit nights; disk has no meaningful effect." },
+    cpuDemand: "high",
+    gpuMinTier: 4, gpuRecTier: 5,
+    compatNote: "Marginal: below min specs — low settings at 720p around 24–30 fps, CPU-bound during 50k-unit Death Nights; HDD fine while 16 GB RAM is strongly advised.",
+    bench: {
+      playable: { fps: "(est.) ~25–35 fps at 1080p Low, dipping into the teens during large battles/final waves (min spec is GTX 770)",
+        settings: "Lowest preset, 1080p or 1600×900, ~70–80% render scale, particles lowest, restrained unit populations." },
+      sixty: { fps: "Not realistic on Vega 7/8 at any 1080p preset; borderline only at 720p Lowest",
+        settings: "720p Lowest, ~60% render scale, smallest battle populations." },
+      source: ["https://store.steampowered.com/app/1426450/"]
+    },
+    stores: [{ name: "Steam", url: "https://store.steampowered.com/app/1426450/" }],
+    storeNote: "Steam-only (not on GOG/Epic as of the Oct 2026 check).",
+    quality30: {fps1080: "~25–30 fps (est.)",settings1080: "Low preset, reduced unit/detail scale",fps900: "~30 fps (est.)",settings900: "Low; slight headroom to raise ground detail"},
+    hddSp: {loads: "Wave/map generation slightly slower on HDD (est.)",fpsEffect: "None",stutter: "none",verdict: "fine",note: "Heavy wave phases are sim/CPU-bound; HDD is not the bottleneck."},
+    upgradeTiers: {gtx1660s: "Low–Medium 1080p ~60 fps base; big waves still CPU-capped (est.)",rtx2060: "High 1080p stable outside massive waves; 40–50 fps at peaks (est.)",rx6600: "≈ RTX 2060; High 1080p 60 fps, best-value option"},
+    sources: [
+      "https://store.steampowered.com/app/1426450/Age_of_Darkness_Final_Stand/",
+      "https://steamcharts.com/app/1426450"
+    ]
+  },
+
+  {
+    id: "diplomacy-not-option",
+    name: "Diplomacy is Not an Option",
+    genre: "hybrid-td",
+    priceModel: "paid",
+    priceUsd: 10.49,
+    priceNote: "Base $29.99 list (−65% currently); base game is complete — extras are OST/wallpapers only",
+    campaign: { exists: true, freeOrPaid: "free (included)", quality: 7,
+      notes: "Story campaign included free, plus Endless Mode and dynamic siege/epic battles." },
+    ai: { score: 6, notes: "Physics-simulated medieval melee/ranged AI is decent (blocking, ballistics); enemy hordes are waves — competent, not brilliant." },
+    setting: "fantasy",
+    graphics: { score: 7, notes: "Good-looking medieval-fantasy 3D with fun ballistic physics battles; some muddy textures up close." },
+    players: { status: "n/a-sp", notes: "Single-player modes only; ~263 concurrent (Oct 2026), all-time 5,939, still updated in 2026." },
+    specs: {
+      min: { cpu: "Intel Core i5 6400 / AMD FX-8300 (X8)", gpu: "GTX 1070 / RX Vega 56", ram: "16 GB", storage: "15 GB", os: "Windows 10/11 64-bit, DX11" },
+      rec: { cpu: "Intel Core i5 7400 / AMD Ryzen 3 2300X", gpu: "RTX 2060 / RX 5600", ram: "32 GB", storage: "15 GB", os: "Windows 10/11 64-bit, DX11" }
+    },
+    size: { download: "~15 GB", install: "~15 GB" }, installGB: 15,
+    storageAdvice: { verdict: "hdd-fine", note: "15 GB; load screens somewhat slower on HDD; stutter is GPU/CPU-bound, not IO." },
+    cpuDemand: "high",
+    gpuMinTier: 5, gpuRecTier: 7,
+    compatNote: "Rough: min GTX 1070 / 16 GB is far above Vega 7; low settings 720p will stutter and 25k+-unit siege scenes will chug on iGPU.",
+    bench: {
+      playable: { fps: "(est.) ~30–40 fps at 1080p Low outside massive sieges; ~20 fps in big battles (the dev min spec GTX 1070/16 GB is overstated, but the game is UE4-heavy)",
+        settings: "Low preset, 1080p, ~75% render scale, shadows off, effects/AA off." },
+      sixty: { fps: "Not realistic at 1080p; (est.) ~45–55 fps at 720p Lowest in typical play; heavy sieges still stutter",
+        settings: "720p Lowest, ~70% render scale, shadows/effects off." },
+      source: ["https://store.steampowered.com/app/1272320/"]
+    },
+    stores: [
+      { name: "Steam", url: "https://store.steampowered.com/app/1272320/" },
+      { name: "GOG (DRM-free)", url: "https://www.gog.com/en/game/diplomacy_is_not_an_option" }
+    ],
+    storeNote: "Steam and GOG both live; the extras DLC across stores is OST/wallpapers.",
+    quality30: {fps1080: "~25–30 fps (est.)",settings1080: "Low, unit-count cap lowered, AA off",fps900: "~30 fps (est.)",settings900: "Low with Medium art quality"},
+    hddSp: {loads: "Siege starts load slower on HDD (est.)",fpsEffect: "None",stutter: "none",verdict: "fine",note: "Thousands-of-units hiccups come from the CPU; storage is irrelevant."},
+    upgradeTiers: {gtx1660s: "Medium 1080p 60 fps normally; big sieges CPU-limited anyway (est.)",rtx2060: "High 1080p 60 fps base game; massive battles dip regardless",rx6600: "≈ RTX 2060; High 1080p 60 fps"},
+    sources: [
+      "https://store.steampowered.com/app/1272320/Diplomacy_is_Not_an_Option/",
+      "https://steamcharts.com/app/1272320"
+    ]
+  },
+
+  {
+    id: "frostpunk",
+    name: "Frostpunk",
+    genre: "hybrid-td",
+    priceModel: "paid",
+    priceUsd: 10.49,
+    priceNote: "Base $29.99 list; base includes Endless Mode + Fall of Winterhome; Last Autumn / On The Edge / Rifts are paid DLC or the GOTY bundle ($24.71)",
+    campaign: { exists: true, freeOrPaid: "paid (base story) + paid DLC for 2 major expansions", quality: 9,
+      notes: "Legendary narrative city-survival: storytelling-gameplay fusion widely regarded among the best of the genre." },
+    ai: { score: 5, notes: "No enemy AI per se; worker/automaton pathfinding and task logic is serviceable, but citizens idle-block and automatons path oddly at scale." },
+    setting: "realistic-modern",
+    graphics: { score: 9, notes: "Superb frozen-Victorian art direction with dramatic lighting/snow; one of the prettiest city builders." },
+    players: { status: "n/a-sp", notes: "Single-player only; ~1,215 concurrent (Oct 2026), all-time 29,195." },
+    specs: {
+      min: { cpu: "3.2 GHz dual-core", gpu: "GTX 660 / R7 370 (2 GB)", ram: "4 GB", storage: "8 GB", os: "Windows 7/8/10 64-bit, DX11" },
+      rec: { cpu: "3.2 GHz quad-core", gpu: "GTX 970 / RX 580 (4 GB)", ram: "8 GB", storage: "8 GB", os: "Windows 7/8/10 64-bit, DX11" }
+    },
+    size: { download: "~8 GB", install: "~8 GB" }, installGB: 8,
+    storageAdvice: { verdict: "hdd-fine", note: "8 GB city sim; loads slightly slower on HDD; FPS unaffected by storage." },
+    cpuDemand: "medium",
+    gpuMinTier: 4, gpuRecTier: 5.5,
+    compatNote: "Playable: Vega 7 sits just under the GTX 660 minimum — 1080p low/mixed holds ~30 fps in a semi-pausable city sim; tiny 8 GB install is HDD-fine.",
+    bench: {
+      playable: { fps: "(est.) ~30–40 fps at 1080p Low (min spec GTX 660/R7 370, Vega just under); outdoor scenes dip to ~25",
+        settings: "Low preset, 1080p, shadows off/low, AA off, framerate cap." },
+      sixty: { fps: "Not reliably at 1080p; (est.) ~45–55 fps at Low + ~75% render scale, brief 60-bursts not stable",
+        settings: "Low, ~75–80% render scale or 1600×900, shadows + AA off." },
+      source: ["https://store.steampowered.com/app/323190/"]
+    },
+    stores: [
+      { name: "Steam", url: "https://store.steampowered.com/app/323190/" },
+      { name: "GOG (DRM-free)", url: "https://www.gog.com/en/game/frostpunk" }
+    ],
+    storeNote: "GOTY bundle on both stores; console edition on Xbox exists via Microsoft Store.",
+    quality30: {fps1080: "~30–40 fps (est.; 2200G Vega 8 test shows ~40 at Low)",settings1080: "Low–Medium (textures Medium, lighting/shadows low)",fps900: "~35–45 fps (est.)",settings900: "Medium with shadows low"},
+    hddSp: {loads: "Scenario loads 2–3× slower on HDD",fpsEffect: "None",stutter: "none",verdict: "fine",note: "Very light streaming after load; tolerating slow loads costs nothing else."},
+    upgradeTiers: {gtx1660s: "Ultra 1080p 60 fps even in a huge endgame city (est.)",rtx2060: "Ultra 1080p flat 60+; only GPU-bound in heavy blizzard effects",rx6600: "≈ RTX 2060; Ultra 1080p 60 fps, best value"},
+    sources: [
+      "https://store.steampowered.com/app/323190/Frostpunk/",
+      "https://steamcharts.com/app/323190"
+    ]
+  },
+
+  {
+    id: "against-the-storm",
+    name: "Against the Storm",
+    genre: "hybrid-td",
+    priceModel: "paid",
+    priceUsd: 11.99,
+    priceNote: "Note: at check a 70%-off price of $3.59 applied; base game contains all core content; Nightwatchers/Keepers of the Stone ($5.99 each) are optional paid DLC races",
+    campaign: { exists: true, freeOrPaid: "paid (serve as 'campaign' progression) + optional paid DLC races", quality: 8,
+      notes: "The meta-progression/smolder city-run system is the campaign; 90+ MC score, actively supported." },
+    ai: { score: 7, notes: "Villager path/duty AI is famously good (lumberjacks avoid frost danger, smart service priority); occasional silly floods into danger remain." },
+    setting: "fantasy",
+    graphics: { score: 8, notes: "Bright painterly WC3-flavored fantasy art, clean readability, gorgeous on high settings, runs light." },
+    players: { status: "n/a-sp", notes: "Single-player only; ~1,016 concurrent, 24h peak 1,785, all-time 12,832 (SteamCharts, Oct 2026)." },
+    specs: {
+      min: { cpu: "Intel Core i3-530 (dual-core) / AMD Phenom II X4 965", gpu: "GTX 460 / R7 260x", ram: "8 GB", storage: "6 GB", os: "Windows 11 64-bit" },
+      rec: { cpu: "Intel Core i5-2500K / AMD FX-8320 (quad-core)", gpu: "GTX 970 (4 GB) / R9 290X (4 GB)", ram: "8 GB", storage: "6 GB", os: "Windows 11 64-bit" }
+    },
+    size: { download: "~5 GB", install: "~5 GB" }, installGB: 5,
+    storageAdvice: { verdict: "hdd-fine", note: "5 GB; HDD fine. Settlement generation loads a little slower." },
+    cpuDemand: "medium",
+    gpuMinTier: 2.5, gpuRecTier: 5.5,
+    compatNote: "Ideal: min spec (GTX 460 class) is far below Vega 7 — 1080p low/medium runs comfortably, and the tiny 5 GB install is HDD-friendly.",
+    bench: {
+      playable: { fps: "(est.) ~30–45 fps at 1080p Low in most seasons; dips to ~25 in very large late settlements (min spec GTS 450/HD 7750 class)",
+        settings: "Lowest preset + toggles down, 1080p, ~70–80% render scale." },
+      sixty: { fps: "Borderline: ~50–60 fps at 1080p Lowest + ~60–70% scale in small/early villages; drops in big cities",
+        settings: "Lowest, ~60–70% render scale or 1600×900, shadows/AO off." },
+      source: ["https://store.steampowered.com/app/1336490/"]
+    },
+    stores: [
+      { name: "Steam", url: "https://store.steampowered.com/app/1336490/" },
+      { name: "GOG (DRM-free)", url: "https://www.gog.com/en/game/against_the_storm" }
+    ],
+    storeNote: "1.0 on both stores with ongoing DLC season packs.",
+    quality30: {fps1080: "~30–40 fps (est.)",settings1080: "Medium, trees low, AA/FSR on",fps900: "~30–35 fps (est.)",settings900: "Medium–High with effects Medium"},
+    hddSp: {loads: "Village start and settlement transitions slower on HDD",fpsEffect: "None",stutter: "none",verdict: "fine",note: "Only theoretical HDD hitch is at map/season change (est.); nothing substantive."},
+    upgradeTiers: {gtx1660s: "High 1080p 60 fps steady; small CPU dips above ~500 pop (est.)",rtx2060: "High 1080p 60+ fps flat; late-game big cities still CPU-headed",rx6600: "≈ RTX 2060; High 1080p 60 fps, drop-in recommendation"},
+    sources: [
+      "https://store.steampowered.com/app/1336490/Against_the_Storm/",
+      "https://steamcharts.com/app/1336490"
+    ]
+  },
+
+  {
+    id: "kingdom-rush",
+    name: "Kingdom Rush (Steam original)",
+    genre: "hybrid-td",
+    priceModel: "paid",
+    priceUsd: 5.49,
+    priceNote: "Base $9.99 (−45% current); all heroes unlocked and included free — no IAP on Steam",
+    campaign: { exists: true, freeOrPaid: "free (included)", quality: 8,
+      notes: "12-mission classic: tight level design, warm humor, replayable hero challenges." },
+    ai: { score: 7, notes: "Scripted-lane enemy waves, but soldier blocking/engagement, tower targeting and boss AI are extremely well polished." },
+    setting: "fantasy",
+    graphics: { score: 8, notes: "Bright HD cartoon-illustrated 2D; charming, highly readable, timeless." },
+    players: { status: "n/a-sp", notes: "Single-player; ~1,649 concurrent with a 17,292 peak in Sept 2026 (spiked by Kingdom Rush 6 launch; typical months ~200–400)." },
+    specs: {
+      min: { cpu: "Dual-core CPU", gpu: "OpenGL 3.0 with 512 MB VRAM", ram: "1 GB", storage: "1.5 GB", os: "Windows XP SP3 or newer" },
+      rec: { cpu: "Dual-core CPU", gpu: "OpenGL 3.0 with 1 GB VRAM", ram: "2 GB", storage: "1.5 GB", os: "Windows XP SP3 or newer / Mac / Linux" }
+    },
+    size: { download: "~1.5 GB", install: "~1.7 GB" }, installGB: 2,
+    storageAdvice: { verdict: "hdd-fine", note: "1.7 GB 2D game; instant from HDD." },
+    cpuDemand: "low",
+    gpuMinTier: 1, gpuRecTier: 2,
+    compatNote: "Trivial: 2D cartoon TD runs flawlessly maxed on Vega 7 even at 4K; tiny install loads fine on HDD.",
+    bench: {
+      playable: { fps: "60+ fps completely maxed at 1080p (light hybrid; min spec is OpenGL 3.0 dual-core)",
+        settings: "Max preset, 1080p, all effects on — no tradeoffs needed." },
+      sixty: { fps: "60+ fps maxed at 1080p; even 1440p/4K output feasible",
+        settings: "Maxed at 1080p (vsync on)." },
+      source: ["https://store.steampowered.com/app/246420/"]
+    },
+    stores: [
+      { name: "Steam", url: "https://store.steampowered.com/app/246420/" },
+      { name: "GOG (DRM-free)", url: "https://www.gog.com/en/game/kingdom_rush" }
+    ],
+    storeNote: "The 2014 Steam release is the original; later Ironhide titles (Vengeance/Alliance) are separate games sold separately.",
+    quality30: {fps1080: "60+ fps, trivial (est.)",settings1080: "Maxed at 1080p; could push 1440p+ (est.)",fps900: "60+ fps maxed (est.)",settings900: "Maxed; 900p gains nothing"},
+    hddSp: {loads: "Near-instant even on HDD (a few hundred MB)",fpsEffect: "None",stutter: "none",verdict: "fine",note: "No streaming; save folder is tiny."},
+    upgradeTiers: {gtx1660s: "Already maxed on Vega 7; GPU adds nothing",rtx2060: "Already maxed on Vega 7; GPU adds nothing",rx6600: "Already maxed on Vega 7; GPU adds nothing"},
+    sources: [
+      "https://store.steampowered.com/app/246420/Kingdom_Rush__Tower_Defense/",
+      "https://steamcharts.com/app/246420"
+    ]
+  },
+
+  {
+    id: "sanctum-2",
+    name: "Sanctum 2",
+    genre: "hybrid-td",
+    priceModel: "paid",
+    priceUsd: 10.19,
+    priceNote: "Base $14.99 (−32% current); 4 campaign DLCs at $5.99 each; Complete Pack bundle $33.77",
+    campaign: { exists: true, freeOrPaid: "paid (base story) + paid DLC campaigns", quality: 8,
+      notes: "16-level FPS/tower-defense hybrid with waves; clever routes to defend via building or sprinting." },
+    ai: { score: 6, notes: "Enemies mix tower-priority and player-hunting behaviour with anti-maze wall attacks; simple but dynamic enough to support FPS kiting." },
+    setting: "futuristic",
+    graphics: { score: 7, notes: "Colorful sci-fi UE3 worlds; clean and pleasant but visibly 2013, some shimmering assets." },
+    players: { status: "inactive", notes: "4-player co-op is dead: ~4 concurrent, 24h peak 14, all-time 13,560 (SteamCharts, Oct 2026); solo/couch only." },
+    specs: {
+      min: { cpu: "1.6 GHz dual-core", gpu: "Shader Model 3.0, 256 MB VRAM", ram: "2 GB", storage: "4 GB", os: "Windows XP SP3, DX9.0c" },
+      rec: { cpu: "2.0 GHz quad-core", gpu: "Shader Model 3.0, 512 MB VRAM", ram: "2 GB", storage: "4 GB", os: "Windows Vista/7/8, DX9.0c" }
+    },
+    size: { download: "~4 GB", install: "~4 GB" }, installGB: 4,
+    storageAdvice: { verdict: "hdd-fine", note: "4 GB UE3 coop TD; HDD fine, map loads fast." },
+    cpuDemand: "low",
+    gpuMinTier: 0.5, gpuRecTier: 1.5,
+    compatNote: "Trivial: Vega 7 blows past the SM3/256 MB min spec — smooth high settings; tiny install, HDD-friendly; co-op requires friends you bring.",
+    bench: {
+      playable: { fps: "~45–60 fps at 1080p Medium, or 60 fps-locked on Low–Medium (UE3 2013, min spec SM3.0 256 MB)",
+        settings: "Medium-ish preset, 1080p, shadows low/medium; disable AA and bloom if any dips." },
+      sixty: { fps: "60 fps at 1080p Low–Medium with ~70–80% render scale — generally achievable",
+        settings: "Low–Medium, 1080p, ~70% scale, AA off, shadows low." },
+      source: ["https://store.steampowered.com/app/210770/"]
+    },
+    stores: [{ name: "Steam", url: "https://store.steampowered.com/app/210770/" }],
+    storeNote: "Steam only; on GOG it exists only as a wishlist entry, not a for-sale listing.",
+    quality30: {fps1080: "~45–60 fps (est.)",settings1080: "Maxed at 1080p (skip AA spikes if needed)",fps900: "~60 fps maxed (est.)",settings900: "Maxed at 900p"},
+    hddSp: {loads: "Level load slightly slower on HDD",fpsEffect: "None",stutter: "none",verdict: "fine",note: "UE3 loads everything at map start; steady afterwards."},
+    upgradeTiers: {gtx1660s: "Already maxed on Vega 7; GPU adds nothing",rtx2060: "Already maxed on Vega 7; GPU adds nothing",rx6600: "Already maxed on Vega 7; GPU adds nothing"},
+    sources: [
+      "https://store.steampowered.com/app/210770/Sanctum_2/",
+      "https://steamcharts.com/app/210770"
+    ]
+  },
+
+  {
+    id: "dungeon-endless",
+    name: "Dungeon of the Endless",
+    genre: "hybrid-td",
+    priceModel: "paid",
+    priceUsd: 5.99,
+    priceNote: "Base; two $1.29 add-on heroes + OST; Definitive Edition bundle $7.71",
+    campaign: { exists: true, freeOrPaid: "paid (included) + paid separately", quality: 7,
+      notes: "Procedural multi-level run: escape-by-Scala tower-defense roguelike; high replay value, story is light." },
+    ai: { score: 5, notes: "Monsters swarm heroes/towers with basic aggro; hero companions are semi-manual and dumb without orders, though the door-open wave AI works well." },
+    setting: "futuristic",
+    graphics: { score: 7, notes: "Charming stylized pixel art with evocative dark-sci-fi lighting; intentionally simple visuals." },
+    players: { status: "inactive", notes: "4-player online co-op exists but is dead: ~9 concurrent, 24h peak 47, all-time 34,949 (SteamCharts, Oct 2026)." },
+    specs: {
+      min: { cpu: "2.4 GHz Intel Core 2 Duo / equivalent", gpu: "GeForce 8600 GT / equivalent", ram: "2 GB", storage: "700 MB", os: "Windows Vista/7/8 32-bit era, DX9.0c" },
+      rec: { cpu: "3.3 GHz Intel Core i5 / equivalent", gpu: "GTX 560 Ti / equivalent", ram: "4 GB", storage: "700 MB", os: "Windows Vista/7/8, DX9.0c" }
+    },
+    size: { download: "~0.7 GB", install: "~1 GB" }, installGB: 1,
+    storageAdvice: { verdict: "hdd-fine", note: "sub-1 GB pixel-art; instant from HDD." },
+    cpuDemand: "low",
+    gpuMinTier: 1, gpuRecTier: 2.5,
+    compatNote: "Trivial: pixel-art with an 8600 GT minimum — Vega 7 crushes it; sub-1 GB install is instant even on HDD.",
+    bench: {
+      playable: { fps: "60+ fps maxed at 1080p (2014 Unity title, min spec GeForce 8600 GT)",
+        settings: "Maxed, 1080p; occasional one-frame hiccup at most." },
+      sixty: { fps: "60+ fps maxed at 1080p; runs at 144 Hz panels too",
+        settings: "Maxed at 1080p — nothing to lower." },
+      source: ["https://store.steampowered.com/app/249050/"]
+    },
+    stores: [
+      { name: "Steam", url: "https://store.steampowered.com/app/249050/" },
+      { name: "GOG (Definitive Edition)", url: "https://www.gog.com/en/game/dungeon_of_the_endless_definitive_edition" }
+    ],
+    storeNote: "Steam sells base + separate DLC; GOG sells the Definitive Edition bundle.",
+    quality30: {fps1080: "60 fps maxed on most floors; ~30–40 in huge crowded rooms (est.)",settings1080: "Maxed at 1080p",fps900: "60 fps maxed (est.)",settings900: "Maxed; 900p gains nothing"},
+    hddSp: {loads: "Dungeon rooms load slower but pause the action anyway",fpsEffect: "None",stutter: "none",verdict: "fine",note: "Slow HDD makes the game's own room-load pauses last 1–2s longer."},
+    upgradeTiers: {gtx1660s: "Already maxed on Vega 7; GPU adds nothing",rtx2060: "Already maxed on Vega 7; GPU adds nothing",rx6600: "Already maxed on Vega 7; GPU adds nothing"},
+    sources: [
+      "https://store.steampowered.com/app/249050/Dungeon_of_the_ENDLESS/",
+      "https://steamcharts.com/app/249050"
+    ]
+  },
+
+  {
+    id: "tw-shogun2",
+    name: "Total War: SHOGUN 2 (Complete Edition)",
+    genre: "4x-grand",
+    priceModel: "paid",
+    priceUsd: 18.99,
+    priceNote: "Base $29.99, observed $18.99 on a SEGA sale (Oct 2026). 'Complete' bundle $48.91 includes all clan/unit/Blood DLC; Fall of the Samurai is sold as a standalone Saga title.",
+    campaign: { exists: true, freeOrPaid: "paid", quality: 9, notes: "Landmark Sengoku grand campaign (1–2P co-op); Rise of the Samurai and Fall of the Samurai add paid standalone campaigns. One of the most replayed TW campaigns ever." },
+    ai: { score: 7.5, notes: "Best-in-class TW campaign AI for its era; occasional agent/monk spam; battle AI weak at defending multi-stage sieges." },
+    setting: "ancient",
+    graphics: { score: 8, notes: "2011 art direction still excellent in battles and naval fights; dated lighting and low-res faces up close." },
+    players: { status: "active", notes: "Steady classic-TW audience; MP/co-op campaigns still populated (~8–12k concurrent, est.)." },
+    specs: {
+      min: { cpu: "2 GHz Intel/AMD dual-core", gpu: "DirectX 9.0c, 512 MB VRAM", ram: "2 GB", storage: "~18 GB", os: "Windows 7+" },
+      rec: { cpu: "Intel Core i5 or equivalent", gpu: "DirectX 11, 1 GB VRAM (GTX 560 Ti class)", ram: "4 GB", storage: "SSD beneficial", os: "Windows 7+" }
+    },
+    size: { download: "~16 GB", install: "~21 GB" },
+    installGB: 21,
+    cpuDemand: "high",
+    gpuMinTier: 2,
+    gpuRecTier: 4.5,
+    compatNote: "Comfortable on Vega 7: Medium–High 1080p ~30–50 fps; huge sieges drop to ~25–30 (CPU-heavy, est.).",
+    bench: {
+      playable: { fps: "30–50 fps at Medium–High 1080p; big sieges 25–30 (est.)", settings: "Medium preset; shadows Medium, unit detail Medium, AA off", source: ["https://www.notebookcheck.net/Face-Off-Total-War-Shogun-2.573490.0.html"] },
+      sixty: { fps: "~60 fps at Low 1080p / Medium 900p (est.)", settings: "Low preset; shadows off, unit detail Low, 75–100% render scale" },
+      quality30: { fps1080: "35–50 typical; sieges ~30 (est.)", settings1080: "High preset; shadows Medium, unit detail Medium, AA off", fps900: "45–60 typical (est.)", settings900: "High preset; shadows High, unit detail High (est.)" },
+      source: ["https://www.notebookcheck.net/Face-Off-Total-War-Shogun-2.573490.0.html"]
+    },
+    stores: [ { name: "Steam", url: "https://store.steampowered.com/app/201270/" } ],
+    storeNote: "No Game Pass; Steam Workshop mods; Fall of the Samurai available as a separate standalone title.",
+    storageAdvice: { verdict: "hdd-fine", note: "2011 engine streams nothing mid-battle; HDD only makes campaign/battle loads ~2× slower." },
+    hddSp: { loads: "Campaign turns + battle loads ~2× slower on HDD (est.)", fpsEffect: "None", stutter: "none", verdict: "fine", note: "Battles fully load upfront; no streaming pop-in." },
+    upgradeTiers: {
+      gtx1660s: "Ultra 1080p 60+ fps; late-campaign turns still CPU-bound (est.)",
+      rtx2060: "Ultra 1080p 80+ fps; sieges still CPU-limited (est.)",
+      rx6600: "Ultra 1080p 60+ fps; same CPU wall in sieges (est.)"
+    },
+    sources: [ "https://store.steampowered.com/app/201270/", "https://steamcharts.com/app/201270", "https://www.pcgamingwiki.com/wiki/Total_War:_Shogun_2" ]
+  },
+
+  {
+    id: "tw-attila",
+    name: "Total War: ATTILA",
+    genre: "4x-grand",
+    priceModel: "paid",
+    priceUsd: 4.49,
+    priceNote: "Base $29.99, commonly $3–5 in sales (Oct 2026); Empire of Sand and Age of Charlemagne are paid campaign packs.",
+    campaign: { exists: true, freeOrPaid: "paid", quality: 8, notes: "Apocalyptic 395 AD grand campaign with survival attrition and family tree; Age of Charlemagne / Empire of Sand add paid campaigns." },
+    ai: { score: 7, notes: "Aggressive horde AI; campaign AI cheats attrition; siege AI weak." },
+    setting: "ancient",
+    graphics: { score: 8, notes: "Superb ash/weather atmosphere; still notoriously heavy for its age — the 'GPU-melter' Total War." },
+    players: { status: "small", notes: "Niche but loyal MP/co-op base (~3–5k concurrent, est.)." },
+    specs: {
+      min: { cpu: "Intel Core 2 Duo 3 GHz", gpu: "512 MB DirectX 11 (GTS 450 class)", ram: "4 GB", storage: "~35 GB", os: "Windows Vista+" },
+      rec: { cpu: "Intel Core i5-3xxx / AMD FX-8000", gpu: "GTX 660 / Radeon HD 7850, 2 GB", ram: "6 GB", storage: "~35 GB, SSD beneficial", os: "Windows 7+" }
+    },
+    size: { download: "~20 GB", install: "~31 GB" },
+    installGB: 31,
+    cpuDemand: "high",
+    gpuMinTier: 3,
+    gpuRecTier: 5.5,
+    compatNote: "Hardest historical TW on Vega 7: Low 1080p ~25–35 fps; 900p needed for a stable 30 (est.).",
+    bench: {
+      playable: { fps: "25–35 fps at Low 1080p; sieges worse (est.)", settings: "Custom low: shadows off, effects Low, unit detail Low, 75% render scale", source: ["https://www.notebookcheck.net/Total-War-Attila-Benchmarks.143865.0.html"] },
+      sixty: { fps: "Not realistic on Vega 7 — needs a discrete GPU", settings: "—" },
+      quality30: { fps1080: "~25–30 only at Low — 30 not comfortable (est.)", settings1080: "Low preset with all extras off", fps900: "~30–35 (est.)", settings900: "Low preset, 100% scale, shadows off" },
+      source: ["https://www.notebookcheck.net/Total-War-Attila-Benchmarks.143865.0.html"]
+    },
+    stores: [ { name: "Steam", url: "https://store.steampowered.com/app/325610/" } ],
+    storeNote: "No Game Pass; Steam Workshop mods; bundling is frequent — wait for sales.",
+    storageAdvice: { verdict: "ssd-helps", note: "Large install with slow campaign/battle loads; fps unaffected — loads only (user doesn't mind long loads). Not streaming-stutter-prone." },
+    hddSp: { loads: "Campaign + battle loads 2–4× longer on HDD", fpsEffect: "None", stutter: "none", verdict: "slower-loads", note: "Turn-based strategy: loads only, no streaming." },
+    upgradeTiers: {
+      gtx1660s: "Medium–High 1080p 45–60 fps; siege CPU wall remains (est.)",
+      rtx2060: "High/Ultra 1080p ~60 fps; turn times unchanged (CPU)",
+      rx6600: "High 1080p ~60 fps; big sieges still CPU-bound (est.)"
+    },
+    sources: [ "https://store.steampowered.com/app/325610/", "https://steamcharts.com/app/325610", "https://www.pcgamingwiki.com/wiki/Total_War:_Attila" ]
+  },
+
+  {
+    id: "stronghold-cr-hd",
+    name: "Stronghold Crusader HD",
+    genre: "classic-rts",
+    priceModel: "paid",
+    priceUsd: 9.99,
+    priceNote: "Base $9.99 with frequent ~90% sales; Crusader II (2014) is a separate sequel, not DLC.",
+    campaign: { exists: true, freeOrPaid: "paid", quality: 8, notes: "50-mission 'Crusader Trail' skirmish chains (+Warchest trail); no story campaign — mission-chain structure." },
+    ai: { score: 7.5, notes: "Classic skirmish AI with distinct lord personalities; wave-attack patterns dated but fun." },
+    setting: "ancient",
+    graphics: { score: 5, notes: "2002 sprites; 'HD' adds higher-res UI support, still pixel art." },
+    players: { status: "small", notes: "Mostly SP skirmish community; legacy MP (<1k concurrent, est.)." },
+    specs: {
+      min: { cpu: "1 GHz CPU", gpu: "DirectX 7.0, 4 MB VRAM", ram: "256 MB", storage: "850 MB", os: "Windows 7/8/10/11 (HD patch)" },
+      rec: { cpu: "Not published", gpu: "Not published", ram: "Not published", storage: "850 MB available space", os: "Windows 7/8/10/11" }
+    },
+    size: { download: "~850 MB", install: "~850 MB" },
+    installGB: 0.85,
+    cpuDemand: "low",
+    gpuMinTier: 1,
+    gpuRecTier: 1,
+    compatNote: "Trivial: maxed settings at locked 60 fps (engine cap) on Vega 7.",
+    bench: {
+      playable: { fps: "Locked 60 fps (engine cap)", settings: "Maxed at 1080p", source: ["https://www.gog.com/en/game/stronghold_crusader"] },
+      sixty: { fps: "Locked 60 (engine cap)", settings: "Maxed; higher fps would need unofficial patches" },
+      quality30: { fps1080: "60 locked (engine cap)", settings1080: "Maxed at 1080p", fps900: "60 locked", settings900: "Maxed" },
+      source: ["https://www.gog.com/en/game/stronghold_crusader"]
+    },
+    stores: [ { name: "Steam", url: "https://store.steampowered.com/app/48500/" }, { name: "GOG", url: "https://www.gog.com/en/game/stronghold_crusader" } ],
+    storeNote: "GOG version is DRM-free; HD patch adds widescreen/1080p support.",
+    storageAdvice: { verdict: "hdd-fine", note: "Sub-1 GB install; instant loads even on an HDD." },
+    hddSp: { loads: "Near-instant even on HDD", fpsEffect: "None", stutter: "none", verdict: "fine", note: "Tiny footprint, everything loads upfront." },
+    upgradeTiers: {
+      gtx1660s: "Already maxed on Vega 7; a GPU adds nothing",
+      rtx2060: "Already maxed on Vega 7; a GPU adds nothing",
+      rx6600: "Already maxed on Vega 7; a GPU adds nothing"
+    },
+    sources: [ "https://store.steampowered.com/app/48500/", "https://www.gog.com/en/game/stronghold_crusader" ]
+  },
+
+  {
+    id: "stronghold-cr2",
+    name: "Stronghold Crusader II",
+    genre: "classic-rts",
+    priceModel: "paid",
+    priceUsd: 29.99,
+    priceNote: "Base $29.99 with frequent 75% sales; 5 DLC packs (Temptress, Emperor, The Princess & The Pig, etc.).",
+    campaign: { exists: true, freeOrPaid: "paid", quality: 7.5, notes: "Skirmish-trail missions plus story DLC campaigns; classic Crusader formula modernized in 3D." },
+    ai: { score: 7, notes: "Good skirmish AI with distinct personalities; pathfinding hiccups at scale." },
+    setting: "ancient",
+    graphics: { score: 6.5, notes: "Stylized 3D with decent visuals; dated character models up close." },
+    players: { status: "small", notes: "Dedicated cult MP/SP-skirmish community (<1k concurrent, est.)." },
+    specs: {
+      min: { cpu: "Intel Core 2 Duo E6600 2.4 GHz / AMD Athlon 64 X2", gpu: "GeForce 8800 GT 512 MB / Radeon HD 2900 (DX9)", ram: "2 GB", storage: "6 GB", os: "Windows Vista+" },
+      rec: { cpu: "Intel Core i5", gpu: "GeForce GTX 560 / Radeon HD 6870", ram: "4 GB", storage: "6 GB", os: "Windows 7+" }
+    },
+    size: { download: "~4 GB", install: "~6 GB" },
+    installGB: 6,
+    cpuDemand: "medium",
+    gpuMinTier: 2.5,
+    gpuRecTier: 4,
+    compatNote: "Easy on Vega 7: Medium–High 1080p 40–60 fps; big sieges dip to ~35 (est.).",
+    bench: {
+      playable: { fps: "40–60 fps at Medium–High 1080p (est.)", settings: "High preset; shadows Medium, AA off", source: ["https://www.gog.com/en/game/stronghold_crusader_2"] },
+      sixty: { fps: "~60 fps at Low–Medium 1080p (est.)", settings: "Medium preset; shadows off, effects Low" },
+      quality30: { fps1080: "45–60 (est.)", settings1080: "High preset; shadows Medium, AA off", fps900: "55–60 (est.)", settings900: "High/Ultra preset; shadows Medium (est.)" },
+      source: ["https://www.gog.com/en/game/stronghold_crusader_2"]
+    },
+    stores: [ { name: "Steam", url: "https://store.steampowered.com/app/329510/" }, { name: "GOG", url: "https://www.gog.com/en/game/stronghold_crusader_2" } ],
+    storeNote: "GOG version is DRM-free; DLC packs optional.",
+    storageAdvice: { verdict: "hdd-fine", note: "6 GB install, loads upfront; HDD costs a few seconds per map." },
+    hddSp: { loads: "Map loads a few seconds longer on HDD", fpsEffect: "None", stutter: "none", verdict: "fine", note: "No streaming; small assets." },
+    upgradeTiers: {
+      gtx1660s: "Ultra 1080p 60+ fps (est.)",
+      rtx2060: "Ultra 1080p 60+; CPU-capped in huge sieges",
+      rx6600: "Ultra 1080p 60+ fps (est.)"
+    },
+    sources: [ "https://store.steampowered.com/app/329510/", "https://www.gog.com/en/game/stronghold_crusader_2" ]
+  },
+
+  {
+    id: "kcd1",
+    name: "Kingdom Come: Deliverance",
+    genre: "army-sim",
+    priceModel: "paid",
+    priceUsd: 22.99,
+    priceNote: "Base $22.99; Royal Edition (all story DLC) $29.99; DLC $2.99–$5.99 each + free HD-Textures pack; Saga bundle with KCD2 $89.47.",
+    campaign: { exists: true, freeOrPaid: "paid (included)", quality: 8, notes: "~60 h nonlinear story in civil-war Bohemia; the Skalitz raid and castle sieges are the 'army' beats; 'From the Ashes' DLC adds a village-building sim." },
+    ai: { score: 8, notes: "NPCs follow daily schedules and guards punish crime; combat is 1v1/1vN duels — big battles are scripted set pieces, not RTS-scale AI." },
+    setting: "realistic-modern",
+    graphics: { score: 8, notes: "CryEngine; superb 2018 forest lighting and detail, still competitive today." },
+    players: { status: "active", notes: "Single-player only; ~3,500 avg players last 30 days (all-time peak 95,863; SteamDB/SteamCharts est.)." },
+    specs: {
+      min: { cpu: "Intel Core i5-2500K 3.3 GHz / AMD Phenom II X4 940", gpu: "GeForce GTX 660 2 GB / Radeon R9 290 3 GB", ram: "8 GB", storage: "70 GB", os: "64-bit Windows 7/8/10" },
+      rec: { cpu: "Intel Core i7-3770 3.4 GHz / AMD FX-8350 4 GHz", gpu: "GeForce GTX 1060 6 GB / Radeon RX 580 6 GB", ram: "16 GB", storage: "70 GB SSD", os: "64-bit Windows 10" }
+    },
+    size: { download: "~55 GB", install: "~70 GB" },
+    installGB: 70,
+    cpuDemand: "high",
+    gpuMinTier: 4.5,
+    gpuRecTier: 6.5,
+    compatNote: "Struggles on Vega 7: Low 1080p ~25–35 fps with stutters in towns; 900p/720p needed for stable 30 (est.).",
+    bench: {
+      playable: { fps: "25–35 fps at Low 1080p; town stutters (est.)", settings: "Low preset; AA off, ~900p recommended", source: ["https://www.notebookcheck.net/Kingdom-Come-Deliverance-Benchmark-Test.289200.0.html"] },
+      sixty: { fps: "Not realistic on Vega 7", settings: "—" },
+      quality30: { fps1080: "~30 borderline; towns dip to ~25 (est.)", settings1080: "Low preset; textures Medium, shadows off", fps900: "~30–35 countryside, ~25 towns (est.)", settings900: "Low–Medium preset; textures High" },
+      source: ["https://www.notebookcheck.net/Kingdom-Come-Deliverance-Benchmark-Test.289200.0.html"]
+    },
+    stores: [ { name: "Steam", url: "https://store.steampowered.com/app/379430/" }, { name: "GOG", url: "https://www.gog.com/en/game/kingdom_come_deliverance" } ],
+    storeNote: "GOG version is DRM-free; Royal Edition bundles all story DLC.",
+    storageAdvice: { verdict: "ssd-helps", note: "CryEngine texture streaming causes constant pop-in on HDD (the classic r_texture_streaming 0 tweak helps); fps itself is unaffected." },
+    hddSp: { loads: "Area loads 2–3× longer on HDD", fpsEffect: "Texture pop-in and brief hitches crossing region borders (est.)", stutter: "moderate", verdict: "stutter-risk", note: "Streaming engine; the texture-streaming tweak mitigates most pop-in." },
+    upgradeTiers: {
+      gtx1660s: "Medium–High 1080p 50–60 fps (est.)",
+      rtx2060: "High/Ultra 1080p 60+ fps (est.)",
+      rx6600: "High 1080p 60–70 fps; Ultra with FSR (est.)"
+    },
+    sources: [ "https://store.steampowered.com/app/379430/", "https://steamcharts.com/app/379430", "https://www.pcgamingwiki.com/wiki/Kingdom_Come:_Deliverance" ]
+  },
+
+  {
+    id: "kcd2",
+    name: "Kingdom Come: Deliverance II",
+    genre: "army-sim",
+    priceModel: "paid",
+    priceUsd: 59.99,
+    priceNote: "Base $59.99; Gold Edition with DLC expansion pass $89.99; frequent 2026 sales ~30%.",
+    campaign: { exists: true, freeOrPaid: "paid (included)", quality: 9, notes: "Two large open-world maps, ~70–100 h; the Kuttenberg siege is a standout army set piece." },
+    ai: { score: 8.5, notes: "Refined schedules/crime sim over KCD1; duels, not RTS-scale AI; battles are scripted set pieces." },
+    setting: "realistic-modern",
+    graphics: { score: 9, notes: "CryEngine 2025 showcase; superb lighting, heavy VRAM/draw-call use." },
+    players: { status: "n/a-sp", notes: "Single-player only; 2025 launch peaked ~256k concurrent (est.); steady 2026 audience." },
+    specs: {
+      min: { cpu: "Intel Core i5-8400 / Ryzen 5 2600", gpu: "GeForce GTX 1060 6 GB / Radeon RX 580 8 GB", ram: "16 GB", storage: "100 GB SSD", os: "64-bit Windows 10" },
+      rec: { cpu: "Intel Core i7-13700K / Ryzen 7 7800X3D", gpu: "GeForce RTX 4070 / Radeon RX 7800 XT", ram: "32 GB", storage: "100 GB NVMe SSD", os: "64-bit Windows 11" }
+    },
+    size: { download: "~90 GB", install: "~95 GB" },
+    installGB: 95,
+    cpuDemand: "high",
+    gpuMinTier: 5,
+    gpuRecTier: 7.5,
+    compatNote: "Not viable on Vega 7: sub-20 fps even at Low 720p with FSR (est.) — needs the GPU upgrade first.",
+    bench: {
+      playable: { fps: "15–25 fps at Lowest 720p + FSR Performance — below playable (est.)", settings: "Lowest preset; FSR Performance, 720p", source: ["https://www.notebookcheck.net/Kingdom-Come-Deliverance-II-Benchmarks.1062000.0.html"] },
+      sixty: { fps: "Not realistic on Vega 7", settings: "—" },
+      quality30: { fps1080: "Not achievable (est.)", settings1080: "—", fps900: "~25–30 only at Lowest + FSR (est.)", settings900: "Lowest preset; FSR Balanced" },
+      source: ["https://www.notebookcheck.net/Kingdom-Come-Deliverance-II-Benchmarks.1062000.0.html"]
+    },
+    stores: [ { name: "Steam", url: "https://store.steampowered.com/app/1771300/" } ],
+    storeNote: "Steam on PC (plus consoles); no DRM-free PC version.",
+    storageAdvice: { verdict: "ssd-strongly-advised", note: "Streaming-heavy CryEngine; the store page itself requires an SSD. HDD means long loads plus constant streaming hitches." },
+    hddSp: { loads: "Very long area loads; constant texture streaming", fpsEffect: "Severe pop-in + streaming hitches on HDD", stutter: "high", verdict: "stutter-risk", note: "One of the worst HDD cases in the dataset — pair an SSD with any GPU upgrade." },
+    upgradeTiers: {
+      gtx1660s: "Low 1080p ~35–45 fps with FSR; 900p ~50 (est.)",
+      rtx2060: "Medium 1080p ~45–55 fps with FSR (est.)",
+      rx6600: "Medium 1080p ~55–65 fps; High ~45 with FSR (est.)"
+    },
+    sources: [ "https://store.steampowered.com/app/1771300/", "https://www.pcgamingwiki.com/wiki/Kingdom_Come:_Deliverance_II" ]
+  },
+
+  {
+    id: "manor-lords",
+    name: "Manor Lords",
+    genre: "army-sim",
+    priceModel: "paid",
+    priceUsd: 39.99,
+    priceNote: "Early Access base $39.99 with frequent ~20–35% sales; all roadmap updates free, no paid DLC; price planned to rise at 1.0.",
+    campaign: { exists: false, freeOrPaid: "n/a", quality: 6, notes: "No story campaign — sandbox city-building with bandit/AI-lord pressure; still in Early Access, 1.0 pending (Oct 2026)." },
+    ai: { score: 6, notes: "AI lords/bandits functional but shallow in EA; the economy/settlement simulation is the star." },
+    setting: "ancient",
+    graphics: { score: 7, notes: "Stunning UE4 seasons and medieval vistas; heavy for a city-builder." },
+    players: { status: "n/a-sp", notes: "Single-player only; 3M+ copies sold (2024); active 2025–26 roadmap." },
+    specs: {
+      min: { cpu: "Intel Core i5-4670 / AMD equivalent", gpu: "GeForce GTX 1050 Ti 4 GB / Radeon RX 570 4 GB", ram: "12 GB", storage: "15 GB SSD", os: "64-bit Windows 10" },
+      rec: { cpu: "Intel Core i7-12700 / Ryzen 7", gpu: "GeForce RTX 2070 / RX 6700 XT", ram: "16 GB", storage: "15 GB SSD", os: "64-bit Windows 11" }
+    },
+    size: { download: "~10 GB", install: "~15 GB" },
+    installGB: 15,
+    cpuDemand: "high",
+    gpuMinTier: 4.5,
+    gpuRecTier: 6.5,
+    compatNote: "Playable with caveats: Low 1080p ~30 fps in small villages; 300+ family towns dip to 20–25 with CPU stutters (est.).",
+    bench: {
+      playable: { fps: "25–35 fps at Low 1080p in small towns; late-game dips (est.)", settings: "Low preset; shadows off, FSR Balanced", source: ["https://www.notebookcheck.net/Manor-Lords-Benchmarks.1002000.0.html"] },
+      sixty: { fps: "Not realistic on Vega 7", settings: "—" },
+      quality30: { fps1080: "~25–30 (est.)", settings1080: "Low preset, ~85% render scale", fps900: "~30 (est.)", settings900: "Low–Medium preset, 100% scale" },
+      source: ["https://www.notebookcheck.net/Manor-Lords-Benchmarks.1002000.0.html"]
+    },
+    stores: [ { name: "Steam", url: "https://store.steampowered.com/app/1363080/" }, { name: "GOG", url: "https://www.gog.com/en/game/manor_lords" } ],
+    storeNote: "GOG version is DRM-free; was PC Game Pass at 2024 launch — check current status.",
+    storageAdvice: { verdict: "ssd-strongly-advised", note: "UE4 asset streaming hitches/pop-in on HDD, worsening as the town grows; store page asks for an SSD." },
+    hddSp: { loads: "Map loads 2–3× longer on HDD", fpsEffect: "Streaming hitches as new regions develop (est.)", stutter: "high", verdict: "stutter-risk", note: "HDD makes EA build hitches noticeably worse; SSD strongly preferred." },
+    upgradeTiers: {
+      gtx1660s: "Medium 1080p 40–60 fps in mid-size towns (est.)",
+      rtx2060: "High 1080p ~60 fps in most towns (est.)",
+      rx6600: "High/Ultra 1080p; large-town CPU stutter remains (est.)"
+    },
+    sources: [ "https://store.steampowered.com/app/1363080/", "https://www.pcgamingwiki.com/wiki/Manor_Lords" ]
+  },
+
+  {
+    id: "cossacks-3",
+    name: "Cossacks 3",
+    genre: "classic-rts",
+    priceModel: "paid",
+    priceUsd: 17.99,
+    priceNote: "Base $17.99; 5 add-on packs + Complete bundle; frequent sales/bundles.",
+    campaign: { exists: true, freeOrPaid: "paid", quality: 7, notes: "12 nation campaigns plus DLC campaigns; classic 2001 mission design remastered." },
+    ai: { score: 7, notes: "Skirmish AI handles raid/defend patterns; supports matches against dozens of AI opponents." },
+    setting: "realistic-modern",
+    graphics: { score: 6.5, notes: "Remake of the 2001 classic with thousands of units on screen at once." },
+    players: { status: "small", notes: "Niche but alive MP; co-op vs AI popular (~1–2k concurrent, est.)." },
+    specs: {
+      min: { cpu: "Intel Core i3 2.5 GHz / AMD equivalent", gpu: "GeForce GT 440 / Radeon HD 5670, 1 GB", ram: "4 GB", storage: "8 GB", os: "Windows 7+" },
+      rec: { cpu: "Intel Core i5 / AMD FX", gpu: "GeForce GTX 750 Ti / Radeon R7 370", ram: "8 GB", storage: "8 GB", os: "Windows 10" }
+    },
+    size: { download: "~6 GB", install: "~8 GB" },
+    installGB: 8,
+    cpuDemand: "high",
+    gpuMinTier: 3,
+    gpuRecTier: 4,
+    compatNote: "Good fit: Medium 1080p 30–50 fps; 5,000+ unit endgames dip on the CPU, not the GPU (est.).",
+    bench: {
+      playable: { fps: "30–50 fps at Medium 1080p; big battles 25–35 (est.)", settings: "Medium preset; shadows off, unit detail Medium", source: ["https://www.gog.com/en/game/cossacks_3"] },
+      sixty: { fps: "~60 fps at Low 900p (est.)", settings: "Low preset; shadows off, reduced unit detail" },
+      quality30: { fps1080: "30–40 (est.)", settings1080: "Medium–High preset; shadows off", fps900: "40–55 (est.)", settings900: "High preset; shadows Medium (est.)" },
+      source: ["https://www.gog.com/en/game/cossacks_3"]
+    },
+    stores: [ { name: "Steam", url: "https://store.steampowered.com/app/333420/" }, { name: "GOG", url: "https://www.gog.com/en/game/cossacks_3" } ],
+    storeNote: "GOG version is DRM-free; frequent bundles include the add-on packs.",
+    storageAdvice: { verdict: "hdd-fine", note: "8 GB install, loads everything upfront; HDD is harmless." },
+    hddSp: { loads: "Map loads a few seconds longer on HDD", fpsEffect: "None", stutter: "none", verdict: "fine", note: "Big-battle dips are CPU-sim, not storage." },
+    upgradeTiers: {
+      gtx1660s: "High/Ultra 1080p 60 fps; 8-player max-army battles still CPU-dip (est.)",
+      rtx2060: "Ultra 1080p 60 fps (est.)",
+      rx6600: "Ultra 1080p 60 fps (est.)"
+    },
+    sources: [ "https://store.steampowered.com/app/333420/", "https://www.gog.com/en/game/cossacks_3", "https://steamcharts.com/app/333420" ]
+  },
+];

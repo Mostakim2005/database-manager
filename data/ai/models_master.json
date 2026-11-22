@@ -1,0 +1,4110 @@
+{
+  "metadata": {
+    "title": "Unified AI Model Intelligence, Pricing & Asset Database",
+    "version": "2.0.0",
+    "updated_at": "2026-11-02",
+    "generated_by": "Smart merge: AI-Research-and-Learning v1.3.0 (dual-source telemetry) + AI-Tier-Badges pack (AA v5 badge dataset)",
+    "schema": "unified-v2",
+    "capability_cutoff": "Current-generation roster only. Historical generations dropped in merge: Claude Opus 5/4.6, Sonnet 4.5, Gemini 3.5 Pro/Flash, GPT-5.6 Sol/Terra, Grok 4.6, Qwen 2.5 Coder 32B.",
+    "sources": [
+      "OpenRouter API",
+      "Models.dev",
+      "Artificial Analysis Intelligence Index v5",
+      "AI-Tier-Badges asset pack",
+      "Command Code Go ($1/mo) catalog"
+    ],
+    "total_models": 33,
+    "telemetry_verified_models": 17,
+    "single_source_models": 16,
+    "notes": [
+      "One record per model; per-effort AA v5 scores, blended cost-per-task and Pareto flags live in effort_variants[].",
+      "Single-source records (badge pack) carry null telemetry/pricing until added to sync/update_models.ps1 trackedCatalog.",
+      "frontier_delta_pct for single-source records is an AA-index-only proxy vs the 57.6 Opus 5.5 ceiling.",
+      "DATA CONFLICT WARNING: the badge pack's AA Index v5 per-effort scores diverge from the telemetry catalog's headline intelligence_index for most non-Opus models (different AA index vintages/normalizations). Both are preserved: scores.intelligence_index (OpenRouter/Models.dev telemetry catalog) vs effort_variants[].aa_score (badge pack AA v5 extraction). Reconcile before treating either as canonical."
+    ]
+  },
+  "models": [
+    {
+      "id": "anthropic/claude-opus-5.5",
+      "name": "Claude Opus 5.5",
+      "provider": "Anthropic",
+      "provider_family": "Anthropic",
+      "classification": "Frontier",
+      "frontier_tier": "Tier 1 (0% to -5%)",
+      "frontier_delta_pct": 0,
+      "context_window": "1M",
+      "context_tokens": 1000000,
+      "scores": {
+        "intelligence_index": 57.6,
+        "coding_power": 92,
+        "code_arena_elo": 1391,
+        "stem_accuracy_pct": 95
+      },
+      "fact_check": {
+        "is_verified": true,
+        "status": "Dual-Source Concordance (OpenRouter + Models.dev)",
+        "pricing_concordance": "Exact Match (promptPrice / complPrice)",
+        "context_concordance": "100% Match (1000000 tokens)",
+        "capabilities": {
+          "reasoning": true,
+          "tool_call": true,
+          "structured_output": true,
+          "open_weights": false,
+          "output_limit": 128000
+        },
+        "sources": [
+          "OpenRouter API",
+          "Models.dev"
+        ]
+      },
+      "effort_simulation": {
+        "supports_effort": true,
+        "is_reasoning_core": true,
+        "overthinking_risk": "Low (Frontier Reasoning Engine)",
+        "multipliers": {
+          "low": {
+            "intel_delta": -1.5,
+            "code_delta": -1,
+            "token_multiplier": 0.65,
+            "coding_elo_delta": -1,
+            "token_cost_multiplier": 0.65,
+            "stem_delta": 0.0
+          },
+          "medium": {
+            "intel_delta": 0,
+            "code_delta": 0,
+            "token_multiplier": 1,
+            "coding_elo_delta": 0,
+            "token_cost_multiplier": 1,
+            "stem_delta": 0.0
+          },
+          "high": {
+            "intel_delta": 4.5,
+            "code_delta": 3.5,
+            "token_multiplier": 1.6,
+            "coding_elo_delta": 3.5,
+            "token_cost_multiplier": 1.6,
+            "stem_delta": 0.0
+          },
+          "ultra_high": {
+            "intel_delta": 7.2,
+            "code_delta": 5.5,
+            "token_multiplier": 2.8,
+            "coding_elo_delta": 5.5,
+            "token_cost_multiplier": 2.8,
+            "stem_delta": 0.0
+          }
+        }
+      },
+      "pricing": {
+        "prompt_per_m": 4,
+        "completion_per_m": 20,
+        "cache_read_per_m": 0.2,
+        "cache_write_per_m": 5,
+        "batch_prompt_per_m": 2,
+        "batch_completion_per_m": 10,
+        "is_free": false
+      },
+      "rate_limits": "Tier 1: 50 RPM / 10k RPD",
+      "quota_and_access": "Tier 1-4 API",
+      "rank": 1,
+      "tier_category": null,
+      "brand": {
+        "color": "#D97757",
+        "bg_color": "#1E1A18",
+        "accent": "#E28B6E"
+      },
+      "command_code": null,
+      "effort_variants": [
+        {
+          "effort": "max",
+          "rank": 1,
+          "badge_id": "claude-opus-5-5-max",
+          "name": "Claude Opus 5.5",
+          "aa_score": 58,
+          "cost_per_task": 8.5,
+          "pareto": true,
+          "notes": [
+            "with fallback"
+          ],
+          "category": "Frontier",
+          "sub_tier": "Apex Frontier",
+          "brand": {
+            "color": "#D97757",
+            "bg_color": "#1E1A18",
+            "accent": "#E28B6E"
+          },
+          "provider_badge": "Anthropic",
+          "api_available": true,
+          "cost_tier": "Very High",
+          "allowance": null,
+          "recommended_role": null
+        },
+        {
+          "effort": "high",
+          "rank": 3,
+          "badge_id": "claude-opus-5-5-high",
+          "name": "Claude Opus 5.5",
+          "aa_score": 52,
+          "cost_per_task": 3.6,
+          "pareto": false,
+          "notes": [
+            "with fallback"
+          ],
+          "category": "Frontier",
+          "sub_tier": "Flagship Frontier",
+          "brand": {
+            "color": "#D97757",
+            "bg_color": "#1E1A18",
+            "accent": "#E28B6E"
+          },
+          "provider_badge": "Anthropic",
+          "api_available": true,
+          "cost_tier": "High",
+          "allowance": null,
+          "recommended_role": null
+        },
+        {
+          "effort": "medium",
+          "rank": 7,
+          "badge_id": "claude-opus-5-5-medium",
+          "name": "Claude Opus 5.5",
+          "aa_score": 48,
+          "cost_per_task": 1.75,
+          "pareto": false,
+          "notes": [
+            "with fallback"
+          ],
+          "category": "Top Models",
+          "sub_tier": "Top Models Tier 1",
+          "brand": {
+            "color": "#D97757",
+            "bg_color": "#1E1A18",
+            "accent": "#E28B6E"
+          },
+          "provider_badge": "Anthropic",
+          "api_available": true,
+          "cost_tier": "Medium-High",
+          "allowance": null,
+          "recommended_role": null
+        }
+      ],
+      "data_sources": [
+        "openrouter_api",
+        "models_dev",
+        "artificial_analysis",
+        "ai_tier_badges_pack"
+      ],
+      "aa_index_v5": 57.6
+    },
+    {
+      "id": "openai/gpt-6-astra",
+      "name": "GPT-6 Astra",
+      "provider": "OpenAI",
+      "provider_family": "OpenAI",
+      "classification": "Frontier",
+      "frontier_tier": "Tier 2 (-5% to -10%)",
+      "frontier_delta_pct": -6.4,
+      "context_window": "1M",
+      "context_tokens": 1050000,
+      "scores": {
+        "intelligence_index": 52.7,
+        "coding_power": 84,
+        "code_arena_elo": 1320,
+        "stem_accuracy_pct": 93
+      },
+      "fact_check": {
+        "is_verified": true,
+        "status": "Dual-Source Concordance (OpenRouter + Models.dev)",
+        "pricing_concordance": "Exact Match (promptPrice / complPrice)",
+        "context_concordance": "100% Match (1050000 tokens)",
+        "capabilities": {
+          "reasoning": true,
+          "tool_call": true,
+          "structured_output": true,
+          "open_weights": false,
+          "output_limit": 128000
+        },
+        "sources": [
+          "OpenRouter API",
+          "Models.dev"
+        ]
+      },
+      "effort_simulation": {
+        "supports_effort": true,
+        "is_reasoning_core": true,
+        "overthinking_risk": "Low (Frontier Reasoning Engine)",
+        "multipliers": {
+          "low": {
+            "intel_delta": -1.5,
+            "code_delta": -1,
+            "token_multiplier": 0.65,
+            "coding_elo_delta": -1,
+            "token_cost_multiplier": 0.65,
+            "stem_delta": 0.0
+          },
+          "medium": {
+            "intel_delta": 0,
+            "code_delta": 0,
+            "token_multiplier": 1,
+            "coding_elo_delta": 0,
+            "token_cost_multiplier": 1,
+            "stem_delta": 0.0
+          },
+          "high": {
+            "intel_delta": 4.5,
+            "code_delta": 3.5,
+            "token_multiplier": 1.6,
+            "coding_elo_delta": 3.5,
+            "token_cost_multiplier": 1.6,
+            "stem_delta": 0.0
+          },
+          "ultra_high": {
+            "intel_delta": 7.2,
+            "code_delta": 5.5,
+            "token_multiplier": 2.8,
+            "coding_elo_delta": 5.5,
+            "token_cost_multiplier": 2.8,
+            "stem_delta": 0.0
+          }
+        }
+      },
+      "pricing": {
+        "prompt_per_m": 10,
+        "completion_per_m": 50,
+        "cache_read_per_m": 1,
+        "cache_write_per_m": 12.5,
+        "batch_prompt_per_m": 5,
+        "batch_completion_per_m": 25,
+        "is_free": false
+      },
+      "rate_limits": "Tier 1: 50 RPM / 10k RPD",
+      "quota_and_access": "ChatGPT Plus / API",
+      "rank": 2,
+      "tier_category": null,
+      "brand": {
+        "color": "#10A37F",
+        "bg_color": "#161B18",
+        "accent": "#2DD4BF"
+      },
+      "command_code": null,
+      "effort_variants": [
+        {
+          "effort": "high",
+          "rank": 2,
+          "badge_id": "gpt-6-astra-high",
+          "name": "GPT-6 Astra",
+          "aa_score": 55,
+          "cost_per_task": 4.8,
+          "pareto": true,
+          "notes": [],
+          "category": "Frontier",
+          "sub_tier": "Apex Frontier",
+          "brand": {
+            "color": "#10A37F",
+            "bg_color": "#161B18",
+            "accent": "#2DD4BF"
+          },
+          "provider_badge": "OpenAI",
+          "api_available": true,
+          "cost_tier": "High",
+          "allowance": null,
+          "recommended_role": null
+        }
+      ],
+      "data_sources": [
+        "openrouter_api",
+        "models_dev",
+        "artificial_analysis",
+        "ai_tier_badges_pack"
+      ],
+      "aa_index_v5": 52.7
+    },
+    {
+      "id": "google/gemini-4-argon",
+      "name": "Gemini 4 Argon",
+      "provider": "Google",
+      "provider_family": "Google",
+      "classification": "Frontier",
+      "frontier_tier": "Tier 2 (-5% to -10%)",
+      "frontier_delta_pct": -5.4,
+      "context_window": "1M",
+      "context_tokens": 1048576,
+      "scores": {
+        "intelligence_index": 52.6,
+        "coding_power": 86,
+        "code_arena_elo": 1330,
+        "stem_accuracy_pct": 94
+      },
+      "fact_check": {
+        "is_verified": true,
+        "status": "Dual-Source Concordance (OpenRouter + Models.dev)",
+        "pricing_concordance": "Exact Match (promptPrice / complPrice)",
+        "context_concordance": "100% Match (1048576 tokens)",
+        "capabilities": {
+          "reasoning": true,
+          "tool_call": true,
+          "structured_output": true,
+          "open_weights": false,
+          "output_limit": 943718
+        },
+        "sources": [
+          "OpenRouter API",
+          "Models.dev"
+        ]
+      },
+      "effort_simulation": {
+        "supports_effort": true,
+        "is_reasoning_core": true,
+        "overthinking_risk": "Low (Frontier Reasoning Engine)",
+        "multipliers": {
+          "low": {
+            "intel_delta": -1.5,
+            "code_delta": -1,
+            "token_multiplier": 0.65,
+            "coding_elo_delta": -1,
+            "token_cost_multiplier": 0.65,
+            "stem_delta": 0.0
+          },
+          "medium": {
+            "intel_delta": 0,
+            "code_delta": 0,
+            "token_multiplier": 1,
+            "coding_elo_delta": 0,
+            "token_cost_multiplier": 1,
+            "stem_delta": 0.0
+          },
+          "high": {
+            "intel_delta": 4.5,
+            "code_delta": 3.5,
+            "token_multiplier": 1.6,
+            "coding_elo_delta": 3.5,
+            "token_cost_multiplier": 1.6,
+            "stem_delta": 0.0
+          },
+          "ultra_high": {
+            "intel_delta": 7.2,
+            "code_delta": 5.5,
+            "token_multiplier": 2.8,
+            "coding_elo_delta": 5.5,
+            "token_cost_multiplier": 2.8,
+            "stem_delta": 0.0
+          }
+        }
+      },
+      "pricing": {
+        "prompt_per_m": 2,
+        "completion_per_m": 10,
+        "cache_read_per_m": 0.1,
+        "cache_write_per_m": 0.1875,
+        "batch_prompt_per_m": 1,
+        "batch_completion_per_m": 5,
+        "is_free": false
+      },
+      "rate_limits": "Tier 1: 50 RPM / 10k RPD",
+      "quota_and_access": "Google AI Studio / Browser",
+      "rank": 4,
+      "tier_category": null,
+      "brand": {
+        "color": "#4285F4",
+        "bg_color": "#141A24",
+        "accent": "#34A853"
+      },
+      "command_code": null,
+      "effort_variants": [
+        {
+          "effort": "high",
+          "rank": 4,
+          "badge_id": "gemini-4-argon-high",
+          "name": "Gemini 4 Argon",
+          "aa_score": 50,
+          "cost_per_task": 0.85,
+          "pareto": true,
+          "notes": [
+            "Frontier Sweet Spot"
+          ],
+          "category": "Frontier",
+          "sub_tier": "Flagship Frontier",
+          "brand": {
+            "color": "#4285F4",
+            "bg_color": "#141A24",
+            "accent": "#34A853"
+          },
+          "provider_badge": "Google",
+          "api_available": true,
+          "cost_tier": "Medium-High",
+          "allowance": null,
+          "recommended_role": null
+        }
+      ],
+      "data_sources": [
+        "openrouter_api",
+        "models_dev",
+        "artificial_analysis",
+        "ai_tier_badges_pack"
+      ],
+      "aa_index_v5": 52.6
+    },
+    {
+      "id": "gpt-6-1-sol",
+      "name": "GPT-6.1 Sol",
+      "provider": "OpenAI",
+      "provider_family": "OpenAI",
+      "classification": "Frontier",
+      "frontier_tier": "Tier 3 (-10% to -15%)",
+      "frontier_delta_pct": -13.2,
+      "aa_index_v5": 50,
+      "rank": 5,
+      "tier_category": "Frontier",
+      "context_window": null,
+      "context_tokens": null,
+      "scores": {
+        "intelligence_index": 50,
+        "coding_power": null,
+        "code_arena_elo": null,
+        "stem_accuracy_pct": null
+      },
+      "pricing": {
+        "prompt_per_m": null,
+        "completion_per_m": null,
+        "cache_read_per_m": null,
+        "cache_write_per_m": null,
+        "batch_prompt_per_m": null,
+        "batch_completion_per_m": null,
+        "is_free": false
+      },
+      "fact_check": {
+        "is_verified": false,
+        "status": "Single-source (AA v5 badge pack — not in OpenRouter/Models.dev sync)",
+        "pricing_concordance": "N/A",
+        "context_concordance": "N/A",
+        "capabilities": null,
+        "sources": [
+          "Artificial Analysis Intelligence Index v5"
+        ]
+      },
+      "effort_simulation": {
+        "supports_effort": true,
+        "is_reasoning_core": false,
+        "overthinking_risk": "Unknown (single-source record)",
+        "multipliers": {
+          "low": {
+            "intel_delta": -1.5,
+            "code_delta": -1.0,
+            "token_multiplier": 0.65,
+            "coding_elo_delta": -1.0,
+            "token_cost_multiplier": 0.65,
+            "stem_delta": 0.0
+          },
+          "medium": {
+            "intel_delta": 0.0,
+            "code_delta": 0.0,
+            "token_multiplier": 1.0,
+            "coding_elo_delta": 0.0,
+            "token_cost_multiplier": 1.0,
+            "stem_delta": 0.0
+          },
+          "high": {
+            "intel_delta": 0.8,
+            "code_delta": 0.5,
+            "token_multiplier": 1.6,
+            "coding_elo_delta": 0.5,
+            "token_cost_multiplier": 1.6,
+            "stem_delta": 0.0
+          },
+          "ultra_high": {
+            "intel_delta": -2.5,
+            "code_delta": -1.8,
+            "token_multiplier": 2.8,
+            "coding_elo_delta": -1.8,
+            "token_cost_multiplier": 2.8,
+            "stem_delta": 0.0
+          }
+        }
+      },
+      "rate_limits": null,
+      "quota_and_access": null,
+      "brand": {
+        "color": "#10A37F",
+        "bg_color": "#161B18",
+        "accent": "#10A37F"
+      },
+      "command_code": null,
+      "effort_variants": [
+        {
+          "effort": "high",
+          "rank": 5,
+          "badge_id": "gpt-6-1-sol-high",
+          "name": "GPT-6.1 Sol",
+          "aa_score": 50,
+          "cost_per_task": 2.1,
+          "pareto": false,
+          "notes": [],
+          "category": "Frontier",
+          "sub_tier": "Flagship Frontier",
+          "brand": {
+            "color": "#10A37F",
+            "bg_color": "#161B18",
+            "accent": "#10A37F"
+          },
+          "provider_badge": "OpenAI",
+          "api_available": true,
+          "cost_tier": "High",
+          "allowance": null,
+          "recommended_role": null
+        }
+      ],
+      "data_sources": [
+        "artificial_analysis_v5",
+        "ai_tier_badges_pack"
+      ]
+    },
+    {
+      "id": "meta/muse-wonder-full",
+      "name": "Muse Wonder Full",
+      "provider": "Meta",
+      "provider_family": "Meta",
+      "classification": "Open-Source",
+      "frontier_tier": "Tier 3 (-10% to -15%)",
+      "frontier_delta_pct": -13.2,
+      "aa_index_v5": 50,
+      "rank": 6,
+      "tier_category": "Frontier",
+      "context_window": null,
+      "context_tokens": null,
+      "scores": {
+        "intelligence_index": 50,
+        "coding_power": null,
+        "code_arena_elo": null,
+        "stem_accuracy_pct": null
+      },
+      "pricing": {
+        "prompt_per_m": null,
+        "completion_per_m": null,
+        "cache_read_per_m": null,
+        "cache_write_per_m": null,
+        "batch_prompt_per_m": null,
+        "batch_completion_per_m": null,
+        "is_free": false
+      },
+      "fact_check": {
+        "is_verified": false,
+        "status": "Single-source (AA v5 badge pack — not in OpenRouter/Models.dev sync)",
+        "pricing_concordance": "N/A",
+        "context_concordance": "N/A",
+        "capabilities": null,
+        "sources": [
+          "Artificial Analysis Intelligence Index v5"
+        ]
+      },
+      "effort_simulation": {
+        "supports_effort": true,
+        "is_reasoning_core": false,
+        "overthinking_risk": "Unknown (single-source record)",
+        "multipliers": {
+          "low": {
+            "intel_delta": -1.5,
+            "code_delta": -1.0,
+            "token_multiplier": 0.65,
+            "coding_elo_delta": -1.0,
+            "token_cost_multiplier": 0.65,
+            "stem_delta": 0.0
+          },
+          "medium": {
+            "intel_delta": 0.0,
+            "code_delta": 0.0,
+            "token_multiplier": 1.0,
+            "coding_elo_delta": 0.0,
+            "token_cost_multiplier": 1.0,
+            "stem_delta": 0.0
+          },
+          "high": {
+            "intel_delta": 0.8,
+            "code_delta": 0.5,
+            "token_multiplier": 1.6,
+            "coding_elo_delta": 0.5,
+            "token_cost_multiplier": 1.6,
+            "stem_delta": 0.0
+          },
+          "ultra_high": {
+            "intel_delta": -2.5,
+            "code_delta": -1.8,
+            "token_multiplier": 2.8,
+            "coding_elo_delta": -1.8,
+            "token_cost_multiplier": 2.8,
+            "stem_delta": 0.0
+          }
+        }
+      },
+      "rate_limits": null,
+      "quota_and_access": null,
+      "brand": {
+        "color": "#0668E1",
+        "bg_color": "#121A28",
+        "accent": "#38BDF8"
+      },
+      "command_code": null,
+      "effort_variants": [
+        {
+          "effort": "max",
+          "rank": 6,
+          "badge_id": "muse-wonder-full-max",
+          "name": "Muse Wonder Full",
+          "aa_score": 50,
+          "cost_per_task": 1.7,
+          "pareto": false,
+          "notes": [
+            "No public API",
+            "No Public API"
+          ],
+          "category": "Frontier",
+          "sub_tier": "Flagship Frontier",
+          "brand": {
+            "color": "#0668E1",
+            "bg_color": "#121A28",
+            "accent": "#38BDF8"
+          },
+          "provider_badge": "Meta",
+          "api_available": false,
+          "cost_tier": "Internal Only",
+          "allowance": null,
+          "recommended_role": null
+        }
+      ],
+      "data_sources": [
+        "artificial_analysis_v5",
+        "ai_tier_badges_pack"
+      ]
+    },
+    {
+      "id": "kimi-k3-1-pro",
+      "name": "Kimi K3.1 Pro",
+      "provider": "Moonshot",
+      "provider_family": "Moonshot",
+      "classification": "Open-Source",
+      "frontier_tier": "Tier 5 (> -20%)",
+      "frontier_delta_pct": -20.1,
+      "aa_index_v5": 46,
+      "rank": 8,
+      "tier_category": "Top Models",
+      "context_window": null,
+      "context_tokens": null,
+      "scores": {
+        "intelligence_index": 46,
+        "coding_power": null,
+        "code_arena_elo": null,
+        "stem_accuracy_pct": null
+      },
+      "pricing": {
+        "prompt_per_m": null,
+        "completion_per_m": null,
+        "cache_read_per_m": null,
+        "cache_write_per_m": null,
+        "batch_prompt_per_m": null,
+        "batch_completion_per_m": null,
+        "is_free": false
+      },
+      "fact_check": {
+        "is_verified": false,
+        "status": "Single-source (AA v5 badge pack — not in OpenRouter/Models.dev sync)",
+        "pricing_concordance": "N/A",
+        "context_concordance": "N/A",
+        "capabilities": null,
+        "sources": [
+          "Artificial Analysis Intelligence Index v5"
+        ]
+      },
+      "effort_simulation": {
+        "supports_effort": true,
+        "is_reasoning_core": false,
+        "overthinking_risk": "Unknown (single-source record)",
+        "multipliers": {
+          "low": {
+            "intel_delta": -1.5,
+            "code_delta": -1.0,
+            "token_multiplier": 0.65,
+            "coding_elo_delta": -1.0,
+            "token_cost_multiplier": 0.65,
+            "stem_delta": 0.0
+          },
+          "medium": {
+            "intel_delta": 0.0,
+            "code_delta": 0.0,
+            "token_multiplier": 1.0,
+            "coding_elo_delta": 0.0,
+            "token_cost_multiplier": 1.0,
+            "stem_delta": 0.0
+          },
+          "high": {
+            "intel_delta": 0.8,
+            "code_delta": 0.5,
+            "token_multiplier": 1.6,
+            "coding_elo_delta": 0.5,
+            "token_cost_multiplier": 1.6,
+            "stem_delta": 0.0
+          },
+          "ultra_high": {
+            "intel_delta": -2.5,
+            "code_delta": -1.8,
+            "token_multiplier": 2.8,
+            "coding_elo_delta": -1.8,
+            "token_cost_multiplier": 2.8,
+            "stem_delta": 0.0
+          }
+        }
+      },
+      "rate_limits": null,
+      "quota_and_access": "Command Code Go ($1/mo): $10 included",
+      "brand": {
+        "color": "#0080FF",
+        "bg_color": "#10192A",
+        "accent": "#38BDF8"
+      },
+      "command_code": {
+        "catalog": "Command Code Go ($1/mo Plan)",
+        "allowance": "$10 included",
+        "recommended_role": "Top Intelligence Leader: Excels in deep long-context reasoning and repo-wide synthesis."
+      },
+      "effort_variants": [
+        {
+          "effort": "pro",
+          "rank": 8,
+          "badge_id": "kimi-k3-1-pro",
+          "name": "Kimi K3.1 Pro",
+          "aa_score": 46,
+          "cost_per_task": 0.65,
+          "pareto": true,
+          "notes": [
+            "High-Value Pro"
+          ],
+          "category": "Top Models",
+          "sub_tier": "Top Models Tier 1",
+          "brand": {
+            "color": "#0080FF",
+            "bg_color": "#10192A",
+            "accent": "#38BDF8"
+          },
+          "provider_badge": "Moonshot",
+          "api_available": true,
+          "cost_tier": "Medium",
+          "allowance": "$10 included",
+          "recommended_role": "Top Intelligence Leader: Excels in deep long-context reasoning and repo-wide synthesis."
+        }
+      ],
+      "data_sources": [
+        "artificial_analysis_v5",
+        "ai_tier_badges_pack",
+        "command_code_go_catalog"
+      ]
+    },
+    {
+      "id": "meta/muse-wonder",
+      "name": "Meta Muse Wonder",
+      "provider": "Meta",
+      "provider_family": "Meta",
+      "classification": "Open-Source",
+      "frontier_tier": "Tier 5 (> -20%)",
+      "frontier_delta_pct": -20.8,
+      "context_window": "1M",
+      "context_tokens": 1048576,
+      "scores": {
+        "intelligence_index": 42,
+        "coding_power": 75,
+        "code_arena_elo": 1285,
+        "stem_accuracy_pct": 79
+      },
+      "fact_check": {
+        "is_verified": true,
+        "status": "Dual-Source Concordance (OpenRouter + Models.dev)",
+        "pricing_concordance": "Exact Match (promptPrice / complPrice)",
+        "context_concordance": "100% Match (1048576 tokens)",
+        "capabilities": {
+          "reasoning": true,
+          "tool_call": true,
+          "structured_output": true,
+          "open_weights": false,
+          "output_limit": 943718
+        },
+        "sources": [
+          "OpenRouter API",
+          "Models.dev"
+        ]
+      },
+      "effort_simulation": {
+        "supports_effort": true,
+        "is_reasoning_core": false,
+        "overthinking_risk": "High (Overthinking Regression Risk on <30B/distilled models)",
+        "multipliers": {
+          "low": {
+            "intel_delta": -1.5,
+            "code_delta": -1,
+            "token_multiplier": 0.65,
+            "coding_elo_delta": -1,
+            "token_cost_multiplier": 0.65,
+            "stem_delta": 0.0
+          },
+          "medium": {
+            "intel_delta": 0,
+            "code_delta": 0,
+            "token_multiplier": 1,
+            "coding_elo_delta": 0,
+            "token_cost_multiplier": 1,
+            "stem_delta": 0.0
+          },
+          "high": {
+            "intel_delta": 0.8,
+            "code_delta": 0.5,
+            "token_multiplier": 1.6,
+            "coding_elo_delta": 0.5,
+            "token_cost_multiplier": 1.6,
+            "stem_delta": 0.0
+          },
+          "ultra_high": {
+            "intel_delta": -2.5,
+            "code_delta": -1.8,
+            "token_multiplier": 2.8,
+            "coding_elo_delta": -1.8,
+            "token_cost_multiplier": 2.8,
+            "stem_delta": 0.0
+          }
+        }
+      },
+      "pricing": {
+        "prompt_per_m": 4,
+        "completion_per_m": 20,
+        "cache_read_per_m": 0.2,
+        "cache_write_per_m": 0,
+        "batch_prompt_per_m": 2,
+        "batch_completion_per_m": 10,
+        "is_free": false
+      },
+      "rate_limits": "OpenRouter Standard: 200 RPM",
+      "quota_and_access": "Open Weights",
+      "rank": 9,
+      "tier_category": null,
+      "brand": {
+        "color": "#0668E1",
+        "bg_color": "#121A28",
+        "accent": "#38BDF8"
+      },
+      "command_code": null,
+      "effort_variants": [
+        {
+          "effort": "max",
+          "rank": 9,
+          "badge_id": "muse-wonder-max",
+          "name": "Muse Wonder",
+          "aa_score": 43,
+          "cost_per_task": 0.85,
+          "pareto": false,
+          "notes": [],
+          "category": "Top Models",
+          "sub_tier": "Top Models Tier 2",
+          "brand": {
+            "color": "#0668E1",
+            "bg_color": "#121A28",
+            "accent": "#38BDF8"
+          },
+          "provider_badge": "Meta",
+          "api_available": true,
+          "cost_tier": "Medium",
+          "allowance": null,
+          "recommended_role": null
+        }
+      ],
+      "data_sources": [
+        "openrouter_api",
+        "models_dev",
+        "artificial_analysis",
+        "ai_tier_badges_pack"
+      ],
+      "aa_index_v5": 42
+    },
+    {
+      "id": "gpt-6-1-terra",
+      "name": "GPT-6.1 Terra",
+      "provider": "OpenAI",
+      "provider_family": "OpenAI",
+      "classification": "Frontier",
+      "frontier_tier": "Tier 5 (> -20%)",
+      "frontier_delta_pct": -27.1,
+      "aa_index_v5": 42,
+      "rank": 10,
+      "tier_category": "Top Models",
+      "context_window": null,
+      "context_tokens": null,
+      "scores": {
+        "intelligence_index": 42,
+        "coding_power": null,
+        "code_arena_elo": null,
+        "stem_accuracy_pct": null
+      },
+      "pricing": {
+        "prompt_per_m": null,
+        "completion_per_m": null,
+        "cache_read_per_m": null,
+        "cache_write_per_m": null,
+        "batch_prompt_per_m": null,
+        "batch_completion_per_m": null,
+        "is_free": false
+      },
+      "fact_check": {
+        "is_verified": false,
+        "status": "Single-source (AA v5 badge pack — not in OpenRouter/Models.dev sync)",
+        "pricing_concordance": "N/A",
+        "context_concordance": "N/A",
+        "capabilities": null,
+        "sources": [
+          "Artificial Analysis Intelligence Index v5"
+        ]
+      },
+      "effort_simulation": {
+        "supports_effort": true,
+        "is_reasoning_core": false,
+        "overthinking_risk": "Unknown (single-source record)",
+        "multipliers": {
+          "low": {
+            "intel_delta": -1.5,
+            "code_delta": -1.0,
+            "token_multiplier": 0.65,
+            "coding_elo_delta": -1.0,
+            "token_cost_multiplier": 0.65,
+            "stem_delta": 0.0
+          },
+          "medium": {
+            "intel_delta": 0.0,
+            "code_delta": 0.0,
+            "token_multiplier": 1.0,
+            "coding_elo_delta": 0.0,
+            "token_cost_multiplier": 1.0,
+            "stem_delta": 0.0
+          },
+          "high": {
+            "intel_delta": 0.8,
+            "code_delta": 0.5,
+            "token_multiplier": 1.6,
+            "coding_elo_delta": 0.5,
+            "token_cost_multiplier": 1.6,
+            "stem_delta": 0.0
+          },
+          "ultra_high": {
+            "intel_delta": -2.5,
+            "code_delta": -1.8,
+            "token_multiplier": 2.8,
+            "coding_elo_delta": -1.8,
+            "token_cost_multiplier": 2.8,
+            "stem_delta": 0.0
+          }
+        }
+      },
+      "rate_limits": null,
+      "quota_and_access": null,
+      "brand": {
+        "color": "#10A37F",
+        "bg_color": "#161B18",
+        "accent": "#10A37F"
+      },
+      "command_code": null,
+      "effort_variants": [
+        {
+          "effort": "high",
+          "rank": 10,
+          "badge_id": "gpt-6-1-terra-high",
+          "name": "GPT-6.1 Terra",
+          "aa_score": 42,
+          "cost_per_task": 0.75,
+          "pareto": false,
+          "notes": [],
+          "category": "Top Models",
+          "sub_tier": "Top Models Tier 2",
+          "brand": {
+            "color": "#10A37F",
+            "bg_color": "#161B18",
+            "accent": "#10A37F"
+          },
+          "provider_badge": "OpenAI",
+          "api_available": true,
+          "cost_tier": "Medium-High",
+          "allowance": null,
+          "recommended_role": null
+        }
+      ],
+      "data_sources": [
+        "artificial_analysis_v5",
+        "ai_tier_badges_pack"
+      ]
+    },
+    {
+      "id": "anthropic/claude-sonnet-5.5",
+      "name": "Claude Sonnet 5.5",
+      "provider": "Anthropic",
+      "provider_family": "Anthropic",
+      "classification": "Frontier",
+      "frontier_tier": "Tier 1 (0% to -5%)",
+      "frontier_delta_pct": -2.3,
+      "context_window": "1M",
+      "context_tokens": 1000000,
+      "scores": {
+        "intelligence_index": 56,
+        "coding_power": 91,
+        "code_arena_elo": 1365,
+        "stem_accuracy_pct": 92
+      },
+      "fact_check": {
+        "is_verified": true,
+        "status": "Dual-Source Concordance (OpenRouter + Models.dev)",
+        "pricing_concordance": "Exact Match (promptPrice / complPrice)",
+        "context_concordance": "100% Match (1000000 tokens)",
+        "capabilities": {
+          "reasoning": true,
+          "tool_call": true,
+          "structured_output": true,
+          "open_weights": false,
+          "output_limit": 128000
+        },
+        "sources": [
+          "OpenRouter API",
+          "Models.dev"
+        ]
+      },
+      "effort_simulation": {
+        "supports_effort": true,
+        "is_reasoning_core": true,
+        "overthinking_risk": "Low (Frontier Reasoning Engine)",
+        "multipliers": {
+          "low": {
+            "intel_delta": -1.5,
+            "code_delta": -1,
+            "token_multiplier": 0.65,
+            "coding_elo_delta": -1,
+            "token_cost_multiplier": 0.65,
+            "stem_delta": 0.0
+          },
+          "medium": {
+            "intel_delta": 0,
+            "code_delta": 0,
+            "token_multiplier": 1,
+            "coding_elo_delta": 0,
+            "token_cost_multiplier": 1,
+            "stem_delta": 0.0
+          },
+          "high": {
+            "intel_delta": 4.5,
+            "code_delta": 3.5,
+            "token_multiplier": 1.6,
+            "coding_elo_delta": 3.5,
+            "token_cost_multiplier": 1.6,
+            "stem_delta": 0.0
+          },
+          "ultra_high": {
+            "intel_delta": 7.2,
+            "code_delta": 5.5,
+            "token_multiplier": 2.8,
+            "coding_elo_delta": 5.5,
+            "token_cost_multiplier": 2.8,
+            "stem_delta": 0.0
+          }
+        }
+      },
+      "pricing": {
+        "prompt_per_m": 2,
+        "completion_per_m": 10,
+        "cache_read_per_m": 0.1,
+        "cache_write_per_m": 2.5,
+        "batch_prompt_per_m": 1,
+        "batch_completion_per_m": 5,
+        "is_free": false
+      },
+      "rate_limits": "Tier 1: 50 RPM / 10k RPD",
+      "quota_and_access": "Claude Pro / API",
+      "rank": 11,
+      "tier_category": null,
+      "brand": {
+        "color": "#D97757",
+        "bg_color": "#1E1A18",
+        "accent": "#E28B6E"
+      },
+      "command_code": null,
+      "effort_variants": [
+        {
+          "effort": "high",
+          "rank": 11,
+          "badge_id": "claude-sonnet-5-5-high",
+          "name": "Claude Sonnet 5.5",
+          "aa_score": 41,
+          "cost_per_task": 0.55,
+          "pareto": true,
+          "notes": [
+            "with fallback"
+          ],
+          "category": "Top Models",
+          "sub_tier": "Top Models Tier 2",
+          "brand": {
+            "color": "#D97757",
+            "bg_color": "#1E1A18",
+            "accent": "#E28B6E"
+          },
+          "provider_badge": "Anthropic",
+          "api_available": true,
+          "cost_tier": "Medium",
+          "allowance": null,
+          "recommended_role": null
+        },
+        {
+          "effort": "medium",
+          "rank": 17,
+          "badge_id": "claude-sonnet-5-5-medium",
+          "name": "Claude Sonnet 5.5",
+          "aa_score": 30,
+          "cost_per_task": 0.22,
+          "pareto": false,
+          "notes": [],
+          "category": "Workhorse",
+          "sub_tier": "Workhorse Tier 2",
+          "brand": {
+            "color": "#D97757",
+            "bg_color": "#1E1A18",
+            "accent": "#E28B6E"
+          },
+          "provider_badge": "Anthropic",
+          "api_available": true,
+          "cost_tier": "Low-Medium",
+          "allowance": null,
+          "recommended_role": null
+        }
+      ],
+      "data_sources": [
+        "openrouter_api",
+        "models_dev",
+        "artificial_analysis",
+        "ai_tier_badges_pack"
+      ],
+      "aa_index_v5": 56
+    },
+    {
+      "id": "grok-4-7",
+      "name": "Grok 4.7",
+      "provider": "xAI",
+      "provider_family": "xAI",
+      "classification": "Frontier",
+      "frontier_tier": "Tier 5 (> -20%)",
+      "frontier_delta_pct": -41.0,
+      "aa_index_v5": 34,
+      "rank": 12,
+      "tier_category": "Workhorse",
+      "context_window": null,
+      "context_tokens": null,
+      "scores": {
+        "intelligence_index": 34,
+        "coding_power": null,
+        "code_arena_elo": null,
+        "stem_accuracy_pct": null
+      },
+      "pricing": {
+        "prompt_per_m": null,
+        "completion_per_m": null,
+        "cache_read_per_m": null,
+        "cache_write_per_m": null,
+        "batch_prompt_per_m": null,
+        "batch_completion_per_m": null,
+        "is_free": false
+      },
+      "fact_check": {
+        "is_verified": false,
+        "status": "Single-source (AA v5 badge pack — not in OpenRouter/Models.dev sync)",
+        "pricing_concordance": "N/A",
+        "context_concordance": "N/A",
+        "capabilities": null,
+        "sources": [
+          "Artificial Analysis Intelligence Index v5"
+        ]
+      },
+      "effort_simulation": {
+        "supports_effort": true,
+        "is_reasoning_core": false,
+        "overthinking_risk": "Unknown (single-source record)",
+        "multipliers": {
+          "low": {
+            "intel_delta": -1.5,
+            "code_delta": -1.0,
+            "token_multiplier": 0.65,
+            "coding_elo_delta": -1.0,
+            "token_cost_multiplier": 0.65,
+            "stem_delta": 0.0
+          },
+          "medium": {
+            "intel_delta": 0.0,
+            "code_delta": 0.0,
+            "token_multiplier": 1.0,
+            "coding_elo_delta": 0.0,
+            "token_cost_multiplier": 1.0,
+            "stem_delta": 0.0
+          },
+          "high": {
+            "intel_delta": 0.8,
+            "code_delta": 0.5,
+            "token_multiplier": 1.6,
+            "coding_elo_delta": 0.5,
+            "token_cost_multiplier": 1.6,
+            "stem_delta": 0.0
+          },
+          "ultra_high": {
+            "intel_delta": -2.5,
+            "code_delta": -1.8,
+            "token_multiplier": 2.8,
+            "coding_elo_delta": -1.8,
+            "token_cost_multiplier": 2.8,
+            "stem_delta": 0.0
+          }
+        }
+      },
+      "rate_limits": null,
+      "quota_and_access": null,
+      "brand": {
+        "color": "#8B5CF6",
+        "bg_color": "#181426",
+        "accent": "#A78BFA"
+      },
+      "command_code": null,
+      "effort_variants": [
+        {
+          "effort": "xhigh",
+          "rank": 12,
+          "badge_id": "grok-4-7-xhigh",
+          "name": "Grok 4.7",
+          "aa_score": 34,
+          "cost_per_task": 1.2,
+          "pareto": false,
+          "notes": [],
+          "category": "Workhorse",
+          "sub_tier": "Workhorse Tier 2",
+          "brand": {
+            "color": "#8B5CF6",
+            "bg_color": "#181426",
+            "accent": "#A78BFA"
+          },
+          "provider_badge": "xAI",
+          "api_available": true,
+          "cost_tier": "Medium-High",
+          "allowance": null,
+          "recommended_role": null
+        }
+      ],
+      "data_sources": [
+        "artificial_analysis_v5",
+        "ai_tier_badges_pack"
+      ]
+    },
+    {
+      "id": "qwen-3-8-max-0902",
+      "name": "Qwen3.8 Max (0902)",
+      "provider": "Alibaba",
+      "provider_family": "Alibaba",
+      "classification": "Open-Source",
+      "frontier_tier": "Tier 5 (> -20%)",
+      "frontier_delta_pct": -41.0,
+      "aa_index_v5": 34,
+      "rank": 13,
+      "tier_category": "Workhorse",
+      "context_window": null,
+      "context_tokens": null,
+      "scores": {
+        "intelligence_index": 34,
+        "coding_power": null,
+        "code_arena_elo": null,
+        "stem_accuracy_pct": null
+      },
+      "pricing": {
+        "prompt_per_m": null,
+        "completion_per_m": null,
+        "cache_read_per_m": null,
+        "cache_write_per_m": null,
+        "batch_prompt_per_m": null,
+        "batch_completion_per_m": null,
+        "is_free": false
+      },
+      "fact_check": {
+        "is_verified": false,
+        "status": "Single-source (AA v5 badge pack — not in OpenRouter/Models.dev sync)",
+        "pricing_concordance": "N/A",
+        "context_concordance": "N/A",
+        "capabilities": null,
+        "sources": [
+          "Artificial Analysis Intelligence Index v5"
+        ]
+      },
+      "effort_simulation": {
+        "supports_effort": true,
+        "is_reasoning_core": false,
+        "overthinking_risk": "Unknown (single-source record)",
+        "multipliers": {
+          "low": {
+            "intel_delta": -1.5,
+            "code_delta": -1.0,
+            "token_multiplier": 0.65,
+            "coding_elo_delta": -1.0,
+            "token_cost_multiplier": 0.65,
+            "stem_delta": 0.0
+          },
+          "medium": {
+            "intel_delta": 0.0,
+            "code_delta": 0.0,
+            "token_multiplier": 1.0,
+            "coding_elo_delta": 0.0,
+            "token_cost_multiplier": 1.0,
+            "stem_delta": 0.0
+          },
+          "high": {
+            "intel_delta": 0.8,
+            "code_delta": 0.5,
+            "token_multiplier": 1.6,
+            "coding_elo_delta": 0.5,
+            "token_cost_multiplier": 1.6,
+            "stem_delta": 0.0
+          },
+          "ultra_high": {
+            "intel_delta": -2.5,
+            "code_delta": -1.8,
+            "token_multiplier": 2.8,
+            "coding_elo_delta": -1.8,
+            "token_cost_multiplier": 2.8,
+            "stem_delta": 0.0
+          }
+        }
+      },
+      "rate_limits": null,
+      "quota_and_access": "Command Code Go ($1/mo): $10 included",
+      "brand": {
+        "color": "#FF6A00",
+        "bg_color": "#221912",
+        "accent": "#FB923C"
+      },
+      "command_code": {
+        "catalog": "Command Code Go ($1/mo Plan)",
+        "allowance": "$10 included",
+        "recommended_role": "Top Value Workhorse: Near-frontier coding capability at 1/4 the cost of flagship models."
+      },
+      "effort_variants": [
+        {
+          "effort": "max",
+          "rank": 13,
+          "badge_id": "qwen-3-8-max-0902",
+          "name": "Qwen3.8 Max (0902)",
+          "aa_score": 34,
+          "cost_per_task": 0.18,
+          "pareto": true,
+          "notes": [
+            "Top Value Workhorse"
+          ],
+          "category": "Workhorse",
+          "sub_tier": "Workhorse Tier 2",
+          "brand": {
+            "color": "#FF6A00",
+            "bg_color": "#221912",
+            "accent": "#FB923C"
+          },
+          "provider_badge": "Alibaba",
+          "api_available": true,
+          "cost_tier": "Low-Medium",
+          "allowance": "$10 included",
+          "recommended_role": "Top Value Workhorse: Near-frontier coding capability at 1/4 the cost of flagship models."
+        }
+      ],
+      "data_sources": [
+        "artificial_analysis_v5",
+        "ai_tier_badges_pack",
+        "command_code_go_catalog"
+      ]
+    },
+    {
+      "id": "deepseek/deepseek-v4.1-flash-1017",
+      "name": "DeepSeek 4.1 Flash (1017)",
+      "provider": "DeepSeek",
+      "provider_family": "DeepSeek",
+      "classification": "Free & Budget",
+      "frontier_tier": "Tier 5 (> -20%)",
+      "frontier_delta_pct": -20.4,
+      "context_window": "1M",
+      "context_tokens": 1048576,
+      "scores": {
+        "intelligence_index": 40.8,
+        "coding_power": 76,
+        "code_arena_elo": 1285,
+        "stem_accuracy_pct": 81
+      },
+      "fact_check": {
+        "is_verified": true,
+        "status": "Dual-Source Concordance (OpenRouter + Models.dev)",
+        "pricing_concordance": "Exact Match (promptPrice / complPrice)",
+        "context_concordance": "100% Match (1048576 tokens)",
+        "capabilities": {
+          "reasoning": true,
+          "tool_call": true,
+          "structured_output": true,
+          "open_weights": true,
+          "output_limit": 393216
+        },
+        "sources": [
+          "OpenRouter API",
+          "Models.dev"
+        ]
+      },
+      "effort_simulation": {
+        "supports_effort": true,
+        "is_reasoning_core": false,
+        "overthinking_risk": "High (Overthinking Regression Risk on <30B/distilled models)",
+        "multipliers": {
+          "low": {
+            "intel_delta": -1.5,
+            "code_delta": -1,
+            "token_multiplier": 0.65,
+            "coding_elo_delta": -1,
+            "token_cost_multiplier": 0.65,
+            "stem_delta": 0.0
+          },
+          "medium": {
+            "intel_delta": 0,
+            "code_delta": 0,
+            "token_multiplier": 1,
+            "coding_elo_delta": 0,
+            "token_cost_multiplier": 1,
+            "stem_delta": 0.0
+          },
+          "high": {
+            "intel_delta": 0.8,
+            "code_delta": 0.5,
+            "token_multiplier": 1.6,
+            "coding_elo_delta": 0.5,
+            "token_cost_multiplier": 1.6,
+            "stem_delta": 0.0
+          },
+          "ultra_high": {
+            "intel_delta": -2.5,
+            "code_delta": -1.8,
+            "token_multiplier": 2.8,
+            "coding_elo_delta": -1.8,
+            "token_cost_multiplier": 2.8,
+            "stem_delta": 0.0
+          }
+        }
+      },
+      "pricing": {
+        "prompt_per_m": 0.15,
+        "completion_per_m": 0.6,
+        "cache_read_per_m": 0.003,
+        "cache_write_per_m": 0,
+        "batch_prompt_per_m": 0.075,
+        "batch_completion_per_m": 0.3,
+        "is_free": true
+      },
+      "rate_limits": "OpenRouter Standard: 200 RPM",
+      "quota_and_access": "100% Free in Open Code",
+      "rank": 14,
+      "tier_category": null,
+      "brand": {
+        "color": "#4D6BFE",
+        "bg_color": "#121828",
+        "accent": "#60A5FA"
+      },
+      "command_code": {
+        "catalog": "Command Code Go ($1/mo Plan)",
+        "allowance": "$10 included",
+        "recommended_role": "Hyper-Efficiency King: Unmatched index points per dollar; handles 85% of software edits."
+      },
+      "effort_variants": [
+        {
+          "effort": "max",
+          "rank": 14,
+          "badge_id": "deepseek-v4-1-flash-max",
+          "name": "DeepSeek V4.1 Flash",
+          "aa_score": 32,
+          "cost_per_task": 0.012,
+          "pareto": true,
+          "notes": [
+            "1017",
+            "Hyper-Efficiency King"
+          ],
+          "category": "Workhorse",
+          "sub_tier": "Workhorse Tier 2",
+          "brand": {
+            "color": "#4D6BFE",
+            "bg_color": "#121828",
+            "accent": "#60A5FA"
+          },
+          "provider_badge": "DeepSeek",
+          "api_available": true,
+          "cost_tier": "Very Low",
+          "allowance": "$10 included",
+          "recommended_role": "Hyper-Efficiency King: Unmatched index points per dollar; handles 85% of software edits."
+        }
+      ],
+      "data_sources": [
+        "openrouter_api",
+        "models_dev",
+        "artificial_analysis",
+        "ai_tier_badges_pack",
+        "command_code_go_catalog"
+      ],
+      "aa_index_v5": 40.8
+    },
+    {
+      "id": "z-ai/glm-5.3",
+      "name": "Z.ai GLM 5.3",
+      "provider": "Z.ai",
+      "provider_family": "Z.ai",
+      "classification": "Open-Source",
+      "frontier_tier": "Tier 4 (-15% to -20%)",
+      "frontier_delta_pct": -16.3,
+      "context_window": "1M",
+      "context_tokens": 1048576,
+      "scores": {
+        "intelligence_index": 44.8,
+        "coding_power": 79,
+        "code_arena_elo": 1306,
+        "stem_accuracy_pct": 83
+      },
+      "fact_check": {
+        "is_verified": true,
+        "status": "Dual-Source Concordance (OpenRouter + Models.dev)",
+        "pricing_concordance": "Exact Match (promptPrice / complPrice)",
+        "context_concordance": "100% Match (1048576 tokens)",
+        "capabilities": {
+          "reasoning": true,
+          "tool_call": true,
+          "structured_output": true,
+          "open_weights": true,
+          "output_limit": 943718
+        },
+        "sources": [
+          "OpenRouter API",
+          "Models.dev"
+        ]
+      },
+      "effort_simulation": {
+        "supports_effort": true,
+        "is_reasoning_core": false,
+        "overthinking_risk": "High (Overthinking Regression Risk on <30B/distilled models)",
+        "multipliers": {
+          "low": {
+            "intel_delta": -1.5,
+            "code_delta": -1,
+            "token_multiplier": 0.65,
+            "coding_elo_delta": -1,
+            "token_cost_multiplier": 0.65,
+            "stem_delta": 0.0
+          },
+          "medium": {
+            "intel_delta": 0,
+            "code_delta": 0,
+            "token_multiplier": 1,
+            "coding_elo_delta": 0,
+            "token_cost_multiplier": 1,
+            "stem_delta": 0.0
+          },
+          "high": {
+            "intel_delta": 0.8,
+            "code_delta": 0.5,
+            "token_multiplier": 1.6,
+            "coding_elo_delta": 0.5,
+            "token_cost_multiplier": 1.6,
+            "stem_delta": 0.0
+          },
+          "ultra_high": {
+            "intel_delta": -2.5,
+            "code_delta": -1.8,
+            "token_multiplier": 2.8,
+            "coding_elo_delta": -1.8,
+            "token_cost_multiplier": 2.8,
+            "stem_delta": 0.0
+          }
+        }
+      },
+      "pricing": {
+        "prompt_per_m": 0.079,
+        "completion_per_m": 1.4,
+        "cache_read_per_m": 0.078,
+        "cache_write_per_m": 0,
+        "batch_prompt_per_m": 0.0395,
+        "batch_completion_per_m": 0.7,
+        "is_free": false
+      },
+      "rate_limits": "OpenRouter Standard: 200 RPM",
+      "quota_and_access": "Budget API (.08/M)",
+      "rank": 15,
+      "tier_category": null,
+      "brand": {
+        "color": "#3859FF",
+        "bg_color": "#12172A",
+        "accent": "#818CF8"
+      },
+      "command_code": {
+        "catalog": "Command Code Go ($1/mo Plan)",
+        "allowance": "$10 included",
+        "recommended_role": "Reliable generalist: Included in $10 Go allowance, balanced multi-language code generation."
+      },
+      "effort_variants": [
+        {
+          "effort": "max",
+          "rank": 15,
+          "badge_id": "glm-5-3-max",
+          "name": "GLM-5.3",
+          "aa_score": 32,
+          "cost_per_task": 0.085,
+          "pareto": false,
+          "notes": [],
+          "category": "Workhorse",
+          "sub_tier": "Workhorse Tier 2",
+          "brand": {
+            "color": "#3859FF",
+            "bg_color": "#12172A",
+            "accent": "#818CF8"
+          },
+          "provider_badge": "Zhipu AI",
+          "api_available": true,
+          "cost_tier": "Low",
+          "allowance": "$10 included",
+          "recommended_role": "Reliable generalist: Included in $10 Go allowance, balanced multi-language code generation."
+        }
+      ],
+      "data_sources": [
+        "openrouter_api",
+        "models_dev",
+        "artificial_analysis",
+        "ai_tier_badges_pack",
+        "command_code_go_catalog"
+      ],
+      "aa_index_v5": 44.8
+    },
+    {
+      "id": "google/gemini-3.8-flash",
+      "name": "Gemini 3.8 Flash",
+      "provider": "Google",
+      "provider_family": "Google",
+      "classification": "Frontier",
+      "frontier_tier": "Tier 4 (-15% to -20%)",
+      "frontier_delta_pct": -18.6,
+      "context_window": "1M",
+      "context_tokens": 1048576,
+      "scores": {
+        "intelligence_index": 40.9,
+        "coding_power": 80,
+        "code_arena_elo": 1305,
+        "stem_accuracy_pct": 82
+      },
+      "fact_check": {
+        "is_verified": true,
+        "status": "Dual-Source Concordance (OpenRouter + Models.dev)",
+        "pricing_concordance": "Exact Match (promptPrice / complPrice)",
+        "context_concordance": "100% Match (1048576 tokens)",
+        "capabilities": {
+          "reasoning": true,
+          "tool_call": true,
+          "structured_output": true,
+          "open_weights": false,
+          "output_limit": 65536
+        },
+        "sources": [
+          "OpenRouter API",
+          "Models.dev"
+        ]
+      },
+      "effort_simulation": {
+        "supports_effort": true,
+        "is_reasoning_core": true,
+        "overthinking_risk": "Low (Frontier Reasoning Engine)",
+        "multipliers": {
+          "low": {
+            "intel_delta": -1.5,
+            "code_delta": -1,
+            "token_multiplier": 0.65,
+            "coding_elo_delta": -1,
+            "token_cost_multiplier": 0.65,
+            "stem_delta": 0.0
+          },
+          "medium": {
+            "intel_delta": 0,
+            "code_delta": 0,
+            "token_multiplier": 1,
+            "coding_elo_delta": 0,
+            "token_cost_multiplier": 1,
+            "stem_delta": 0.0
+          },
+          "high": {
+            "intel_delta": 4.5,
+            "code_delta": 3.5,
+            "token_multiplier": 1.6,
+            "coding_elo_delta": 3.5,
+            "token_cost_multiplier": 1.6,
+            "stem_delta": 0.0
+          },
+          "ultra_high": {
+            "intel_delta": 7.2,
+            "code_delta": 5.5,
+            "token_multiplier": 2.8,
+            "coding_elo_delta": 5.5,
+            "token_cost_multiplier": 2.8,
+            "stem_delta": 0.0
+          }
+        }
+      },
+      "pricing": {
+        "prompt_per_m": 0.825,
+        "completion_per_m": 4.125,
+        "cache_read_per_m": 0.0825,
+        "cache_write_per_m": 0.0417,
+        "batch_prompt_per_m": 0.4125,
+        "batch_completion_per_m": 2.0625,
+        "is_free": true
+      },
+      "rate_limits": "Free Studio: 1,500 RPD",
+      "quota_and_access": "Free Studio: 1,500 RPD",
+      "rank": 16,
+      "tier_category": null,
+      "brand": {
+        "color": "#34A853",
+        "bg_color": "#131C16",
+        "accent": "#4ADE80"
+      },
+      "command_code": null,
+      "effort_variants": [
+        {
+          "effort": "high",
+          "rank": 16,
+          "badge_id": "gemini-3-8-flash-high",
+          "name": "Gemini 3.8 Flash",
+          "aa_score": 31,
+          "cost_per_task": 0.028,
+          "pareto": true,
+          "notes": [
+            "Ultra High ROI"
+          ],
+          "category": "Workhorse",
+          "sub_tier": "Workhorse Tier 2",
+          "brand": {
+            "color": "#34A853",
+            "bg_color": "#131C16",
+            "accent": "#4ADE80"
+          },
+          "provider_badge": "Google",
+          "api_available": true,
+          "cost_tier": "Very Low",
+          "allowance": null,
+          "recommended_role": null
+        },
+        {
+          "effort": "medium",
+          "rank": 18,
+          "badge_id": "gemini-3-8-flash-medium",
+          "name": "Gemini 3.8 Flash",
+          "aa_score": 30,
+          "cost_per_task": 0.015,
+          "pareto": true,
+          "notes": [
+            "The 15x Flash Arbitrage"
+          ],
+          "category": "Workhorse",
+          "sub_tier": "Workhorse Tier 2",
+          "brand": {
+            "color": "#34A853",
+            "bg_color": "#131C16",
+            "accent": "#4ADE80"
+          },
+          "provider_badge": "Google",
+          "api_available": true,
+          "cost_tier": "Very Low",
+          "allowance": null,
+          "recommended_role": null
+        }
+      ],
+      "data_sources": [
+        "openrouter_api",
+        "models_dev",
+        "artificial_analysis",
+        "ai_tier_badges_pack"
+      ],
+      "aa_index_v5": 40.9
+    },
+    {
+      "id": "xiaomi/mimo-v2.6-pro",
+      "name": "Xiaomi MiMo V2.6 Pro",
+      "provider": "Xiaomi",
+      "provider_family": "Xiaomi",
+      "classification": "Open-Source",
+      "frontier_tier": "Tier 3 (-10% to -15%)",
+      "frontier_delta_pct": -14.8,
+      "context_window": "1M",
+      "context_tokens": 1050000,
+      "scores": {
+        "intelligence_index": 46.3,
+        "coding_power": 79,
+        "code_arena_elo": 1317,
+        "stem_accuracy_pct": 85
+      },
+      "fact_check": {
+        "is_verified": true,
+        "status": "Dual-Source Concordance (OpenRouter + Models.dev)",
+        "pricing_concordance": "Exact Match (promptPrice / complPrice)",
+        "context_concordance": "100% Match (1050000 tokens)",
+        "capabilities": {
+          "reasoning": true,
+          "tool_call": true,
+          "structured_output": true,
+          "open_weights": true,
+          "output_limit": 131072
+        },
+        "sources": [
+          "OpenRouter API",
+          "Models.dev"
+        ]
+      },
+      "effort_simulation": {
+        "supports_effort": true,
+        "is_reasoning_core": false,
+        "overthinking_risk": "High (Overthinking Regression Risk on <30B/distilled models)",
+        "multipliers": {
+          "low": {
+            "intel_delta": -1.5,
+            "code_delta": -1,
+            "token_multiplier": 0.65,
+            "coding_elo_delta": -1,
+            "token_cost_multiplier": 0.65,
+            "stem_delta": 0.0
+          },
+          "medium": {
+            "intel_delta": 0,
+            "code_delta": 0,
+            "token_multiplier": 1,
+            "coding_elo_delta": 0,
+            "token_cost_multiplier": 1,
+            "stem_delta": 0.0
+          },
+          "high": {
+            "intel_delta": 0.8,
+            "code_delta": 0.5,
+            "token_multiplier": 1.6,
+            "coding_elo_delta": 0.5,
+            "token_cost_multiplier": 1.6,
+            "stem_delta": 0.0
+          },
+          "ultra_high": {
+            "intel_delta": -2.5,
+            "code_delta": -1.8,
+            "token_multiplier": 2.8,
+            "coding_elo_delta": -1.8,
+            "token_cost_multiplier": 2.8,
+            "stem_delta": 0.0
+          }
+        }
+      },
+      "pricing": {
+        "prompt_per_m": 0.435,
+        "completion_per_m": 0.87,
+        "cache_read_per_m": 0.0036,
+        "cache_write_per_m": 0,
+        "batch_prompt_per_m": 0.2175,
+        "batch_completion_per_m": 0.435,
+        "is_free": false
+      },
+      "rate_limits": "OpenRouter Standard: 200 RPM",
+      "quota_and_access": "Open Code / API",
+      "rank": 19,
+      "tier_category": null,
+      "brand": {
+        "color": "#FF6900",
+        "bg_color": "#221912",
+        "accent": "#FB923C"
+      },
+      "command_code": {
+        "catalog": "Command Code Go ($1/mo Plan)",
+        "allowance": "$10 included",
+        "recommended_role": "Solid mid-tier balanced model for routine script editing and refactoring."
+      },
+      "effort_variants": [
+        {
+          "effort": "pro",
+          "rank": 19,
+          "badge_id": "mimo-v2-6-pro",
+          "name": "MiMo-V2.6-Pro",
+          "aa_score": 30,
+          "cost_per_task": 0.045,
+          "pareto": false,
+          "notes": [],
+          "category": "Workhorse",
+          "sub_tier": "Workhorse Tier 2",
+          "brand": {
+            "color": "#FF6900",
+            "bg_color": "#221912",
+            "accent": "#FB923C"
+          },
+          "provider_badge": "Xiaomi",
+          "api_available": true,
+          "cost_tier": "Low",
+          "allowance": "$10 included",
+          "recommended_role": "Solid mid-tier balanced model for routine script editing and refactoring."
+        }
+      ],
+      "data_sources": [
+        "openrouter_api",
+        "models_dev",
+        "artificial_analysis",
+        "ai_tier_badges_pack",
+        "command_code_go_catalog"
+      ],
+      "aa_index_v5": 46.3
+    },
+    {
+      "id": "anthropic/claude-haiku-5.5",
+      "name": "Claude Haiku 5.5",
+      "provider": "Anthropic",
+      "provider_family": "Anthropic",
+      "classification": "Frontier",
+      "frontier_tier": "Tier 4 (-15% to -20%)",
+      "frontier_delta_pct": -19.6,
+      "context_window": "1M",
+      "context_tokens": 1000000,
+      "scores": {
+        "intelligence_index": 43.4,
+        "coding_power": 76,
+        "code_arena_elo": 1279,
+        "stem_accuracy_pct": 79
+      },
+      "fact_check": {
+        "is_verified": true,
+        "status": "Dual-Source Concordance (OpenRouter + Models.dev)",
+        "pricing_concordance": "Exact Match (promptPrice / complPrice)",
+        "context_concordance": "100% Match (1000000 tokens)",
+        "capabilities": {
+          "reasoning": true,
+          "tool_call": true,
+          "structured_output": true,
+          "open_weights": false,
+          "output_limit": 128000
+        },
+        "sources": [
+          "OpenRouter API",
+          "Models.dev"
+        ]
+      },
+      "effort_simulation": {
+        "supports_effort": true,
+        "is_reasoning_core": true,
+        "overthinking_risk": "High (Overthinking Regression Risk on <30B/distilled models)",
+        "multipliers": {
+          "low": {
+            "intel_delta": -1.5,
+            "code_delta": -1,
+            "token_multiplier": 0.65,
+            "coding_elo_delta": -1,
+            "token_cost_multiplier": 0.65,
+            "stem_delta": 0.0
+          },
+          "medium": {
+            "intel_delta": 0,
+            "code_delta": 0,
+            "token_multiplier": 1,
+            "coding_elo_delta": 0,
+            "token_cost_multiplier": 1,
+            "stem_delta": 0.0
+          },
+          "high": {
+            "intel_delta": 4.5,
+            "code_delta": 3.5,
+            "token_multiplier": 1.6,
+            "coding_elo_delta": 3.5,
+            "token_cost_multiplier": 1.6,
+            "stem_delta": 0.0
+          },
+          "ultra_high": {
+            "intel_delta": 7.2,
+            "code_delta": 5.5,
+            "token_multiplier": 2.8,
+            "coding_elo_delta": 5.5,
+            "token_cost_multiplier": 2.8,
+            "stem_delta": 0.0
+          }
+        }
+      },
+      "pricing": {
+        "prompt_per_m": 0.1,
+        "completion_per_m": 0.5,
+        "cache_read_per_m": 0.01,
+        "cache_write_per_m": 0.125,
+        "batch_prompt_per_m": 0.05,
+        "batch_completion_per_m": 0.25,
+        "is_free": false
+      },
+      "rate_limits": "Tier 1: 50 RPM / 10k RPD",
+      "quota_and_access": "Claude API / Micro-tier",
+      "rank": 20,
+      "tier_category": null,
+      "brand": {
+        "color": "#D97757",
+        "bg_color": "#1E1A18",
+        "accent": "#E28B6E"
+      },
+      "command_code": null,
+      "effort_variants": [
+        {
+          "effort": "high",
+          "rank": 20,
+          "badge_id": "claude-haiku-5-5-high",
+          "name": "Claude Haiku 5.5",
+          "aa_score": 30,
+          "cost_per_task": 0.035,
+          "pareto": false,
+          "notes": [
+            "Matches Sonnet 5.5 Med"
+          ],
+          "category": "Workhorse",
+          "sub_tier": "Workhorse Tier 2",
+          "brand": {
+            "color": "#D97757",
+            "bg_color": "#1E1A18",
+            "accent": "#E28B6E"
+          },
+          "provider_badge": "Anthropic",
+          "api_available": true,
+          "cost_tier": "Low",
+          "allowance": null,
+          "recommended_role": null
+        },
+        {
+          "effort": "medium",
+          "rank": 25,
+          "badge_id": "claude-haiku-5-5-medium",
+          "name": "Claude Haiku 5.5",
+          "aa_score": 25,
+          "cost_per_task": 0.012,
+          "pareto": false,
+          "notes": [],
+          "category": "Utility & High-Throughput",
+          "sub_tier": "High-Throughput Tier 1",
+          "brand": {
+            "color": "#D97757",
+            "bg_color": "#1E1A18",
+            "accent": "#E28B6E"
+          },
+          "provider_badge": "Anthropic",
+          "api_available": true,
+          "cost_tier": "Very Low",
+          "allowance": null,
+          "recommended_role": null
+        }
+      ],
+      "data_sources": [
+        "openrouter_api",
+        "models_dev",
+        "artificial_analysis",
+        "ai_tier_badges_pack"
+      ],
+      "aa_index_v5": 43.4
+    },
+    {
+      "id": "minimax/MiniMax-M3.1-Flash",
+      "name": "MiniMax-M3.1-Flash",
+      "provider": "MiniMax",
+      "provider_family": "MiniMax",
+      "classification": "Open-Source",
+      "frontier_tier": "Tier 4 (-15% to -20%)",
+      "frontier_delta_pct": -15.5,
+      "context_window": "1M",
+      "context_tokens": 1048576,
+      "scores": {
+        "intelligence_index": 45,
+        "coding_power": 80,
+        "code_arena_elo": 1310,
+        "stem_accuracy_pct": 84
+      },
+      "fact_check": {
+        "is_verified": true,
+        "status": "Dual-Source Concordance (OpenRouter + Models.dev)",
+        "pricing_concordance": "Verified Available",
+        "context_concordance": "100% Match (1000000 tokens)",
+        "capabilities": {
+          "reasoning": true,
+          "tool_call": true,
+          "structured_output": false,
+          "open_weights": true,
+          "output_limit": 512000
+        },
+        "sources": [
+          "OpenRouter API",
+          "Models.dev"
+        ]
+      },
+      "effort_simulation": {
+        "supports_effort": true,
+        "is_reasoning_core": false,
+        "overthinking_risk": "High (Overthinking Regression Risk on <30B/distilled models)",
+        "multipliers": {
+          "low": {
+            "intel_delta": -1.5,
+            "code_delta": -1,
+            "token_multiplier": 0.65,
+            "coding_elo_delta": -1,
+            "token_cost_multiplier": 0.65,
+            "stem_delta": 0.0
+          },
+          "medium": {
+            "intel_delta": 0,
+            "code_delta": 0,
+            "token_multiplier": 1,
+            "coding_elo_delta": 0,
+            "token_cost_multiplier": 1,
+            "stem_delta": 0.0
+          },
+          "high": {
+            "intel_delta": 0.8,
+            "code_delta": 0.5,
+            "token_multiplier": 1.6,
+            "coding_elo_delta": 0.5,
+            "token_cost_multiplier": 1.6,
+            "stem_delta": 0.0
+          },
+          "ultra_high": {
+            "intel_delta": -2.5,
+            "code_delta": -1.8,
+            "token_multiplier": 2.8,
+            "coding_elo_delta": -1.8,
+            "token_cost_multiplier": 2.8,
+            "stem_delta": 0.0
+          }
+        }
+      },
+      "pricing": {
+        "prompt_per_m": 0,
+        "completion_per_m": 0,
+        "cache_read_per_m": 0,
+        "cache_write_per_m": 0,
+        "batch_prompt_per_m": 0,
+        "batch_completion_per_m": 0,
+        "is_free": false
+      },
+      "rate_limits": "OpenRouter Standard: 200 RPM",
+      "quota_and_access": "OpenRouter / Open Weights",
+      "rank": 21,
+      "tier_category": null,
+      "brand": {
+        "color": "#FA2C69",
+        "bg_color": "#24121A",
+        "accent": "#F43F5E"
+      },
+      "command_code": {
+        "catalog": "Command Code Go ($1/mo Plan)",
+        "allowance": "$10 included",
+        "recommended_role": "High-throughput token generator for documentation and rapid boilerplate."
+      },
+      "effort_variants": [
+        {
+          "effort": "flash",
+          "rank": 21,
+          "badge_id": "minimax-m3-1-flash",
+          "name": "MiniMax-M3.1-Flash",
+          "aa_score": 29,
+          "cost_per_task": 0.018,
+          "pareto": false,
+          "notes": [],
+          "category": "Utility & High-Throughput",
+          "sub_tier": "High-Throughput Tier 1",
+          "brand": {
+            "color": "#FA2C69",
+            "bg_color": "#24121A",
+            "accent": "#F43F5E"
+          },
+          "provider_badge": "MiniMax",
+          "api_available": true,
+          "cost_tier": "Very Low",
+          "allowance": "$10 included",
+          "recommended_role": "High-throughput token generator for documentation and rapid boilerplate."
+        }
+      ],
+      "data_sources": [
+        "openrouter_api",
+        "models_dev",
+        "artificial_analysis",
+        "ai_tier_badges_pack",
+        "command_code_go_catalog"
+      ],
+      "aa_index_v5": 45
+    },
+    {
+      "id": "step-5-preview",
+      "name": "Step 5 Preview",
+      "provider": "StepFun",
+      "provider_family": "StepFun",
+      "classification": "Open-Source",
+      "frontier_tier": "Tier 5 (> -20%)",
+      "frontier_delta_pct": -49.7,
+      "aa_index_v5": 29,
+      "rank": 22,
+      "tier_category": "Utility & High-Throughput",
+      "context_window": null,
+      "context_tokens": null,
+      "scores": {
+        "intelligence_index": 29,
+        "coding_power": null,
+        "code_arena_elo": null,
+        "stem_accuracy_pct": null
+      },
+      "pricing": {
+        "prompt_per_m": null,
+        "completion_per_m": null,
+        "cache_read_per_m": null,
+        "cache_write_per_m": null,
+        "batch_prompt_per_m": null,
+        "batch_completion_per_m": null,
+        "is_free": false
+      },
+      "fact_check": {
+        "is_verified": false,
+        "status": "Single-source (AA v5 badge pack — not in OpenRouter/Models.dev sync)",
+        "pricing_concordance": "N/A",
+        "context_concordance": "N/A",
+        "capabilities": null,
+        "sources": [
+          "Artificial Analysis Intelligence Index v5"
+        ]
+      },
+      "effort_simulation": {
+        "supports_effort": true,
+        "is_reasoning_core": false,
+        "overthinking_risk": "Unknown (single-source record)",
+        "multipliers": {
+          "low": {
+            "intel_delta": -1.5,
+            "code_delta": -1.0,
+            "token_multiplier": 0.65,
+            "coding_elo_delta": -1.0,
+            "token_cost_multiplier": 0.65,
+            "stem_delta": 0.0
+          },
+          "medium": {
+            "intel_delta": 0.0,
+            "code_delta": 0.0,
+            "token_multiplier": 1.0,
+            "coding_elo_delta": 0.0,
+            "token_cost_multiplier": 1.0,
+            "stem_delta": 0.0
+          },
+          "high": {
+            "intel_delta": 0.8,
+            "code_delta": 0.5,
+            "token_multiplier": 1.6,
+            "coding_elo_delta": 0.5,
+            "token_cost_multiplier": 1.6,
+            "stem_delta": 0.0
+          },
+          "ultra_high": {
+            "intel_delta": -2.5,
+            "code_delta": -1.8,
+            "token_multiplier": 2.8,
+            "coding_elo_delta": -1.8,
+            "token_cost_multiplier": 2.8,
+            "stem_delta": 0.0
+          }
+        }
+      },
+      "rate_limits": null,
+      "quota_and_access": "Command Code Go ($1/mo): $10 included",
+      "brand": {
+        "color": "#00C9B7",
+        "bg_color": "#101F1E",
+        "accent": "#2DD4BF"
+      },
+      "command_code": {
+        "catalog": "Command Code Go ($1/mo Plan)",
+        "allowance": "$10 included",
+        "recommended_role": "Experimental step-by-step reasoning preview; solid procedural logic."
+      },
+      "effort_variants": [
+        {
+          "effort": "preview",
+          "rank": 22,
+          "badge_id": "step-5-preview",
+          "name": "Step 5 Preview",
+          "aa_score": 29,
+          "cost_per_task": 0.065,
+          "pareto": false,
+          "notes": [],
+          "category": "Utility & High-Throughput",
+          "sub_tier": "High-Throughput Tier 1",
+          "brand": {
+            "color": "#00C9B7",
+            "bg_color": "#101F1E",
+            "accent": "#2DD4BF"
+          },
+          "provider_badge": "StepFun",
+          "api_available": true,
+          "cost_tier": "Low",
+          "allowance": "$10 included",
+          "recommended_role": "Experimental step-by-step reasoning preview; solid procedural logic."
+        }
+      ],
+      "data_sources": [
+        "artificial_analysis_v5",
+        "ai_tier_badges_pack",
+        "command_code_go_catalog"
+      ]
+    },
+    {
+      "id": "mimo-v2-6-flash",
+      "name": "MiMo-V2.6-Flash",
+      "provider": "Xiaomi",
+      "provider_family": "Xiaomi",
+      "classification": "Open-Source",
+      "frontier_tier": "Tier 5 (> -20%)",
+      "frontier_delta_pct": -53.1,
+      "aa_index_v5": 27,
+      "rank": 23,
+      "tier_category": "Utility & High-Throughput",
+      "context_window": null,
+      "context_tokens": null,
+      "scores": {
+        "intelligence_index": 27,
+        "coding_power": null,
+        "code_arena_elo": null,
+        "stem_accuracy_pct": null
+      },
+      "pricing": {
+        "prompt_per_m": null,
+        "completion_per_m": null,
+        "cache_read_per_m": null,
+        "cache_write_per_m": null,
+        "batch_prompt_per_m": null,
+        "batch_completion_per_m": null,
+        "is_free": false
+      },
+      "fact_check": {
+        "is_verified": false,
+        "status": "Single-source (AA v5 badge pack — not in OpenRouter/Models.dev sync)",
+        "pricing_concordance": "N/A",
+        "context_concordance": "N/A",
+        "capabilities": null,
+        "sources": [
+          "Artificial Analysis Intelligence Index v5"
+        ]
+      },
+      "effort_simulation": {
+        "supports_effort": true,
+        "is_reasoning_core": false,
+        "overthinking_risk": "Unknown (single-source record)",
+        "multipliers": {
+          "low": {
+            "intel_delta": -1.5,
+            "code_delta": -1.0,
+            "token_multiplier": 0.65,
+            "coding_elo_delta": -1.0,
+            "token_cost_multiplier": 0.65,
+            "stem_delta": 0.0
+          },
+          "medium": {
+            "intel_delta": 0.0,
+            "code_delta": 0.0,
+            "token_multiplier": 1.0,
+            "coding_elo_delta": 0.0,
+            "token_cost_multiplier": 1.0,
+            "stem_delta": 0.0
+          },
+          "high": {
+            "intel_delta": 0.8,
+            "code_delta": 0.5,
+            "token_multiplier": 1.6,
+            "coding_elo_delta": 0.5,
+            "token_cost_multiplier": 1.6,
+            "stem_delta": 0.0
+          },
+          "ultra_high": {
+            "intel_delta": -2.5,
+            "code_delta": -1.8,
+            "token_multiplier": 2.8,
+            "coding_elo_delta": -1.8,
+            "token_cost_multiplier": 2.8,
+            "stem_delta": 0.0
+          }
+        }
+      },
+      "rate_limits": null,
+      "quota_and_access": "Command Code Go ($1/mo): $10 included",
+      "brand": {
+        "color": "#FF6900",
+        "bg_color": "#221912",
+        "accent": "#FB923C"
+      },
+      "command_code": {
+        "catalog": "Command Code Go ($1/mo Plan)",
+        "allowance": "$10 included",
+        "recommended_role": "Fast turnarounds for simple syntax corrections and linting."
+      },
+      "effort_variants": [
+        {
+          "effort": "flash",
+          "rank": 23,
+          "badge_id": "mimo-v2-6-flash",
+          "name": "MiMo-V2.6-Flash",
+          "aa_score": 27,
+          "cost_per_task": 0.012,
+          "pareto": false,
+          "notes": [],
+          "category": "Utility & High-Throughput",
+          "sub_tier": "High-Throughput Tier 1",
+          "brand": {
+            "color": "#FF6900",
+            "bg_color": "#221912",
+            "accent": "#FB923C"
+          },
+          "provider_badge": "Xiaomi",
+          "api_available": true,
+          "cost_tier": "Very Low",
+          "allowance": "$10 included",
+          "recommended_role": "Fast turnarounds for simple syntax corrections and linting."
+        }
+      ],
+      "data_sources": [
+        "artificial_analysis_v5",
+        "ai_tier_badges_pack",
+        "command_code_go_catalog"
+      ]
+    },
+    {
+      "id": "meta/muse-spark-open",
+      "name": "Muse Spark Open",
+      "provider": "Meta",
+      "provider_family": "Meta",
+      "classification": "Open-Source",
+      "frontier_tier": "Tier 5 (> -20%)",
+      "frontier_delta_pct": -56.6,
+      "aa_index_v5": 25,
+      "rank": 24,
+      "tier_category": "Utility & High-Throughput",
+      "context_window": null,
+      "context_tokens": null,
+      "scores": {
+        "intelligence_index": 25,
+        "coding_power": null,
+        "code_arena_elo": null,
+        "stem_accuracy_pct": null
+      },
+      "pricing": {
+        "prompt_per_m": null,
+        "completion_per_m": null,
+        "cache_read_per_m": null,
+        "cache_write_per_m": null,
+        "batch_prompt_per_m": null,
+        "batch_completion_per_m": null,
+        "is_free": false
+      },
+      "fact_check": {
+        "is_verified": false,
+        "status": "Single-source (AA v5 badge pack — not in OpenRouter/Models.dev sync)",
+        "pricing_concordance": "N/A",
+        "context_concordance": "N/A",
+        "capabilities": null,
+        "sources": [
+          "Artificial Analysis Intelligence Index v5"
+        ]
+      },
+      "effort_simulation": {
+        "supports_effort": true,
+        "is_reasoning_core": false,
+        "overthinking_risk": "Unknown (single-source record)",
+        "multipliers": {
+          "low": {
+            "intel_delta": -1.5,
+            "code_delta": -1.0,
+            "token_multiplier": 0.65,
+            "coding_elo_delta": -1.0,
+            "token_cost_multiplier": 0.65,
+            "stem_delta": 0.0
+          },
+          "medium": {
+            "intel_delta": 0.0,
+            "code_delta": 0.0,
+            "token_multiplier": 1.0,
+            "coding_elo_delta": 0.0,
+            "token_cost_multiplier": 1.0,
+            "stem_delta": 0.0
+          },
+          "high": {
+            "intel_delta": 0.8,
+            "code_delta": 0.5,
+            "token_multiplier": 1.6,
+            "coding_elo_delta": 0.5,
+            "token_cost_multiplier": 1.6,
+            "stem_delta": 0.0
+          },
+          "ultra_high": {
+            "intel_delta": -2.5,
+            "code_delta": -1.8,
+            "token_multiplier": 2.8,
+            "coding_elo_delta": -1.8,
+            "token_cost_multiplier": 2.8,
+            "stem_delta": 0.0
+          }
+        }
+      },
+      "rate_limits": null,
+      "quota_and_access": null,
+      "brand": {
+        "color": "#0668E1",
+        "bg_color": "#121A28",
+        "accent": "#38BDF8"
+      },
+      "command_code": null,
+      "effort_variants": [
+        {
+          "effort": "xhigh",
+          "rank": 24,
+          "badge_id": "muse-spark-open-xhigh",
+          "name": "Muse Spark Open",
+          "aa_score": 25,
+          "cost_per_task": 0.008,
+          "pareto": true,
+          "notes": [
+            "Open Weights"
+          ],
+          "category": "Utility & High-Throughput",
+          "sub_tier": "High-Throughput Tier 1",
+          "brand": {
+            "color": "#0668E1",
+            "bg_color": "#121A28",
+            "accent": "#38BDF8"
+          },
+          "provider_badge": "Meta",
+          "api_available": true,
+          "cost_tier": "Low (Open Weights)",
+          "allowance": null,
+          "recommended_role": null
+        }
+      ],
+      "data_sources": [
+        "artificial_analysis_v5",
+        "ai_tier_badges_pack"
+      ]
+    },
+    {
+      "id": "gpt-6-luna",
+      "name": "GPT-6 Luna",
+      "provider": "OpenAI",
+      "provider_family": "OpenAI",
+      "classification": "Open-Source",
+      "frontier_tier": "Tier 5 (> -20%)",
+      "frontier_delta_pct": -60.1,
+      "aa_index_v5": 23,
+      "rank": 26,
+      "tier_category": "Utility & High-Throughput",
+      "context_window": null,
+      "context_tokens": null,
+      "scores": {
+        "intelligence_index": 23,
+        "coding_power": null,
+        "code_arena_elo": null,
+        "stem_accuracy_pct": null
+      },
+      "pricing": {
+        "prompt_per_m": null,
+        "completion_per_m": null,
+        "cache_read_per_m": null,
+        "cache_write_per_m": null,
+        "batch_prompt_per_m": null,
+        "batch_completion_per_m": null,
+        "is_free": false
+      },
+      "fact_check": {
+        "is_verified": false,
+        "status": "Single-source (AA v5 badge pack — not in OpenRouter/Models.dev sync)",
+        "pricing_concordance": "N/A",
+        "context_concordance": "N/A",
+        "capabilities": null,
+        "sources": [
+          "Artificial Analysis Intelligence Index v5"
+        ]
+      },
+      "effort_simulation": {
+        "supports_effort": true,
+        "is_reasoning_core": false,
+        "overthinking_risk": "Unknown (single-source record)",
+        "multipliers": {
+          "low": {
+            "intel_delta": -1.5,
+            "code_delta": -1.0,
+            "token_multiplier": 0.65,
+            "coding_elo_delta": -1.0,
+            "token_cost_multiplier": 0.65,
+            "stem_delta": 0.0
+          },
+          "medium": {
+            "intel_delta": 0.0,
+            "code_delta": 0.0,
+            "token_multiplier": 1.0,
+            "coding_elo_delta": 0.0,
+            "token_cost_multiplier": 1.0,
+            "stem_delta": 0.0
+          },
+          "high": {
+            "intel_delta": 0.8,
+            "code_delta": 0.5,
+            "token_multiplier": 1.6,
+            "coding_elo_delta": 0.5,
+            "token_cost_multiplier": 1.6,
+            "stem_delta": 0.0
+          },
+          "ultra_high": {
+            "intel_delta": -2.5,
+            "code_delta": -1.8,
+            "token_multiplier": 2.8,
+            "coding_elo_delta": -1.8,
+            "token_cost_multiplier": 2.8,
+            "stem_delta": 0.0
+          }
+        }
+      },
+      "rate_limits": null,
+      "quota_and_access": null,
+      "brand": {
+        "color": "#10A37F",
+        "bg_color": "#161B18",
+        "accent": "#10A37F"
+      },
+      "command_code": null,
+      "effort_variants": [
+        {
+          "effort": "xhigh",
+          "rank": 26,
+          "badge_id": "gpt-6-luna-xhigh",
+          "name": "GPT-6 Luna",
+          "aa_score": 23,
+          "cost_per_task": 0.045,
+          "pareto": false,
+          "notes": [],
+          "category": "Utility & High-Throughput",
+          "sub_tier": "High-Throughput Tier 2",
+          "brand": {
+            "color": "#10A37F",
+            "bg_color": "#161B18",
+            "accent": "#10A37F"
+          },
+          "provider_badge": "OpenAI",
+          "api_available": true,
+          "cost_tier": "Low",
+          "allowance": null,
+          "recommended_role": null
+        },
+        {
+          "effort": "high",
+          "rank": 27,
+          "badge_id": "gpt-6-luna-high",
+          "name": "GPT-6 Luna",
+          "aa_score": 21,
+          "cost_per_task": 0.022,
+          "pareto": false,
+          "notes": [],
+          "category": "Utility & High-Throughput",
+          "sub_tier": "High-Throughput Tier 2",
+          "brand": {
+            "color": "#10A37F",
+            "bg_color": "#161B18",
+            "accent": "#10A37F"
+          },
+          "provider_badge": "OpenAI",
+          "api_available": true,
+          "cost_tier": "Very Low",
+          "allowance": null,
+          "recommended_role": null
+        },
+        {
+          "effort": "medium",
+          "rank": 29,
+          "badge_id": "gpt-6-luna-medium",
+          "name": "GPT-6 Luna",
+          "aa_score": 18,
+          "cost_per_task": 0.009,
+          "pareto": false,
+          "notes": [],
+          "category": "Utility & High-Throughput",
+          "sub_tier": "Lightweight & Edge",
+          "brand": {
+            "color": "#10A37F",
+            "bg_color": "#161B18",
+            "accent": "#10A37F"
+          },
+          "provider_badge": "OpenAI",
+          "api_available": true,
+          "cost_tier": "Lowest",
+          "allowance": null,
+          "recommended_role": null
+        }
+      ],
+      "data_sources": [
+        "artificial_analysis_v5",
+        "ai_tier_badges_pack"
+      ]
+    },
+    {
+      "id": "groq/qwen-3.8-27b",
+      "name": "Qwen3.8 27B",
+      "provider": "Alibaba / Groq",
+      "provider_family": "Alibaba",
+      "classification": "Open-Source",
+      "frontier_tier": "Tier 5 (> -20%)",
+      "frontier_delta_pct": -21.1,
+      "context_window": "1M",
+      "context_tokens": 1048576,
+      "scores": {
+        "intelligence_index": 40.2,
+        "coding_power": 76,
+        "code_arena_elo": 1280,
+        "stem_accuracy_pct": 80
+      },
+      "fact_check": {
+        "is_verified": false,
+        "status": "Verified via OpenRouter",
+        "pricing_concordance": "100% Free in Open Code",
+        "context_concordance": "Concordant (1M)",
+        "capabilities": {
+          "reasoning": false,
+          "tool_call": true,
+          "structured_output": true,
+          "open_weights": true,
+          "output_limit": 65536
+        },
+        "sources": [
+          "OpenRouter API",
+          "Models.dev"
+        ]
+      },
+      "effort_simulation": {
+        "supports_effort": true,
+        "is_reasoning_core": false,
+        "overthinking_risk": "High (Overthinking Regression Risk on <30B/distilled models)",
+        "multipliers": {
+          "low": {
+            "intel_delta": -1.5,
+            "code_delta": -1,
+            "token_multiplier": 0.65,
+            "coding_elo_delta": -1,
+            "token_cost_multiplier": 0.65,
+            "stem_delta": 0.0
+          },
+          "medium": {
+            "intel_delta": 0,
+            "code_delta": 0,
+            "token_multiplier": 1,
+            "coding_elo_delta": 0,
+            "token_cost_multiplier": 1,
+            "stem_delta": 0.0
+          },
+          "high": {
+            "intel_delta": 0.8,
+            "code_delta": 0.5,
+            "token_multiplier": 1.6,
+            "coding_elo_delta": 0.5,
+            "token_cost_multiplier": 1.6,
+            "stem_delta": 0.0
+          },
+          "ultra_high": {
+            "intel_delta": -2.5,
+            "code_delta": -1.8,
+            "token_multiplier": 2.8,
+            "coding_elo_delta": -1.8,
+            "token_cost_multiplier": 2.8,
+            "stem_delta": 0.0
+          }
+        }
+      },
+      "pricing": {
+        "prompt_per_m": 0,
+        "completion_per_m": 0,
+        "cache_read_per_m": 0,
+        "cache_write_per_m": 0,
+        "batch_prompt_per_m": 0,
+        "batch_completion_per_m": 0,
+        "is_free": true
+      },
+      "rate_limits": "Groq Free: 14.4k RPD",
+      "quota_and_access": "Groq Free: 14.4k RPD",
+      "rank": 28,
+      "tier_category": null,
+      "brand": {
+        "color": "#FF6A00",
+        "bg_color": "#221912",
+        "accent": "#FB923C"
+      },
+      "command_code": {
+        "catalog": "Command Code Go ($1/mo Plan)",
+        "allowance": "$10 included",
+        "recommended_role": "Lightweight workhorse: Blazing fast execution on localized bug fixes."
+      },
+      "effort_variants": [
+        {
+          "effort": "xhigh",
+          "rank": 28,
+          "badge_id": "qwen-3-8-27b-xhigh",
+          "name": "Qwen3.8 27B",
+          "aa_score": 20,
+          "cost_per_task": 0.007,
+          "pareto": true,
+          "notes": [
+            "Open Weights"
+          ],
+          "category": "Utility & High-Throughput",
+          "sub_tier": "High-Throughput Tier 2",
+          "brand": {
+            "color": "#FF6A00",
+            "bg_color": "#221912",
+            "accent": "#FB923C"
+          },
+          "provider_badge": "Alibaba",
+          "api_available": true,
+          "cost_tier": "Very Low (Open)",
+          "allowance": "$10 included",
+          "recommended_role": "Lightweight workhorse: Blazing fast execution on localized bug fixes."
+        }
+      ],
+      "data_sources": [
+        "openrouter_api",
+        "models_dev",
+        "artificial_analysis",
+        "ai_tier_badges_pack",
+        "command_code_go_catalog"
+      ],
+      "aa_index_v5": 40.2
+    },
+    {
+      "id": "reflection/beam-1.0-501b-a23b",
+      "name": "Beam 1.0 501B A23B",
+      "provider": "Reflection",
+      "provider_family": "Reflection",
+      "classification": "Open-Source",
+      "frontier_tier": "Tier 3 (-10% to -15%)",
+      "frontier_delta_pct": -11,
+      "context_window": "1M",
+      "context_tokens": 1048576,
+      "scores": {
+        "intelligence_index": 49,
+        "coding_power": 83,
+        "code_arena_elo": 1325,
+        "stem_accuracy_pct": 87
+      },
+      "fact_check": {
+        "is_verified": true,
+        "status": "Dual-Source Concordance (OpenRouter + Models.dev)",
+        "pricing_concordance": "Exact Match (promptPrice / complPrice)",
+        "context_concordance": "100% Match (1048576 tokens)",
+        "capabilities": {
+          "reasoning": true,
+          "tool_call": true,
+          "structured_output": true,
+          "open_weights": true,
+          "output_limit": 943718
+        },
+        "sources": [
+          "OpenRouter API",
+          "Models.dev"
+        ]
+      },
+      "effort_simulation": {
+        "supports_effort": true,
+        "is_reasoning_core": true,
+        "overthinking_risk": "Low (Frontier Reasoning Engine)",
+        "multipliers": {
+          "low": {
+            "intel_delta": -1.5,
+            "code_delta": -1,
+            "token_multiplier": 0.65,
+            "coding_elo_delta": -1,
+            "token_cost_multiplier": 0.65,
+            "stem_delta": 0.0
+          },
+          "medium": {
+            "intel_delta": 0,
+            "code_delta": 0,
+            "token_multiplier": 1,
+            "coding_elo_delta": 0,
+            "token_cost_multiplier": 1,
+            "stem_delta": 0.0
+          },
+          "high": {
+            "intel_delta": 4.5,
+            "code_delta": 3.5,
+            "token_multiplier": 1.6,
+            "coding_elo_delta": 3.5,
+            "token_cost_multiplier": 1.6,
+            "stem_delta": 0.0
+          },
+          "ultra_high": {
+            "intel_delta": 7.2,
+            "code_delta": 5.5,
+            "token_multiplier": 2.8,
+            "coding_elo_delta": 5.5,
+            "token_cost_multiplier": 2.8,
+            "stem_delta": 0.0
+          }
+        }
+      },
+      "pricing": {
+        "prompt_per_m": 1,
+        "completion_per_m": 3,
+        "cache_read_per_m": 0.1,
+        "cache_write_per_m": 0,
+        "batch_prompt_per_m": 0.5,
+        "batch_completion_per_m": 1.5,
+        "is_free": false
+      },
+      "rate_limits": "OpenRouter Standard: 200 RPM",
+      "quota_and_access": "OpenRouter / Open Weights",
+      "rank": 30,
+      "tier_category": null,
+      "brand": {
+        "color": "#1A4D2E",
+        "bg_color": "#121F17",
+        "accent": "#4ADE80"
+      },
+      "command_code": {
+        "catalog": "Command Code Go ($1/mo Plan)",
+        "allowance": "Unlimited (Free)",
+        "recommended_role": "Completely Free & Unmetered: Great for CLI assistance and terminal commands."
+      },
+      "effort_variants": [
+        {
+          "effort": "default",
+          "rank": 30,
+          "badge_id": "beam-1-0",
+          "name": "Beam 1.0",
+          "aa_score": 18,
+          "cost_per_task": 0.006,
+          "pareto": true,
+          "notes": [],
+          "category": "Utility & High-Throughput",
+          "sub_tier": "Lightweight & Edge",
+          "brand": {
+            "color": "#1A4D2E",
+            "bg_color": "#121F17",
+            "accent": "#4ADE80"
+          },
+          "provider_badge": "Beam",
+          "api_available": true,
+          "cost_tier": "Lowest",
+          "allowance": "Unlimited (Free)",
+          "recommended_role": "Completely Free & Unmetered: Great for CLI assistance and terminal commands."
+        }
+      ],
+      "data_sources": [
+        "openrouter_api",
+        "models_dev",
+        "artificial_analysis",
+        "ai_tier_badges_pack",
+        "command_code_go_catalog"
+      ],
+      "aa_index_v5": 49
+    },
+    {
+      "id": "nvidia/nemotron-3.5-super-vl",
+      "name": "Nemotron 3.5 Super VL",
+      "provider": "Nvidia",
+      "provider_family": "Nvidia",
+      "classification": "Open-Source",
+      "frontier_tier": "Tier 5 (> -20%)",
+      "frontier_delta_pct": -75.7,
+      "aa_index_v5": 14,
+      "rank": 31,
+      "tier_category": "Utility & High-Throughput",
+      "context_window": null,
+      "context_tokens": null,
+      "scores": {
+        "intelligence_index": 14,
+        "coding_power": null,
+        "code_arena_elo": null,
+        "stem_accuracy_pct": null
+      },
+      "pricing": {
+        "prompt_per_m": null,
+        "completion_per_m": null,
+        "cache_read_per_m": null,
+        "cache_write_per_m": null,
+        "batch_prompt_per_m": null,
+        "batch_completion_per_m": null,
+        "is_free": false
+      },
+      "fact_check": {
+        "is_verified": false,
+        "status": "Single-source (AA v5 badge pack — not in OpenRouter/Models.dev sync)",
+        "pricing_concordance": "N/A",
+        "context_concordance": "N/A",
+        "capabilities": null,
+        "sources": [
+          "Artificial Analysis Intelligence Index v5"
+        ]
+      },
+      "effort_simulation": {
+        "supports_effort": true,
+        "is_reasoning_core": false,
+        "overthinking_risk": "Unknown (single-source record)",
+        "multipliers": {
+          "low": {
+            "intel_delta": -1.5,
+            "code_delta": -1.0,
+            "token_multiplier": 0.65,
+            "coding_elo_delta": -1.0,
+            "token_cost_multiplier": 0.65,
+            "stem_delta": 0.0
+          },
+          "medium": {
+            "intel_delta": 0.0,
+            "code_delta": 0.0,
+            "token_multiplier": 1.0,
+            "coding_elo_delta": 0.0,
+            "token_cost_multiplier": 1.0,
+            "stem_delta": 0.0
+          },
+          "high": {
+            "intel_delta": 0.8,
+            "code_delta": 0.5,
+            "token_multiplier": 1.6,
+            "coding_elo_delta": 0.5,
+            "token_cost_multiplier": 1.6,
+            "stem_delta": 0.0
+          },
+          "ultra_high": {
+            "intel_delta": -2.5,
+            "code_delta": -1.8,
+            "token_multiplier": 2.8,
+            "coding_elo_delta": -1.8,
+            "token_cost_multiplier": 2.8,
+            "stem_delta": 0.0
+          }
+        }
+      },
+      "rate_limits": null,
+      "quota_and_access": null,
+      "brand": {
+        "color": "#76B900",
+        "bg_color": "#161E10",
+        "accent": "#84CC16"
+      },
+      "command_code": null,
+      "effort_variants": [
+        {
+          "effort": "super vl",
+          "rank": 31,
+          "badge_id": "nemotron-3-5-super-vl",
+          "name": "Nemotron 3.5 Super VL",
+          "aa_score": 14,
+          "cost_per_task": 0.004,
+          "pareto": false,
+          "notes": [],
+          "category": "Utility & High-Throughput",
+          "sub_tier": "Compact Specialist",
+          "brand": {
+            "color": "#76B900",
+            "bg_color": "#161E10",
+            "accent": "#84CC16"
+          },
+          "provider_badge": "Nvidia",
+          "api_available": true,
+          "cost_tier": "Very Low",
+          "allowance": null,
+          "recommended_role": null
+        }
+      ],
+      "data_sources": [
+        "artificial_analysis_v5",
+        "ai_tier_badges_pack"
+      ]
+    },
+    {
+      "id": "nvidia-nemotron-3-ultra-550b-a55b",
+      "name": "Nemotron 3 Ultra",
+      "provider": "Nvidia",
+      "provider_family": "Nvidia",
+      "classification": "Open-Source",
+      "frontier_tier": "Tier 5 (> -20%)",
+      "frontier_delta_pct": -79.2,
+      "aa_index_v5": 12,
+      "rank": 32,
+      "tier_category": "Utility & High-Throughput",
+      "context_window": null,
+      "context_tokens": null,
+      "scores": {
+        "intelligence_index": 12,
+        "coding_power": null,
+        "code_arena_elo": null,
+        "stem_accuracy_pct": null
+      },
+      "pricing": {
+        "prompt_per_m": null,
+        "completion_per_m": null,
+        "cache_read_per_m": null,
+        "cache_write_per_m": null,
+        "batch_prompt_per_m": null,
+        "batch_completion_per_m": null,
+        "is_free": false
+      },
+      "fact_check": {
+        "is_verified": false,
+        "status": "Single-source (AA v5 badge pack — not in OpenRouter/Models.dev sync)",
+        "pricing_concordance": "N/A",
+        "context_concordance": "N/A",
+        "capabilities": null,
+        "sources": [
+          "Artificial Analysis Intelligence Index v5"
+        ]
+      },
+      "effort_simulation": {
+        "supports_effort": true,
+        "is_reasoning_core": false,
+        "overthinking_risk": "Unknown (single-source record)",
+        "multipliers": {
+          "low": {
+            "intel_delta": -1.5,
+            "code_delta": -1.0,
+            "token_multiplier": 0.65,
+            "coding_elo_delta": -1.0,
+            "token_cost_multiplier": 0.65,
+            "stem_delta": 0.0
+          },
+          "medium": {
+            "intel_delta": 0.0,
+            "code_delta": 0.0,
+            "token_multiplier": 1.0,
+            "coding_elo_delta": 0.0,
+            "token_cost_multiplier": 1.0,
+            "stem_delta": 0.0
+          },
+          "high": {
+            "intel_delta": 0.8,
+            "code_delta": 0.5,
+            "token_multiplier": 1.6,
+            "coding_elo_delta": 0.5,
+            "token_cost_multiplier": 1.6,
+            "stem_delta": 0.0
+          },
+          "ultra_high": {
+            "intel_delta": -2.5,
+            "code_delta": -1.8,
+            "token_multiplier": 2.8,
+            "coding_elo_delta": -1.8,
+            "token_cost_multiplier": 2.8,
+            "stem_delta": 0.0
+          }
+        }
+      },
+      "rate_limits": null,
+      "quota_and_access": null,
+      "brand": {
+        "color": "#76B900",
+        "bg_color": "#161E10",
+        "accent": "#84CC16"
+      },
+      "command_code": null,
+      "effort_variants": [
+        {
+          "effort": "ultra",
+          "rank": 32,
+          "badge_id": "nemotron-3-ultra",
+          "name": "Nemotron 3 Ultra",
+          "aa_score": 12,
+          "cost_per_task": 0.003,
+          "pareto": true,
+          "notes": [],
+          "category": "Utility & High-Throughput",
+          "sub_tier": "Compact Specialist",
+          "brand": {
+            "color": "#76B900",
+            "bg_color": "#161E10",
+            "accent": "#84CC16"
+          },
+          "provider_badge": "Nvidia",
+          "api_available": true,
+          "cost_tier": "Very Low",
+          "allowance": null,
+          "recommended_role": null
+        }
+      ],
+      "data_sources": [
+        "artificial_analysis_v5",
+        "ai_tier_badges_pack"
+      ]
+    },
+    {
+      "id": "anthropic/claude-fable-5.1",
+      "name": "Claude Fable 5.1",
+      "provider": "Anthropic",
+      "provider_family": "Anthropic",
+      "classification": "Frontier",
+      "frontier_tier": "Tier 2 (-5% to -10%)",
+      "frontier_delta_pct": -5.6,
+      "context_window": "1M",
+      "context_tokens": 1000000,
+      "scores": {
+        "intelligence_index": 53.4,
+        "coding_power": 90,
+        "code_arena_elo": 1338,
+        "stem_accuracy_pct": 88
+      },
+      "fact_check": {
+        "is_verified": true,
+        "status": "Dual-Source Concordance (OpenRouter + Models.dev)",
+        "pricing_concordance": "Exact Match (promptPrice / complPrice)",
+        "context_concordance": "100% Match (1000000 tokens)",
+        "capabilities": {
+          "reasoning": true,
+          "tool_call": true,
+          "structured_output": true,
+          "open_weights": false,
+          "output_limit": 128000
+        },
+        "sources": [
+          "OpenRouter API",
+          "Models.dev"
+        ]
+      },
+      "effort_simulation": {
+        "supports_effort": true,
+        "is_reasoning_core": true,
+        "overthinking_risk": "Low (Frontier Reasoning Engine)",
+        "multipliers": {
+          "low": {
+            "intel_delta": -1.5,
+            "code_delta": -1,
+            "token_multiplier": 0.65,
+            "coding_elo_delta": -1,
+            "token_cost_multiplier": 0.65,
+            "stem_delta": 0.0
+          },
+          "medium": {
+            "intel_delta": 0,
+            "code_delta": 0,
+            "token_multiplier": 1,
+            "coding_elo_delta": 0,
+            "token_cost_multiplier": 1,
+            "stem_delta": 0.0
+          },
+          "high": {
+            "intel_delta": 4.5,
+            "code_delta": 3.5,
+            "token_multiplier": 1.6,
+            "coding_elo_delta": 3.5,
+            "token_cost_multiplier": 1.6,
+            "stem_delta": 0.0
+          },
+          "ultra_high": {
+            "intel_delta": 7.2,
+            "code_delta": 5.5,
+            "token_multiplier": 2.8,
+            "coding_elo_delta": 5.5,
+            "token_cost_multiplier": 2.8,
+            "stem_delta": 0.0
+          }
+        }
+      },
+      "pricing": {
+        "prompt_per_m": 10,
+        "completion_per_m": 50,
+        "cache_read_per_m": 0.25,
+        "cache_write_per_m": 12.5,
+        "batch_prompt_per_m": 5,
+        "batch_completion_per_m": 25,
+        "is_free": false
+      },
+      "rate_limits": "Tier 1: 50 RPM / 10k RPD",
+      "quota_and_access": "Claude API",
+      "rank": null,
+      "tier_category": null,
+      "brand": null,
+      "command_code": null,
+      "effort_variants": [],
+      "data_sources": [
+        "openrouter_api",
+        "models_dev",
+        "artificial_analysis"
+      ],
+      "aa_index_v5": 53.4
+    },
+    {
+      "id": "meta/muse-spark-1.3",
+      "name": "Meta Muse Spark 1.3",
+      "provider": "Meta",
+      "provider_family": "Meta",
+      "classification": "Open-Source",
+      "frontier_tier": "Tier 3 (-10% to -15%)",
+      "frontier_delta_pct": -13,
+      "context_window": "1M",
+      "context_tokens": 1048576,
+      "scores": {
+        "intelligence_index": 48.1,
+        "coding_power": 82,
+        "code_arena_elo": 1354,
+        "stem_accuracy_pct": 84
+      },
+      "fact_check": {
+        "is_verified": true,
+        "status": "Dual-Source Concordance (OpenRouter + Models.dev)",
+        "pricing_concordance": "Exact Match (promptPrice / complPrice)",
+        "context_concordance": "100% Match (1048576 tokens)",
+        "capabilities": {
+          "reasoning": true,
+          "tool_call": true,
+          "structured_output": true,
+          "open_weights": false,
+          "output_limit": 943718
+        },
+        "sources": [
+          "OpenRouter API",
+          "Models.dev"
+        ]
+      },
+      "effort_simulation": {
+        "supports_effort": true,
+        "is_reasoning_core": true,
+        "overthinking_risk": "Low (Frontier Reasoning Engine)",
+        "multipliers": {
+          "low": {
+            "intel_delta": -1.5,
+            "code_delta": -1,
+            "token_multiplier": 0.65,
+            "coding_elo_delta": -1,
+            "token_cost_multiplier": 0.65,
+            "stem_delta": 0.0
+          },
+          "medium": {
+            "intel_delta": 0,
+            "code_delta": 0,
+            "token_multiplier": 1,
+            "coding_elo_delta": 0,
+            "token_cost_multiplier": 1,
+            "stem_delta": 0.0
+          },
+          "high": {
+            "intel_delta": 4.5,
+            "code_delta": 3.5,
+            "token_multiplier": 1.6,
+            "coding_elo_delta": 3.5,
+            "token_cost_multiplier": 1.6,
+            "stem_delta": 0.0
+          },
+          "ultra_high": {
+            "intel_delta": 7.2,
+            "code_delta": 5.5,
+            "token_multiplier": 2.8,
+            "coding_elo_delta": 5.5,
+            "token_cost_multiplier": 2.8,
+            "stem_delta": 0.0
+          }
+        }
+      },
+      "pricing": {
+        "prompt_per_m": 1.25,
+        "completion_per_m": 4.25,
+        "cache_read_per_m": 0.15,
+        "cache_write_per_m": 0,
+        "batch_prompt_per_m": 0.625,
+        "batch_completion_per_m": 2.125,
+        "is_free": true
+      },
+      "rate_limits": "OpenRouter Standard: 200 RPM",
+      "quota_and_access": "100% Free in Open Code",
+      "rank": null,
+      "tier_category": null,
+      "brand": {
+        "color": "#0668E1",
+        "bg_color": null,
+        "accent": null
+      },
+      "command_code": {
+        "catalog": "Command Code Go ($1/mo Plan)",
+        "allowance": "$10 included",
+        "recommended_role": "Open-weight efficiency star: Sub-cent cost with dependable code completions."
+      },
+      "effort_variants": [
+        {
+          "effort": "xhigh",
+          "rank": null,
+          "badge_id": null,
+          "name": "Muse Spark 1.3",
+          "aa_score": 26,
+          "cost_per_task": 0.01,
+          "pareto": false,
+          "notes": [],
+          "category": "Utility & High-Throughput",
+          "sub_tier": "High-Throughput Tier 1",
+          "brand": {
+            "color": "#0668E1",
+            "bg_color": null,
+            "accent": null
+          },
+          "provider_badge": "Meta",
+          "api_available": null,
+          "cost_tier": null,
+          "allowance": "$10 included",
+          "recommended_role": "Open-weight efficiency star: Sub-cent cost with dependable code completions."
+        }
+      ],
+      "data_sources": [
+        "openrouter_api",
+        "models_dev",
+        "artificial_analysis",
+        "ai_tier_badges_pack",
+        "command_code_go_catalog"
+      ],
+      "aa_index_v5": 48.1
+    },
+    {
+      "id": "openai/gpt-6-sol",
+      "name": "GPT-6 Sol",
+      "provider": "OpenAI",
+      "provider_family": "OpenAI",
+      "classification": "Frontier",
+      "frontier_tier": "Tier 3 (-10% to -15%)",
+      "frontier_delta_pct": -11.5,
+      "context_window": "1M",
+      "context_tokens": 1050000,
+      "scores": {
+        "intelligence_index": 47.6,
+        "coding_power": 83,
+        "code_arena_elo": 1315,
+        "stem_accuracy_pct": 88
+      },
+      "fact_check": {
+        "is_verified": true,
+        "status": "Dual-Source Concordance (OpenRouter + Models.dev)",
+        "pricing_concordance": "Exact Match (promptPrice / complPrice)",
+        "context_concordance": "100% Match (1050000 tokens)",
+        "capabilities": {
+          "reasoning": true,
+          "tool_call": true,
+          "structured_output": true,
+          "open_weights": false,
+          "output_limit": 128000
+        },
+        "sources": [
+          "OpenRouter API",
+          "Models.dev"
+        ]
+      },
+      "effort_simulation": {
+        "supports_effort": true,
+        "is_reasoning_core": true,
+        "overthinking_risk": "Low (Frontier Reasoning Engine)",
+        "multipliers": {
+          "low": {
+            "intel_delta": -1.5,
+            "code_delta": -1,
+            "token_multiplier": 0.65,
+            "coding_elo_delta": -1,
+            "token_cost_multiplier": 0.65,
+            "stem_delta": 0.0
+          },
+          "medium": {
+            "intel_delta": 0,
+            "code_delta": 0,
+            "token_multiplier": 1,
+            "coding_elo_delta": 0,
+            "token_cost_multiplier": 1,
+            "stem_delta": 0.0
+          },
+          "high": {
+            "intel_delta": 4.5,
+            "code_delta": 3.5,
+            "token_multiplier": 1.6,
+            "coding_elo_delta": 3.5,
+            "token_cost_multiplier": 1.6,
+            "stem_delta": 0.0
+          },
+          "ultra_high": {
+            "intel_delta": 7.2,
+            "code_delta": 5.5,
+            "token_multiplier": 2.8,
+            "coding_elo_delta": 5.5,
+            "token_cost_multiplier": 2.8,
+            "stem_delta": 0.0
+          }
+        }
+      },
+      "pricing": {
+        "prompt_per_m": 2,
+        "completion_per_m": 10,
+        "cache_read_per_m": 0.2,
+        "cache_write_per_m": 2.5,
+        "batch_prompt_per_m": 1,
+        "batch_completion_per_m": 5,
+        "is_free": false
+      },
+      "rate_limits": "Tier 1: 50 RPM / 10k RPD",
+      "quota_and_access": "ChatGPT Plus / API",
+      "rank": null,
+      "tier_category": null,
+      "brand": null,
+      "command_code": null,
+      "effort_variants": [],
+      "data_sources": [
+        "openrouter_api",
+        "models_dev",
+        "artificial_analysis"
+      ],
+      "aa_index_v5": 47.6
+    },
+    {
+      "id": "google/gemini-4-carbon",
+      "name": "Gemini 4 Carbon",
+      "provider": "Google",
+      "provider_family": "Google",
+      "classification": "Frontier",
+      "frontier_tier": "Tier 5 (> -20%)",
+      "frontier_delta_pct": -21.9,
+      "aa_index_v5": 45,
+      "rank": null,
+      "tier_category": null,
+      "context_window": null,
+      "context_tokens": null,
+      "scores": {
+        "intelligence_index": 45,
+        "coding_power": null,
+        "code_arena_elo": null,
+        "stem_accuracy_pct": null
+      },
+      "pricing": {
+        "prompt_per_m": null,
+        "completion_per_m": null,
+        "cache_read_per_m": null,
+        "cache_write_per_m": null,
+        "batch_prompt_per_m": null,
+        "batch_completion_per_m": null,
+        "is_free": false
+      },
+      "fact_check": {
+        "is_verified": false,
+        "status": "Single-source (AA v5 badge pack — not in OpenRouter/Models.dev sync)",
+        "pricing_concordance": "N/A",
+        "context_concordance": "N/A",
+        "capabilities": null,
+        "sources": [
+          "Artificial Analysis Intelligence Index v5"
+        ]
+      },
+      "effort_simulation": {
+        "supports_effort": true,
+        "is_reasoning_core": false,
+        "overthinking_risk": "Unknown (single-source record)",
+        "multipliers": {
+          "low": {
+            "intel_delta": -1.5,
+            "code_delta": -1.0,
+            "token_multiplier": 0.65,
+            "coding_elo_delta": -1.0,
+            "token_cost_multiplier": 0.65,
+            "stem_delta": 0.0
+          },
+          "medium": {
+            "intel_delta": 0.0,
+            "code_delta": 0.0,
+            "token_multiplier": 1.0,
+            "coding_elo_delta": 0.0,
+            "token_cost_multiplier": 1.0,
+            "stem_delta": 0.0
+          },
+          "high": {
+            "intel_delta": 0.8,
+            "code_delta": 0.5,
+            "token_multiplier": 1.6,
+            "coding_elo_delta": 0.5,
+            "token_cost_multiplier": 1.6,
+            "stem_delta": 0.0
+          },
+          "ultra_high": {
+            "intel_delta": -2.5,
+            "code_delta": -1.8,
+            "token_multiplier": 2.8,
+            "coding_elo_delta": -1.8,
+            "token_cost_multiplier": 2.8,
+            "stem_delta": 0.0
+          }
+        }
+      },
+      "rate_limits": null,
+      "quota_and_access": null,
+      "brand": {
+        "color": "#4285F4",
+        "bg_color": null,
+        "accent": null
+      },
+      "command_code": null,
+      "effort_variants": [
+        {
+          "effort": "default",
+          "rank": null,
+          "badge_id": null,
+          "name": "Gemini 4 Carbon",
+          "aa_score": 45,
+          "cost_per_task": 0.45,
+          "pareto": true,
+          "notes": [
+            "High Efficiency"
+          ],
+          "category": "Top Models",
+          "sub_tier": "Top Models Tier 1",
+          "brand": {
+            "color": "#4285F4",
+            "bg_color": null,
+            "accent": null
+          },
+          "provider_badge": "Google",
+          "api_available": null,
+          "cost_tier": null,
+          "allowance": null,
+          "recommended_role": null
+        }
+      ],
+      "data_sources": [
+        "artificial_analysis_v5",
+        "ai_tier_badges_pack"
+      ]
+    },
+    {
+      "id": "z-ai/glm-5.3-flash",
+      "name": "GLM 5.3 Flash",
+      "provider": "Z.ai",
+      "provider_family": "Z.ai",
+      "classification": "Free & Budget",
+      "frontier_tier": "Tier 5 (> -20%)",
+      "frontier_delta_pct": -21.3,
+      "context_window": "1M",
+      "context_tokens": 1048576,
+      "scores": {
+        "intelligence_index": 41.8,
+        "coding_power": 75,
+        "code_arena_elo": 1284,
+        "stem_accuracy_pct": 78
+      },
+      "fact_check": {
+        "is_verified": true,
+        "status": "Dual-Source Concordance (OpenRouter + Models.dev)",
+        "pricing_concordance": "Exact Match (promptPrice / complPrice)",
+        "context_concordance": "100% Match (1048576 tokens)",
+        "capabilities": {
+          "reasoning": true,
+          "tool_call": true,
+          "structured_output": true,
+          "open_weights": true,
+          "output_limit": 943718
+        },
+        "sources": [
+          "OpenRouter API",
+          "Models.dev"
+        ]
+      },
+      "effort_simulation": {
+        "supports_effort": true,
+        "is_reasoning_core": false,
+        "overthinking_risk": "High (Overthinking Regression Risk on <30B/distilled models)",
+        "multipliers": {
+          "low": {
+            "intel_delta": -1.5,
+            "code_delta": -1,
+            "token_multiplier": 0.65,
+            "coding_elo_delta": -1,
+            "token_cost_multiplier": 0.65,
+            "stem_delta": 0.0
+          },
+          "medium": {
+            "intel_delta": 0,
+            "code_delta": 0,
+            "token_multiplier": 1,
+            "coding_elo_delta": 0,
+            "token_cost_multiplier": 1,
+            "stem_delta": 0.0
+          },
+          "high": {
+            "intel_delta": 0.8,
+            "code_delta": 0.5,
+            "token_multiplier": 1.6,
+            "coding_elo_delta": 0.5,
+            "token_cost_multiplier": 1.6,
+            "stem_delta": 0.0
+          },
+          "ultra_high": {
+            "intel_delta": -2.5,
+            "code_delta": -1.8,
+            "token_multiplier": 2.8,
+            "coding_elo_delta": -1.8,
+            "token_cost_multiplier": 2.8,
+            "stem_delta": 0.0
+          }
+        }
+      },
+      "pricing": {
+        "prompt_per_m": 0.048,
+        "completion_per_m": 0.16,
+        "cache_read_per_m": 0.006,
+        "cache_write_per_m": 0,
+        "batch_prompt_per_m": 0.024,
+        "batch_completion_per_m": 0.08,
+        "is_free": true
+      },
+      "rate_limits": "OpenRouter Standard: 200 RPM",
+      "quota_and_access": "100% Free in Open Code",
+      "rank": null,
+      "tier_category": null,
+      "brand": {
+        "color": "#3859FF",
+        "bg_color": null,
+        "accent": null
+      },
+      "command_code": {
+        "catalog": "Command Code Go ($1/mo Plan)",
+        "allowance": "$10 included",
+        "recommended_role": "High-speed log processing and search summarization."
+      },
+      "effort_variants": [
+        {
+          "effort": "flash",
+          "rank": null,
+          "badge_id": null,
+          "name": "GLM-5.3 Flash",
+          "aa_score": 26,
+          "cost_per_task": 0.014,
+          "pareto": false,
+          "notes": [],
+          "category": "Utility & High-Throughput",
+          "sub_tier": "High-Throughput Tier 1",
+          "brand": {
+            "color": "#3859FF",
+            "bg_color": null,
+            "accent": null
+          },
+          "provider_badge": "Zhipu AI",
+          "api_available": null,
+          "cost_tier": null,
+          "allowance": "$10 included",
+          "recommended_role": "High-speed log processing and search summarization."
+        }
+      ],
+      "data_sources": [
+        "openrouter_api",
+        "models_dev",
+        "artificial_analysis",
+        "ai_tier_badges_pack",
+        "command_code_go_catalog"
+      ],
+      "aa_index_v5": 41.8
+    },
+    {
+      "id": "deepseek/deepseek-v4-pro-0813",
+      "name": "DeepSeek V4 Pro (Web)",
+      "provider": "DeepSeek",
+      "provider_family": "DeepSeek",
+      "classification": "Open-Source",
+      "frontier_tier": "Tier 5 (> -20%)",
+      "frontier_delta_pct": -22.1,
+      "context_window": "1M",
+      "context_tokens": 1048576,
+      "scores": {
+        "intelligence_index": 36,
+        "coding_power": 78,
+        "code_arena_elo": 1290,
+        "stem_accuracy_pct": 82
+      },
+      "fact_check": {
+        "is_verified": true,
+        "status": "Dual-Source Concordance (OpenRouter + Models.dev)",
+        "pricing_concordance": "Exact Match (promptPrice / complPrice)",
+        "context_concordance": "100% Match (1048576 tokens)",
+        "capabilities": {
+          "reasoning": true,
+          "tool_call": true,
+          "structured_output": true,
+          "open_weights": true,
+          "output_limit": 384000
+        },
+        "sources": [
+          "OpenRouter API",
+          "Models.dev"
+        ]
+      },
+      "effort_simulation": {
+        "supports_effort": true,
+        "is_reasoning_core": false,
+        "overthinking_risk": "High (Overthinking Regression Risk on <30B/distilled models)",
+        "multipliers": {
+          "low": {
+            "intel_delta": -1.5,
+            "code_delta": -1,
+            "token_multiplier": 0.65,
+            "coding_elo_delta": -1,
+            "token_cost_multiplier": 0.65,
+            "stem_delta": 0.0
+          },
+          "medium": {
+            "intel_delta": 0,
+            "code_delta": 0,
+            "token_multiplier": 1,
+            "coding_elo_delta": 0,
+            "token_cost_multiplier": 1,
+            "stem_delta": 0.0
+          },
+          "high": {
+            "intel_delta": 0.8,
+            "code_delta": 0.5,
+            "token_multiplier": 1.6,
+            "coding_elo_delta": 0.5,
+            "token_cost_multiplier": 1.6,
+            "stem_delta": 0.0
+          },
+          "ultra_high": {
+            "intel_delta": -2.5,
+            "code_delta": -1.8,
+            "token_multiplier": 2.8,
+            "coding_elo_delta": -1.8,
+            "token_cost_multiplier": 2.8,
+            "stem_delta": 0.0
+          }
+        }
+      },
+      "pricing": {
+        "prompt_per_m": 0.66,
+        "completion_per_m": 1.98,
+        "cache_read_per_m": 0.022,
+        "cache_write_per_m": 0,
+        "batch_prompt_per_m": 0.33,
+        "batch_completion_per_m": 0.99,
+        "is_free": true
+      },
+      "rate_limits": "OpenRouter Standard: 200 RPM",
+      "quota_and_access": "DeepSeek Web Free",
+      "rank": null,
+      "tier_category": null,
+      "brand": null,
+      "command_code": null,
+      "effort_variants": [],
+      "data_sources": [
+        "openrouter_api",
+        "models_dev",
+        "artificial_analysis"
+      ],
+      "aa_index_v5": 36
+    },
+    {
+      "id": "ling-3-1-flash",
+      "name": "Ling 3.1 Flash",
+      "provider": "Ling",
+      "provider_family": "Ling",
+      "classification": "Free & Budget",
+      "frontier_tier": "Tier 5 (> -20%)",
+      "frontier_delta_pct": -70.5,
+      "aa_index_v5": 17,
+      "rank": null,
+      "tier_category": null,
+      "context_window": null,
+      "context_tokens": null,
+      "scores": {
+        "intelligence_index": 17,
+        "coding_power": null,
+        "code_arena_elo": null,
+        "stem_accuracy_pct": null
+      },
+      "pricing": {
+        "prompt_per_m": null,
+        "completion_per_m": null,
+        "cache_read_per_m": null,
+        "cache_write_per_m": null,
+        "batch_prompt_per_m": null,
+        "batch_completion_per_m": null,
+        "is_free": false
+      },
+      "fact_check": {
+        "is_verified": false,
+        "status": "Single-source (AA v5 badge pack — not in OpenRouter/Models.dev sync)",
+        "pricing_concordance": "N/A",
+        "context_concordance": "N/A",
+        "capabilities": null,
+        "sources": [
+          "Artificial Analysis Intelligence Index v5"
+        ]
+      },
+      "effort_simulation": {
+        "supports_effort": true,
+        "is_reasoning_core": false,
+        "overthinking_risk": "Unknown (single-source record)",
+        "multipliers": {
+          "low": {
+            "intel_delta": -1.5,
+            "code_delta": -1.0,
+            "token_multiplier": 0.65,
+            "coding_elo_delta": -1.0,
+            "token_cost_multiplier": 0.65,
+            "stem_delta": 0.0
+          },
+          "medium": {
+            "intel_delta": 0.0,
+            "code_delta": 0.0,
+            "token_multiplier": 1.0,
+            "coding_elo_delta": 0.0,
+            "token_cost_multiplier": 1.0,
+            "stem_delta": 0.0
+          },
+          "high": {
+            "intel_delta": 0.8,
+            "code_delta": 0.5,
+            "token_multiplier": 1.6,
+            "coding_elo_delta": 0.5,
+            "token_cost_multiplier": 1.6,
+            "stem_delta": 0.0
+          },
+          "ultra_high": {
+            "intel_delta": -2.5,
+            "code_delta": -1.8,
+            "token_multiplier": 2.8,
+            "coding_elo_delta": -1.8,
+            "token_cost_multiplier": 2.8,
+            "stem_delta": 0.0
+          }
+        }
+      },
+      "rate_limits": null,
+      "quota_and_access": "Command Code Go ($1/mo): Unlimited (Free)",
+      "brand": null,
+      "command_code": {
+        "catalog": "Command Code Go ($1/mo Plan)",
+        "allowance": "Unlimited (Free)",
+        "recommended_role": "Zero-cost infinite fallback: Reliable emergency net when allowance buckets pause."
+      },
+      "effort_variants": [
+        {
+          "effort": "flash",
+          "rank": null,
+          "badge_id": null,
+          "name": "Ling 3.1 Flash",
+          "aa_score": 17,
+          "cost_per_task": 0.0,
+          "pareto": false,
+          "notes": [],
+          "category": "Free & Unmetered",
+          "sub_tier": "Tier D (16-20)",
+          "brand": null,
+          "provider_badge": "Ling",
+          "api_available": null,
+          "cost_tier": null,
+          "allowance": "Unlimited (Free)",
+          "recommended_role": "Zero-cost infinite fallback: Reliable emergency net when allowance buckets pause."
+        }
+      ],
+      "data_sources": [
+        "artificial_analysis_v5",
+        "command_code_go_catalog"
+      ]
+    },
+    {
+      "id": "nvidia/nemotron-3.5-lightning",
+      "name": "Nemotron 3.5 Lightning",
+      "provider": "Nvidia",
+      "provider_family": "Nvidia",
+      "classification": "Open-Source",
+      "frontier_tier": "Tier 5 (> -20%)",
+      "frontier_delta_pct": -72.2,
+      "aa_index_v5": 16,
+      "rank": null,
+      "tier_category": null,
+      "context_window": null,
+      "context_tokens": null,
+      "scores": {
+        "intelligence_index": 16,
+        "coding_power": null,
+        "code_arena_elo": null,
+        "stem_accuracy_pct": null
+      },
+      "pricing": {
+        "prompt_per_m": null,
+        "completion_per_m": null,
+        "cache_read_per_m": null,
+        "cache_write_per_m": null,
+        "batch_prompt_per_m": null,
+        "batch_completion_per_m": null,
+        "is_free": false
+      },
+      "fact_check": {
+        "is_verified": false,
+        "status": "Single-source (AA v5 badge pack — not in OpenRouter/Models.dev sync)",
+        "pricing_concordance": "N/A",
+        "context_concordance": "N/A",
+        "capabilities": null,
+        "sources": [
+          "Artificial Analysis Intelligence Index v5"
+        ]
+      },
+      "effort_simulation": {
+        "supports_effort": true,
+        "is_reasoning_core": false,
+        "overthinking_risk": "Unknown (single-source record)",
+        "multipliers": {
+          "low": {
+            "intel_delta": -1.5,
+            "code_delta": -1.0,
+            "token_multiplier": 0.65,
+            "coding_elo_delta": -1.0,
+            "token_cost_multiplier": 0.65,
+            "stem_delta": 0.0
+          },
+          "medium": {
+            "intel_delta": 0.0,
+            "code_delta": 0.0,
+            "token_multiplier": 1.0,
+            "coding_elo_delta": 0.0,
+            "token_cost_multiplier": 1.0,
+            "stem_delta": 0.0
+          },
+          "high": {
+            "intel_delta": 0.8,
+            "code_delta": 0.5,
+            "token_multiplier": 1.6,
+            "coding_elo_delta": 0.5,
+            "token_cost_multiplier": 1.6,
+            "stem_delta": 0.0
+          },
+          "ultra_high": {
+            "intel_delta": -2.5,
+            "code_delta": -1.8,
+            "token_multiplier": 2.8,
+            "coding_elo_delta": -1.8,
+            "token_cost_multiplier": 2.8,
+            "stem_delta": 0.0
+          }
+        }
+      },
+      "rate_limits": null,
+      "quota_and_access": null,
+      "brand": {
+        "color": "#76B900",
+        "bg_color": null,
+        "accent": null
+      },
+      "command_code": null,
+      "effort_variants": [
+        {
+          "effort": "lightning",
+          "rank": null,
+          "badge_id": null,
+          "name": "Nemotron 3.5 Lightning",
+          "aa_score": 16,
+          "cost_per_task": 0.003,
+          "pareto": true,
+          "notes": [],
+          "category": "Utility & High-Throughput",
+          "sub_tier": "Lightweight & Edge",
+          "brand": {
+            "color": "#76B900",
+            "bg_color": null,
+            "accent": null
+          },
+          "provider_badge": "Nvidia",
+          "api_available": null,
+          "cost_tier": null,
+          "allowance": null,
+          "recommended_role": null
+        }
+      ],
+      "data_sources": [
+        "artificial_analysis_v5",
+        "ai_tier_badges_pack"
+      ]
+    }
+  ]
+}

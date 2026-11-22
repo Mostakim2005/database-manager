@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agentic Coding Ecosystem Grand Map</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+    .svg-container svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 0.5rem;
+    }
+  </style>
+</head>
+<body class="bg-transparent text-slate-100 antialiased p-2 sm:p-4 font-sans">
+  <div class="bg-[#0D1117] border border-[#30363D] rounded-2xl shadow-2xl overflow-hidden max-w-5xl mx-auto">
+    <!-- Header with controls -->
+    <div class="flex flex-wrap items-center justify-between gap-3 px-5 py-4 border-b border-[#30363D] bg-[#161B22]">
+      <div class="flex items-center gap-3">
+        <div class="w-2.5 h-8 bg-blue-500 rounded-full"></div>
+        <div>
+          <h2 class="text-base sm:text-lg font-bold text-white leading-tight">
+            The Agentic Coding &amp; ADE Ecosystem Map
+          </h2>
+          <p class="text-xs text-slate-400">
+            High-Resolution Vector Graphic • 4-Layer Architectural Blueprint
+          </p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <button id="downloadBtn" class="flex items-center gap-2 px-3.5 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs font-semibold shadow transition-colors active:scale-95 cursor-pointer">
+          <svg class="w-4 h-4 fill-none stroke-current stroke-2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+          </svg>
+          Download SVG
+        </button>
+      </div>
+    </div>
+
+    <!-- SVG Display Canvas -->
+    <div id="svgCanvas" class="svg-container p-3 sm:p-5 bg-[#090D16] overflow-x-auto">
+      <svg id="mainSvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 920" width="100%" height="100%" style="background:#090D16; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Inter, sans-serif;">
+        <defs>
+          <linearGradient id="cardBg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#1E293B" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#0F172A" stop-opacity="0.95"/>
+          </linearGradient>
+          <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#06B6D4"/>
+            <stop offset="100%" stop-color="#3B82F6"/>
+          </linearGradient>
+          <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#8B5CF6"/>
+            <stop offset="100%" stop-color="#D946EF"/>
+          </linearGradient>
+          <linearGradient id="emeraldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#10B981"/>
+            <stop offset="100%" stop-color="#059669"/>
+          </linearGradient>
+          <linearGradient id="amberGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#F59E0B"/>
+            <stop offset="100%" stop-color="#EA580C"/>
+          </linearGradient>
+
+          <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+            <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000000" flood-opacity="0.6"/>
+          </filter>
+        </defs>
+
+        <!-- Header Banner -->
+        <g transform="translate(40, 45)">
+          <rect x="0" y="0" width="6" height="34" rx="3" fill="url(#cyanGrad)"/>
+          <text x="20" y="25" fill="#F8FAFC" font-size="24" font-weight="800" letter-spacing="-0.02em">THE AGENTIC CODING ECOSYSTEM MAP</text>
+          <text x="610" y="24" fill="#94A3B8" font-size="13" font-weight="500">From Raw Model Weights to Orchestrated Workspaces</text>
+        </g>
+
+        <!-- LAYER 4: EXTENDED AGENTIC WORKSPACES -->
+        <g transform="translate(40, 95)" filter="url(#shadow)">
+          <rect width="980" height="205" rx="14" fill="url(#cardBg)" stroke="#3B82F6" stroke-width="1.5" stroke-opacity="0.6"/>
+          <path d="M 0 14 Q 0 0 14 0 L 966 0 Q 980 0 980 14 L 980 36 L 0 36 Z" fill="#1E293B"/>
+          <text x="20" y="24" fill="#38BDF8" font-size="13" font-weight="700" letter-spacing="0.08em">LAYER 4: EXTENDED AGENTIC WORKSPACES &amp; ADEs (Command Centers &amp; Orchestrators)</text>
+          <text x="750" y="23" fill="#94A3B8" font-size="12">Parallel Sandboxes • Multi-Agent Trees</text>
+
+          <g transform="translate(20, 52)">
+            <rect width="225" height="135" rx="8" fill="#131C2E" stroke="#2563EB" stroke-width="1.2"/>
+            <rect x="0" y="0" width="225" height="4" rx="2" fill="url(#cyanGrad)"/>
+            <text x="14" y="26" fill="#60A5FA" font-size="15" font-weight="700">Google Antigravity</text>
+            <text x="14" y="46" fill="#94A3B8" font-size="12">Autonomous Agent Platform</text>
+            <line x1="14" y1="56" x2="211" y2="56" stroke="#1E293B" stroke-width="1"/>
+            <text x="14" y="76" fill="#CBD5E1" font-size="12">• Subagent Tree Hierarchy</text>
+            <text x="14" y="96" fill="#CBD5E1" font-size="12">• Extensible MCP Ecosystem</text>
+            <text x="14" y="116" fill="#38BDF8" font-size="12">• Live Visual Sidecars (UI/Device)</text>
+          </g>
+
+          <g transform="translate(260, 52)">
+            <rect width="225" height="135" rx="8" fill="#131C2E" stroke="#334155" stroke-width="1"/>
+            <rect x="0" y="0" width="225" height="4" rx="2" fill="url(#purpleGrad)"/>
+            <text x="14" y="26" fill="#F8FAFC" font-size="15" font-weight="700">OpenHands &amp; Devin</text>
+            <text x="14" y="46" fill="#94A3B8" font-size="12">Cloud &amp; Container Engineers</text>
+            <line x1="14" y1="56" x2="211" y2="56" stroke="#1E293B" stroke-width="1"/>
+            <text x="14" y="76" fill="#CBD5E1" font-size="12">• Isolated Docker Sandbox</text>
+            <text x="14" y="96" fill="#CBD5E1" font-size="12">• Autonomous Browser &amp; Bash</text>
+            <text x="14" y="116" fill="#C084FC" font-size="12">• Issue-to-PR Automations</text>
+          </g>
+
+          <g transform="translate(500, 52)">
+            <rect width="225" height="135" rx="8" fill="#131C2E" stroke="#334155" stroke-width="1"/>
+            <rect x="0" y="0" width="225" height="4" rx="2" fill="url(#emeraldGrad)"/>
+            <text x="14" y="26" fill="#F8FAFC" font-size="15" font-weight="700">Copilot Workspace</text>
+            <text x="14" y="46" fill="#94A3B8" font-size="12">Spec-Driven Cloud ADE</text>
+            <line x1="14" y1="56" x2="211" y2="56" stroke="#1E293B" stroke-width="1"/>
+            <text x="14" y="76" fill="#CBD5E1" font-size="12">• Issue → Plan → Code Flow</text>
+            <text x="14" y="96" fill="#CBD5E1" font-size="12">• Transparent Multi-File Diff</text>
+            <text x="14" y="116" fill="#34D399" font-size="12">• Full GitHub Lifecycle</text>
+          </g>
+
+          <g transform="translate(740, 52)">
+            <rect width="220" height="135" rx="8" fill="#131C2E" stroke="#334155" stroke-width="1"/>
+            <rect x="0" y="0" width="220" height="4" rx="2" fill="url(#amberGrad)"/>
+            <text x="14" y="26" fill="#F8FAFC" font-size="15" font-weight="700">Agentastic / Conductor</text>
+            <text x="14" y="46" fill="#94A3B8" font-size="12">Desktop Multi-Agent Board</text>
+            <line x1="14" y1="56" x2="206" y2="56" stroke="#1E293B" stroke-width="1"/>
+            <text x="14" y="76" fill="#CBD5E1" font-size="12">• Parallel Git Worktrees</text>
+            <text x="14" y="96" fill="#CBD5E1" font-size="12">• Multi-CLI Process Orchestrator</text>
+            <text x="14" y="116" fill="#FBBF24" font-size="12">• Zero-Conflict Concurrency</text>
+          </g>
+        </g>
+
+        <!-- LAYER 3: DEVELOPER SURFACES -->
+        <g transform="translate(40, 320)" filter="url(#shadow)">
+          <rect width="980" height="165" rx="14" fill="url(#cardBg)" stroke="#64748B" stroke-width="1" stroke-opacity="0.4"/>
+          <path d="M 0 14 Q 0 0 14 0 L 966 0 Q 980 0 980 14 L 980 36 L 0 36 Z" fill="#1E293B"/>
+          <text x="20" y="24" fill="#E2E8F0" font-size="13" font-weight="700" letter-spacing="0.08em">LAYER 3: DEVELOPER INTERACTION SURFACES (The Cockpits)</text>
+          <text x="760" y="23" fill="#94A3B8" font-size="12">Visual Editor vs Terminal</text>
+
+          <g transform="translate(20, 50)">
+            <rect width="460" height="98" rx="8" fill="#0F172A" stroke="#475569" stroke-width="1"/>
+            <rect x="0" y="0" width="460" height="30" rx="8" fill="#1E293B"/>
+            <text x="14" y="20" fill="#F8FAFC" font-size="14" font-weight="700">3A. AI-Native IDEs (Visual / Editor-First)</text>
+            <text x="14" y="56" fill="#CBD5E1" font-size="13">Platforms: <tspan fill="#38BDF8" font-weight="600">Cursor (Composer)</tspan>, <tspan fill="#38BDF8" font-weight="600">Windsurf (Cascade)</tspan>, <tspan fill="#CBD5E1">JetBrains Air</tspan></text>
+            <text x="14" y="78" fill="#94A3B8" font-size="12">• Real-time visual split diffs, inline tab ghost-text, cursor-aware context</text>
+          </g>
+
+          <g transform="translate(500, 50)">
+            <rect width="460" height="98" rx="8" fill="#0F172A" stroke="#475569" stroke-width="1"/>
+            <rect x="0" y="0" width="460" height="30" rx="8" fill="#1E293B"/>
+            <text x="14" y="20" fill="#F8FAFC" font-size="14" font-weight="700">3B. CLI-Native Agents (Terminal / Shell-First)</text>
+            <text x="14" y="56" fill="#CBD5E1" font-size="13">Platforms: <tspan fill="#34D399" font-weight="600">Claude Code</tspan>, <tspan fill="#34D399" font-weight="600">Aider</tspan>, <tspan fill="#34D399" font-weight="600">OpenCode</tspan>, <tspan fill="#CBD5E1">Goose CLI</tspan></text>
+            <text x="14" y="78" fill="#94A3B8" font-size="12">• Headless, lightning fast, AST Repo-Map pruning, automatic atomic Git commits</text>
+          </g>
+        </g>
+
+        <!-- LAYER 2: THE AGENT HARNESS -->
+        <g transform="translate(40, 505)" filter="url(#shadow)">
+          <rect width="980" height="155" rx="14" fill="url(#cardBg)" stroke="#8B5CF6" stroke-width="1.5" stroke-opacity="0.5"/>
+          <path d="M 0 14 Q 0 0 14 0 L 966 0 Q 980 0 980 14 L 980 36 L 0 36 Z" fill="#1E293B"/>
+          <text x="20" y="24" fill="#C084FC" font-size="13" font-weight="700" letter-spacing="0.08em">LAYER 2: THE AGENT HARNESS &amp; RUNTIME (The Chassis &amp; Scaffolding)</text>
+          <text x="710" y="23" fill="#94A3B8" font-size="12">Reason → Execute → Observe → Self-Correct</text>
+
+          <g transform="translate(20, 52)">
+            <rect width="220" height="85" rx="6" fill="#171C2E" stroke="#334155" stroke-width="1"/>
+            <text x="14" y="26" fill="#E2E8F0" font-size="13" font-weight="700">Context &amp; Memory</text>
+            <text x="14" y="48" fill="#94A3B8" font-size="12">• Token Budget &amp; Compaction</text>
+            <text x="14" y="68" fill="#94A3B8" font-size="12">• Tree-sitter AST Repo Map</text>
+
+            <rect x="236" width="230" height="85" rx="6" fill="#171C2E" stroke="#334155" stroke-width="1"/>
+            <text x="250" y="26" fill="#E2E8F0" font-size="13" font-weight="700">Tool Execution Engine</text>
+            <text x="250" y="48" fill="#94A3B8" font-size="12">• Shell &amp; Git Command Dispatch</text>
+            <text x="250" y="68" fill="#94A3B8" font-size="12">• Native MCP Tool Protocol</text>
+
+            <rect x="482" width="230" height="85" rx="6" fill="#171C2E" stroke="#334155" stroke-width="1"/>
+            <text x="496" y="26" fill="#E2E8F0" font-size="13" font-weight="700">Sandboxes &amp; Isolation</text>
+            <text x="496" y="48" fill="#94A3B8" font-size="12">• Git Worktrees / Ephemeral VM</text>
+            <text x="496" y="68" fill="#94A3B8" font-size="12">• Container Execution Boundary</text>
+
+            <rect x="728" width="212" height="85" rx="6" fill="#171C2E" stroke="#334155" stroke-width="1"/>
+            <text x="742" y="26" fill="#E2E8F0" font-size="13" font-weight="700">Safety &amp; Verification</text>
+            <text x="742" y="48" fill="#94A3B8" font-size="12">• User Approval Confirmation Gate</text>
+            <text x="742" y="68" fill="#94A3B8" font-size="12">• Loop Circuit Breakers</text>
+          </g>
+        </g>
+
+        <!-- LAYER 1: FOUNDATION MODELS -->
+        <g transform="translate(40, 680)" filter="url(#shadow)">
+          <rect width="980" height="160" rx="14" fill="url(#cardBg)" stroke="#10B981" stroke-width="1.5" stroke-opacity="0.5"/>
+          <path d="M 0 14 Q 0 0 14 0 L 966 0 Q 980 0 980 14 L 980 36 L 0 36 Z" fill="#1E293B"/>
+          <text x="20" y="24" fill="#34D399" font-size="13" font-weight="700" letter-spacing="0.08em">LAYER 1: FOUNDATION MODELS (The Intelligence / Model Weights)</text>
+          <text x="760" y="23" fill="#94A3B8" font-size="12">Zero Agency Without a Harness</text>
+
+          <g transform="translate(20, 52)">
+            <rect width="176" height="90" rx="8" fill="#0B132B" stroke="#10B981" stroke-width="1"/>
+            <text x="14" y="28" fill="#F8FAFC" font-size="14" font-weight="700">DeepSeek</text>
+            <text x="14" y="48" fill="#34D399" font-size="12" font-weight="600">V3 &amp; R1 Reasoning</text>
+            <text x="14" y="70" fill="#94A3B8" font-size="12">Open weights, ultra-low cost</text>
+
+            <rect x="191" width="176" height="90" rx="8" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+            <text x="205" y="28" fill="#F8FAFC" font-size="14" font-weight="700">Anthropic Claude</text>
+            <text x="205" y="48" fill="#A855F7" font-size="12" font-weight="600">3.5 &amp; 3.7 Sonnet</text>
+            <text x="205" y="70" fill="#94A3B8" font-size="12">Industry coding benchmark</text>
+
+            <rect x="382" width="176" height="90" rx="8" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+            <text x="396" y="28" fill="#F8FAFC" font-size="14" font-weight="700">OpenAI</text>
+            <text x="396" y="48" fill="#38BDF8" font-size="12" font-weight="600">GPT-4o, o3-mini</text>
+            <text x="396" y="70" fill="#94A3B8" font-size="12">Codex model lineage</text>
+
+            <rect x="573" width="176" height="90" rx="8" fill="#0B132B" stroke="#334155" stroke-width="1"/>
+            <text x="587" y="28" fill="#F8FAFC" font-size="14" font-weight="700">Google Gemini</text>
+            <text x="587" y="48" fill="#60A5FA" font-size="12" font-weight="600">2.0 Flash &amp; Pro</text>
+            <text x="587" y="70" fill="#94A3B8" font-size="12">Massive 2M token context</text>
+
+            <rect x="764" width="176" height="90" rx="8" fill="#0B132B" stroke="#F59E0B" stroke-width="1"/>
+            <text x="778" y="28" fill="#F8FAFC" font-size="14" font-weight="700">Nous Hermes</text>
+            <text x="778" y="48" fill="#FBBF24" font-size="12" font-weight="600">Hermes 3 (Open)</text>
+            <text x="778" y="70" fill="#94A3B8" font-size="12">Optimized for tool steering</text>
+          </g>
+        </g>
+
+        <!-- Connectors -->
+        <g stroke="#475569" stroke-width="1.5" stroke-dasharray="4 4">
+          <line x1="530" y1="300" x2="530" y2="320"/>
+          <line x1="530" y1="485" x2="530" y2="505"/>
+          <line x1="530" y1="660" x2="530" y2="680"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- Footer caption -->
+    <div class="px-5 py-3 border-t border-[#30363D] bg-[#161B22] flex items-center justify-between text-xs text-slate-400">
+      <span>Vector Graphic: Scalable 1060 × 920px (Lossless)</span>
+      <span>Click "Download SVG" to save file directly</span>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('downloadBtn').addEventListener('click', function() {
+      const svgElement = document.getElementById('mainSvg');
+      const serializer = new XMLSerializer();
+      let source = serializer.serializeToString(svgElement);
+
+      if(!source.match(/^<svg[^>]+xmlns="http\:\/\/www\.w3\.org\/2000\/svg"/)){
+        source = source.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+      }
+      if(!source.match(/^<svg[^>]+xmlns\:xlink="http\:\/\/www\.w3\.org\/1999\/xlink"/)){
+        source = source.replace(/^<svg/, '<svg xmlns:xlink="http://www.w3.org/1999/xlink"');
+      }
+
+      source = '<?xml version="1.0" standalone="no"?>\r\n' + source;
+      const url = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(source);
+      
+      const downloadLink = document.createElement("a");
+      downloadLink.href = url;
+      downloadLink.download = "agentic-coding-ecosystem-grand-map.svg";
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      document.body.removeChild(downloadLink);
+    });
+  </script>
+</body>
+</html>

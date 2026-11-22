@@ -1,0 +1,149 @@
+/* GameRank — css/style.css */
+:root {
+  --bg: #10141c;
+  --fg: #e8ecf1;
+  --muted: #9aa7b8;
+  --accent: #46b882;
+  --card: #171d28;
+  --line: #2a3140;
+  --great: #2f9e5f;
+  --ok: #d9a32b;
+  --struggle: #cc4444;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--fg);
+  font: 15px/1.5 "Segoe UI", system-ui, sans-serif;
+}
+h1, h2, h3 { margin: 0 0 10px; }
+a { color: var(--accent); }
+
+/* header */
+.header {
+  padding: 18px 24px; border-bottom: 1px solid var(--line);
+  display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: baseline;
+}
+.header h1 { font-size: 22px; }
+.header .muted { color: var(--muted); }
+.header .ver {
+  display: inline-block; vertical-align: middle; margin-left: 8px;
+  font-size: 11.5px; color: var(--accent); border: 1px solid var(--accent);
+  border-radius: 12px; padding: 1px 8px; opacity: .85;
+}
+
+/* filter toolbar */
+.toolbar {
+  display: flex; flex-wrap: wrap; gap: 10px; padding: 14px 24px;
+  border-bottom: 1px solid var(--line); background: #131926;
+}
+.toolbar input, .toolbar select, .toolbar button {
+  background: #1c2331; color: var(--fg); border: 1px solid var(--line);
+  border-radius: 6px; padding: 7px 10px; font: inherit;
+}
+.toolbar input { min-width: 200px; }
+.toolbar button { cursor: pointer; }
+.toolbar button:hover { border-color: var(--accent); }
+#count { color: var(--muted); align-self: center; }
+
+/* stats line */
+.stats { padding: 10px 24px; color: var(--muted); }
+.stats strong { color: var(--fg); }
+
+/* badges */
+.badge {
+  display: inline-block; padding: 2px 9px; border-radius: 20px;
+  font-size: 12px; border: 1px solid var(--line); white-space: nowrap;
+}
+.badge.compat-great    { background: var(--great);    color: #fff; border-color: transparent; }
+.badge.compat-ok       { background: var(--ok);       color: #20242c; border-color: transparent; }
+.badge.compat-struggle { background: var(--struggle); color: #fff; border-color: transparent; }
+.badge.g-classic-rts   { border-color: #6ea8fe; color: #9ec3ff; }
+.badge.g-4x-grand      { border-color: #b48be8; color: #d0b3f7; }
+.badge.g-hybrid-td     { border-color: #e8a96e; color: #f3c493; }
+.badge.g-army-sim      { border-color: #7fd8c4; color: #a8ecdc; }
+.badge.g-free          { border-color: var(--accent); color: var(--accent); }
+.badge.g-norm          { color: var(--muted); }
+.badge.g-warn          { border-color: #d8a34a; color: #ecc178; }
+.badge.g-store         { border-color: #7fb4d8; color: #a8cbe4; }
+.badge.g-store a       { color: inherit; text-decoration: none; }
+.badge.g-store a:hover { text-decoration: underline; }
+.badge.disk-hdd-fine    { border-color: #5aa86e; color: #7ecf95; }
+.badge.disk-ssd-helps   { border-color: #d8a34a; color: #ecc178; }
+.badge.disk-ssd-strongly-advised { border-color: #cf5f5f; color: #e88888; }
+.fps-cell { max-width: 260px; font-size: 12.5px; color: var(--muted); }
+
+/* cards */
+.cards {
+  display: grid; gap: 14px; padding: 16px 24px;
+  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+}
+.card {
+  background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+  padding: 14px; cursor: pointer; border-left-width: 4px;
+}
+.card:hover { border-color: var(--accent); }
+.compat-border-great    { border-left-color: var(--great); }
+.compat-border-ok       { border-left-color: var(--ok); }
+.compat-border-struggle { border-left-color: var(--struggle); }
+.card-h {
+  display: flex; justify-content: space-between; align-items: flex-start; gap: 8px;
+}
+.card-h h3 { font-size: 16px; }
+.badges-row { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.card-meta { color: var(--muted); font-size: 13px; display: grid; gap: 2px; }
+.card-meta span { color: #6f7d90; margin-right: 4px; }
+.badges-row a { text-decoration: none; }
+
+/* table */
+.games-table {
+  width: calc(100% - 48px); margin: 16px auto; border-collapse: collapse; font-size: 13.5px;
+}
+.games-table th, .games-table td {
+  padding: 7px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: middle;
+}
+.games-table thead th { color: var(--muted); font-weight: 600; }
+.games-table tr.row { cursor: pointer; }
+.games-table tr.row:hover { background: #1a2130; }
+.strong { font-weight: 600; }
+
+/* rating bars */
+.bar {
+  display: inline-block; width: 42px; height: 6px; margin-left: 6px;
+  background: #232b3a; border-radius: 4px; vertical-align: middle; overflow: hidden;
+}
+.bar-fill { display: block; height: 100%; background: var(--accent); border-radius: 4px; }
+
+/* detail modal */
+#detail {
+  position: fixed; inset: 0; background: rgba(4,7,12,.72); z-index: 50;
+  display: none; align-items: flex-start; justify-content: center; padding: 40px 16px; overflow-y: auto;
+}
+#detail.open { display: flex; }
+.modal-inner {
+  background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+  max-width: 860px; width: 100%; padding: 24px; position: relative;
+}
+.modal-close {
+  position: absolute; top: 8px; right: 12px; background: none; border: none;
+  color: var(--muted); font-size: 24px; cursor: pointer;
+}
+.modal-close:hover { color: var(--fg); }
+.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0; }
+@media (max-width: 760px) { .detail-grid { grid-template-columns: 1fr; } }
+.block {
+  background: #141a25; border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px;
+  font-size: 13.5px;
+}
+.block strong { display: block; color: var(--accent); margin-bottom: 4px; }
+.block p { margin: 4px 0 0; color: var(--fg); }
+.block ul { margin: 4px 0 0; padding-left: 18px; color: var(--muted); }
+.block p.gpu-active strong { color: var(--accent); }
+.block p.gpu-active { border-left: 3px solid var(--accent); padding-left: 8px; }
+
+/* specs table */
+.specs-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 8px 0 16px; }
+.specs-table th, .specs-table td { border: 1px solid var(--line); padding: 6px 10px; }
+.specs-table thead th { background: #1c2331; color: var(--muted); }
+.specs-table tbody th { background: #1c2331; text-align: left; color: var(--accent); font-weight: 600; width: 90px; }
+
+.sources { font-size: 12.5px; padding-left: 18px; color: var(--muted); word-break: break-all; }

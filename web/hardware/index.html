@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PC Hardware & PSU Transient Guard — Database Manager</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card-bg: rgba(22, 27, 34, 0.85);
+      --border: #30363d;
+      --text: #e6edf3;
+      --text-muted: #8b949e;
+      --accent: #58a6ff;
+      --green: #3fb950;
+      --amber: #d29922;
+      --red: #f85149;
+      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-family);
+      line-height: 1.5;
+      padding: 24px;
+    }
+
+    header {
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    h1 { font-size: 24px; font-weight: 600; }
+    .subtitle { color: var(--text-muted); font-size: 14px; margin-top: 4px; }
+
+    .nav-btn {
+      background: #21262d;
+      color: var(--accent);
+      border: 1px solid var(--border);
+      padding: 8px 14px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .nav-btn:hover { background: #30363d; color: #fff; }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+    @media (max-width: 860px) { .grid-2 { grid-template-columns: 1fr; } }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      backdrop-filter: blur(8px);
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .spec-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(48, 54, 61, 0.4);
+      font-size: 13px;
+    }
+    .spec-item:last-child { border-bottom: none; }
+    .spec-label { color: var(--text-muted); }
+    .spec-val { font-weight: 500; text-align: right; }
+
+    .calculator-form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    label { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+    select, input {
+      background: #0d1117;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 6px;
+      font-size: 14px;
+      outline: none;
+      width: 100%;
+    }
+    select:focus, input:focus { border-color: var(--accent); }
+
+    .gauge-box {
+      margin-top: 16px;
+      padding: 16px;
+      border-radius: 6px;
+      background: #161b22;
+      border-left: 4px solid var(--border);
+      transition: border-color 0.3s;
+    }
+    .gauge-box.pass { border-left-color: var(--green); }
+    .gauge-box.warn { border-left-color: var(--amber); }
+    .gauge-box.fail { border-left-color: var(--red); }
+
+    .gauge-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .badge {
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .badge.pass { background: rgba(63, 185, 80, 0.15); color: var(--green); border: 1px solid var(--green); }
+    .badge.warn { background: rgba(210, 153, 34, 0.15); color: var(--amber); border: 1px solid var(--amber); }
+    .badge.fail { background: rgba(248, 81, 73, 0.15); color: var(--red); border: 1px solid var(--red); }
+
+    .meter-container {
+      margin: 12px 0 6px 0;
+      background: #21262d;
+      border-radius: 4px;
+      height: 10px;
+      overflow: hidden;
+    }
+    .meter-fill {
+      height: 100%;
+      width: 0%;
+      transition: width 0.4s ease, background-color 0.4s ease;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-top: 12px;
+    }
+    th, td {
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      background: #161b22;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+    tr:hover td { background: rgba(255, 255, 255, 0.02); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div>
+      <h1>PC Hardware & PSU Transient Guard</h1>
+      <p class="subtitle">Ryzen 5 5600GT Baseline · 550W Single-Rail Headroom Analysis · BDT & USD Pricing Matrix</p>
+    </div>
+    <div style="display:flex; gap:8px;">
+      <a href="../index.html" class="nav-btn">← Unified Portal</a>
+      <a href="../games/index.html" class="nav-btn">GameRank Simulator</a>
+      <a href="../ai/index.html" class="nav-btn">AI Model Matrix</a>
+    </div>
+  </header>
+
+  <div class="grid-2">
+    <!-- Baseline Card -->
+    <div class="card">
+      <div class="card-title">
+        <span>Current System Baseline</span>
+        <span style="font-size:12px; color:var(--accent);">Active Platform</span>
+      </div>
+      <div class="spec-item">
+        <span class="spec-label">Processor</span>
+        <span class="spec-val">AMD Ryzen 5 5600GT (6C/12T, 3.6-4.6 GHz)</span>
+      </div>
+      <div class="spec-item">
+        <span class="spec-label">L3 Cache</span>
+        <span class="spec-val">16 MB (Zen 3 Cezanne)</span>
+      </div>
+      <div class="spec-item">
+        <span class="spec-label">Base GPU</span>
+        <span class="spec-val">Radeon Vega 7 (Tier 3.0, 1900 MHz)</span>
+      </div>
+      <div class="spec-item">
+        <span class="spec-label">Memory</span>
+        <span class="spec-val">16 GB DDR4-3200 Dual Channel</span>
+      </div>
+      <div class="spec-item">
+        <span class="spec-label">Power Supply Unit</span>
+        <span class="spec-val">550W 80+ Bronze (43A +12V Rail)</span>
+      </div>
+      <div class="spec-item">
+        <span class="spec-label">Base Platform Draw</span>
+        <span class="spec-val">~85W (Motherboard, CPU idle/base, Fans, Drives)</span>
+      </div>
+      <div class="spec-item">
+        <span class="spec-label">PSU Safety Limit</span>
+        <span class="spec-val">412.5W Continuous (75%) | 550W Transient OCP</span>
+      </div>
+    </div>
+
+    <!-- Interactive Upgrade Calculator -->
+    <div class="card">
+      <div class="card-title">
+        <span>GPU Upgrade & PSU Spike Forecaster</span>
+      </div>
+      <div class="calculator-form">
+        <div>
+          <label for="gpu-select">Select Candidate GPU</label>
+          <select id="gpu-select">
+            <option value="rx-6600" selected>Radeon RX 6600 (8 GB) — Recommended Champion</option>
+            <option value="gtx-1660-super">GeForce GTX 1660 Super (6 GB) — Budget Used</option>
+            <option value="rtx-2060">GeForce RTX 2060 (6 GB) — DLSS Entry</option>
+            <option value="rtx-4060">GeForce RTX 4060 (8 GB) — Efficient Modern</option>
+            <option value="rx-6700-xt">Radeon RX 6700 XT (12 GB) — 1440p Mid</option>
+            <option value="rtx-4070-super">GeForce RTX 4070 Super (12 GB) — 1440p High</option>
+            <option value="rx-7800-xt">Radeon RX 7800 XT (16 GB) — 1440p Ultra (High Spike)</option>
+          </select>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+          <div>
+            <label for="psu-input">PSU Capacity (Watts)</label>
+            <input type="number" id="psu-input" value="550" min="300" max="1200" step="50">
+          </div>
+          <div>
+            <label for="base-input">Base System (Watts)</label>
+            <input type="number" id="base-input" value="85" min="40" max="250" step="5">
+          </div>
+        </div>
+
+        <div id="gauge-box" class="gauge-box pass">
+          <div class="gauge-header">
+            <span id="gpu-name" style="font-weight:600;">Radeon RX 6600</span>
+            <span id="status-badge" class="badge pass">Headroom Safe</span>
+          </div>
+          <div style="font-size:12px; color:var(--text-muted); display:flex; justify-content:space-between;">
+            <span>Continuous: <strong id="val-continuous" style="color:var(--text);">217W</strong></span>
+            <span>Microsecond Spike: <strong id="val-peak" style="color:var(--text);">263W</strong> (1.35×)</span>
+            <span>Headroom: <strong id="val-headroom" style="color:var(--green);">+287W</strong></span>
+          </div>
+          <div class="meter-container">
+            <div id="meter-bar" class="meter-fill" style="width: 48%; background-color: var(--green);"></div>
+          </div>
+          <p id="explanation-text" style="font-size:12px; color:var(--text-muted); margin-top:8px;">
+            Headroom Safe: Microsecond spikes stay well within the 550W rail headroom.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Upgrade Catalog Table -->
+  <div class="card">
+    <div class="card-title">
+      <span>Candidate GPU Specifications & Asymmetric Market Pricing</span>
+    </div>
+    <div style="overflow-x: auto;">
+      <table>
+        <thead>
+          <tr>
+            <th>GPU Model</th>
+            <th>Tier</th>
+            <th>VRAM</th>
+            <th>TDP</th>
+            <th>Peak Spike</th>
+            <th>Total System Spike</th>
+            <th>550W PSU Status</th>
+            <th>Used (BDT)</th>
+            <th>Retail (BDT)</th>
+            <th>USD (MSRP/Used)</th>
+          </tr>
+        </thead>
+        <tbody id="catalog-rows">
+          <!-- Populated by JS -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    let hardwareData = null;
+
+    async function loadData() {
+      try {
+        const res = await fetch("../../data/hardware/hardware_specs.json");
+        hardwareData = await res.json();
+      } catch (e) {
+        // Fallback for direct browser file open
+        hardwareData = {
+          system_baseline: { psu_rated_wattage: 550, base_system_watts: 85 },
+          transient_rules: { high_tdp_threshold_watts: 250, mid_tdp_threshold_watts: 180, multipliers: { high: 2.0, mid: 1.65, low: 1.35 } },
+          gpus: [
+            { id: "vega-7-igpu", name: "Radeon Vega 7 (Integrated)", tier: 3.0, vram_gb: 2, vram_type: "Shared", tdp_watts: 25, transient_multiplier: 1.35, gpu_peak_spike_watts: 34, system_peak_watts: 119, continuous_system_watts: 110, psu_550w_verdict: "pass", price_bdt_used: 0, price_bdt_retail: 0, price_usd: 0 },
+            { id: "gtx-1660-super", name: "GeForce GTX 1660 Super", tier: 6.5, vram_gb: 6, vram_type: "GDDR6", tdp_watts: 125, transient_multiplier: 1.35, gpu_peak_spike_watts: 169, system_peak_watts: 254, continuous_system_watts: 210, psu_550w_verdict: "pass", price_bdt_used: 15000, price_bdt_retail: 24000, price_usd: 140 },
+            { id: "rtx-2060", name: "GeForce RTX 2060 (6 GB)", tier: 7.0, vram_gb: 6, vram_type: "GDDR6", tdp_watts: 160, transient_multiplier: 1.35, gpu_peak_spike_watts: 216, system_peak_watts: 301, continuous_system_watts: 245, psu_550w_verdict: "pass", price_bdt_used: 18500, price_bdt_retail: 28000, price_usd: 165 },
+            { id: "rx-6600", name: "Radeon RX 6600 (8 GB)", tier: 7.5, vram_gb: 8, vram_type: "GDDR6", tdp_watts: 132, transient_multiplier: 1.35, gpu_peak_spike_watts: 178, system_peak_watts: 263, continuous_system_watts: 217, psu_550w_verdict: "pass", price_bdt_used: 22500, price_bdt_retail: 29500, price_usd: 199 },
+            { id: "rtx-4060", name: "GeForce RTX 4060 (8 GB)", tier: 8.0, vram_gb: 8, vram_type: "GDDR6", tdp_watts: 115, transient_multiplier: 1.35, gpu_peak_spike_watts: 155, system_peak_watts: 240, continuous_system_watts: 200, psu_550w_verdict: "pass", price_bdt_used: 34000, price_bdt_retail: 41500, price_usd: 299 },
+            { id: "rx-6700-xt", name: "Radeon RX 6700 XT (12 GB)", tier: 8.5, vram_gb: 12, vram_type: "GDDR6", tdp_watts: 230, transient_multiplier: 1.65, gpu_peak_spike_watts: 380, system_peak_watts: 465, continuous_system_watts: 315, psu_550w_verdict: "warn", price_bdt_used: 33000, price_bdt_retail: 49000, price_usd: 320 },
+            { id: "rtx-4070-super", name: "GeForce RTX 4070 Super (12 GB)", tier: 9.0, vram_gb: 12, vram_type: "GDDR6X", tdp_watts: 220, transient_multiplier: 1.65, gpu_peak_spike_watts: 363, system_peak_watts: 448, continuous_system_watts: 305, psu_550w_verdict: "warn", price_bdt_used: 68000, price_bdt_retail: 78000, price_usd: 599 },
+            { id: "rx-7800-xt", name: "Radeon RX 7800 XT (16 GB)", tier: 9.5, vram_gb: 16, vram_type: "GDDR6", tdp_watts: 263, transient_multiplier: 2.0, gpu_peak_spike_watts: 526, system_peak_watts: 611, continuous_system_watts: 348, psu_550w_verdict: "fail", price_bdt_used: 58000, price_bdt_retail: 68000, price_usd: 499 }
+          ]
+        };
+      }
+      renderTable();
+      updateCalculator();
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById("catalog-rows");
+      tbody.innerHTML = "";
+      hardwareData.gpus.forEach(gpu => {
+        const tr = document.createElement("tr");
+        const badgeCls = gpu.psu_550w_verdict;
+        const badgeLabel = badgeCls === "pass" ? "Safe" : (badgeCls === "warn" ? "Caution" : "Trip Risk");
+        tr.innerHTML = `
+          <td><strong>${gpu.name}</strong></td>
+          <td>Tier ${gpu.tier}</td>
+          <td>${gpu.vram_gb} GB ${gpu.vram_type}</td>
+          <td>${gpu.tdp_watts}W</td>
+          <td>~${gpu.gpu_peak_spike_watts}W (${gpu.transient_multiplier}×)</td>
+          <td><strong>~${gpu.system_peak_watts}W</strong></td>
+          <td><span class="badge ${badgeCls}">${badgeLabel}</span></td>
+          <td>${gpu.price_bdt_used ? "৳" + gpu.price_bdt_used.toLocaleString() : "—"}</td>
+          <td>${gpu.price_bdt_retail ? "৳" + gpu.price_bdt_retail.toLocaleString() : "—"}</td>
+          <td>${gpu.price_usd ? "$" + gpu.price_usd : "—"}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function updateCalculator() {
+      const selectedId = document.getElementById("gpu-select").value;
+      const psu = Number(document.getElementById("psu-input").value) || 550;
+      const base = Number(document.getElementById("base-input").value) || 85;
+
+      const gpu = hardwareData.gpus.find(g => g.id === selectedId) || hardwareData.gpus[3];
+
+      const tdp = gpu.tdp_watts;
+      let mult = 1.35;
+      if (tdp >= 250) mult = 2.0;
+      else if (tdp >= 180) mult = 1.65;
+
+      const continuous = tdp + base;
+      const peak = Math.round(tdp * mult + base);
+      const headroom = psu - peak;
+      const percentage = Math.min(100, Math.round((peak / psu) * 100));
+
+      let status = "pass";
+      let badgeText = "Headroom Safe";
+      let explanation = `Microsecond transient power bursts can spike to ~${peak}W (${mult}× multiplier on ${tdp}W GPU), leaving ${headroom}W safe headroom on your ${psu}W PSU.`;
+
+      if (peak > psu) {
+        status = "fail";
+        badgeText = "OCP Trip Risk";
+        explanation = `DANGER: Microsecond transient spikes (~${peak}W) exceed your ${psu}W PSU capacity by ${Math.abs(headroom)}W! This risks tripping Over-Current Protection (OCP) shutdowns during demanding games.`;
+      } else if (continuous > 0.75 * psu || peak > 0.85 * psu) {
+        status = "warn";
+        badgeText = "Heavy PSU Load";
+        explanation = `Continuous consumption is ${continuous}W with peak spikes around ~${peak}W. The ${psu}W PSU will survive, but internal components and fan will run hot and loud.`;
+      }
+
+      document.getElementById("gpu-name").textContent = gpu.name;
+      document.getElementById("val-continuous").textContent = continuous + "W";
+      document.getElementById("val-peak").textContent = peak + "W (" + mult + "×)";
+      const hrEl = document.getElementById("val-headroom");
+      hrEl.textContent = (headroom >= 0 ? "+" : "") + headroom + "W";
+      hrEl.style.color = headroom >= 0 ? (status === "warn" ? "var(--amber)" : "var(--green)") : "var(--red)";
+
+      const gaugeBox = document.getElementById("gauge-box");
+      gaugeBox.className = "gauge-box " + status;
+
+      const badge = document.getElementById("status-badge");
+      badge.className = "badge " + status;
+      badge.textContent = badgeText;
+
+      const meter = document.getElementById("meter-bar");
+      meter.style.width = percentage + "%";
+      meter.style.backgroundColor = status === "pass" ? "var(--green)" : (status === "warn" ? "var(--amber)" : "var(--red)");
+
+      document.getElementById("explanation-text").textContent = explanation;
+    }
+
+    document.getElementById("gpu-select").addEventListener("change", updateCalculator);
+    document.getElementById("psu-input").addEventListener("input", updateCalculator);
+    document.getElementById("base-input").addEventListener("input", updateCalculator);
+
+    window.addEventListener("DOMContentLoaded", loadData);
+  </script>
+</body>
+</html>

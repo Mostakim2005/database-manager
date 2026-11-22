@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Database Manager — Unified Benchmark & Specification Hub</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card-bg: rgba(22, 27, 34, 0.85);
+      --border: #30363d;
+      --text: #e6edf3;
+      --text-muted: #8b949e;
+      --accent: #58a6ff;
+      --green: #3fb950;
+      --amber: #d29922;
+      --purple: #bc8cff;
+      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-family);
+      line-height: 1.5;
+      padding: 0;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: #161b22;
+      border-bottom: 1px solid var(--border);
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand h1 {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+    .badge-chip {
+      background: rgba(88, 166, 255, 0.15);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 8px;
+    }
+    .tab-btn {
+      background: transparent;
+      color: var(--text-muted);
+      border: 1px solid transparent;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .tab-btn:hover {
+      background: #21262d;
+      color: var(--text);
+    }
+    .tab-btn.active {
+      background: #21262d;
+      color: var(--accent);
+      border-color: var(--border);
+      font-weight: 600;
+    }
+
+    .quick-links {
+      display: flex;
+      gap: 8px;
+    }
+    .link-btn {
+      background: #21262d;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      padding: 6px 12px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 12px;
+      transition: all 0.2s;
+    }
+    .link-btn:hover {
+      color: #fff;
+      background: #30363d;
+    }
+
+    .stats-strip {
+      background: #0d1117;
+      border-bottom: 1px solid var(--border);
+      padding: 10px 24px;
+      display: flex;
+      gap: 24px;
+      font-size: 12px;
+      color: var(--text-muted);
+      flex-shrink: 0;
+      flex-wrap: wrap;
+    }
+    .stats-item span {
+      color: var(--text);
+      font-weight: 600;
+      margin-left: 4px;
+    }
+
+    .main-viewport {
+      flex: 1;
+      position: relative;
+      background: #090d13;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: none;
+    }
+    iframe.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <h1>Database Manager</h1>
+      <span class="badge-chip">v1.0.0</span>
+      <span style="font-size: 13px; color: var(--text-muted);">Unified Multi-Domain Database Hub</span>
+    </div>
+
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="switchTab('ai')">
+        🤖 AI Benchmark Matrix
+      </button>
+      <button class="tab-btn" onclick="switchTab('games')">
+        🎮 GameRank Simulator
+      </button>
+      <button class="tab-btn" onclick="switchTab('hardware')">
+        ⚡ PC Hardware & PSU Guard
+      </button>
+    </div>
+
+    <div class="quick-links">
+      <a href="ai/index.html" target="_blank" class="link-btn">AI Matrix Popout ↗</a>
+      <a href="games/index.html" target="_blank" class="link-btn">GameRank Popout ↗</a>
+      <a href="hardware/index.html" target="_blank" class="link-btn">Hardware Popout ↗</a>
+      <a href="/api/ai" target="_blank" class="link-btn">JSON API ↗</a>
+    </div>
+  </header>
+
+  <div class="stats-strip">
+    <div class="stats-item">AI Models: <span id="stat-ai">26 frontier models</span></div>
+    <div class="stats-item">Benchmarked Games: <span id="stat-games">43 researched RTS titles</span></div>
+    <div class="stats-item">Baseline PC: <span>Ryzen 5 5600GT (16MB L3, Vega 7, 550W PSU)</span></div>
+    <div class="stats-item">Recommended Upgrade: <span style="color:var(--green);">Radeon RX 6600 (8 GB)</span></div>
+    <div class="stats-item">Local Server: <span style="color:var(--accent);">http://127.0.0.1:8770</span></div>
+  </div>
+
+  <div class="main-viewport">
+    <iframe id="frame-ai" src="ai/index.html" class="active"></iframe>
+    <iframe id="frame-games" src="games/index.html"></iframe>
+    <iframe id="frame-hardware" src="hardware/index.html"></iframe>
+  </div>
+
+  <script>
+    function switchTab(tab) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('iframe').forEach(frame => frame.classList.remove('active'));
+
+      if (tab === 'ai') {
+        document.querySelectorAll('.tab-btn')[0].classList.add('active');
+        document.getElementById('frame-ai').classList.add('active');
+      } else if (tab === 'games') {
+        document.querySelectorAll('.tab-btn')[1].classList.add('active');
+        document.getElementById('frame-games').classList.add('active');
+      } else if (tab === 'hardware') {
+        document.querySelectorAll('.tab-btn')[2].classList.add('active');
+        document.getElementById('frame-hardware').classList.add('active');
+      }
+    }
+  </script>
+</body>
+</html>

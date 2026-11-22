@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Command Code Models - Artificial Analysis Intelligence vs Cost Pareto Frontier</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    /* Self-contained dark theme with guaranteed contrast in any host mode */
+    :root {
+      color-scheme: dark;
+    }
+    .node-anim {
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  </style>
+</head>
+<body class="bg-transparent text-slate-100 antialiased p-2 sm:p-4 font-sans">
+  <div class="bg-[#0D1117] border border-[#30363D] rounded-2xl shadow-2xl overflow-hidden max-w-5xl mx-auto text-slate-100">
+    
+    <!-- Top Header & Filter Controls -->
+    <div class="p-5 border-b border-[#30363D] bg-[#161B22] flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div>
+        <div class="flex items-center gap-2 mb-1.5">
+          <span class="px-2.5 py-0.5 text-xs font-bold rounded-md bg-blue-500/20 text-blue-400 border border-blue-500/30">ARTIFICIAL ANALYSIS v5 INDEX</span>
+          <span class="text-xs text-slate-400">Command Code Go Model Evaluation</span>
+        </div>
+        <h2 class="text-lg font-bold text-white tracking-tight">
+          Model Intelligence vs. Real-World Blended Cost per Task
+        </h2>
+        <p class="text-xs text-slate-400 mt-0.5">
+          Calibrated using official Artificial Analysis Intelligence Index v5 metrics. The golden curve connects the Pareto-optimal champions.
+        </p>
+      </div>
+
+      <!-- Filters -->
+      <div class="flex flex-wrap items-center gap-1.5 text-xs">
+        <button onclick="setFilter('all')" id="btn-all" class="filter-btn px-3 py-1.5 rounded-lg font-semibold bg-blue-600 text-white shadow">All Models</button>
+        <button onclick="setFilter('pareto')" id="btn-pareto" class="filter-btn px-3 py-1.5 rounded-lg font-semibold bg-[#21262D] text-slate-200 hover:bg-[#30363D] border border-[#30363D]">★ Pareto Frontier</button>
+        <button onclick="setFilter('tier1')" id="btn-tier1" class="filter-btn px-3 py-1.5 rounded-lg font-semibold bg-[#21262D] text-purple-400 hover:bg-[#30363D] border border-[#30363D]">Top Models (40-50)</button>
+        <button onclick="setFilter('tier2')" id="btn-tier2" class="filter-btn px-3 py-1.5 rounded-lg font-semibold bg-[#21262D] text-blue-400 hover:bg-[#30363D] border border-[#30363D]">Workhorse (30-39)</button>
+        <button onclick="setFilter('tier3')" id="btn-tier3" class="filter-btn px-3 py-1.5 rounded-lg font-semibold bg-[#21262D] text-emerald-400 hover:bg-[#30363D] border border-[#30363D]">High-Throughput / Free (&lt;30)</button>
+      </div>
+    </div>
+
+    <!-- Chart Surface -->
+    <div class="relative p-4 sm:p-6 bg-[#090D16] border-b border-[#30363D] overflow-hidden">
+      <!-- Legend -->
+      <div class="flex flex-wrap items-center justify-between text-xs text-slate-400 mb-3 px-1 gap-2">
+        <div class="flex flex-wrap items-center gap-3">
+          <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-purple-500 ring-2 ring-purple-400/30"></span><span>Top Models [Score 40-50]</span></div>
+          <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-blue-500 ring-2 ring-blue-400/30"></span><span>Workhorse [Score 30-39]</span></div>
+          <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-emerald-500 ring-2 ring-emerald-400/30"></span><span>High-Throughput / Free [&lt;30]</span></div>
+        </div>
+        <div class="flex items-center gap-1.5 text-amber-400 font-bold">
+          <span class="inline-block w-4 h-0.5 bg-amber-400"></span>
+          <span>Golden Pareto Frontier (Optimal ROI)</span>
+        </div>
+      </div>
+
+      <!-- Graph Canvas SVG -->
+      <div class="relative w-full aspect-[16/9] min-h-[360px] max-h-[480px]">
+        <svg id="paretoSvg" viewBox="0 0 920 480" class="w-full h-full select-none" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <linearGradient id="curveGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#10B981"/>
+              <stop offset="35%" stop-color="#3B82F6"/>
+              <stop offset="70%" stop-color="#F59E0B"/>
+              <stop offset="100%" stop-color="#EC4899"/>
+            </linearGradient>
+            <linearGradient id="areaFill" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#F59E0B" stop-opacity="0.18"/>
+              <stop offset="100%" stop-color="#F59E0B" stop-opacity="0.0"/>
+            </linearGradient>
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="3" result="blur"/>
+              <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+
+          <!-- Axes & Grid Lines (Y-Axis: AA Index 10 to 55) -->
+          <g stroke="#21262D" stroke-width="1">
+            <!-- 50 Index line -->
+            <line x1="85" y1="50" x2="880" y2="50" stroke="#30363D" stroke-dasharray="4 4"/>
+            <text x="70" y="54" fill="#E2E8F0" font-size="12" font-weight="bold" text-anchor="end">50</text>
+
+            <!-- 40 Index line -->
+            <line x1="85" y1="125" x2="880" y2="125"/>
+            <text x="70" y="129" fill="#94A3B8" font-size="12" text-anchor="end">40</text>
+
+            <!-- 30 Index line -->
+            <line x1="85" y1="200" x2="880" y2="200"/>
+            <text x="70" y="204" fill="#94A3B8" font-size="12" text-anchor="end">30</text>
+
+            <!-- 20 Index line -->
+            <line x1="85" y1="275" x2="880" y2="275"/>
+            <text x="70" y="279" fill="#94A3B8" font-size="12" text-anchor="end">20</text>
+
+            <!-- 10 Index line -->
+            <line x1="85" y1="350" x2="880" y2="350" stroke="#30363D" stroke-width="1.5"/>
+            <text x="70" y="354" fill="#64748B" font-size="12" text-anchor="end">10</text>
+
+            <!-- Verticals (Cost per Task: $0.00, $0.01, $0.05, $0.15, $0.35, $0.70) -->
+            <line x1="85" y1="40" x2="85" y2="350" stroke="#30363D" stroke-width="1.5"/>
+            <text x="85" y="372" fill="#10B981" font-size="12" font-weight="bold" text-anchor="middle">$0 (Free)</text>
+
+            <line x1="220" y1="40" x2="220" y2="350"/>
+            <text x="220" y="372" fill="#94A3B8" font-size="12" text-anchor="middle">$0.015</text>
+
+            <line x1="380" y1="40" x2="380" y2="350"/>
+            <text x="380" y="372" fill="#94A3B8" font-size="12" text-anchor="middle">$0.050</text>
+
+            <line x1="560" y1="40" x2="560" y2="350"/>
+            <text x="560" y="372" fill="#94A3B8" font-size="12" text-anchor="middle">$0.180</text>
+
+            <line x1="760" y1="40" x2="760" y2="350"/>
+            <text x="760" y="372" fill="#94A3B8" font-size="12" text-anchor="middle">$0.650</text>
+          </g>
+
+          <!-- Axis Titles -->
+          <text transform="rotate(-90 30 200)" x="30" y="200" fill="#E2E8F0" font-size="13" font-weight="bold" text-anchor="middle">
+            ▲ Artificial Analysis Intelligence Index v5 (10 - 55)
+          </text>
+          <text x="480" y="415" fill="#E2E8F0" font-size="13" font-weight="bold" text-anchor="middle">
+            Real-World Blended Cost per Task ($) ▶ (Lower Cost / Higher ROI is to the Left)
+          </text>
+
+          <!-- Pareto Frontier Area & Path -->
+          <!-- Optimal points:
+               1. Beam 1.0 (Free, 18 pts): x=85, y=290
+               2. Muse Spark (0.008, 25 pts): x=155, y=238
+               3. DeepSeek V4.1 Flash (0.012, 32 pts): x=195, y=185
+               4. Qwen 3.8 Max (0.180, 34 pts): x=560, y=170
+               5. Kimi K3.1 Pro (0.650, 46 pts): x=760, y=80
+          -->
+          <path id="paretoArea" d="M 85 350 L 85 290 L 155 238 L 195 185 L 560 170 L 760 80 L 760 350 Z" fill="url(#areaFill)"/>
+          <path id="paretoLine" d="M 85 290 L 155 238 L 195 185 L 560 170 L 760 80" fill="none" stroke="url(#curveGlow)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
+
+          <!-- Nodes rendered via JS -->
+          <g id="modelNodes"></g>
+        </svg>
+
+        <!-- Tooltip -->
+        <div id="tooltip" class="hidden absolute pointer-events-none z-30 bg-[#161B22] border border-[#388BFD] rounded-xl p-3.5 shadow-2xl max-w-xs transition-opacity duration-150">
+          <div class="flex items-center justify-between gap-2 border-b border-[#30363D] pb-1.5 mb-1.5">
+            <span id="tt-name" class="font-bold text-sm text-white">Model</span>
+            <span id="tt-tier" class="px-2 py-0.5 text-xs font-bold rounded">Tier</span>
+          </div>
+          <div class="grid grid-cols-2 gap-x-3 gap-y-1 text-xs mb-2">
+            <div><span class="text-slate-400">AA Index v5:</span> <span id="tt-score" class="font-bold text-white">46 pts</span></div>
+            <div><span class="text-slate-400">Cost/Task:</span> <span id="tt-price" class="font-bold text-emerald-400">$0.65</span></div>
+            <div class="col-span-2"><span class="text-slate-400">Pareto Status:</span> <span id="tt-pareto" class="font-bold text-amber-400">Optimal</span></div>
+          </div>
+          <p id="tt-desc" class="text-xs text-slate-300 leading-snug border-t border-[#30363D] pt-1.5"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Data Table -->
+    <div class="p-5 bg-[#0D1117]">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider">Command Code Go Model Intelligence Inventory</h3>
+        <span class="text-xs text-slate-400">Artificial Analysis Benchmark Data</span>
+      </div>
+
+      <div class="overflow-x-auto rounded-xl border border-[#30363D]">
+        <table class="w-full text-left text-xs">
+          <thead class="bg-[#161B22] text-slate-400 font-semibold border-b border-[#30363D]">
+            <tr>
+              <th class="py-3 px-3">Model Name</th>
+              <th class="py-3 px-2">AA Tier Bracket</th>
+              <th class="py-3 px-2 text-center">AA v5 Index</th>
+              <th class="py-3 px-2">Cost/Task</th>
+              <th class="py-3 px-2">Pareto Status</th>
+              <th class="py-3 px-3">Strategic Role &amp; Plan Fit</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody" class="divide-y divide-[#30363D] bg-[#0D1117] text-slate-200">
+            <!-- Populated via JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const models = [
+      // TOP MODELS - Tier 1 [Score 40-50]
+      { name: "Kimi K3.1 Pro", tier: "tier1", bracket: "Tier A+ (46-50)", score: 46, cost: 0.65, pareto: true, x: 760, y: 80, color: "#0080FF", role: "Top Intelligence Leader: Excels in deep long-context reasoning and repo-wide synthesis." },
+      
+      // WORKHORSE - Tier 2 [Score 30-39]
+      { name: "Qwen 3.8 Max (0902)", tier: "tier2", bracket: "Tier B (31-35)", score: 34, cost: 0.18, pareto: true, x: 560, y: 170, color: "#FF6A00", role: "Top Value Workhorse: Near-frontier coding capability at 1/4 the cost of flagship models." },
+      { name: "DeepSeek V4.1 Flash", tier: "tier2", bracket: "Tier B (31-35)", score: 32, cost: 0.012, pareto: true, x: 195, y: 185, color: "#4D6BFE", role: "Hyper-Efficiency King: Unmatched index points per dollar; handles 85% of software edits." },
+      { name: "GLM-5.3", tier: "tier2", bracket: "Tier B (31-35)", score: 32, cost: 0.085, pareto: false, x: 450, y: 185, color: "#3859FF", role: "Reliable generalist: Included in $10 Go allowance, balanced multi-language code generation." },
+      { name: "MiMo V2.6 Pro", tier: "tier2", bracket: "Tier C+ (26-30)", score: 30, cost: 0.045, pareto: false, x: 360, y: 200, color: "#FF6900", role: "Solid mid-tier balanced model for routine script editing and refactoring." },
+
+      // HIGH-THROUGHPUT / FLASH & FREE [<30]
+      { name: "MiniMax M3.1 Flash", tier: "tier3", bracket: "Tier C+ (26-30)", score: 29, cost: 0.018, pareto: false, x: 250, y: 208, color: "#FA2C69", role: "High-throughput token generator for documentation and rapid boilerplate." },
+      { name: "Step 5 Preview", tier: "tier3", bracket: "Tier C+ (26-30)", score: 29, cost: 0.065, pareto: false, x: 420, y: 208, color: "#00C9B7", role: "Experimental step-by-step reasoning preview; solid procedural logic." },
+      { name: "MiMo V2.6 Flash", tier: "tier3", bracket: "Tier C+ (26-30)", score: 27, cost: 0.012, pareto: false, x: 195, y: 223, color: "#FF6900", role: "Fast turnarounds for simple syntax corrections and linting." },
+      { name: "GLM-5.3 Flash", tier: "tier3", bracket: "Tier C+ (26-30)", score: 26, cost: 0.014, pareto: false, x: 215, y: 230, color: "#3859FF", role: "High-speed log processing and search summarization." },
+      { name: "Muse Spark 1.3", tier: "tier3", bracket: "Tier C+ (26-30)", score: 26, cost: 0.008, pareto: true, x: 155, y: 238, color: "#0668E1", role: "Open-weight efficiency star: Sub-cent cost with dependable code completions." },
+      { name: "Qwen 3.8 27B", tier: "tier3", bracket: "Tier D (16-20)", score: 20, cost: 0.008, pareto: false, x: 155, y: 275, color: "#FF6A00", role: "Lightweight workhorse: Blazing fast execution on localized bug fixes." },
+      { name: "Beam 1.0 (Free)", tier: "tier3", bracket: "Tier D (16-20)", score: 18, cost: 0.000, pareto: true, x: 85, y: 290, color: "#10B981", role: "Completely Free & Unmetered: Great for CLI assistance and terminal commands." },
+      { name: "Ling 3.1 Flash (Free)", tier: "tier3", bracket: "Tier D (16-20)", score: 17, cost: 0.000, pareto: false, x: 85, y: 298, color: "#10B981", role: "Zero-cost infinite fallback: Reliable emergency net when allowance buckets pause." }
+    ];
+
+    let currentFilter = 'all';
+
+    function renderNodes() {
+      const g = document.getElementById('modelNodes');
+      g.innerHTML = '';
+
+      models.forEach((m, idx) => {
+        let isVisible = true;
+        if (currentFilter === 'pareto' && !m.pareto) isVisible = false;
+        if (currentFilter === 'tier1' && m.tier !== 'tier1') isVisible = false;
+        if (currentFilter === 'tier2' && m.tier !== 'tier2') isVisible = false;
+        if (currentFilter === 'tier3' && m.tier !== 'tier3') isVisible = false;
+
+        const opacity = isVisible ? "1" : "0.15";
+        const ring = m.pareto ? `stroke="#F59E0B" stroke-width="2.5"` : `stroke="#FFFFFF" stroke-width="1"`;
+
+        const node = document.createElementNS("http://www.w3.org/2000/svg", "g");
+        node.setAttribute("class", "cursor-pointer node-anim");
+        node.setAttribute("data-id", idx);
+        node.setAttribute("opacity", opacity);
+
+        node.innerHTML = `
+          <circle cx="${m.x}" cy="${m.y}" r="${m.pareto ? 8.5 : 6.5}" fill="${m.color}" ${ring} filter="url(#glow)"/>
+          <text x="${m.x + 12}" y="${m.y + 4}" fill="#F8FAFC" font-size="12" font-weight="${m.pareto ? 'bold' : 'normal'}" class="pointer-events-none drop-shadow">
+            ${m.name} ${m.pareto ? '★' : ''}
+          </text>
+        `;
+
+        node.addEventListener('mouseenter', (e) => showTooltip(e, m));
+        node.addEventListener('mouseleave', hideTooltip);
+        g.appendChild(node);
+      });
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById('tableBody');
+      tbody.innerHTML = '';
+
+      models.forEach((m) => {
+        let isVisible = true;
+        if (currentFilter === 'pareto' && !m.pareto) isVisible = false;
+        if (currentFilter === 'tier1' && m.tier !== 'tier1') isVisible = false;
+        if (currentFilter === 'tier2' && m.tier !== 'tier2') isVisible = false;
+        if (currentFilter === 'tier3' && m.tier !== 'tier3') isVisible = false;
+
+        if (!isVisible) return;
+
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-[#1E293B]/70 transition-colors";
+
+        const badgeClass = m.tier === 'tier1' ? 'bg-purple-500/20 text-purple-300 border-purple-500/30' :
+                           m.tier === 'tier2' ? 'bg-blue-500/20 text-blue-300 border-blue-500/30' :
+                           'bg-emerald-500/20 text-emerald-300 border-emerald-500/30';
+
+        tr.innerHTML = `
+          <td class="py-2.5 px-3 font-semibold text-white flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full" style="background:${m.color}"></span>
+            ${m.name}
+          </td>
+          <td class="py-2.5 px-2">
+            <span class="px-2 py-0.5 rounded text-[11px] font-bold border ${badgeClass}">
+              ${m.bracket}
+            </span>
+          </td>
+          <td class="py-2.5 px-2 text-center font-bold text-white">${m.score} pts</td>
+          <td class="py-2.5 px-2 font-mono text-emerald-400 font-semibold">${m.cost === 0 ? 'FREE' : '$' + m.cost.toFixed(3)}</td>
+          <td class="py-2.5 px-2">
+            ${m.pareto ? '<span class="text-amber-400 font-bold flex items-center gap-1">★ Frontier</span>' : '<span class="text-slate-400">Interior</span>'}
+          </td>
+          <td class="py-2.5 px-3 text-slate-300 text-[11px]">${m.role}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function showTooltip(e, m) {
+      const tt = document.getElementById('tooltip');
+      document.getElementById('tt-name').innerText = m.name;
+      document.getElementById('tt-score').innerText = m.score + " pts";
+      document.getElementById('tt-price').innerText = m.cost === 0 ? 'FREE ($0.00)' : '$' + m.cost.toFixed(3) + ' / task';
+      document.getElementById('tt-desc').innerText = m.role;
+
+      const tierBadge = document.getElementById('tt-tier');
+      tierBadge.innerText = m.bracket;
+      tierBadge.className = "px-2 py-0.5 text-[11px] font-bold rounded " + 
+        (m.tier === 'tier1' ? 'bg-purple-600 text-white' : m.tier === 'tier2' ? 'bg-blue-600 text-white' : 'bg-emerald-600 text-white');
+
+      const paretoStatus = document.getElementById('tt-pareto');
+      if (m.pareto) {
+        paretoStatus.innerText = "★ On Golden Frontier (Optimal)";
+        paretoStatus.className = "font-bold text-amber-400";
+      } else {
+        paretoStatus.innerText = "Inside Frontier (Solid Alternative)";
+        paretoStatus.className = "font-medium text-slate-400";
+      }
+
+      tt.classList.remove('hidden');
+
+      const svgBox = document.getElementById('paretoSvg').getBoundingClientRect();
+      const clientX = e.clientX || (svgBox.left + (m.x / 920) * svgBox.width);
+      const clientY = e.clientY || (svgBox.top + (m.y / 480) * svgBox.height);
+
+      let left = clientX - svgBox.left + 15;
+      let top = clientY - svgBox.top - 20;
+
+      if (left + 240 > svgBox.width) left -= 260;
+      if (top + 160 > svgBox.height) top -= 120;
+
+      tt.style.left = Math.max(10, left) + 'px';
+      tt.style.top = Math.max(10, top) + 'px';
+    }
+
+    function hideTooltip() {
+      document.getElementById('tooltip').classList.add('hidden');
+    }
+
+    function setFilter(filter) {
+      currentFilter = filter;
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.className = "filter-btn px-3 py-1.5 rounded-lg font-semibold bg-[#21262D] text-slate-200 hover:bg-[#30363D] border border-[#30363D]";
+      });
+
+      const activeBtn = document.getElementById('btn-' + filter);
+      if (activeBtn) {
+        activeBtn.className = "filter-btn px-3 py-1.5 rounded-lg font-semibold bg-blue-600 text-white shadow";
+      }
+
+      const pLine = document.getElementById('paretoLine');
+      const pArea = document.getElementById('paretoArea');
+      if (filter === 'tier1' || filter === 'tier2' || filter === 'tier3') {
+        pLine.style.opacity = '0.25';
+        pArea.style.opacity = '0.05';
+      } else {
+        pLine.style.opacity = '1';
+        pArea.style.opacity = '1';
+      }
+
+      renderNodes();
+      renderTable();
+    }
+
+    // Initialize
+    renderNodes();
+    renderTable();
+  </script>
+</body>
+</html>

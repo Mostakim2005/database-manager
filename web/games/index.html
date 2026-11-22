@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GameRank — RTS Family Games × My PC (Vega 7)</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="header">
+    <h1>GameRank — RTS &amp; Strategy Games <span class="ver" title="v3.0.0 — presets, SP/HDD, SSD &amp; GPU-upgrade model">v3.0.0</span></h1>
+    <span class="muted">43 games researched (Oct 2026) · score vs
+      <strong> Ryzen 5 5600GT · Vega 7 iGPU · 16 GB dual-channel · HDD</strong> · click any game for full details &amp; sources
+    </span>
+  </header>
+
+  <div class="toolbar">
+    <input id="search" type="search" placeholder="Search game name…">
+    <select id="genre">
+      <option value="all">All genres</option>
+      <option value="classic-rts">Classic RTS</option>
+      <option value="4x-grand">4X / Grand Strategy</option>
+      <option value="hybrid-td">Hybrid / Tower Defense</option>
+      <option value="army-sim">Army / Settlement Sim</option>
+    </select>
+    <select id="setting">
+      <option value="all">Any setting</option>
+      <option value="ancient">Ancient/history</option>
+      <option value="realistic-modern">Realistic/modern</option>
+      <option value="futuristic">Futuristic/sci-fi</option>
+      <option value="fantasy">Fantasy</option>
+    </select>
+    <select id="price">
+      <option value="all">Any price</option>
+      <option value="f2p">Free to play only</option>
+      <option value="cheap">≤ $15 or free</option>
+      <option value="any">Paid only</option>
+    </select>
+    <select id="campaign">
+      <option value="all">Campaign any</option>
+      <option value="yes">Has campaign</option>
+      <option value="free">Free campaign included</option>
+      <option value="none">No campaign</option>
+    </select>
+    <select id="compat">
+      <option value="all">Runs on my PC: any</option>
+      <option value="great">Runs great ✅</option>
+      <option value="ok">Playable w/ tweaks ⚠️</option>
+      <option value="struggle">Struggles ❌</option>
+    </select>
+    <select id="players">
+      <option value="all">Player base: any</option>
+      <option value="mp-active">Active multiplayer base</option>
+      <option value="mp-any">Has MP (any activity)</option>
+      <option value="sp-only">Single-player only</option>
+    </select>
+    <select id="preset">
+      <option value="playable">Preset: playable ~30–40 fps (1080p)</option>
+      <option value="quality30">Preset: best graphics @ ~30 fps (1080p/900p)</option>
+      <option value="sixty">Preset: pushing ~60 fps</option>
+    </select>
+    <select id="gpu">
+      <option value="none">GPU: my Vega 7 iGPU</option>
+      <option value="gtx1660s">Simulate: + GTX 1660 Super</option>
+      <option value="rtx2060">Simulate: + RTX 2060</option>
+      <option value="rx6600">Simulate: + RX 6600</option>
+    </select>
+    <select id="sort">
+      <option value="compat">Sort: my-PC score</option>
+      <option value="campaign">Sort: campaign quality</option>
+      <option value="ai">Sort: AI quality</option>
+      <option value="graphics">Sort: graphics</option>
+      <option value="players">Sort: player activity</option>
+      <option value="price">Sort: price</option>
+      <option value="size">Sort: install size</option>
+      <option value="name">Sort: name</option>
+    </select>
+    <button id="dirBtn" title="Flip sort direction">↑▼</button>
+    <select id="view">
+      <option value="cards">Cards view</option>
+      <option value="table">Table view</option>
+    </select>
+    <span id="count"></span>
+    <button id="reset">Reset filters</button>
+  </div>
+
+  <div class="stats" id="stats"></div>
+  <main id="results"></main>
+
+  <div id="detail"></div>
+
+  <script src="data/games.js"></script>
+  <script src="js/rank.js"></script>
+  <script src="js/render.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

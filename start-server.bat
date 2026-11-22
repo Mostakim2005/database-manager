@@ -1,0 +1,3 @@
+@echo off
+echo Starting Database Manager Web Server on http://127.0.0.1:8770 ...
+python "%~dp0src\server.py" %*
