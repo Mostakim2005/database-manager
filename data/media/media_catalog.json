@@ -1,834 +1,1413 @@
 [
   {
+    "id": "rebirth-of-the-ultimate-master",
     "name": "Rebirth of the Ultimate Master",
     "alt": "The Ultimate of All Ages / The Eternal Supreme",
-    "link": "https://comix.to/browse?q=Rebirth%20of%20the%20Ultimate%20Master&sort=relevance%3Adesc",
+    "media_type": "comic",
     "origin": "Chinese Manhua & Web Novel",
+    "link": "https://comix.to/browse?q=Rebirth%20of%20the%20Ultimate%20Master&sort=relevance%3Adesc",
     "anime": "**Yes (Donghua)** — 3D Donghua Series (2026) by Bilibili & Foch Film.<br>• **Watch:** [Bilibili TV](https://tv.bilibili.tv/)<br>• **Motion Comic / Fan Anim:** [YouTube Motion Comic](https://www.youtube.com/watch?v=ZUthzoIEGjs)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "rebirth-of-the-ultimate-master",
+    "relations": []
   },
   {
+    "id": "log-into-the-future",
     "name": "Log into the Future",
     "alt": "Logging 10,000 Years into the Future / Apex Future Martial Arts",
-    "link": "https://comix.to/title/z3xz3-logging-10000-years-into-the-future",
+    "media_type": "comic",
     "origin": "Chinese Manhua & Web Novel",
+    "link": "https://comix.to/title/z3xz3-logging-10000-years-into-the-future",
     "anime": "**Yes (Donghua)** — 2D ONA Donghua (2024–Ongoing) by Tencent / iQIYI.<br>• **Watch:** [iQIYI](https://www.iqiyi.com/) / [YouTube (Eng Sub)](https://www.youtube.com/watch?v=0UN86oVXXfU&vl=en) / [Chiki Animation](https://chikianimation.com/anime/logging-10000-years-into-the-futureapex-future-martial-arts/)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "log-into-the-future",
+    "relations": []
   },
   {
+    "id": "become-the-castellan-in-another-world",
     "name": "Become the Castellan in Another World",
     "alt": "Starting Today I'll Work as a City Lord / Cong Jintian Kaishi Dang Chengzhu",
-    "link": "https://comix.to/title/m610-starting-from-today-ill-work-as-a-city-lord",
+    "media_type": "comic",
     "origin": "Chinese Manhua",
+    "link": "https://comix.to/title/m610-starting-from-today-ill-work-as-a-city-lord",
     "anime": "**Yes (Donghua)** — 2D Donghua / Motion Comic (2023–2025, S1–S2).<br>• **Watch:** [YouTube (Ep 1–30)](https://www.youtube.com/watch?v=fwIMRYCebQQ) / [AnimeKhor](https://animekhor.org/anime/starting-from-today-ill-work-as-a-city-lord/)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "become-the-castellan-in-another-world",
+    "relations": []
   },
   {
+    "id": "ultimate-son-in-law",
     "name": "Ultimate Son-in-Law",
     "alt": "My Heroic Husband / Zhuixu (also covers Shen Lang novel variant)",
-    "link": "https://comix.to/title/l03e-ultimate-son-in-law",
+    "media_type": "comic",
     "origin": "Chinese Manhua & Web Novel",
+    "link": "https://comix.to/title/l03e-ultimate-son-in-law",
     "anime": "**Yes (Donghua)** — 3D Donghua Series (2023–Ongoing; S1 2023, S2 2024 by Bilibili / Foch Film).<br>• **Watch:** [Bilibili TV](https://www.bilibili.tv/) / [YouTube (MadeByBilibili)](https://www.youtube.com/results?search_query=My+Heroic+Husband+donghua+bilibili)",
-    "live_action": "**Yes (C-Drama)** — 36-Ep Drama *My Heroic Husband* (2021, S2 in development by iQIYI).<br>• **Watch:** [iQIYI](https://www.iqiyi.com/) / [Rakuten Viki](https://www.viki.com/tv/37719c-my-heroic-husband)"
+    "live_action": "**Yes (C-Drama)** — 36-Ep Drama *My Heroic Husband* (2021, S2 in development by iQIYI).<br>• **Watch:** [iQIYI](https://www.iqiyi.com/) / [Rakuten Viki](https://www.viki.com/tv/37719c-my-heroic-husband)",
+    "franchise_id": "ultimate-son-in-law",
+    "relations": []
   },
   {
+    "id": "the-ravages-of-time",
     "name": "The Ravages of Time",
     "alt": "Huo Feng Liao Yuan",
-    "link": "https://comix.to/title/v7w0-the-ravages-of-time",
+    "media_type": "comic",
     "origin": "Hong Kong / Chinese Manhua",
+    "link": "https://comix.to/title/v7w0-the-ravages-of-time",
     "anime": "**Yes (Donghua)** — 3D Donghua (2023–Ongoing; S1 2023, S2 2025, S3 in prod).<br>• **Watch:** [Bilibili TV](https://tv.bilibili.tv/) / [YouTube (S1 Ep 1)](https://www.youtube.com/watch?v=7BolVLkRriY&vl=en) / [YouTube (S2)](https://www.youtube.com/watch?v=HbfeXPGkM_E)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "the-ravages-of-time",
+    "relations": []
   },
   {
+    "id": "the-sword-of-dawn",
     "name": "The Sword of Dawn",
     "alt": "Blade of Dawn / Sword of Daybreaker",
-    "link": "https://comix.to/title/jw3d-the-sword-of-dawn",
+    "media_type": "comic",
     "origin": "Chinese Manhua & Web Novel",
+    "link": "https://comix.to/title/jw3d-the-sword-of-dawn",
     "anime": "**Yes (Donghua)** — 3D Donghua Series (2022–2023) by Bilibili.<br>• **Watch:** [Bilibili TV](https://www.bilibili.tv/id/video/2048377883) / [YouTube (Ep 1)](https://www.youtube.com/watch?v=GM1y9OEYbZI)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "the-sword-of-dawn",
+    "relations": []
   },
   {
+    "id": "joy-of-life",
     "name": "Joy of Life",
     "alt": "Qing Yu Nian",
-    "link": "https://comix.to/title/ll88e-joy-of-life",
+    "media_type": "comic",
     "origin": "Chinese Web Novel & Manhua",
+    "link": "https://comix.to/title/ll88e-joy-of-life",
     "anime": "**Unofficial / Game Anim** — Official game cinematic CGI trailers.<br>• **Watch:** [YouTube Game CGI](https://www.youtube.com/results?search_query=Joy+of+Life+game+CGI+trailer)",
-    "live_action": "**Yes (C-Drama)** — Blockbuster Drama S1 (2019), S2 (2024), S3 in active pre-production.<br>• **Watch:** [Rakuten Viki (S1)](https://www.viki.com/tv/36367c-joy-of-life) / [Rakuten Viki (S2)](https://www.viki.com/tv/40481c-joy-of-life-2) / [WeTV](https://wetv.vip/album/kio6wi962m7lg7l) / Disney+"
+    "live_action": "**Yes (C-Drama)** — Blockbuster Drama S1 (2019), S2 (2024), S3 in active pre-production.<br>• **Watch:** [Rakuten Viki (S1)](https://www.viki.com/tv/36367c-joy-of-life) / [Rakuten Viki (S2)](https://www.viki.com/tv/40481c-joy-of-life-2) / [WeTV](https://wetv.vip/album/kio6wi962m7lg7l) / Disney+",
+    "franchise_id": "joy-of-life",
+    "relations": [
+      {
+        "relation": "adapted_from",
+        "target_id": "joy-of-life-web-novel",
+        "target_type": "light_novel",
+        "title": "Joy of Life (Original Web Novel)"
+      },
+      {
+        "relation": "related",
+        "target_id": "joy-of-life-cdrama",
+        "target_type": "tv_series",
+        "title": "Joy of Life (C-Drama)"
+      }
+    ]
   },
   {
+    "id": "global-freeze-i-created-an-apocalypse-shelter",
     "name": "Global Freeze: I Created an Apocalypse Shelter",
     "alt": "I Global Freeze / I Built an Apocalypse Shelter",
-    "link": "https://comix.to/title/3yz2-global-freeze-i-created-an-apocalypse-shelter",
+    "media_type": "comic",
     "origin": "Chinese Manhua & Web Novel",
+    "link": "https://comix.to/title/3yz2-global-freeze-i-created-an-apocalypse-shelter",
     "anime": "**Yes (Donghua)** — 2D ONA / Dynamic Motion Comic (2025–Ongoing).<br>• **Watch:** [iQIYI](https://www.iqiyi.com/) / [YouTube (Ep 1–10)](https://www.youtube.com/watch?v=ZB46T52QLz0) / [Chiki Animation](https://chikianimation.com/anime/global-freeze-i-built-a-doomsday-safe-house/)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "global-freeze-i-created-an-apocalypse-shelter",
+    "relations": []
   },
   {
+    "id": "peerless-dad",
     "name": "Peerless Dad",
     "alt": "Father, Unrivaled / Abimussang",
-    "link": "https://comix.to/title/xl0lj-peerless-dad",
+    "media_type": "comic",
     "origin": "Korean Manhwa",
+    "link": "https://comix.to/title/xl0lj-peerless-dad",
     "anime": "**Fan Motion Animation** — No official anime.<br>• **Watch:** [YouTube Fan Animation & Recaps](https://www.youtube.com/results?search_query=Peerless+Dad+motion+comic+animation)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "peerless-dad",
+    "relations": []
   },
   {
+    "id": "genius-grandson-of-the-loan-shark",
     "name": "Genius Grandson of the Loan Shark",
     "alt": "Genius Grandson of the Loan Shark King",
-    "link": "https://comix.to/title/2y05-genius-grandson-of-the-loan-shark-king",
+    "media_type": "comic",
     "origin": "Korean Manhwa & Web Novel",
+    "link": "https://comix.to/title/2y05-genius-grandson-of-the-loan-shark-king",
     "anime": "**Fan Motion Comics** — No official anime.<br>• **Watch:** [YouTube Motion Comic Recaps](https://www.youtube.com/results?search_query=Genius+Grandson+of+the+Loan+Shark+King+motion+comic)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "genius-grandson-of-the-loan-shark",
+    "relations": []
   },
   {
+    "id": "ancient-animal-tales",
     "name": "Ancient Animal Tales",
     "alt": "Godae Dongmulgi",
-    "link": "https://comix.to/title/q0y1-ancient-animal-tales",
+    "media_type": "comic",
     "origin": "Korean Manhwa / Webtoon",
+    "link": "https://comix.to/title/q0y1-ancient-animal-tales",
     "anime": "**Official Teaser & Fan Edits** — Naver Webtoon animated promotional teasers.<br>• **Watch:** [WEBTOON Video Preview](https://www.youtube.com/results?search_query=Ancient+Animal+Tales+Webtoon+trailer)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "ancient-animal-tales",
+    "relations": []
   },
   {
+    "id": "investor-who-sees-the-future",
     "name": "Investor Who Sees the Future",
     "alt": "The Investor Who Sees The Future",
-    "link": "https://comix.to/title/1kme-the-investor-who-sees-the-future",
+    "media_type": "comic",
     "origin": "Korean Manhwa & Web Novel",
+    "link": "https://comix.to/title/1kme-the-investor-who-sees-the-future",
     "anime": "**Fan Motion Comics** — No official anime.<br>• **Watch:** [YouTube Motion Recaps](https://www.youtube.com/results?search_query=The+Investor+Who+Sees+The+Future+motion+comic)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "investor-who-sees-the-future",
+    "relations": []
   },
   {
+    "id": "corporate-underdog",
     "name": "Corporate Underdog",
     "alt": "The Corporate Underdog Who Does Everything Right / A Corporate Underling Who Excels at Work",
-    "link": "https://comix.to/title/7nw1-the-corporate-underdog-who-does-everything-right",
+    "media_type": "comic",
     "origin": "Korean Manhwa",
+    "link": "https://comix.to/title/7nw1-the-corporate-underdog-who-does-everything-right",
     "anime": "**Fan Motion Comics** — No official anime.<br>• **Watch:** [YouTube Motion Recaps](https://www.youtube.com/results?search_query=The+Corporate+Underdog+Who+Does+Everything+Right+motion+comic)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "corporate-underdog",
+    "relations": []
   },
   {
+    "id": "paranoid-mage",
     "name": "Paranoid Mage",
     "alt": "Paranoid Mage (by Inadvisably Compelled)",
-    "link": "https://comix.to/title/xy00m-paranoid-mage",
+    "media_type": "comic",
     "origin": "Western Web Novel & Webtoon",
+    "link": "https://comix.to/title/xy00m-paranoid-mage",
     "anime": "**Fan Motion Comics** — Community episodic motion series.<br>• **Watch:** [YouTube Manga Motion Stories](https://www.youtube.com/results?search_query=Paranoid+Mage+motion+comic)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "paranoid-mage",
+    "relations": []
   },
   {
+    "id": "flame-reborn",
     "name": "Flame Reborn",
     "alt": "A Flame Reborn / Regressor of the Fallen Family",
-    "link": "https://comix.to/title/ll82v-a-flame-reborn",
+    "media_type": "comic",
     "origin": "Korean Manhwa & Web Novel",
+    "link": "https://comix.to/title/ll82v-a-flame-reborn",
     "anime": "**Official Teasers & Fan Anim** — WEBTOON official animated promo trailers.<br>• **Watch:** [YouTube WEBTOON Trailer](https://www.youtube.com/results?search_query=A+Flame+Reborn+webtoon+trailer)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "flame-reborn",
+    "relations": []
   },
   {
+    "id": "bad-bone-blood",
     "name": "Bad Bone Blood",
     "alt": "Bad Born Blood",
-    "link": "https://comix.to/title/3nlg-bad-born-blood",
+    "media_type": "comic",
     "origin": "Korean Manhwa & Web Novel",
+    "link": "https://comix.to/title/3nlg-bad-born-blood",
     "anime": "**Fan Motion Comics** — Fan-made motion comic recaps and edits.<br>• **Watch:** [YouTube Fan Motion Edits](https://www.youtube.com/results?search_query=Bad+Born+Blood+manhwa+edit+motion)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "bad-bone-blood",
+    "relations": []
   },
   {
+    "id": "the-night-only-lives-today",
     "name": "The Night Only Lives Today",
     "alt": "The Knight Only Lives Today / Eternally Regressing Knight",
-    "link": "https://comix.to/title/0kx0d-eternally-regressing-knight",
+    "media_type": "comic",
     "origin": "Korean Manhwa & Web Novel",
+    "link": "https://comix.to/title/0kx0d-eternally-regressing-knight",
     "anime": "**Official Teaser & Fan Anim** — Official animated promotional teaser by Naver Webtoon & community motion edits.<br>• **Watch:** [YouTube Webtoon Trailer](https://www.youtube.com/results?search_query=Eternally+Regressing+Knight+trailer)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "the-night-only-lives-today",
+    "relations": []
   },
   {
+    "id": "gunkano-baltzar",
     "name": "Gunkano Baltzar",
     "alt": "Gunka no Baltzar / Baltzar Militarismus",
-    "link": "https://comix.to/title/yzg1-gunka-no-baltzar",
+    "media_type": "comic",
     "origin": "Japanese Manga",
+    "link": "https://comix.to/title/yzg1-gunka-no-baltzar",
     "anime": "**Fan MMVs & Motion Edits** — No official anime.<br>• **Watch:** [YouTube MMVs & Edits](https://www.youtube.com/results?search_query=Gunka+no+Baltzar+MMV)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "gunkano-baltzar",
+    "relations": []
   },
   {
+    "id": "the-superhuman-era",
     "name": "The Superhuman Era",
     "alt": "Superhuman Era / The Era of Overman",
-    "link": "https://comix.to/title/d66k0-the-superhuman-era",
+    "media_type": "comic",
     "origin": "Korean Manhwa / Webtoon",
+    "link": "https://comix.to/title/d66k0-the-superhuman-era",
     "anime": "**Fan Motion Animation & MMVs** — Highly viral fan-made 2D motion animations & animatics.<br>• **Watch:** [YouTube Fan Animation & Edits](https://www.youtube.com/results?search_query=Superhuman+Era+fan+animation)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "the-superhuman-era",
+    "relations": []
   },
   {
+    "id": "reborn-rookie",
     "name": "Reborn Rookie",
     "alt": "The New Employee Chairman Kang (by San Kyung)",
-    "link": "https://comix.to/browse?q=Reborn%20Rookie&sort=relevance%3Adesc",
+    "media_type": "comic",
     "origin": "Korean Manhwa & Web Novel",
+    "link": "https://comix.to/browse?q=Reborn%20Rookie&sort=relevance%3Adesc",
     "anime": "**None**",
-    "live_action": "**Yes (K-Drama)** — 12-Episode JTBC Drama Series (2026).<br>• **Watch:** [Rakuten Viki](https://www.viki.com/tv/41504c-reborn-rookie) / Viu / TVING"
+    "live_action": "**Yes (K-Drama)** — 12-Episode JTBC Drama Series (2026).<br>• **Watch:** [Rakuten Viki](https://www.viki.com/tv/41504c-reborn-rookie) / Viu / TVING",
+    "franchise_id": "reborn-rookie",
+    "relations": []
   },
   {
+    "id": "lookism",
     "name": "Lookism",
     "alt": "Lookism (PTJ Universe)",
-    "link": "https://comix.to/title/emrmx-lookism",
+    "media_type": "comic",
     "origin": "Korean Manhwa / Webtoon",
+    "link": "https://comix.to/title/emrmx-lookism",
     "anime": "**Yes (Anime)** — 8-Episode Anime Series (2022 by Studio Mir).<br>• **Watch:** [Netflix](https://www.netflix.com/title/81177634)",
-    "live_action": "**Yes (C-Drama)** — 38-Episode Live-Action Chinese Drama (2019).<br>• **Watch:** [WeTV](https://wetv.vip/en/album/j9vi2thofi7rn9p)"
+    "live_action": "**Yes (C-Drama)** — 38-Episode Live-Action Chinese Drama (2019).<br>• **Watch:** [WeTV](https://wetv.vip/en/album/j9vi2thofi7rn9p)",
+    "franchise_id": "lookism",
+    "relations": []
   },
   {
+    "id": "vampire-family",
     "name": "Vampire Family",
     "alt": "Vampire Family (by unfins)",
-    "link": "https://comix.to/title/8vje8-vampire-family",
+    "media_type": "comic",
     "origin": "Webtoon / Digital Comic",
+    "link": "https://comix.to/title/8vje8-vampire-family",
     "anime": "**In Production (News)** — Animated Series officially announced (2026) by Warner Bros. Animation & WEBTOON.<br>• **News:** [Anime News Network](https://www.animenewsnetwork.com/news/2026-05-18/webtoon-warner-bros-animation-unveil-4-new-animated-titles-in-expanding-ip-partnership/.237445)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "vampire-family",
+    "relations": []
   },
   {
+    "id": "ideal-sponger-life",
     "name": "Ideal Sponger Life",
     "alt": "The Ideal Sponger Life / Risou no Himo Seikatsu",
-    "link": "https://comix.to/title/90g96-risou-no-himo-seikatsu",
+    "media_type": "comic",
     "origin": "Japanese Light Novel & Manga",
+    "link": "https://comix.to/title/90g96-risou-no-himo-seikatsu",
     "anime": "**In Production (News)** — TV Anime officially confirmed & in production.<br>• **News:** [Anime News Network](https://www.animenewsnetwork.com/daily-briefs/2025-03-21/the-ideal-sponger-life-anime-confirmed-as-tv-anime/.222674)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "ideal-sponger-life",
+    "relations": []
   },
   {
+    "id": "jipan",
     "name": "Jipan",
     "alt": "Zipang (by Kaiji Kawaguchi)",
-    "link": "https://comix.to/title/gqwx-zipang",
+    "media_type": "comic",
     "origin": "Japanese Manga",
+    "link": "https://comix.to/title/gqwx-zipang",
     "anime": "**Yes (Anime)** — 26-Episode TV Anime Series (2004–2005 by Studio Deen).<br>• **Watch:** [Netflix](https://www.netflix.com/title/70308344)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "jipan",
+    "relations": []
   },
   {
+    "id": "spare-me-great-lord",
     "name": "Spare Me, Great Lord",
     "alt": "Da Wang Rao Ming",
-    "link": "https://comix.to/title/eryr-spare-me-great-lord",
+    "media_type": "comic",
     "origin": "Chinese Manhua & Web Novel",
+    "link": "https://comix.to/title/eryr-spare-me-great-lord",
     "anime": "**Yes (Donghua)** — 2D Donghua S1 (2021–2022), S2 (2023–2024), S3 (2026).<br>• **Watch:** [Tencent / WeTV (YouTube)](https://www.youtube.com/watch?v=XClhZWg2-2M) / [WeTV](https://wetv.vip/)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "spare-me-great-lord",
+    "relations": []
   },
   {
+    "id": "absolute-regression",
     "name": "Absolute Regression",
     "alt": "Absolute Regression / Jeoldae Gwi-hwan",
-    "link": "https://comix.to/title/zdlj5-absolute-regression",
+    "media_type": "comic",
     "origin": "Korean Manhwa & Web Novel",
+    "link": "https://comix.to/title/zdlj5-absolute-regression",
     "anime": "**Fan Motion Animation & Dubs** — Fan animations and comic-dubs on YouTube.<br>• **Watch:** [YouTube Mangimation & Fan Anim](https://www.youtube.com/results?search_query=Absolute+Regression+motion+comic+animation)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "absolute-regression",
+    "relations": []
   },
   {
+    "id": "manager-kim",
     "name": "Manager Kim",
     "alt": "Manager Kim (PTJ Universe)",
-    "link": "https://comix.to/title/zdkgm-manager-kim",
+    "media_type": "comic",
     "origin": "Korean Manhwa / Webtoon",
+    "link": "https://comix.to/title/zdkgm-manager-kim",
     "anime": "**Official Teaser & Fan Anim** — Official WEBTOON animated promo clips and fan motion edits.<br>• **Watch:** [YouTube WEBTOON Teaser](https://www.youtube.com/results?search_query=Manager+Kim+webtoon+teaser)",
-    "live_action": "**Yes (K-Drama)** — 10-Episode Action Series *Agent Kim Reactivated* (2026, SBS) starring So Ji-sub.<br>• **Watch:** [Netflix](https://www.netflix.com/title/82682338) / SBS"
+    "live_action": "**Yes (K-Drama)** — 10-Episode Action Series *Agent Kim Reactivated* (2026, SBS) starring So Ji-sub.<br>• **Watch:** [Netflix](https://www.netflix.com/title/82682338) / SBS",
+    "franchise_id": "manager-kim",
+    "relations": []
   },
   {
+    "id": "reincarnate-aristocrat-i-ll-use-my-appraisal-skill",
     "name": "Reincarnate Aristocrat, I'll Use My Appraisal Skill",
     "alt": "As a Reincarnated Aristocrat, I'll Use My Appraisal Skill to Rise in the World",
-    "link": "https://comix.to/title/0qrqn-as-a-reincarnated-aristocrat-ill-use-my-appraisal-skill-to-rise-in-the-world",
+    "media_type": "comic",
     "origin": "Japanese Light Novel & Manga",
+    "link": "https://comix.to/title/0qrqn-as-a-reincarnated-aristocrat-ill-use-my-appraisal-skill-to-rise-in-the-world",
     "anime": "**Yes (Anime)** — TV Anime S1 (2024), S2 (2024), S3 (2026 by Studio MOTHER).<br>• **Watch:** [Crunchyroll](https://www.crunchyroll.com/series/GG5H5XQMD/as-a-reincarnated-aristocrat-ill-use-my-appraisal-skill-to-rise-in-the-world) / [Prime Video](https://www.primevideo.com/detail/0TI8SN8PAD3SVIAU83OEVT6POU)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "reincarnate-aristocrat-i-ll-use-my-appraisal-skill",
+    "relations": []
   },
   {
+    "id": "kage-no-jitsuryokusha-ni-naritakute",
     "name": "Kage no Jitsuryokusha ni Naritakute!",
     "alt": "The Eminence in Shadow",
-    "link": "https://comix.to/title/xl7v7-kage-no-jitsuryokusha-ni-naritakute",
+    "media_type": "comic",
     "origin": "Japanese Light Novel & Manga",
+    "link": "https://comix.to/title/xl7v7-kage-no-jitsuryokusha-ni-naritakute",
     "anime": "**Yes (Anime)** — TV Anime S1 (2022), S2 (2023), and anime movie *Lost Echoes* (2027 by Nexus).<br>• **Watch:** [Hulu](https://www.hulu.com/series/66f37cf4-dba5-4511-ae26-e4092df1668b) / [HIDIVE](https://news.hidive.com/tag/the-eminence-in-shadow)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "kage-no-jitsuryokusha-ni-naritakute",
+    "relations": [
+      {
+        "relation": "adapted_from",
+        "target_id": "kage-no-jitsuryokusha-light-novel",
+        "target_type": "light_novel",
+        "title": "The Eminence in Shadow (Light Novel)"
+      },
+      {
+        "relation": "adapted_to",
+        "target_id": "the-eminence-in-shadow-anime",
+        "target_type": "anime",
+        "title": "The Eminence in Shadow (Anime)"
+      },
+      {
+        "relation": "related",
+        "target_id": "the-eminence-in-shadow-lost-echoes",
+        "target_type": "movie",
+        "title": "The Eminence in Shadow: Lost Echoes"
+      }
+    ]
   },
   {
+    "id": "survival-story-of-a-sword-king-in-a-other-world",
     "name": "Survival Story of a Sword King in a Other World",
     "alt": "Latna Saga: Survival of a Sword King",
-    "link": "https://comix.to/title/x187-latna-saga-survival-of-a-sword-king",
+    "media_type": "comic",
     "origin": "Korean Manhwa & Web Novel",
+    "link": "https://comix.to/title/x187-latna-saga-survival-of-a-sword-king",
     "anime": "**In Production (News)** — Co-produced TV Anime officially announced by **Studio Pierrot** (Japan) & **Red Dog Culture House** (Korea).<br>• **News & Teaser:** [Anime News Network](https://www.animenewsnetwork.com/encyclopedia/anime.php?id=33873)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "survival-story-of-a-sword-king-in-a-other-world",
+    "relations": []
   },
   {
+    "id": "the-new-gate",
     "name": "The New Gate",
     "alt": "THE NEW GATE",
-    "link": "https://comix.to/title/ddgeg-the-new-gate",
+    "media_type": "comic",
     "origin": "Japanese Light Novel & Manga",
+    "link": "https://comix.to/title/ddgeg-the-new-gate",
     "anime": "**Yes (Anime)** — 12-Episode TV Anime Series (2024 by Cloud Hearts & Yokohama Animation Lab).<br>• **Watch:** [Crunchyroll](https://www.crunchyroll.com/series/GMEHME7Z1/the-new-gate) / [Prime Video](https://www.primevideo.com/-/nb/detail/0Q4XTW823NHSVEQLLI3B3XABAY)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "the-new-gate",
+    "relations": []
   },
   {
+    "id": "old-country-bumpkin",
     "name": "Old Country Bumpkin",
     "alt": "From Old Country Bumpkin to Master Swordsman",
-    "link": "https://comix.to/title/vyyn0-from-old-country-bumpkin-to-master-swordsman",
+    "media_type": "comic",
     "origin": "Japanese Light Novel & Manga",
+    "link": "https://comix.to/title/vyyn0-from-old-country-bumpkin-to-master-swordsman",
     "anime": "**Yes (Anime)** — TV Anime S1 (2025), S2 (2026 by Passione & Hayabusa Film).<br>• **Watch:** [Prime Video (S1)](https://www.primevideo.com/detail/0GMSR5WMNJ6EMYQRQ6Y2587WAF) / [Prime Video (S2)](https://www.primevideo.com/detail/0GZCWV7IOJ8M9624JD5A4HA66B)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "old-country-bumpkin",
+    "relations": []
   },
   {
+    "id": "survival-in-another-world-with-my-mistress",
     "name": "Survival in Another World with My Mistress",
     "alt": "Goshujin-sama to Yuku Isekai Survival!",
-    "link": "https://comix.to/title/grkzg-survival-in-another-world-with-my-mistress",
+    "media_type": "comic",
     "origin": "Japanese Light Novel & Manga",
+    "link": "https://comix.to/title/grkzg-survival-in-another-world-with-my-mistress",
     "anime": "**Fan Motion Comics & Recaps** — No official anime.<br>• **Watch:** [YouTube Fan Motion Recaps](https://www.youtube.com/results?search_query=Survival+in+Another+World+with+My+Mistress+manga+recap)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "survival-in-another-world-with-my-mistress",
+    "relations": []
   },
   {
+    "id": "executed-sage-who-was-reborn",
     "name": "Executed Sage Who Was Reborn",
     "alt": "The Executed Sage Who Was Reincarnated as a Lich Started an All-Out War",
-    "link": "https://comix.to/title/7zx1e-the-executed-sage-who-was-reincarnated-as-a-lich-started-an-all-out-war",
+    "media_type": "comic",
     "origin": "Japanese Light Novel & Manga",
+    "link": "https://comix.to/title/7zx1e-the-executed-sage-who-was-reincarnated-as-a-lich-started-an-all-out-war",
     "anime": "**Fan Motion Manga** — No official anime.<br>• **Watch:** [YouTube Motion Manga](https://www.youtube.com/results?search_query=The+Executed+Sage+Who+Was+Reincarnated+as+a+Lich+motion+manga)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "executed-sage-who-was-reborn",
+    "relations": []
   },
   {
+    "id": "japan-summons",
     "name": "Japan Summons",
     "alt": "Nihonkoku Shoukan",
-    "link": "https://comix.to/title/dd07r-nihonkoku-shoukan",
+    "media_type": "comic",
     "origin": "Japanese Light Novel & Manga",
+    "link": "https://comix.to/title/dd07r-nihonkoku-shoukan",
     "anime": "**Fan 3D Animation & MMVs** — Community 3D military battle animatics.<br>• **Watch:** [YouTube 3D Military Fan Anim](https://www.youtube.com/results?search_query=Nihonkoku+Shoukan+fan+animation)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "japan-summons",
+    "relations": []
   },
   {
+    "id": "shazan-conqueror-of-a-dying-kingdom",
     "name": "Shazan: Conqueror of a Dying Kingdom",
     "alt": "The Conqueror from a Dying Kingdom / Horobi Yuku Oukoku no Seifukusha",
-    "link": "https://comix.to/title/qe75m-the-conqueror-from-a-dying-kingdom",
+    "media_type": "comic",
     "origin": "Japanese Light Novel & Manga",
+    "link": "https://comix.to/title/qe75m-the-conqueror-from-a-dying-kingdom",
     "anime": "**Fan Motion Manga** — No official anime.<br>• **Watch:** [YouTube Motion Manga Recaps](https://www.youtube.com/results?search_query=The+Conqueror+from+a+Dying+Kingdom+recap)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "shazan-conqueror-of-a-dying-kingdom",
+    "relations": []
   },
   {
+    "id": "hand-jumper",
     "name": "Hand Jumper",
     "alt": "Hand Jumper (by Sleepacross)",
-    "link": "https://comix.to/title/l96ee-hand-jumper",
+    "media_type": "comic",
     "origin": "Western Webtoon",
+    "link": "https://comix.to/title/l96ee-hand-jumper",
     "anime": "**Official Teasers & Fan Openings** — Official WEBTOON animated promotional shorts & viral fan-made anime openings/animatics.<br>• **Watch:** [YouTube Official Promo](https://www.youtube.com/results?search_query=Hand+Jumper+webtoon+trailer) / [YouTube Fan Anim](https://www.youtube.com/results?search_query=Hand+Jumper+fan+animation)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "hand-jumper",
+    "relations": []
   },
   {
+    "id": "black-haired-mercenary-who-went-to-west",
     "name": "Black-Haired Mercenary Who Went to West",
     "alt": "The Black-Haired Mercenary Who Went West / Korean Mercenary's Wild West",
-    "link": "https://comix.to/title/x5nx7-the-black-haired-mercenary-who-went-west",
+    "media_type": "comic",
     "origin": "Korean Manhwa & Web Novel",
+    "link": "https://comix.to/title/x5nx7-the-black-haired-mercenary-who-went-west",
     "anime": "**Fan Motion Recaps** — No official anime.<br>• **Watch:** [YouTube Motion Recaps](https://www.youtube.com/results?search_query=The+Black-Haired+Mercenary+Who+Went+West+motion+comic)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "black-haired-mercenary-who-went-to-west",
+    "relations": []
   },
   {
+    "id": "second-time-in-another-world",
     "name": "Second Time in Another World",
     "alt": "Summoned to Another World... Again?! / Isekai Shoukan wa Nidome Desu",
-    "link": "https://comix.to/title/9g9jj-isekai-shoukan-wa-nidome-desu",
+    "media_type": "comic",
     "origin": "Japanese Light Novel & Manga",
+    "link": "https://comix.to/title/9g9jj-isekai-shoukan-wa-nidome-desu",
     "anime": "**Yes (Anime)** — 12-Episode TV Anime Series (2023 by Studio Elle).<br>• **Watch:** [Crunchyroll](https://www.crunchyroll.com/series/G9VHN91G5/summoned-to-another-world-for-a-second-time)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "second-time-in-another-world",
+    "relations": []
   },
   {
+    "id": "lord-of-money",
     "name": "Lord of Money",
     "alt": "The Lord of Money",
-    "link": "https://comix.to/title/875n-lord-of-money",
+    "media_type": "comic",
     "origin": "Korean Manhwa / Webtoon",
+    "link": "https://comix.to/title/875n-lord-of-money",
     "anime": "**Fan Motion Comics** — No official anime.<br>• **Watch:** [YouTube Motion Recaps](https://www.youtube.com/results?search_query=Lord+of+Money+manhwa+motion+comic)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "lord-of-money",
+    "relations": []
   },
   {
+    "id": "wild-west-murim",
     "name": "Wild West Murim",
     "alt": "Martial Wild West",
-    "link": "https://comix.to/title/ym91n-martial-wild-west",
+    "media_type": "comic",
     "origin": "Korean Manhwa / Webtoon",
+    "link": "https://comix.to/title/ym91n-martial-wild-west",
     "anime": "**Official Teaser & Fan Anim** — Official WEBTOON animated promotional trailer.<br>• **Watch:** [YouTube Webtoon Trailer & Motion Recaps](https://www.youtube.com/results?search_query=Wild+West+Murim+trailer+motion+comic)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "wild-west-murim",
+    "relations": []
   },
   {
+    "id": "office-worker-who-sees-fate",
     "name": "Office Worker Who Sees Fate",
     "alt": "Fortune-Seeing Office Worker",
-    "link": "https://comix.to/title/grrz7-office-worker-who-sees-fate",
+    "media_type": "comic",
     "origin": "Korean Manhwa & Web Novel",
+    "link": "https://comix.to/title/grrz7-office-worker-who-sees-fate",
     "anime": "**None**",
-    "live_action": "**In Production (K-Drama News)** — tvN / TVING fantasy office drama series starring **Seo In-guk** and **Krystal Jung**.<br>• **News:** [Soompi Announcement](https://www.soompi.com/article/1669279wpp/seo-in-guk-and-krystal-confirmed-for-new-fantasy-romance-drama)"
+    "live_action": "**In Production (K-Drama News)** — tvN / TVING fantasy office drama series starring **Seo In-guk** and **Krystal Jung**.<br>• **News:** [Soompi Announcement](https://www.soompi.com/article/1669279wpp/seo-in-guk-and-krystal-confirmed-for-new-fantasy-romance-drama)",
+    "franchise_id": "office-worker-who-sees-fate",
+    "relations": []
   },
   {
+    "id": "saving-80-000-gold-in-another-world",
     "name": "Saving 80,000 Gold in Another World",
     "alt": "Saving 80,000 Gold in Another World for My Retirement",
-    "link": "https://comix.to/title/v0jj5-saving-80000-gold-in-another-world-for-my-retirement",
+    "media_type": "comic",
     "origin": "Japanese Light Novel & Manga",
+    "link": "https://comix.to/title/v0jj5-saving-80000-gold-in-another-world-for-my-retirement",
     "anime": "**Yes (Anime)** — 12-Episode TV Anime Series (2023 by Felix Film).<br>• **Watch:** [Crunchyroll](https://www.crunchyroll.com/series/G4PH0WEM2/saving-80000-gold-in-another-world-for-my-retirement) / [Apple TV](https://tv.apple.com/us/show/saving-80000-gold-in-another-world-for-my-retirement/umc.cmc.2q53la76m50bmm1hzsxlzrztp)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "saving-80-000-gold-in-another-world",
+    "relations": []
   },
   {
+    "id": "reloaded-into-another-world",
     "name": "Reloaded into Another World",
     "alt": "Reloaded into the Other World (by Studio LICO)",
-    "link": "https://comix.to/browse?q=Reloaded%20into%20Another%20World&sort=relevance%3Adesc",
+    "media_type": "comic",
     "origin": "Korean Manhwa / Webtoon",
+    "link": "https://comix.to/browse?q=Reloaded%20into%20Another%20World&sort=relevance%3Adesc",
     "anime": "**Fan Motion Recaps** — No official anime.<br>• **Watch:** [YouTube Motion Recaps](https://www.youtube.com/results?search_query=Reloaded+into+the+Other+World+manhwa)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "reloaded-into-another-world",
+    "relations": []
   },
   {
+    "id": "is-it-wrong-to-try-to-pick-up-girls-in-a-dungeon",
     "name": "Is It Wrong to Try to Pick Up Girls in a Dungeon?",
     "alt": "DanMachi",
-    "link": "https://comix.to/title/7gzm2-dungeon-ni-deai-o-motomeru-no-wa-machigatte-iru-darou-ka",
+    "media_type": "comic",
     "origin": "Japanese Light Novel & Manga",
+    "link": "https://comix.to/title/7gzm2-dungeon-ni-deai-o-motomeru-no-wa-machigatte-iru-darou-ka",
     "anime": "**Yes (Anime)** — Mega-franchise: S1–S5 (2015–2025 by J.C.Staff), Movie (*Arrow of the Orion*), OVAs, S6 in prod.<br>• **Watch:** [Crunchyroll](https://www.crunchyroll.com/series/G6DQN9KGR/is-it-wrong-to-try-to-pick-up-girls-in-a-dungeon) / [Netflix](https://www.netflix.com/title/80185873) / [Hulu](https://www.hulu.com/series/is-it-wrong-to-try-to-pick-up-girls-in-a-dungeon-fc1b26af-bd07-4034-95e6-a494d8528069) / [Prime Video](https://www.primevideo.com/detail/0MKCAMOMU5RC9Z1LVQU1332R97)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "is-it-wrong-to-try-to-pick-up-girls-in-a-dungeon",
+    "relations": []
   },
   {
+    "id": "tsunyou-of-the-shadowless",
     "name": "Tsunyou of the Shadowless",
     "alt": "Sunyu of the Shadowless / Shadowless Night",
-    "link": "https://comix.to/title/7ldg-sunyu-of-the-shadowless",
+    "media_type": "comic",
     "origin": "Korean Manhwa / Webtoon",
+    "link": "https://comix.to/title/7ldg-sunyu-of-the-shadowless",
     "anime": "**Official Teaser & Fan Anim** — Tapas animated promo trailers.<br>• **Watch:** [YouTube Webtoon Promo](https://www.youtube.com/results?search_query=Sunyu+of+the+Shadowless+trailer)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "tsunyou-of-the-shadowless",
+    "relations": []
   },
   {
+    "id": "heroic-legend-of-arslan",
     "name": "Heroic Legend of Arslan",
     "alt": "The Heroic Legend of Arslan / Arslan Senki (by Hiromu Arakawa & Yoshiki Tanaka)",
-    "link": "https://comix.to/title/r6lxm-the-heroic-legend-of-arslan",
+    "media_type": "comic",
     "origin": "Japanese Novel & Manga",
+    "link": "https://comix.to/title/r6lxm-the-heroic-legend-of-arslan",
     "anime": "**Yes (Anime)** — Classic OVAs (1991–1995) & TV Series S1–S2 (2015–2016 by Liden Films).<br>• **Watch:** [Crunchyroll](https://www.crunchyroll.com/series/G6GG2K316/the-heroic-legend-of-arslan) / [Netflix](https://www.netflix.com/dk-en/title/80146298) / [Prime Video](https://www.primevideo.com/-/de/detail/0RZDRSSL31QSAMZ20BL5HHGUE5)",
-    "live_action": "**Stage Play** — Official Japanese theatrical stage adaptations (2019–2020)."
+    "live_action": "**Stage Play** — Official Japanese theatrical stage adaptations (2019–2020).",
+    "franchise_id": "heroic-legend-of-arslan",
+    "relations": []
   },
   {
+    "id": "sanki",
     "name": "Sanki",
     "alt": "Senki / Phonetic artifact linked to Arslan Senki or San Qi",
-    "link": "https://comix.to/browse?q=Sanki&sort=relevance%3Adesc",
+    "media_type": "comic",
     "origin": "Phonetic Dictation Variant",
+    "link": "https://comix.to/browse?q=Sanki&sort=relevance%3Adesc",
     "anime": "*Note: Voice-dictated alongside Arslan Senki (subtitle 'Senki' heard as 'Sanki'). See Arslan Senki above.*",
-    "live_action": "N/A"
+    "live_action": "N/A",
+    "franchise_id": "sanki",
+    "relations": []
   },
   {
+    "id": "the-bugle-call-record-of-the-high-class-war",
     "name": "The Bugle Call Record of the High-Class War",
     "alt": "The Bugle Call: Song of War / Sensou Kyoushitsu",
-    "link": "https://comix.to/title/ndr3-the-bugle-call-song-of-war",
+    "media_type": "comic",
     "origin": "Japanese Manga",
+    "link": "https://comix.to/title/ndr3-the-bugle-call-song-of-war",
     "anime": "**In Production (News)** — TV Anime adaptation officially greenlit for 2027 premiere!<br>• **News:** [Jump SQ / Shueisha Announcement](https://en.wikipedia.org/wiki/The_Bugle_Call:_Song_of_War)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "the-bugle-call-record-of-the-high-class-war",
+    "relations": []
   },
   {
+    "id": "reincarnated-as-the-crazed-heir",
     "name": "Reincarnated as the Crazed Heir",
     "alt": "I Reincarnated as the Crazed Heir",
-    "link": "https://comix.to/title/6elz0-i-reincarnated-as-the-crazed-heir",
+    "media_type": "comic",
     "origin": "Korean Manhwa / Webtoon",
+    "link": "https://comix.to/title/6elz0-i-reincarnated-as-the-crazed-heir",
     "anime": "**Fan Motion Comics** — No official anime.<br>• **Watch:** [YouTube Motion Comic Recaps](https://www.youtube.com/results?search_query=I+Reincarnated+as+the+Crazed+Heir+motion+comic)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "reincarnated-as-the-crazed-heir",
+    "relations": []
   },
   {
+    "id": "shurakhan",
     "name": "Shurakhan",
     "alt": "Phonetic dictation variant (Shura / Surakhan)",
-    "link": "https://comix.to/browse?q=Shura&sort=relevance%3Adesc",
+    "media_type": "comic",
     "origin": "Phonetic / Unverified Title",
+    "link": "https://comix.to/browse?q=Shura&sort=relevance%3Adesc",
     "anime": "**Fan Motion Edits** — Closest matches include *Shura* / *Martial God Asura* or *Shuraka Loram*.<br>• **Watch:** [YouTube Shura Manhwa Motion](https://www.youtube.com/results?search_query=Shura+manhwa+motion+comic)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "shurakhan",
+    "relations": []
   },
   {
+    "id": "the-otoyomegatari",
     "name": "The Otoyomegatari",
     "alt": "A Bride's Story (by Kaoru Mori)",
-    "link": "https://comix.to/title/9gdlr-otoyomegatari",
+    "media_type": "comic",
     "origin": "Japanese Manga",
+    "link": "https://comix.to/title/9gdlr-otoyomegatari",
     "anime": "**Fan Motion Manga & Animatics** — No official anime.<br>• **Watch:** [YouTube Otoyomegatari Motion Manga](https://www.youtube.com/results?search_query=Otoyomegatari+motion+manga)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "the-otoyomegatari",
+    "relations": []
   },
   {
+    "id": "tiger-of-genesis",
     "name": "Tiger of Genesis",
     "alt": "Taiga of Genesis / Sousei no Taiga (by Kouji Mori)",
-    "link": "https://comix.to/title/emjvx-sousei-no-taiga",
+    "media_type": "comic",
     "origin": "Japanese Manga",
+    "link": "https://comix.to/title/emjvx-sousei-no-taiga",
     "anime": "**Fan Motion Manga** — No official anime.<br>• **Watch:** [YouTube Motion Manga Recaps](https://www.youtube.com/results?search_query=Taiga+of+Genesis+manga+motion)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "tiger-of-genesis",
+    "relations": []
   },
   {
+    "id": "lord-of-goblin",
     "name": "Lord of Goblin",
     "alt": "Lord of Goblins",
-    "link": "https://comix.to/title/nk830-lord-of-goblins",
+    "media_type": "comic",
     "origin": "Fantasy Webtoon & Web Novel",
+    "link": "https://comix.to/title/nk830-lord-of-goblins",
     "anime": "**Fan Motion Comics** — No official anime.<br>• **Watch:** [YouTube Motion Comic Recaps](https://www.youtube.com/results?search_query=Lord+of+Goblins+motion+comic)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "lord-of-goblin",
+    "relations": []
   },
   {
+    "id": "legendary-turn",
     "name": "Legendary Turn",
     "alt": "The Legendary Return / Return of the Legend (Hoegwi-ui Jeonseol)",
-    "link": "https://comix.to/title/63e8z-the-legendary-return",
+    "media_type": "comic",
     "origin": "Korean Manhwa & Web Novel",
+    "link": "https://comix.to/title/63e8z-the-legendary-return",
     "anime": "**Fan Motion Comics** — No official anime (*'Turn' is voice-dictated for 'Return'*).<br>• **Watch:** [YouTube Motion Recaps](https://www.youtube.com/results?search_query=The+Legendary+Return+manhwa+motion+comic)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "legendary-turn",
+    "relations": []
   },
   {
+    "id": "road-to-kingdom",
     "name": "Road to Kingdom",
     "alt": "Oukoku e Tsuzuku Michi",
-    "link": "https://comix.to/title/19zzd-oukoku-e-tsuzuku-michi-dorei-kenshi-no-nariagari-harem-life",
+    "media_type": "comic",
     "origin": "Japanese Light Novel & Manga",
+    "link": "https://comix.to/title/19zzd-oukoku-e-tsuzuku-michi-dorei-kenshi-no-nariagari-harem-life",
     "anime": "**Fan Motion Manga** — No official anime.<br>• **Watch:** [YouTube Motion Manga](https://www.youtube.com/results?search_query=Road+to+Kingdom+manga+motion)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "road-to-kingdom",
+    "relations": []
   },
   {
+    "id": "slave-b",
     "name": "Slave B",
     "alt": "Slave B (by Lim In-hwan & Park Ji)",
-    "link": "https://comix.to/title/7z022-slave-b",
+    "media_type": "comic",
     "origin": "Korean Manhwa / Webtoon",
+    "link": "https://comix.to/title/7z022-slave-b",
     "anime": "**Fan Motion Comics** — No official anime.<br>• **Watch:** [YouTube Motion Comic Recaps](https://www.youtube.com/results?search_query=Slave+B+manhwa+motion+comic)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "slave-b",
+    "relations": []
   },
   {
+    "id": "rise-of-heroes",
     "name": "Rise of Heroes",
     "alt": "Rise of Heroes (decoded from 'Slave B, [so on to] Rise of Heroes')",
-    "link": "https://comix.to/browse?q=Rise%20of%20Heroes&sort=relevance%3Adesc",
+    "media_type": "comic",
     "origin": "Webtoon Comic",
+    "link": "https://comix.to/browse?q=Rise%20of%20Heroes&sort=relevance%3Adesc",
     "anime": "**Fan Motion Recaps** — Webtoon Canvas / indie motion comic recaps.<br>• **Watch:** [YouTube Recaps](https://www.youtube.com/results?search_query=Rise+of+Heroes+webtoon)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "rise-of-heroes",
+    "relations": []
   },
   {
+    "id": "genius-of-unique-lineage",
     "name": "Genius of Unique Lineage",
     "alt": "The Perfect Hybrid / Genius of the Unique Lineage",
-    "link": "https://comix.to/title/3y29v-genius-of-the-unique-lineage",
+    "media_type": "comic",
     "origin": "Korean Manhwa & Web Novel",
+    "link": "https://comix.to/title/3y29v-genius-of-the-unique-lineage",
     "anime": "**Official Teaser & Fan Anim** — Official WEBTOON animated promo trailer & fan motion recaps.<br>• **Watch:** [YouTube Webtoon Promo & Recaps](https://www.youtube.com/results?search_query=The+Perfect+Hybrid+webtoon+trailer)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "genius-of-unique-lineage",
+    "relations": []
   },
   {
+    "id": "release-that-witch",
     "name": "Release That Witch",
     "alt": "Release That Witch (Fang Kai Na Ge Nv Wu)",
-    "link": "https://comix.to/title/v0z15-release-that-witch",
+    "media_type": "comic",
     "origin": "Chinese Manhua & Web Novel",
+    "link": "https://comix.to/title/v0z15-release-that-witch",
     "anime": "**Yes (Donghua)** — Donghua Series (2026).<br>• **Watch:** [Crunchyroll](https://www.crunchyroll.com/series/GT00365589/release-that-witch) / [Prime Video](https://www.primevideo.com/detail/0GELI0Y4MJTFDPJW55J76OLQUI) / [YouTube (Ep 1–8)](https://www.youtube.com/watch?v=aG6RUV0D7WE)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "release-that-witch",
+    "relations": []
   },
   {
+    "id": "black-corporation-joseon",
     "name": "Black Corporation Joseon",
     "alt": "Black Corporation: Joseon",
-    "link": "https://comix.to/title/5z5vz-black-corporation-joseon",
+    "media_type": "comic",
     "origin": "Korean Manhwa & Web Novel",
+    "link": "https://comix.to/title/5z5vz-black-corporation-joseon",
     "anime": "**Fan Motion Recaps** — No official anime.<br>• **Watch:** [YouTube Motion Comic Recaps](https://www.youtube.com/results?search_query=Black+Corporation+Joseon+motion+comic)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "black-corporation-joseon",
+    "relations": []
   },
   {
+    "id": "record-of-wartenia-war",
     "name": "Record of Wartenia War",
     "alt": "Record of Wortenia War",
-    "link": "https://comix.to/title/8jwre-wortenia-senki",
+    "media_type": "comic",
     "origin": "Japanese Light Novel & Manga",
+    "link": "https://comix.to/title/8jwre-wortenia-senki",
     "anime": "**Fan Motion Manga** — No official anime.<br>• **Watch:** [YouTube Motion Manga Recaps](https://www.youtube.com/results?search_query=Record+of+Wortenia+War+manga+motion)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "record-of-wartenia-war",
+    "relations": []
   },
   {
+    "id": "cultivator-vs-superhero",
     "name": "Cultivator vs. Superhero",
     "alt": "Cultivator Against Hero Society",
-    "link": "https://comix.to/title/l6y6z-cultivator-against-hero-society",
+    "media_type": "comic",
     "origin": "Chinese Manhua",
+    "link": "https://comix.to/title/l6y6z-cultivator-against-hero-society",
     "anime": "**Yes (Donghua)** — 52-Ep Series (2021–2022) & 3D Series (2026).<br>• **Watch:** [YouTube (Youku 52-Ep Full)](https://www.youtube.com/watch?v=qhpkC0i-ryI) / [YouTube (2026 Series)](https://www.youtube.com/watch?v=ttnlfuW96sE) / [iQIYI](https://www.iqiyi.com/a_18zvlqetfnp.html)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "cultivator-vs-superhero",
+    "relations": []
   },
   {
+    "id": "the-darwin-incident",
     "name": "The Darwin Incident",
     "alt": "The Darwin Incident / Darwin Jihen",
-    "link": "https://comix.to/title/9g77r-the-darwin-incident",
+    "media_type": "comic",
     "origin": "Japanese Manga",
+    "link": "https://comix.to/title/9g77r-the-darwin-incident",
     "anime": "**Yes (Anime)** — TV Anime Adaptation (2026 by Bellnox Films).<br>• **Watch:** [Prime Video](https://www.primevideo.com/detail/0G5HKRN0W1F71INMKBJEJ3UJDL)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "the-darwin-incident",
+    "relations": []
   },
   {
+    "id": "mystic-musketeer",
     "name": "Mystic Musketeer",
     "alt": "Arcane Sniper",
-    "link": "https://comix.to/title/jm9d-arcane-sniper",
+    "media_type": "comic",
     "origin": "Korean Manhwa & Web Novel",
+    "link": "https://comix.to/title/jm9d-arcane-sniper",
     "anime": "**Official Teaser & Fan Anim** — Tapas animated promo trailer & community motion recaps.<br>• **Watch:** [YouTube Arcane Sniper Promo](https://www.youtube.com/results?search_query=Arcane+Sniper+manhwa+trailer)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "mystic-musketeer",
+    "relations": []
   },
   {
+    "id": "return-of-the-dawn",
     "name": "Return of the Dawn",
     "alt": "Dawn of the East / Return of the Frozen Player variant",
-    "link": "https://comix.to/browse?q=Return%20of%20the%20Dawn&sort=relevance%3Adesc",
+    "media_type": "comic",
     "origin": "Phonetic / Webtoon Variant",
+    "link": "https://comix.to/browse?q=Return%20of%20the%20Dawn&sort=relevance%3Adesc",
     "anime": "**Fan Motion Recaps** — Community motion recaps on YouTube.<br>• **Watch:** [YouTube Motion Recaps](https://www.youtube.com/results?search_query=Return+of+the+Dawn+manhwa)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "return-of-the-dawn",
+    "relations": []
   },
   {
+    "id": "from-the-grave-and-back",
     "name": "From the Grave and Back",
     "alt": "From the Grave and Back",
-    "link": "https://comix.to/title/jrwlm-from-the-grave-and-back",
+    "media_type": "comic",
     "origin": "Korean Manhwa / Webtoon",
+    "link": "https://comix.to/title/jrwlm-from-the-grave-and-back",
     "anime": "**Fan Motion Comics** — No official anime.<br>• **Watch:** [YouTube Motion Recaps](https://www.youtube.com/results?search_query=From+the+Grave+and+Back+motion+comic)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "from-the-grave-and-back",
+    "relations": []
   },
   {
+    "id": "love-me-not",
     "name": "Love Me Not",
     "alt": "Love Me Not (BL Webtoon; also distinguishes Love Me, Love Me Not manga)",
-    "link": "https://comix.to/browse?q=Love%20Me%20Not&sort=relevance%3Adesc",
+    "media_type": "comic",
     "origin": "Korean Manhwa & Japanese Manga Variant",
+    "link": "https://comix.to/browse?q=Love%20Me%20Not&sort=relevance%3Adesc",
     "anime": "**Yes (Anime Film for Japanese Manga)** — *Love Me, Love Me Not* (2020 by A-1 Pictures).<br>• **Watch:** [Crunchyroll](https://www.crunchyroll.com/) / [YouTube Preview](https://www.youtube.com/results?search_query=Love+Me+Love+Me+Not+anime+film)",
-    "live_action": "**Yes (Japanese Film for Manga)** — Live-Action Movie (2020 by Toho).<br>• **Watch:** [Netflix](https://www.netflix.com/)"
+    "live_action": "**Yes (Japanese Film for Manga)** — Live-Action Movie (2020 by Toho).<br>• **Watch:** [Netflix](https://www.netflix.com/)",
+    "franchise_id": "love-me-not",
+    "relations": []
   },
   {
+    "id": "escort-warrior",
     "name": "Escort Warrior",
     "alt": "Escort Warrior",
-    "link": "https://comix.to/title/9gy86-escort-warrior",
+    "media_type": "comic",
     "origin": "Korean Manhwa / Webtoon",
+    "link": "https://comix.to/title/9gy86-escort-warrior",
     "anime": "**Fan Motion Comics** — No official anime.<br>• **Watch:** [YouTube Motion Recaps](https://www.youtube.com/results?search_query=Escort+Warrior+motion+comic)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "escort-warrior",
+    "relations": []
   },
   {
+    "id": "tax-reaper",
     "name": "Tax Reaper",
     "alt": "The Tax Reaper / Scapegrace of the National Tax Service",
-    "link": "https://comix.to/title/66x7-the-tax-reaper",
+    "media_type": "comic",
     "origin": "Korean Manhwa & Web Novel",
+    "link": "https://comix.to/title/66x7-the-tax-reaper",
     "anime": "**Fan Motion Comics** — No official anime.<br>• **Watch:** [YouTube Motion Recaps](https://www.youtube.com/results?search_query=The+Tax+Reaper+motion+comic)",
-    "live_action": "**Yes (K-Drama)** — Short-Form Drama Series *Tax Reaper: Psychic's Tax Collection* (2026) starring Lee Joon.<br>• **Watch:** [Lezhin Snack](https://www.lezhinsnack.com/ko/viewer/TaxReap)"
+    "live_action": "**Yes (K-Drama)** — Short-Form Drama Series *Tax Reaper: Psychic's Tax Collection* (2026) starring Lee Joon.<br>• **Watch:** [Lezhin Snack](https://www.lezhinsnack.com/ko/viewer/TaxReap)",
+    "franchise_id": "tax-reaper",
+    "relations": []
   },
   {
+    "id": "gunmen",
     "name": "Gunmen",
     "alt": "Gunman (Comic) / Gunman in Joseon (Drama)",
-    "link": "https://comix.to/title/6dqg-gunman",
+    "media_type": "comic",
     "origin": "Manhwa / Drama Reference",
+    "link": "https://comix.to/title/6dqg-gunman",
     "anime": "**Fan Motion Comics** — Fan-made motion comic recaps.<br>• **Watch:** [YouTube Gunman Motion](https://www.youtube.com/results?search_query=Gunman+motion+comic)",
-    "live_action": "**Yes (K-Drama for Gunman in Joseon)** — 22-Ep Historical Drama (KBS2) starring Lee Joon-gi.<br>• **Watch:** [KBS World](https://www.youtube.com/results?search_query=Gunman+in+Joseon+KBS) / [Rakuten Viki](https://www.viki.com/tv/23479c-gunman-in-joseon)"
+    "live_action": "**Yes (K-Drama for Gunman in Joseon)** — 22-Ep Historical Drama (KBS2) starring Lee Joon-gi.<br>• **Watch:** [KBS World](https://www.youtube.com/results?search_query=Gunman+in+Joseon+KBS) / [Rakuten Viki](https://www.viki.com/tv/23479c-gunman-in-joseon)",
+    "franchise_id": "gunmen",
+    "relations": []
   },
   {
+    "id": "i-get-stronger-the-more-i-eat",
     "name": "I Get Stronger the More I Eat",
     "alt": "I Get Stronger the More I Eat",
-    "link": "https://comix.to/title/w03k8-i-get-stronger-the-more-i-eat",
+    "media_type": "comic",
     "origin": "Korean Manhwa & Web Novel",
+    "link": "https://comix.to/title/w03k8-i-get-stronger-the-more-i-eat",
     "anime": "**Official Teaser & Fan Anim** — Official WEBTOON animated promo trailer & community motion recaps.<br>• **Watch:** [YouTube Official Promo](https://www.youtube.com/results?search_query=I+Get+Stronger+the+More+I+Eat+webtoon+trailer)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "i-get-stronger-the-more-i-eat",
+    "relations": []
   },
   {
+    "id": "a-practical-guide-to-evil",
     "name": "A Practical Guide to Evil",
     "alt": "Reincarnated as a Practical Guide to Evil / A Practical Guide to Evil",
-    "link": "https://comix.to/title/qkklm-a-practical-guide-to-evil",
+    "media_type": "comic",
     "origin": "Western Web Serial & Webtoon",
+    "link": "https://comix.to/title/qkklm-a-practical-guide-to-evil",
     "anime": "**Fan Animatics & Audio Dramas** — Official Webtoon serialized on WEBTOON; community animatics & voiced audio adaptations.<br>• **Watch:** [YouTube Fan Animatics](https://www.youtube.com/results?search_query=A+Practical+Guide+to+Evil+animatic)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "a-practical-guide-to-evil",
+    "relations": []
   },
   {
+    "id": "the-fable",
     "name": "The Fable",
     "alt": "The Fable (by Katsuhisa Minami)",
-    "link": "https://comix.to/title/x68m-the-fable",
+    "media_type": "comic",
     "origin": "Japanese Manga",
+    "link": "https://comix.to/title/x68m-the-fable",
     "anime": "**Yes (Anime)** — 25-Episode TV Anime (2024 by Tezuka Productions); Season 2 set for Jan 2027.<br>• **Watch:** [Hulu](https://www.hulu.com/series/the-fable-36c2be07-2f2e-400f-9da5-aed0b5d401cb) / [Disney+](https://www.disneyplus.com/en-gb/browse/entity-36c2be07-2f2e-400f-9da5-aed0b5d401cb)",
-    "live_action": "**Yes (Japanese Film)** — Two Major Theatrical Films (2019 & 2021) starring Junichi Okada.<br>• **Watch:** [Netflix (Film 1)](https://www.netflix.com/title/81418329) / [Netflix (Film 2)](https://www.netflix.com/title/81507232)"
+    "live_action": "**Yes (Japanese Film)** — Two Major Theatrical Films (2019 & 2021) starring Junichi Okada.<br>• **Watch:** [Netflix (Film 1)](https://www.netflix.com/title/81418329) / [Netflix (Film 2)](https://www.netflix.com/title/81507232)",
+    "franchise_id": "the-fable",
+    "relations": []
   },
   {
+    "id": "tycoon-in-another-world",
     "name": "Tycoon in Another World",
     "alt": "I'm a Tycoon in the Other World",
-    "link": "https://comix.to/title/xmjr-im-a-tycoon-in-the-other-world",
+    "media_type": "comic",
     "origin": "Chinese Manhua",
+    "link": "https://comix.to/title/xmjr-im-a-tycoon-in-the-other-world",
     "anime": "**Fan Motion Manhua** — No official anime.<br>• **Watch:** [YouTube Motion Manhua](https://www.youtube.com/results?search_query=I%27m+a+Tycoon+in+the+Other+World+motion+comic)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "tycoon-in-another-world",
+    "relations": []
   },
   {
+    "id": "reborn-as-a-heavenly-demon",
     "name": "Reborn as a Heavenly Demon",
     "alt": "Heavenly Demon Reborn!",
-    "link": "https://comix.to/title/zq5g5-heavenly-demon-reborn",
+    "media_type": "comic",
     "origin": "Korean Manhwa & Web Novel",
+    "link": "https://comix.to/title/zq5g5-heavenly-demon-reborn",
     "anime": "**Official Teaser & Fan Anim** — KakaoPage animated promotional teasers and community motion recaps.<br>• **Watch:** [YouTube KakaoPage Trailer & Fan Motion](https://www.youtube.com/results?search_query=Heavenly+Demon+Reborn+trailer+motion+comic)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "reborn-as-a-heavenly-demon",
+    "relations": []
   },
   {
+    "id": "song-of-the-long-march",
     "name": "Song of the Long March",
     "alt": "Chang Ge Xing (by Xia Da)",
-    "link": "https://comix.to/title/dd638-song-of-the-long-march",
+    "media_type": "comic",
     "origin": "Chinese Historical Manhua",
+    "link": "https://comix.to/title/dd638-song-of-the-long-march",
     "anime": "**Yes (Donghua / Motion Comic)** — Dynamic motion comic series on Bilibili & Tencent.<br>• **Watch:** [Bilibili](https://www.bilibili.com/) / [YouTube Preview](https://www.youtube.com/results?search_query=Song+of+the+Long+March+motion+comic)",
-    "live_action": "**Yes (C-Drama)** — 49-Episode Hit Drama *The Long Ballad* (2021) starring Dilraba Dilmurat and Wu Lei.<br>• **Watch:** [Rakuten Viki](https://www.viki.com/tv/37746c-the-long-ballad) / [WeTV](https://wetv.vip/album/u352i62n6235889) / YouTube"
+    "live_action": "**Yes (C-Drama)** — 49-Episode Hit Drama *The Long Ballad* (2021) starring Dilraba Dilmurat and Wu Lei.<br>• **Watch:** [Rakuten Viki](https://www.viki.com/tv/37746c-the-long-ballad) / [WeTV](https://wetv.vip/album/u352i62n6235889) / YouTube",
+    "franchise_id": "song-of-the-long-march",
+    "relations": []
   },
   {
+    "id": "reborn-rich",
     "name": "Reborn Rich",
     "alt": "The Youngest Son of a Conglomerate (by San Kyung)",
-    "link": "https://comix.to/title/w2djg-reborn-rich",
+    "media_type": "comic",
     "origin": "Korean Manhwa & Web Novel",
+    "link": "https://comix.to/title/w2djg-reborn-rich",
     "anime": "**Fan Motion Animation & Recaps** — Webtoon promo clips & YouTube motion recaps.<br>• **Watch:** [YouTube Webtoon Promo & Recaps](https://www.youtube.com/results?search_query=Reborn+Rich+webtoon+trailer)",
-    "live_action": "**Yes (K-Drama)** — Blockbuster 16-Episode JTBC Series (2022) starring Song Joong-ki & Lee Sung-min.<br>• **Watch:** [Rakuten Viki](https://www.viki.com/tv/38774c-reborn-rich) / Viu / Disney+"
+    "live_action": "**Yes (K-Drama)** — Blockbuster 16-Episode JTBC Series (2022) starring Song Joong-ki & Lee Sung-min.<br>• **Watch:** [Rakuten Viki](https://www.viki.com/tv/38774c-reborn-rich) / Viu / Disney+",
+    "franchise_id": "reborn-rich",
+    "relations": []
   },
   {
+    "id": "the-apothecary-diaries",
     "name": "The Apothecary Diaries",
     "alt": "Kusuriya no Hitorigoto",
-    "link": "https://comix.to/title/k2ev7-the-apothecary-diaries",
+    "media_type": "comic",
     "origin": "Japanese Light Novel & Manga",
+    "link": "https://comix.to/title/k2ev7-the-apothecary-diaries",
     "anime": "**Yes (Anime)** — Hit 24-Episode TV Anime (2023–2024 by TOHO & OLM); Season 2 premiering in 2025.<br>• **Watch:** [Crunchyroll](https://www.crunchyroll.com/series/G3KHEVDJ7/the-apothecary-diaries) / [Netflix](https://www.netflix.com/)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "the-apothecary-diaries",
+    "relations": []
   },
   {
+    "id": "saga-of-tanya-the-evil",
     "name": "Saga of Tanya the Evil",
     "alt": "Youjo Senki",
-    "link": "https://comix.to/title/d0k58-youjo-senki",
+    "media_type": "comic",
     "origin": "Japanese Light Novel & Manga",
+    "link": "https://comix.to/title/d0k58-youjo-senki",
     "anime": "**Yes (Anime)** — TV Anime S1 (2017 by Studio NUT), Theatrical Film (2019), Season 2 in production.<br>• **Watch:** [Crunchyroll](https://www.crunchyroll.com/series/GR19V7816/saga-of-tanya-the-evil)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "saga-of-tanya-the-evil",
+    "relations": []
   },
   {
+    "id": "ascendance-of-a-bookworm",
     "name": "Ascendance of a Bookworm",
     "alt": "Honzuki no Gekokujou",
-    "link": "https://comix.to/title/qd9qm-ascendance-of-a-bookworm-ill-do-anything-to-become-a-librarian-part-1-if-there-arent-any-books-ill-just-have-to-make-some",
+    "media_type": "comic",
     "origin": "Japanese Light Novel & Manga",
+    "link": "https://comix.to/title/qd9qm-ascendance-of-a-bookworm-ill-do-anything-to-become-a-librarian-part-1-if-there-arent-any-books-ill-just-have-to-make-some",
     "anime": "**Yes (Anime)** — TV Anime S1–S3 (2019–2022 by Ajia-do); Part 3 sequel anime in production by Wit Studio.<br>• **Watch:** [Crunchyroll](https://www.crunchyroll.com/series/G649Q321R/ascendance-of-a-bookworm)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "ascendance-of-a-bookworm",
+    "relations": []
   },
   {
+    "id": "kingdom",
     "name": "Kingdom",
     "alt": "Kingdom (by Yasuhisa Hara)",
-    "link": "https://comix.to/title/31z3-kingdom",
+    "media_type": "comic",
     "origin": "Japanese Historical Manga",
+    "link": "https://comix.to/title/31z3-kingdom",
     "anime": "**Yes (Anime)** — TV Anime S1–S5 (Studio Pierrot & Signpost).<br>• **Watch:** [Crunchyroll](https://www.crunchyroll.com/series/GRVN8MNQY/kingdom) / [Netflix](https://www.netflix.com/title/80091873)",
-    "live_action": "**Yes (Japanese Film)** — 4 Blockbuster Theatrical Feature Films (2019, 2022, 2023, 2024) starring Kento Yamazaki.<br>• **Watch:** [Netflix](https://www.netflix.com/title/81180424)"
+    "live_action": "**Yes (Japanese Film)** — 4 Blockbuster Theatrical Feature Films (2019, 2022, 2023, 2024) starring Kento Yamazaki.<br>• **Watch:** [Netflix](https://www.netflix.com/title/81180424)",
+    "franchise_id": "kingdom",
+    "relations": []
   },
   {
+    "id": "the-beginning-after-the-end",
     "name": "The Beginning After the End",
     "alt": "TBATE (by TurtleMe & Fuyuki23)",
-    "link": "https://comix.to/title/6e6jz-the-beginning-after-the-end",
+    "media_type": "light_novel",
     "origin": "Western Web Novel & Comic",
+    "link": "https://comix.to/title/6e6jz-the-beginning-after-the-end",
     "anime": "**In Production (News)** — TV Anime adaptation officially announced for 2025 by Studio A-Cat!<br>• **News & Teaser:** [Crunchyroll Announcement](https://www.crunchyroll.com/news/latest/2024/10/19/the-beginning-after-the-end-anime-announced-premiere-2025) / [YouTube PV](https://www.youtube.com/results?search_query=The+Beginning+After+the+End+anime+trailer)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "the-beginning-after-the-end",
+    "relations": []
   },
   {
+    "id": "karate-survivor-in-another-world",
     "name": "Karate Survivor in Another World",
     "alt": "Yajin Tensei: Karate Survivor in Another World",
-    "link": "https://comix.to/title/w56g-karate-survivor-in-another-world",
+    "media_type": "comic",
     "origin": "Japanese Manga & Light Novel",
+    "link": "https://comix.to/title/w56g-karate-survivor-in-another-world",
     "anime": "**Fan Motion Manga** — No official anime.<br>• **Watch:** [YouTube Motion Manga Recaps](https://www.youtube.com/results?search_query=Karate+Survivor+in+Another+World+motion+manga)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "karate-survivor-in-another-world",
+    "relations": []
   },
   {
+    "id": "tower-of-god",
     "name": "Tower of God",
     "alt": "Kami no Tou / Sin-ui Tap (by SIU)",
-    "link": "https://comix.to/title/p80o-tower-of-god",
+    "media_type": "comic",
     "origin": "Korean Manhwa / Webtoon",
+    "link": "https://comix.to/title/p80o-tower-of-god",
     "anime": "**Yes (Anime)** — TV Anime S1 (2020 by Telecom Animation Film), S2 (2024 by The Answer Studio).<br>• **Watch:** [Crunchyroll](https://www.crunchyroll.com/series/G6J07950R/tower-of-god)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "tower-of-god",
+    "relations": []
   },
   {
+    "id": "sengoku-komachi-kurotan",
     "name": "Sengoku Komachi Kurotan",
     "alt": "The Tale of Agriculture Hardship in Sengoku Era / Sengoku Komachi Kuroutan",
-    "link": "https://comix.to/title/3zke3-sengoku-komachi-kuroutan",
+    "media_type": "comic",
     "origin": "Japanese Light Novel & Manga",
+    "link": "https://comix.to/title/3zke3-sengoku-komachi-kuroutan",
     "anime": "**Fan Motion Manga** — No official anime.<br>• **Watch:** [YouTube Motion Manga Recaps](https://www.youtube.com/results?search_query=Sengoku+Komachi+Kurotan+recap)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "sengoku-komachi-kurotan",
+    "relations": []
   },
   {
+    "id": "reaper-of-the-drifting-moon",
     "name": "Reaper of the Drifting Moon",
     "alt": "Pyo-wol: Reaper of the Drifting Moon (by Woo-Gak)",
-    "link": "https://comix.to/title/0jnl-reaper-of-the-drifting-moon",
+    "media_type": "comic",
     "origin": "Korean Manhwa & Web Novel",
+    "link": "https://comix.to/title/0jnl-reaper-of-the-drifting-moon",
     "anime": "**Official Teasers & Fan Anim** — KakaoPage animated promotional trailers & community motion comics.<br>• **Watch:** [YouTube Kakao Promo & Motion](https://www.youtube.com/results?search_query=Reaper+of+the+Drifting+Moon+trailer+motion+comic)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "reaper-of-the-drifting-moon",
+    "relations": []
   },
   {
+    "id": "one-piece",
     "name": "One Piece",
     "alt": "One Piece (by Eiichiro Oda)",
-    "link": "https://comix.to/title/pvry-one-piece",
+    "media_type": "comic",
     "origin": "Japanese Manga",
+    "link": "https://comix.to/title/pvry-one-piece",
     "anime": "**Yes (Anime)** — Legendary TV Anime Series (1999–present by Toei Animation) & upcoming remake *THE ONE PIECE* by Wit Studio.<br>• **Watch:** [Crunchyroll](https://www.crunchyroll.com/series/GRMG8ZQZR/one-piece) / [Netflix](https://www.netflix.com/title/80107103)",
-    "live_action": "**Yes (Netflix Series)** — Hit Global Live-Action Series (2023–present, S2 in production).<br>• **Watch:** [Netflix](https://www.netflix.com/title/80217863)"
+    "live_action": "**Yes (Netflix Series)** — Hit Global Live-Action Series (2023–present, S2 in production).<br>• **Watch:** [Netflix](https://www.netflix.com/title/80217863)",
+    "franchise_id": "one-piece",
+    "relations": []
   },
   {
+    "id": "issak",
     "name": "Issak",
     "alt": "Issak / Isaak (by Shinji Makari & DOUBLE-S)",
-    "link": "https://comix.to/title/m0rrz-issak",
+    "media_type": "comic",
     "origin": "Japanese Historical Manga",
+    "link": "https://comix.to/title/m0rrz-issak",
     "anime": "**Fan Motion Manga** — No official anime.<br>• **Watch:** [YouTube Motion Manga Recaps](https://www.youtube.com/results?search_query=Issak+manga+motion)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "issak",
+    "relations": []
   },
   {
+    "id": "berserk",
     "name": "Berserk",
     "alt": "Berserk (by Kentaro Miura)",
-    "link": "https://comix.to/title/zjem-berserk",
+    "media_type": "comic",
     "origin": "Japanese Dark Fantasy Manga",
+    "link": "https://comix.to/title/zjem-berserk",
     "anime": "**Yes (Anime)** — Classic 1997 TV Anime, *The Golden Age Arc* Film Trilogy (2012–2013), and 2016–2017 TV Series.<br>• **Watch:** [Crunchyroll](https://www.crunchyroll.com/series/GY3VDG3GY/berserk) / [Netflix](https://www.netflix.com/title/80090142)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "berserk",
+    "relations": []
   },
   {
+    "id": "innocent",
     "name": "Innocent",
     "alt": "Innocent (by Shinichi Sakamoto)",
-    "link": "https://comix.to/title/vy9j0-innocent",
+    "media_type": "comic",
     "origin": "Japanese Historical Manga",
+    "link": "https://comix.to/title/vy9j0-innocent",
     "anime": "**Fan Motion Manga & Edits** — No official anime.<br>• **Watch:** [YouTube Motion Manga](https://www.youtube.com/results?search_query=Innocent+Shinichi+Sakamoto+motion+manga)",
-    "live_action": "**Stage Musical** — Official theatrical musical adaptation (*Innocent Musical* 2019 in Tokyo/Paris)."
+    "live_action": "**Stage Musical** — Official theatrical musical adaptation (*Innocent Musical* 2019 in Tokyo/Paris).",
+    "franchise_id": "innocent",
+    "relations": []
   },
   {
+    "id": "jujutsu-kaisen",
     "name": "Jujutsu Kaisen",
     "alt": "Jujutsu Kaisen (by Gege Akutami)",
-    "link": "https://comix.to/title/7nzg-jujutsu-kaisen",
+    "media_type": "comic",
     "origin": "Japanese Supernatural Manga",
+    "link": "https://comix.to/title/7nzg-jujutsu-kaisen",
     "anime": "**Yes (Anime)** — Global Hit: S1 (2020), *Jujutsu Kaisen 0* Film (2021), S2 *Shibuya Incident* (2023 by MAPPA), S3 *Culling Game* announced.<br>• **Watch:** [Crunchyroll](https://www.crunchyroll.com/series/GRDV0019R/jujutsu-kaisen) / [Netflix](https://www.netflix.com/title/81278448) / [Hulu](https://www.hulu.com/series/jujutsu-kaisen-3a9d06b7-4c75-4700-a070-5b1cf0ff1eb7)",
-    "live_action": "**Stage Play** — Official 2.5D Japanese theatrical stage adaptations (2022–2023)."
+    "live_action": "**Stage Play** — Official 2.5D Japanese theatrical stage adaptations (2022–2023).",
+    "franchise_id": "jujutsu-kaisen",
+    "relations": []
   },
   {
+    "id": "even-the-knight-captain-wants-to-be-a-maiden",
     "name": "Even the Knight Captain Wants to Be a Maiden",
     "alt": "Even the Elf Captain Wants to Be a Maiden",
-    "link": "https://comix.to/title/81d70-even-the-elf-captain-wants-to-be-a-maiden",
+    "media_type": "comic",
     "origin": "Japanese Fantasy Manga",
+    "link": "https://comix.to/title/81d70-even-the-elf-captain-wants-to-be-a-maiden",
     "anime": "**Fan Motion Manga** — No official anime.<br>• **Watch:** [YouTube Motion Manga](https://www.youtube.com/results?search_query=Even+the+Elf+Captain+Wants+to+Be+a+Maiden)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "even-the-knight-captain-wants-to-be-a-maiden",
+    "relations": []
   },
   {
+    "id": "gate-thus-the-jsdf-fought-there",
     "name": "Gate: Thus the JSDF Fought There!",
     "alt": "Gate: Jieitai Kano Chi nite, Kaku Tatakaeri",
-    "link": "https://comix.to/title/100le-gate-season-2-thus-the-jsdf-fought-in-their-seas",
+    "media_type": "comic",
     "origin": "Japanese Military Fantasy Light Novel & Manga",
+    "link": "https://comix.to/title/100le-gate-season-2-thus-the-jsdf-fought-in-their-seas",
     "anime": "**Yes (Anime)** — 24-Episode TV Anime Series S1–S2 (2015–2016 by A-1 Pictures).<br>• **Watch:** [Crunchyroll](https://www.crunchyroll.com/series/G63K98P76/gate) / [Hulu](https://www.hulu.com/series/gate-0744e8bc-1981-4202-a1f9-f79a957864f7) / [Prime Video](https://www.primevideo.com/detail/0S04AEL9Y1K5E6N0E3L7YJ7H7T)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "gate-thus-the-jsdf-fought-there",
+    "relations": []
   },
   {
+    "id": "chainsaw-man",
     "name": "Chainsaw Man",
     "alt": "Chainsaw Man (by Tatsuki Fujimoto)",
-    "link": "https://comix.to/title/69l57-chainsaw-man",
+    "media_type": "comic",
     "origin": "Japanese Dark Action Manga",
+    "link": "https://comix.to/title/69l57-chainsaw-man",
     "anime": "**Yes (Anime)** — 12-Episode TV Anime (2022 by MAPPA) & upcoming anime feature film *Chainsaw Man – The Movie: Reze Arc*.<br>• **Watch:** [Crunchyroll](https://www.crunchyroll.com/series/GVDHX8QNW/chainsaw-man) / [Hulu](https://www.hulu.com/series/chainsaw-man-864bf6b7-a3f2-4bc7-9da5-aed0b5d401cb)",
-    "live_action": "**Stage Play** — Official Japanese musical stage adaptation (2023)."
+    "live_action": "**Stage Play** — Official Japanese musical stage adaptation (2023).",
+    "franchise_id": "chainsaw-man",
+    "relations": []
   },
   {
+    "id": "yona-of-the-dawn",
     "name": "Yona of the Dawn",
     "alt": "Akatsuki no Yona (by Mizuho Kusanagi)",
-    "link": "https://comix.to/title/ymgk6-akatsuki-no-yona",
+    "media_type": "comic",
     "origin": "Japanese Historical Fantasy Manga",
+    "link": "https://comix.to/title/ymgk6-akatsuki-no-yona",
     "anime": "**Yes (Anime)** — 24-Episode TV Anime (2014–2015 by Studio Pierrot) & OVAs.<br>• **Watch:** [Crunchyroll](https://www.crunchyroll.com/series/G6P8MG816/yona-of-the-dawn) / [Hulu](https://www.hulu.com/series/yona-of-the-dawn-fbb87bb1-8e7c-47fc-8f7b-2cf7be293fae)",
-    "live_action": "**Stage Play** — Multiple official Japanese theatrical stage plays (2016–2019)."
+    "live_action": "**Stage Play** — Multiple official Japanese theatrical stage plays (2016–2019).",
+    "franchise_id": "yona-of-the-dawn",
+    "relations": []
   },
   {
+    "id": "the-rivals-of-the-annals-of-white",
     "name": "The Rivals of the Annals of White",
     "alt": "Annals of White / Baekssi Sugi",
-    "link": "https://comix.to/browse?q=Annals%20of%20White&sort=relevance%3Adesc",
+    "media_type": "comic",
     "origin": "Korean Murim Manhwa / Web Novel",
+    "link": "https://comix.to/browse?q=Annals%20of%20White&sort=relevance%3Adesc",
     "anime": "**Fan Motion Recaps** — Community motion comic recaps.<br>• **Watch:** [YouTube Motion Recaps](https://www.youtube.com/results?search_query=Annals+of+White+manhwa)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "the-rivals-of-the-annals-of-white",
+    "relations": []
   },
   {
+    "id": "becoming-the-monarch",
     "name": "Becoming the Monarch",
     "alt": "I Become the Monarch / Gunju-ga Doeda",
-    "link": "https://comix.to/title/y3kn-becoming-the-monarch",
+    "media_type": "comic",
     "origin": "Korean Fantasy Manhwa & Web Novel",
+    "link": "https://comix.to/title/y3kn-becoming-the-monarch",
     "anime": "**Fan Motion Comics** — Community episodic motion recaps.<br>• **Watch:** [YouTube Motion Recaps](https://www.youtube.com/results?search_query=Becoming+the+Monarch+manhwa+motion)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "becoming-the-monarch",
+    "relations": []
   },
   {
+    "id": "star-martial-god-technique",
     "name": "Star Martial God Technique",
     "alt": "Star Jingshen Store / Xing Wu Shen Jue (by Mad Snail)",
-    "link": "https://comix.to/title/e9rer-star-martial-god-technique",
+    "media_type": "comic",
     "origin": "Chinese Manhua & Web Novel",
+    "link": "https://comix.to/title/e9rer-star-martial-god-technique",
     "anime": "**Yes (Donghua)** — 3D Donghua Series (2021–Ongoing by Youku & Ruo Hong Culture).<br>• **Watch:** [Youku](https://www.youku.tv/) / [YouTube (Full Eng Sub)](https://www.youtube.com/results?search_query=Star+Martial+God+Technique+donghua)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "star-martial-god-technique",
+    "relations": []
   },
   {
+    "id": "barbarian-quest",
     "name": "Barbarian Quest",
     "alt": "Barbarian Quest (by Baeksu Noble)",
-    "link": "https://comix.to/title/xn9q-barbarian-quest",
+    "media_type": "comic",
     "origin": "Korean Historical Action Manhwa",
+    "link": "https://comix.to/title/xn9q-barbarian-quest",
     "anime": "**Fan Motion Animation & MMVs** — Highly praised community 2D motion animatics & recaps.<br>• **Watch:** [YouTube Barbarian Quest Fan Motion](https://www.youtube.com/results?search_query=Barbarian+Quest+fan+animation+motion+comic)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "barbarian-quest",
+    "relations": []
   },
   {
+    "id": "foresighting-politician",
     "name": "Foresighting Politician",
     "alt": "The Politician Who Can See the Future (Mirae-reul Boneun Jeongchiyin)",
-    "link": "https://comix.to/browse?q=The%20Politician%20Who%20Can%20See%20the%20Future&sort=relevance%3Adesc",
+    "media_type": "comic",
     "origin": "Korean Supernatural Drama Manhwa & Web Novel",
+    "link": "https://comix.to/browse?q=The%20Politician%20Who%20Can%20See%20the%20Future&sort=relevance%3Adesc",
     "anime": "**Fan Motion Recaps** — Webtoon motion recaps.<br>• **Watch:** [YouTube Motion Recaps](https://www.youtube.com/results?search_query=The+Politician+Who+Can+See+the+Future+manhwa)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "foresighting-politician",
+    "relations": []
   },
   {
+    "id": "return-of-the-blossoming-blade",
     "name": "Return of the Blossoming Blade",
     "alt": "Return of the Mount Hua Sect / Hwasan Gwi-hwan (by Biga / Studio LICO)",
-    "link": "https://comix.to/title/9nej6-return-of-the-blossoming-blade",
+    "media_type": "comic",
     "origin": "Korean Murim Manhwa & Web Novel",
+    "link": "https://comix.to/title/9nej6-return-of-the-blossoming-blade",
     "anime": "**Official Animated PVs & Fan Anim** — Studio LICO official animated PVs with 10M+ views, plus massive community animatics.<br>• **Watch:** [YouTube Official Animated PV](https://www.youtube.com/results?search_query=Return+of+the+Mount+Hua+Sect+official+animation+LICO) / [YouTube Fan Anim](https://www.youtube.com/results?search_query=Return+of+the+Blossoming+Blade+fan+animation)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "return-of-the-blossoming-blade",
+    "relations": []
   },
   {
+    "id": "sakamoto-days",
     "name": "Sakamoto Days",
     "alt": "Sakamoto Days (by Yuto Suzuki)",
-    "link": "https://comix.to/title/w2w78-sakamoto-days",
+    "media_type": "comic",
     "origin": "Japanese Action-Comedy Manga",
+    "link": "https://comix.to/title/w2w78-sakamoto-days",
     "anime": "**Yes (Anime)** — TV Anime Adaptation officially premiering January 2025 by TMS Entertainment.<br>• **Watch:** [Netflix](https://www.netflix.com/) / [YouTube Official Trailer](https://www.youtube.com/results?search_query=Sakamoto+Days+official+anime+trailer)",
-    "live_action": "**None**"
+    "live_action": "**None**",
+    "franchise_id": "sakamoto-days",
+    "relations": []
   },
   {
+    "id": "dr-stone",
     "name": "Dr. Stone",
     "alt": "Dr. Stone (by Riichiro Inagaki & Boichi)",
-    "link": "https://comix.to/title/emmgg-dr-stone",
+    "media_type": "comic",
     "origin": "Japanese Sci-Fi Manga",
+    "link": "https://comix.to/title/emmgg-dr-stone",
     "anime": "**Yes (Anime)** — Multi-season TV Anime S1 (2019), S2 (2021), S3 (2023), and Final Season *Science Future* (2025 by TMS Entertainment).<br>• **Watch:** [Crunchyroll](https://www.crunchyroll.com/series/GYEXQKJG6/dr-stone) / [Netflix](https://www.netflix.com/title/81046193) / [Hulu](https://www.hulu.com/series/dr-stone-93774bca-6e93-4a1e-848e-f1879c5c9354)",
-    "live_action": "**Stage Play** — Official Japanese science stage show (*Dr. STONE THE STAGE* 2022)."
+    "live_action": "**Stage Play** — Official Japanese science stage show (*Dr. STONE THE STAGE* 2022).",
+    "franchise_id": "dr-stone",
+    "relations": []
+  },
+  {
+    "id": "joy-of-life-web-novel",
+    "name": "Joy of Life (Original Web Novel)",
+    "alt": "Qing Yu Nian (by Mao Ni)",
+    "media_type": "light_novel",
+    "origin": "Chinese Web Novel",
+    "link": "https://www.novelupdates.com/series/joy-of-life/",
+    "anime": "**Unofficial / Game Anim** — Shared franchise with manhua & C-Drama.",
+    "live_action": "**Adapted To** — Joy of Life C-Drama (S1–S3).",
+    "franchise_id": "joy-of-life",
+    "relations": [
+      {
+        "relation": "adapted_to",
+        "target_id": "joy-of-life",
+        "target_type": "comic",
+        "title": "Joy of Life"
+      },
+      {
+        "relation": "adapted_to",
+        "target_id": "joy-of-life-cdrama",
+        "target_type": "tv_series",
+        "title": "Joy of Life (C-Drama)"
+      }
+    ]
+  },
+  {
+    "id": "joy-of-life-cdrama",
+    "name": "Joy of Life (C-Drama)",
+    "alt": "Qing Yu Nian S1–S2",
+    "media_type": "tv_series",
+    "origin": "Chinese Historical Intrigue Series",
+    "link": "https://www.viki.com/tv/36367c-joy-of-life",
+    "anime": "**None**",
+    "live_action": "**Yes (C-Drama)** — S1 (2019), S2 (2024), S3 in active pre-production.",
+    "franchise_id": "joy-of-life",
+    "relations": [
+      {
+        "relation": "adapted_from",
+        "target_id": "joy-of-life-web-novel",
+        "target_type": "light_novel",
+        "title": "Joy of Life (Original Web Novel)"
+      },
+      {
+        "relation": "related",
+        "target_id": "joy-of-life",
+        "target_type": "comic",
+        "title": "Joy of Life"
+      }
+    ]
+  },
+  {
+    "id": "kage-no-jitsuryokusha-light-novel",
+    "name": "The Eminence in Shadow (Light Novel)",
+    "alt": "Kage no Jitsuryokusha ni Naritakute! LN",
+    "media_type": "light_novel",
+    "origin": "Japanese Light Novel (by Daisuke Aizawa)",
+    "link": "https://www.novelupdates.com/series/to-be-a-power-in-the-shadows/",
+    "anime": "**Adapted To** — TV Anime S1–S2 + Lost Echoes Movie.",
+    "live_action": "**None**",
+    "franchise_id": "kage-no-jitsuryokusha-ni-naritakute",
+    "relations": [
+      {
+        "relation": "adapted_to",
+        "target_id": "kage-no-jitsuryokusha-ni-naritakute",
+        "target_type": "comic",
+        "title": "Kage no Jitsuryokusha ni Naritakute!"
+      },
+      {
+        "relation": "adapted_to",
+        "target_id": "the-eminence-in-shadow-anime",
+        "target_type": "anime",
+        "title": "The Eminence in Shadow (Anime)"
+      }
+    ]
+  },
+  {
+    "id": "the-eminence-in-shadow-anime",
+    "name": "The Eminence in Shadow (Anime)",
+    "alt": "Kage no Jitsuryokusha ni Naritakute! S1–S2",
+    "media_type": "anime",
+    "origin": "Japanese TV Anime (Nexus)",
+    "link": "https://www.hidive.com/tv/the-eminence-in-shadow",
+    "anime": "**Yes (Anime)** — TV Anime S1 (2022) & S2 (2023) by Nexus.",
+    "live_action": "**None**",
+    "franchise_id": "kage-no-jitsuryokusha-ni-naritakute",
+    "relations": [
+      {
+        "relation": "adapted_from",
+        "target_id": "kage-no-jitsuryokusha-light-novel",
+        "target_type": "light_novel",
+        "title": "The Eminence in Shadow (Light Novel)"
+      },
+      {
+        "relation": "sequel",
+        "target_id": "the-eminence-in-shadow-lost-echoes",
+        "target_type": "movie",
+        "title": "The Eminence in Shadow: Lost Echoes"
+      }
+    ]
+  },
+  {
+    "id": "the-eminence-in-shadow-lost-echoes",
+    "name": "The Eminence in Shadow: Lost Echoes",
+    "alt": "Kage no Jitsuryokusha Movie",
+    "media_type": "movie",
+    "origin": "Japanese Anime Film (Nexus)",
+    "link": "https://www.imdb.com/title/tt30502418/",
+    "anime": "**Yes (Movie)** — Theatrical anime film sequel to S2.",
+    "live_action": "**None**",
+    "franchise_id": "kage-no-jitsuryokusha-ni-naritakute",
+    "relations": [
+      {
+        "relation": "sequel_to",
+        "target_id": "the-eminence-in-shadow-anime",
+        "target_type": "anime",
+        "title": "The Eminence in Shadow (Anime)"
+      }
+    ]
+  },
+  {
+    "id": "outlander-tv-series",
+    "name": "Outlander",
+    "alt": "Outlander (Seasons 1–6; imported from Obsidian watchlist)",
+    "media_type": "tv_series",
+    "origin": "Historical Time-Travel Drama (Starz)",
+    "link": "https://www.imdb.com/title/tt3006802/",
+    "anime": "**None**",
+    "live_action": "**Yes (TV Series)** — Seasons 1–6+ adapted from Diana Gabaldon novels.",
+    "franchise_id": "outlander",
+    "relations": []
   }
 ]

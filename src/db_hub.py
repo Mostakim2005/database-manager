@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 """Database Manager — SQLite ATTACH Cross-Domain Query Hub.
 
-Attaches separated per-domain SQLite databases (ai.sqlite, games.sqlite,
-hardware.sqlite, plus any future registered domains) into one in-memory
-federated SQLite session and exposes logical cross-domain queries.
+Attaches isolated per-domain SQLite databases (`pc.sqlite`, `games.sqlite`,
+`ai.sqlite`, `media.sqlite`, `book.sqlite`, `phone.sqlite`, `github.sqlite`,
+plus any future registered domains) into one in-memory federated SQLite session
+and exposes cross-domain analytical views (`games x pc`, `cpus x gpus`,
+`game_benchmarks x pc`).
 
+AI models remain decoupled from local GPU VRAM constraints.
 Zero third-party dependencies (Python 3.10+ Standard Library only).
 """
 
@@ -24,8 +27,28 @@ REGISTRY_PATH = DATA_DIR / "registry.json"
 def load_registry(registry_path: Path = REGISTRY_PATH) -> dict[str, Any]:
     """Load the central multi-domain registry manifest."""
     if not registry_path.exists():
-        return {"version": "1.0.0", "domains": {}, "cross_domain_views": []}
+        return {"version": "2.0.0", "groups": {}, "domains": {}, "cross_domain_views": []}
     return json.loads(registry_path.read_text(encoding="utf-8"))
+
+
+def resolve_domain_key(name_or_alias: str, reg: dict[str, Any] | None = None) -> str | None:
+    """Resolve a canonical domain key from ID, display_name, short_label, or aliases."""
+    manifest = reg if reg is not None else load_registry()
+    needle = str(name_or_alias or "").strip().lower()
+    if not needle:
+        return None
+    domains = manifest.get("domains", {})
+    if needle in domains:
+        return needle
+    for dom_key, cfg in domains.items():
+        if str(cfg.get("display_name", "")).strip().lower() == needle:
+            return dom_key
+        if str(cfg.get("short_label", "")).strip().lower() == needle:
+            return dom_key
+        for alias in cfg.get("aliases", []):
+            if str(alias).strip().lower() == needle:
+                return dom_key
+    return None
 
 
 def open_federated_connection(root_dir: Path = ROOT_DIR) -> sqlite3.Connection:
@@ -42,8 +65,8 @@ def open_federated_connection(root_dir: Path = ROOT_DIR) -> sqlite3.Connection:
             conn.execute(f"ATTACH DATABASE ? AS {domain}", (str(db_path),))
             attached.add(domain)
 
-    # Logical cross-domain view 1: PC Games x Hardware GPUs
-    if "games" in attached and "hardware" in attached:
+    # Logical cross-domain view 1: PC Games x Unified PC GPUs
+    if "games" in attached and "pc" in attached:
         conn.execute(
             """
             CREATE TEMP VIEW v_games_by_gpu AS
@@ -71,39 +94,43 @@ def open_federated_connection(root_dir: Path = ROOT_DIR) -> sqlite3.Connection:
                     ELSE 'below_min'
                 END AS tier_match
             FROM games.pc_games g
-            CROSS JOIN hardware.hardware_gpus h;
+            CROSS JOIN pc.pc_gpus h;
             """
         )
 
-    # Logical cross-domain view 2: Open-Weights AI Models x Hardware GPU VRAM
-    if "ai" in attached and "hardware" in attached:
+        # Logical cross-domain view 2: Measured Game Benchmarks x Unified PC GPUs
         conn.execute(
             """
-            CREATE TEMP VIEW v_local_ai_vram_fit AS
+            CREATE TEMP VIEW v_game_benchmarks_with_pc AS
             SELECT
-                h.id AS gpu_id,
-                h.name AS gpu_name,
+                b.id AS benchmark_id,
+                b.game_id,
+                COALESCE(g.name, b.game_id) AS game_name,
+                g.genre,
+                b.cpu_name,
+                b.gpu_id,
+                COALESCE(h.name, b.gpu_id) AS gpu_name,
+                h.tier AS gpu_tier,
                 h.vram_gb,
+                h.tdp_watts,
+                h.system_peak_watts,
                 h.psu_550w_verdict,
-                a.id AS model_id,
-                a.name AS model_name,
-                a.vendor,
-                a.intelligence_index,
-                a.open_weights,
-                CASE
-                    WHEN h.vram_gb >= 16 THEN 'Fits 14B-32B Q4 locally'
-                    WHEN h.vram_gb >= 12 THEN 'Fits 7B-14B Q4 locally'
-                    WHEN h.vram_gb >= 8 THEN 'Fits 7B-8B Q4 locally'
-                    ELSE 'API / Cloud Recommended (<8GB VRAM)'
-                END AS local_fit_tier
-            FROM ai.ai_models a
-            CROSS JOIN hardware.hardware_gpus h
-            WHERE a.open_weights = 1;
+                h.price_bdt_retail AS gpu_price_bdt_retail,
+                b.resolution,
+                b.preset,
+                b.avg_fps,
+                b.low_1pct_fps,
+                b.low_01pct_fps,
+                b.source_url,
+                b.recorded_at
+            FROM games.game_benchmarks b
+            LEFT JOIN games.pc_games g ON b.game_id = g.id
+            LEFT JOIN pc.pc_gpus h ON b.gpu_id = h.id;
             """
         )
 
-    # Logical cross-domain view 3: CPUs x GPUs platform power & upgrade combos
-    if "cpus" in attached and "hardware" in attached:
+    # Logical cross-domain view 3: PC CPUs x PC GPUs platform power & upgrade combos
+    if "pc" in attached:
         conn.execute(
             """
             CREATE TEMP VIEW v_cpu_gpu_combos AS
@@ -129,8 +156,8 @@ def open_federated_connection(root_dir: Path = ROOT_DIR) -> sqlite3.Connection:
                 c.price_bdt AS cpu_price_bdt,
                 h.price_bdt_retail AS gpu_price_bdt,
                 (c.price_bdt + h.price_bdt_retail) AS total_upgrade_cost_bdt
-            FROM cpus.pc_cpus c
-            CROSS JOIN hardware.hardware_gpus h;
+            FROM pc.pc_cpus c
+            CROSS JOIN pc.pc_gpus h;
             """
         )
 
@@ -138,17 +165,36 @@ def open_federated_connection(root_dir: Path = ROOT_DIR) -> sqlite3.Connection:
 
 
 def query_domain_health(root_dir: Path = ROOT_DIR) -> list[dict[str, Any]]:
-    """Return freshness, record count, and SHA-256 status for every registered domain."""
+    """Return freshness, display metadata, grouping, record count, and SHA-256 status for every registered domain."""
     reg = load_registry(root_dir / "data" / "registry.json")
+    groups = reg.get("groups", {})
     now = datetime.datetime.now(datetime.timezone.utc)
     results: list[dict[str, Any]] = []
 
-    for domain, cfg in reg.get("domains", {}).items():
+    ordered_domains = sorted(
+        reg.get("domains", {}).items(),
+        key=lambda kv: (int(kv[1].get("tab_order", 999)), kv[0]),
+    )
+
+    for domain, cfg in ordered_domains:
         db_path = root_dir / cfg.get("sqlite_file", "")
         max_age = int(cfg.get("max_age_days", 30))
+        grp_id = str(cfg.get("group", "general"))
+        grp_cfg = groups.get(grp_id, {}) if isinstance(groups, dict) else {}
         entry: dict[str, Any] = {
             "domain": domain,
-            "title": cfg.get("title", domain),
+            "display_name": cfg.get("display_name", cfg.get("title", domain)),
+            "short_label": cfg.get("short_label", cfg.get("display_name", domain)),
+            "unit_label": cfg.get("unit_label", "records"),
+            "aliases": cfg.get("aliases", []),
+            "group": grp_id,
+            "group_display_name": grp_cfg.get("display_name", grp_id.replace("_", " ").title()),
+            "group_order": int(grp_cfg.get("order", 99)),
+            "tab_order": int(cfg.get("tab_order", 999)),
+            "show_in_portal": bool(cfg.get("show_in_portal", True)),
+            "web_path": cfg.get("web_path", f"{domain}/index.html"),
+            "api_path": cfg.get("api_path", f"/api/{domain}"),
+            "title": cfg.get("title", cfg.get("display_name", domain)),
             "sqlite_file": cfg.get("sqlite_file"),
             "compiled": db_path.exists(),
             "max_age_days": max_age,
@@ -214,22 +260,40 @@ def query_games_by_gpu(gpu_id: str = "rx-6600", max_psu_watts: int = 550, root_d
         conn.close()
 
 
-def query_ai_vram_fit(gpu_id: str = "rx-6600", root_dir: Path = ROOT_DIR) -> dict[str, Any]:
-    """Query cross-domain v_local_ai_vram_fit for a candidate GPU."""
+def query_game_benchmarks_with_pc(
+    gpu_id: str | None = None,
+    game_id: str | None = None,
+    root_dir: Path = ROOT_DIR,
+) -> dict[str, Any]:
+    """Query measured FPS benchmarks joined with unified PC GPU specs and game titles."""
     conn = open_federated_connection(root_dir)
     try:
+        clauses: list[str] = []
+        params: list[Any] = []
+        if gpu_id:
+            clauses.append("gpu_id = ?")
+            params.append(gpu_id)
+        if game_id:
+            clauses.append("game_id = ?")
+            params.append(game_id)
+        where_sql = ("WHERE " + " AND ".join(clauses)) if clauses else ""
         rows = conn.execute(
-            """
-            SELECT * FROM v_local_ai_vram_fit
-            WHERE gpu_id = ?
-            ORDER BY intelligence_index DESC
+            f"""
+            SELECT * FROM v_game_benchmarks_with_pc
+            {where_sql}
+            ORDER BY game_name ASC, avg_fps DESC
             """,
-            (gpu_id,),
+            tuple(params),
         ).fetchall()
         items = [dict(r) for r in rows]
-        return {"gpu_id": gpu_id, "matched_open_models": len(items), "models": items}
+        return {
+            "gpu_id": gpu_id,
+            "game_id": game_id,
+            "total_benchmarks": len(items),
+            "benchmarks": items,
+        }
     except sqlite3.OperationalError as e:
-        return {"error": str(e), "models": []}
+        return {"error": str(e), "benchmarks": []}
     finally:
         conn.close()
 

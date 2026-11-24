@@ -29,7 +29,52 @@ document.addEventListener("DOMContentLoaded", function () {
   applyCompat(window.GAMES);
   wireFilters();
   update();
+  hydrateLivePcGpus();
 });
+
+function hydrateLivePcGpus() {
+  if (typeof fetch !== "function" || window.location.protocol === "file:") return;
+  fetch("/api/pc/gpus", { cache: "no-store" })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (gpus) {
+      if (!Array.isArray(gpus) || !gpus.length) return;
+      var select = document.getElementById("gpu");
+      var nextMap = {};
+      var optsHtml = [];
+      gpus.forEach(function (g) {
+        if (!g || !g.id || g.id === "vega-7-igpu") return;
+        var cleanName = String(g.name || g.id).replace(/^GeForce\s+|^Radeon\s+/i, "");
+        nextMap[g.id] = {
+          id: g.id,
+          name: cleanName,
+          short: cleanName.split(" ").slice(-2).join(" "),
+          tier: Number(g.tier || 0),
+          psuVerdict: g.psu_550w_verdict || "pass"
+        };
+        optsHtml.push({ id: g.id, label: "Simulate: + " + cleanName + (g.psu_550w_verdict === "fail" ? " (550W PSU Risk)" : "") });
+      });
+      if (!Object.keys(nextMap).length) return;
+      window.UPGRADE_GPUS = nextMap;
+      if (select) {
+        var prev = select.value;
+        while (select.options.length > 1) select.remove(1);
+        optsHtml.forEach(function (item) {
+          var opt = document.createElement("option");
+          opt.value = item.id;
+          opt.textContent = item.label;
+          select.appendChild(opt);
+        });
+        if (prev && nextMap[prev]) select.value = prev;
+      }
+      if (state.gpu !== "none") {
+        window.GAMES.forEach(function (g) {
+          g.upCompat = window.computeUpgradedCompat(g, state.gpu);
+        });
+        update();
+      }
+    })
+    .catch(function () {});
+}
 
 function wireFilters() {
   var $ = function (id) { return document.getElementById(id); };

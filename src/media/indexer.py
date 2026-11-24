@@ -1,14 +1,11 @@
-"""Sitemap indexer module for Manga domain.
-
-Parses <loc> elements across local XML sitemaps and builds a searchable URL index.
-"""
+"""Sitemap indexer module for Media domain."""
 
 from __future__ import annotations
 
 import re
 from pathlib import Path
 
-from manga import SITEMAPS_DIR
+from media import SITEMAPS_DIR
 
 _LOC_RE = re.compile(r"<loc>(https://comix\.to/title/[^<]+)</loc>")
 
@@ -26,5 +23,5 @@ def build_index(sitemaps_dir: Path = SITEMAPS_DIR, allow_missing: bool = False) 
         matches = _LOC_RE.findall(fpath.read_text(encoding="utf-8", errors="replace"))
         urls.extend(matches)
 
-    print(f"[manga.indexer] Indexed {len(urls)} URLs across {len(xml_files)} sitemap files.")
+    print(f"[media.indexer] Indexed {len(urls)} URLs across {len(xml_files)} sitemap files.")
     return urls

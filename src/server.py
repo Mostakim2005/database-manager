@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Database Manager — Unified Local Server & Multi-Domain CLI Tool.
 
-Serves interactive web dashboards for AI benchmarks, PC game compatibility, and
-hardware planning on http://127.0.0.1:8770, with built-in REST API and CLI
-search queries.
+Serves interactive web dashboards for PC Hardware, PC Games, AI Models,
+Media & Adaptations, Books, Phones, and GitHub Repositories on
+http://127.0.0.1:8770 with REST API and CLI search queries.
 
 Zero third-party dependencies (Python 3.10+ Standard Library only).
 """
@@ -11,14 +11,15 @@ Zero third-party dependencies (Python 3.10+ Standard Library only).
 from __future__ import annotations
 
 import argparse
+import csv
 import http.server
 import json
+import os
 import sys
 from pathlib import Path
 from typing import Any
 from urllib.parse import parse_qs, urlparse
 
-# Directory anchors
 ROOT_DIR = Path(__file__).resolve().parent.parent
 SRC_DIR = Path(__file__).resolve().parent
 if str(SRC_DIR) not in sys.path:
@@ -28,9 +29,41 @@ WEB_DIR = ROOT_DIR / "web"
 
 PORT = 8770
 
+PC_CATEGORIES = (
+    "cpus",
+    "gpus",
+    "motherboards",
+    "ram",
+    "ssds",
+    "hdds",
+    "psus",
+    "monitors",
+    "tvs",
+    "keyboards",
+    "mice",
+    "graphics_tablets",
+)
+
+
+def load_pc_data() -> dict[str, Any]:
+    """Load unified PC hardware, CPU, GPU, PSU, and peripheral catalog from JSON."""
+    pc_json = DATA_DIR / "pc" / "pc.json"
+    if pc_json.exists():
+        try:
+            with open(pc_json, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception as e:
+            sys.stderr.write(f"[ERROR] Failed to load PC data from {pc_json}: {e}\n")
+    return {"system_baseline": {}, "transient_rules": {}, "cpus": [], "gpus": []}
+
+
+def _count_pc_parts(pc_data: dict[str, Any]) -> int:
+    """Count total PC parts across all registered categories in pc.json."""
+    return sum(len(pc_data.get(cat, [])) for cat in PC_CATEGORIES if isinstance(pc_data.get(cat), list))
+
 
 def load_ai_data() -> dict[str, Any]:
-    """Load AI models data from JSON."""
+    """Load AI models pricing and benchmark catalog from JSON."""
     ai_json = DATA_DIR / "ai" / "models_master.json"
     if not ai_json.exists():
         ai_json = DATA_DIR / "ai" / "model-comparison.json"
@@ -45,7 +78,7 @@ def load_ai_data() -> dict[str, Any]:
 
 
 def load_games_data() -> list[dict[str, Any]]:
-    """Load PC Games data from JSON."""
+    """Load PC Games catalog from JSON."""
     games_json = DATA_DIR / "games" / "games.json"
     if games_json.exists():
         try:
@@ -56,53 +89,69 @@ def load_games_data() -> list[dict[str, Any]]:
     return []
 
 
-def load_hardware_data() -> dict[str, Any]:
-    """Load Hardware and PSU safety data from JSON."""
-    hw_json = DATA_DIR / "hardware" / "hardware_specs.json"
-    if hw_json.exists():
+def load_game_benchmarks_data() -> list[dict[str, Any]]:
+    """Load measured FPS benchmarks from `data/games/benchmarks.csv`."""
+    csv_path = DATA_DIR / "games" / "benchmarks.csv"
+    if not csv_path.exists():
+        return []
+    rows: list[dict[str, Any]] = []
+    try:
+        with open(csv_path, "r", encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            for r in reader:
+                rows.append(
+                    {
+                        "game_id": r["game_id"].strip(),
+                        "cpu_name": r["cpu_name"].strip(),
+                        "gpu_id": r["gpu_id"].strip(),
+                        "resolution": r["resolution"].strip(),
+                        "preset": r["preset"].strip(),
+                        "avg_fps": float(r["avg_fps"]),
+                        "low_1pct_fps": float(r["low_1pct_fps"]),
+                        "low_01pct_fps": float(r["low_01pct_fps"]),
+                        "source_url": (r.get("source_url") or "").strip(),
+                        "recorded_at": (r.get("recorded_at") or "").strip(),
+                    }
+                )
+    except Exception as e:
+        sys.stderr.write(f"[ERROR] Failed to load game benchmarks from {csv_path}: {e}\n")
+    return rows
+
+
+def load_media_data() -> list[dict[str, Any]]:
+    """Load Media, Comics, Novels, Anime, Movies & Series catalog from JSON."""
+    media_json = DATA_DIR / "media" / "media_catalog.json"
+    if media_json.exists():
         try:
-            with open(hw_json, "r", encoding="utf-8") as f:
+            with open(media_json, "r", encoding="utf-8") as f:
                 return json.load(f)
         except Exception as e:
-            sys.stderr.write(f"[ERROR] Failed to load hardware data from {hw_json}: {e}\n")
-    return {"system_baseline": {}, "gpus": []}
-
-
-def load_cpus_data() -> list[dict[str, Any]]:
-    """Load Desktop CPUs data from JSON."""
-    cpus_json = DATA_DIR / "cpus" / "cpus.json"
-    if cpus_json.exists():
-        try:
-            with open(cpus_json, "r", encoding="utf-8") as f:
-                data = json.load(f)
-                return data.get("cpus", data.get("records", []))
-        except Exception as e:
-            sys.stderr.write(f"[ERROR] Failed to load CPUs data from {cpus_json}: {e}\n")
+            sys.stderr.write(f"[ERROR] Failed to load media data from {media_json}: {e}\n")
     return []
 
 
-def load_components_data() -> dict[str, Any]:
-    """Load PC & Peripherals components data from JSON."""
-    comp_json = DATA_DIR / "pc_components" / "components.json"
-    if comp_json.exists():
+def load_book_data() -> dict[str, Any]:
+    """Load Book collection & reading tracker data from JSON."""
+    book_json = DATA_DIR / "book" / "books.json"
+    if book_json.exists():
         try:
-            with open(comp_json, "r", encoding="utf-8") as f:
+            with open(book_json, "r", encoding="utf-8") as f:
                 return json.load(f)
         except Exception as e:
-            sys.stderr.write(f"[ERROR] Failed to load components data from {comp_json}: {e}\n")
-    return {}
+            sys.stderr.write(f"[ERROR] Failed to load book data from {book_json}: {e}\n")
+    return {"books": []}
 
 
-def load_manga_data() -> list[dict[str, Any]]:
-    """Load Manga, Manhwa & Adaptations catalog from JSON."""
-    manga_json = DATA_DIR / "manga" / "manga_catalog.json"
-    if manga_json.exists():
+def load_phone_data() -> dict[str, Any]:
+    """Load Phone specs & supported games/apps catalog from JSON."""
+    phone_json = DATA_DIR / "phone" / "phones.json"
+    if phone_json.exists():
         try:
-            with open(manga_json, "r", encoding="utf-8") as f:
+            with open(phone_json, "r", encoding="utf-8") as f:
                 return json.load(f)
         except Exception as e:
-            sys.stderr.write(f"[ERROR] Failed to load manga data from {manga_json}: {e}\n")
-    return []
+            sys.stderr.write(f"[ERROR] Failed to load phone data from {phone_json}: {e}\n")
+    return {"phones": []}
 
 
 def load_github_data() -> list[dict[str, Any]]:
@@ -113,6 +162,31 @@ def load_github_data() -> list[dict[str, Any]]:
     except Exception as e:
         sys.stderr.write(f"[ERROR] Failed to load GitHub data: {e}\n")
     return []
+
+
+def load_domain_payload(domain_key: str) -> Any:
+    """Dispatch payload loading by canonical domain key."""
+    loaders: dict[str, Any] = {
+        "pc": load_pc_data,
+        "games": load_games_data,
+        "ai": load_ai_data,
+        "media": load_media_data,
+        "book": load_book_data,
+        "phone": load_phone_data,
+        "github": load_github_data,
+    }
+    loader = loaders.get(domain_key)
+    if loader:
+        return loader()
+    # Generic fallback for dynamically initialized domains via --init-domain
+    from db_hub import load_registry
+    cfg = load_registry().get("domains", {}).get(domain_key, {})
+    src_rel = cfg.get("source_json", "")
+    if src_rel:
+        src_path = ROOT_DIR / src_rel
+        if src_path.exists():
+            return json.loads(src_path.read_text(encoding="utf-8"))
+    return {}
 
 
 def _extract_ai_model_fields(m: dict[str, Any]) -> dict[str, Any]:
@@ -183,52 +257,56 @@ class DatabaseHandler(http.server.SimpleHTTPRequestHandler):
         return None
 
     def do_GET(self) -> None:
-        """Handle GET requests with API routing."""
-        url_path = self.path.split("?", 1)[0].rstrip("/")
+        """Handle GET requests with strict v2.0.0 domain routing."""
+        url_path = self.path.split("?", 1)[0].rstrip("/") or "/"
 
         if url_path == "/api/status":
+            from db_hub import load_registry, query_domain_health
+            pc_data = load_pc_data()
             ai_data = load_ai_data()
             ai_models = ai_data.get("models")
             if ai_models is None:
                 ai_models = ai_data.get("records", [])
-            comp_data = load_components_data()
-            comp_count = sum(len(v) for v in comp_data.values() if isinstance(v, list))
+            games_items = load_games_data()
+            media_items = load_media_data()
+            book_items = load_book_data().get("books", [])
+            phone_items = load_phone_data().get("phones", [])
+            github_items = load_github_data()
+            pc_total = _count_pc_parts(pc_data)
+
+            counts = {
+                "pc": pc_total,
+                "pc_gpus": len(pc_data.get("gpus", [])),
+                "pc_cpus": len(pc_data.get("cpus", [])),
+                "games": len(games_items),
+                "ai": len(ai_models),
+                "ai_models": len(ai_models),
+                "media": len(media_items),
+                "book": len(book_items),
+                "phone": len(phone_items),
+                "github": len(github_items),
+            }
+            reg = load_registry()
+            health_rows = query_domain_health()
+            for row in health_rows:
+                dom = row["domain"]
+                if row.get("record_count") is None:
+                    row["record_count"] = counts.get(dom, 0)
+                row["live_count"] = counts.get(dom, row.get("record_count") or 0)
+
             self._send_json(
                 {
                     "status": "online",
-                    "version": "1.0.0",
+                    "version": "2.0.0",
                     "repo": "Mostakim2005/database-manager",
-                    "counts": {
-                        "ai_models": len(ai_models),
-                        "games": len(load_games_data()),
-                        "gpus": len(load_hardware_data().get("gpus", [])),
-                        "cpus": len(load_cpus_data()),
-                        "pc_components": comp_count,
-                        "manga": len(load_manga_data()),
-                        "github": len(load_github_data()),
+                    "counts": counts,
+                    "registry": {
+                        "version": reg.get("version", "2.0.0"),
+                        "groups": reg.get("groups", {}),
                     },
+                    "domains": health_rows,
                 }
             )
-            return
-
-        if url_path == "/api/ai":
-            self._send_json(load_ai_data())
-            return
-
-        if url_path == "/api/games":
-            self._send_json(load_games_data())
-            return
-
-        if url_path == "/api/hardware":
-            self._send_json(load_hardware_data())
-            return
-
-        if url_path == "/api/cpus":
-            self._send_json(load_cpus_data())
-            return
-
-        if url_path == "/api/components":
-            self._send_json(load_components_data())
             return
 
         if url_path == "/api/domains":
@@ -236,34 +314,76 @@ class DatabaseHandler(http.server.SimpleHTTPRequestHandler):
             self._send_json({"registry": load_registry(), "health": query_domain_health()})
             return
 
-        if url_path == "/api/cross/games-by-gpu":
-            from db_hub import query_games_by_gpu
-            qs = parse_qs(urlparse(self.path).query)
-            gpu_id = qs.get("gpu", ["rx-6600"])[0]
-            try:
-                psu = int(qs.get("psu", ["550"])[0])
-            except ValueError:
-                psu = 550
-            self._send_json(query_games_by_gpu(gpu_id=gpu_id, max_psu_watts=psu))
+        if url_path.startswith("/api/domain/"):
+            from db_hub import load_registry, resolve_domain_key
+            raw_key = url_path[len("/api/domain/"):].strip("/")
+            reg = load_registry()
+            canonical = resolve_domain_key(raw_key, reg)
+            if not canonical:
+                self._send_json({"status": "error", "error": f"Unknown domain or alias: {raw_key}"}, status=404)
+                return
+            self._send_json(
+                {
+                    "domain": canonical,
+                    "requested": raw_key,
+                    "meta": reg.get("domains", {}).get(canonical, {}),
+                    "data": load_domain_payload(canonical),
+                }
+            )
             return
 
-        if url_path == "/api/cross/ai-vram-fit":
-            from db_hub import query_ai_vram_fit
+        # --- PC Hardware Domain ---
+        if url_path == "/api/pc":
             qs = parse_qs(urlparse(self.path).query)
-            gpu_id = qs.get("gpu", ["rx-6600"])[0]
-            self._send_json(query_ai_vram_fit(gpu_id=gpu_id))
+            cat_filter = qs.get("category", [""])[0].strip().lower()
+            pc_data = load_pc_data()
+            if cat_filter:
+                if cat_filter not in PC_CATEGORIES:
+                    self._send_json({"status": "error", "error": f"Unknown PC category: {cat_filter}"}, status=404)
+                    return
+                self._send_json({"category": cat_filter, "items": pc_data.get(cat_filter, [])})
+                return
+            self._send_json(pc_data)
             return
 
-        if url_path == "/api/cross/cpu-gpu-combos":
-            from db_hub import query_cpu_gpu_combos
-            qs = parse_qs(urlparse(self.path).query)
-            cpu_id = qs.get("cpu", ["ryzen-5-5600gt"])[0]
-            self._send_json(query_cpu_gpu_combos(cpu_id=cpu_id))
+        if url_path == "/api/pc/gpus":
+            self._send_json(load_pc_data().get("gpus", []))
             return
 
-        if url_path == "/api/cross/check-build":
+        if url_path == "/api/pc/cpus":
+            self._send_json(load_pc_data().get("cpus", []))
+            return
+
+        if url_path == "/api/pc/check-build":
             from compatibility_engine import evaluate_default_build
             self._send_json(evaluate_default_build())
+            return
+
+        # --- Games Domain ---
+        if url_path == "/api/games":
+            self._send_json(load_games_data())
+            return
+
+        if url_path == "/api/games/classified":
+            from catalog_classifier import classify_games_catalog
+            self._send_json(classify_games_catalog())
+            return
+
+        if url_path == "/api/games/benchmarks":
+            qs = parse_qs(urlparse(self.path).query)
+            gpu_f = qs.get("gpu", [""])[0].strip().lower()
+            game_f = qs.get("game", [""])[0].strip().lower()
+            benches = load_game_benchmarks_data()
+            if gpu_f:
+                benches = [b for b in benches if b["gpu_id"].lower() == gpu_f]
+            if game_f:
+                benches = [b for b in benches if b["game_id"].lower() == game_f]
+            self._send_json(benches)
+            return
+
+        # --- AI Models Domain (Pricing & Benchmarks only; decoupled from VRAM) ---
+        if url_path == "/api/ai":
+            self._send_json(load_ai_data())
             return
 
         if url_path == "/api/ai/classified":
@@ -273,16 +393,14 @@ class DatabaseHandler(http.server.SimpleHTTPRequestHandler):
             self._send_json(classify_ai_catalog(only_chinese_oss=only_chinese_oss))
             return
 
-        if url_path == "/api/games/classified":
-            from catalog_classifier import classify_games_catalog
-            self._send_json(classify_games_catalog())
-            return
-
-        if url_path == "/api/manga":
+        # --- Media & Adaptations Domain ---
+        if url_path == "/api/media":
             qs = parse_qs(urlparse(self.path).query)
             q = qs.get("q", [""])[0].strip().lower()
             origin_f = qs.get("origin", [""])[0].strip().lower()
-            items = load_manga_data()
+            mtype_f = (qs.get("media_type") or qs.get("type") or [""])[0].strip().lower()
+            franchise_f = qs.get("franchise", [""])[0].strip().lower()
+            items = load_media_data()
             if q:
                 items = [
                     it for it in items
@@ -290,20 +408,25 @@ class DatabaseHandler(http.server.SimpleHTTPRequestHandler):
                     or q in str(it.get("alt", "")).lower()
                     or q in str(it.get("anime", "")).lower()
                     or q in str(it.get("live_action", "")).lower()
+                    or q in str(it.get("franchise_id", "")).lower()
                 ]
             if origin_f:
                 items = [it for it in items if origin_f in str(it.get("origin", "")).lower()]
+            if mtype_f:
+                items = [it for it in items if str(it.get("media_type", "comic")).lower() == mtype_f]
+            if franchise_f:
+                items = [it for it in items if str(it.get("franchise_id", "")).lower() == franchise_f]
             self._send_json(items)
             return
 
-        if url_path == "/api/manga/classified":
-            from catalog_classifier import classify_manga_catalog
-            self._send_json(classify_manga_catalog())
+        if url_path == "/api/media/classified":
+            from catalog_classifier import classify_media_catalog
+            self._send_json(classify_media_catalog())
             return
 
-        if url_path == "/api/manga/doctor":
-            from manga.adaptation_refresh import inspect_catalog_doctor, propose_link_upgrades
-            catalog = load_manga_data()
+        if url_path == "/api/media/doctor":
+            from media.adaptation_refresh import inspect_catalog_doctor, propose_link_upgrades
+            catalog = load_media_data()
             self._send_json(
                 {
                     "doctor": inspect_catalog_doctor(catalog),
@@ -312,8 +435,8 @@ class DatabaseHandler(http.server.SimpleHTTPRequestHandler):
             )
             return
 
-        if url_path == "/api/manga/links":
-            from manga.link_health import audit_catalog_links_offline, check_catalog_links_live
+        if url_path == "/api/media/links":
+            from media.link_health import audit_catalog_links_offline, check_catalog_links_live
             qs = parse_qs(urlparse(self.path).query)
             is_live = qs.get("live", ["false"])[0].lower() in ("true", "1", "yes")
             if is_live:
@@ -327,6 +450,54 @@ class DatabaseHandler(http.server.SimpleHTTPRequestHandler):
                 self._send_json(audit_catalog_links_offline())
             return
 
+        # --- Book Collection Domain ---
+        if url_path == "/api/book":
+            qs = parse_qs(urlparse(self.path).query)
+            q = qs.get("q", [""])[0].strip().lower()
+            own_f = qs.get("ownership", [""])[0].strip().lower()
+            read_f = qs.get("reading", [""])[0].strip().lower()
+            data = load_book_data()
+            books = list(data.get("books", []))
+            if q:
+                books = [
+                    b for b in books
+                    if q in str(b.get("title", "")).lower()
+                    or q in str(b.get("author", "")).lower()
+                    or q in str(b.get("subject", "")).lower()
+                ]
+            if own_f:
+                books = [b for b in books if str(b.get("ownership_status", "")).lower() == own_f]
+            if read_f:
+                books = [b for b in books if str(b.get("reading_status", "")).lower() == read_f]
+            payload = dict(data)
+            payload["books"] = books
+            self._send_json(payload)
+            return
+
+        # --- Phone & Mobile Domain ---
+        if url_path == "/api/phone":
+            qs = parse_qs(urlparse(self.path).query)
+            q = qs.get("q", [""])[0].strip().lower()
+            brand_f = qs.get("brand", [""])[0].strip().lower()
+            data = load_phone_data()
+            phones = list(data.get("phones", []))
+            if q:
+                phones = [
+                    p for p in phones
+                    if q in str(p.get("name", "")).lower()
+                    or q in str(p.get("brand", "")).lower()
+                    or q in str(p.get("soc", "")).lower()
+                    or any(q in str(g.get("name", "")).lower() for g in p.get("supported_games", []))
+                    or any(q in str(a.get("name", "")).lower() for a in p.get("supported_apps", []))
+                ]
+            if brand_f:
+                phones = [p for p in phones if brand_f in str(p.get("brand", "")).lower()]
+            payload = dict(data)
+            payload["phones"] = phones
+            self._send_json(payload)
+            return
+
+        # --- GitHub Domain ---
         if url_path == "/api/github":
             qs = parse_qs(urlparse(self.path).query)
             q = qs.get("q", [""])[0].strip().lower()
@@ -374,6 +545,43 @@ class DatabaseHandler(http.server.SimpleHTTPRequestHandler):
             self._send_json(classify_github_catalog())
             return
 
+        # --- Cross-Domain PC <-> Games Queries ---
+        if url_path == "/api/cross/games-by-gpu":
+            from db_hub import query_games_by_gpu
+            qs = parse_qs(urlparse(self.path).query)
+            gpu_id = qs.get("gpu", ["rx-6600"])[0]
+            try:
+                psu = int(qs.get("psu", ["550"])[0])
+            except ValueError:
+                psu = 550
+            self._send_json(query_games_by_gpu(gpu_id=gpu_id, max_psu_watts=psu))
+            return
+
+        if url_path == "/api/cross/cpu-gpu-combos":
+            from db_hub import query_cpu_gpu_combos
+            qs = parse_qs(urlparse(self.path).query)
+            cpu_id = qs.get("cpu", ["ryzen-5-5600gt"])[0]
+            self._send_json(query_cpu_gpu_combos(cpu_id=cpu_id))
+            return
+
+        if url_path == "/api/cross/game-benchmarks":
+            from db_hub import query_game_benchmarks_with_pc
+            qs = parse_qs(urlparse(self.path).query)
+            gpu_id = qs.get("gpu", [None])[0]
+            game_id = qs.get("game", [None])[0]
+            self._send_json(query_game_benchmarks_with_pc(gpu_id=gpu_id, game_id=game_id))
+            return
+
+        if url_path == "/api/cross/check-build":
+            from compatibility_engine import evaluate_default_build
+            self._send_json(evaluate_default_build())
+            return
+
+        # Explicit 404 for unknown / retired /api/* routes (Alpha 2 clean cutover)
+        if url_path.startswith("/api/"):
+            self._send_json({"status": "error", "error": f"Endpoint not found: {url_path}"}, status=404)
+            return
+
         # Serve static web content from WEB_DIR
         super().do_GET()
 
@@ -402,7 +610,6 @@ class DatabaseHandler(http.server.SimpleHTTPRequestHandler):
             self._send_json({"status": "error", "error": reason}, status=403)
             return
 
-        # Drain small request body safely
         try:
             content_len = int(self.headers.get("Content-Length") or "0")
         except ValueError:
@@ -451,15 +658,30 @@ class DatabaseHandler(http.server.SimpleHTTPRequestHandler):
 
 
 def search_databases(query: str) -> dict[str, Any]:
-    """Search AI models, PC games, and hardware GPUs for a case-insensitive query."""
+    """Search across all 7 domains for a case-insensitive keyword."""
     q = query.lower().strip()
+    pc_data = load_pc_data()
     ai_data = load_ai_data()
     models = ai_data.get("models")
     if models is None:
         models = ai_data.get("records", [])
     games = load_games_data()
-    gpus = load_hardware_data().get("gpus", [])
-    manga_items = load_manga_data()
+    media_items = load_media_data()
+    books = load_book_data().get("books", [])
+    phones = load_phone_data().get("phones", [])
+    github_items = load_github_data()
+
+    matched_pc: list[dict[str, Any]] = []
+    for cat in PC_CATEGORIES:
+        for item in pc_data.get(cat, []):
+            hay = " ".join(str(v) for v in (item.get("name", ""), item.get("brand", ""), item.get("notes", ""), cat)).lower()
+            if q in hay:
+                matched_pc.append({"category": cat, **item})
+
+    matched_gpus = [
+        gpu for gpu in pc_data.get("gpus", [])
+        if q in str(gpu.get("name", "")).lower() or q in str(gpu.get("brand", "")).lower()
+    ]
 
     matched_models: list[dict[str, Any]] = []
     for m in models:
@@ -481,19 +703,31 @@ def search_databases(query: str) -> dict[str, Any]:
         if q in str(g.get("name", "")).lower() or q in str(g.get("genre", "")).lower()
     ]
 
-    matched_gpus = [
-        gpu for gpu in gpus
-        if q in str(gpu.get("name", "")).lower() or q in str(gpu.get("vendor", "")).lower()
-    ]
-
-    matched_manga = [
-        item for item in manga_items
+    matched_media = [
+        item for item in media_items
         if q in str(item.get("name", "")).lower()
         or q in str(item.get("alt", "")).lower()
         or q in str(item.get("origin", "")).lower()
+        or q in str(item.get("media_type", "")).lower()
+        or q in str(item.get("franchise_id", "")).lower()
     ]
 
-    github_items = load_github_data()
+    matched_books = [
+        b for b in books
+        if q in str(b.get("title", "")).lower()
+        or q in str(b.get("author", "")).lower()
+        or q in str(b.get("subject", "")).lower()
+    ]
+
+    matched_phones = [
+        p for p in phones
+        if q in str(p.get("name", "")).lower()
+        or q in str(p.get("brand", "")).lower()
+        or q in str(p.get("soc", "")).lower()
+        or any(q in str(g.get("name", "")).lower() for g in p.get("supported_games", []))
+        or any(q in str(a.get("name", "")).lower() for a in p.get("supported_apps", []))
+    ]
+
     matched_github = [
         repo for repo in github_items
         if q in str(repo.get("name", "")).lower()
@@ -504,24 +738,29 @@ def search_databases(query: str) -> dict[str, Any]:
 
     return {
         "query": query,
+        "pc": matched_pc,
+        "gpus": matched_gpus,
         "ai_models": matched_models,
         "games": matched_games,
-        "gpus": matched_gpus,
-        "manga": matched_manga,
+        "media": matched_media,
+        "book": matched_books,
+        "phone": matched_phones,
         "github": matched_github,
     }
 
 
 def run_cli_summary(query: str | None = None, as_json: bool = False) -> None:
     """Print multi-domain database summary or search results."""
+    pc_data = load_pc_data()
     ai_data = load_ai_data()
     models = ai_data.get("models")
     if models is None:
         models = ai_data.get("records", [])
     games = load_games_data()
-    hw_data = load_hardware_data()
-    gpus = hw_data.get("gpus", [])
-    manga_items = load_manga_data()
+    gpus = pc_data.get("gpus", [])
+    media_items = load_media_data()
+    books = load_book_data().get("books", [])
+    phones = load_phone_data().get("phones", [])
     github_items = load_github_data()
 
     if as_json:
@@ -530,10 +769,14 @@ def run_cli_summary(query: str | None = None, as_json: bool = False) -> None:
         else:
             payload = {
                 "counts": {
-                    "ai_models": len(models),
+                    "pc": _count_pc_parts(pc_data),
+                    "pc_gpus": len(gpus),
+                    "pc_cpus": len(pc_data.get("cpus", [])),
                     "games": len(games),
-                    "gpus": len(gpus),
-                    "manga": len(manga_items),
+                    "ai_models": len(models),
+                    "media": len(media_items),
+                    "book": len(books),
+                    "phone": len(phones),
                     "github": len(github_items),
                 },
                 "top_ai_models": [_extract_ai_model_fields(m) for m in models[:6]],
@@ -547,7 +790,7 @@ def run_cli_summary(query: str | None = None, as_json: bool = False) -> None:
                     }
                     for g in games[:6]
                 ],
-                "hardware_gpus": [
+                "pc_gpus": [
                     {
                         "id": gpu.get("id"),
                         "name": gpu.get("name", "Unknown"),
@@ -563,19 +806,20 @@ def run_cli_summary(query: str | None = None, as_json: bool = False) -> None:
         return
 
     print("\n" + "=" * 76)
-    print(" 🚀 DATABASE MANAGER — MULTI-DOMAIN DATABASE SUMMARY")
+    print(" DATABASE MANAGER — MULTI-DOMAIN DATABASE SUMMARY")
     print("=" * 76)
 
     if not query:
-        print("\n📊 TOTAL INVENTORY:")
-        print(f"  • AI Models Catalog:       {len(models)} models benchmarked")
+        print("\nTOTAL INVENTORY (7 REGISTERED DOMAINS):")
+        print(f"  • PC & Hardware Catalog:   {_count_pc_parts(pc_data)} parts ({len(gpus)} GPUs, {len(pc_data.get('cpus', []))} CPUs)")
         print(f"  • PC Games Database:       {len(games)} strategy & RTS titles")
-        print(f"  • Hardware GPU Tiers:      {len(gpus)} upgrade profiles")
-        print(f"  • Manga & Adaptations:     {len(manga_items)} catalog titles")
+        print(f"  • AI Models & Pricing:     {len(models)} models benchmarked")
+        print(f"  • Media & Adaptations:     {len(media_items)} entries (comics, novels, anime, series)")
+        print(f"  • Book Collection:         {len(books)} tracked books")
+        print(f"  • Phone & Mobile:          {len(phones)} devices")
         print(f"  • GitHub Repositories:     {len(github_items)} tracked repos")
-        print("  • Baseline PC:             Ryzen 5 5600GT (Vega 7, 16MB L3, 550W PSU)")
 
-        print("\n🤖 TOP AI MODELS (BY INTELLIGENCE INDEX):")
+        print("\nTOP AI MODELS (BY INTELLIGENCE INDEX):")
         print(f"  {'Model Name':<28} {'Vendor':<12} {'Index':<8} {'Pricing In/Out ($/M)'}")
         print("  " + "-" * 70)
         for m in models[:6]:
@@ -583,17 +827,7 @@ def run_cli_summary(query: str | None = None, as_json: bool = False) -> None:
             intel_str = str(f["intelligence_index"]) if f["intelligence_index"] is not None else "N/A"
             print(f"  {str(f['name'])[:26]:<28} {str(f['provider'])[:10]:<12} {intel_str:<8} ${f['prompt_per_m']} / ${f['completion_per_m']}")
 
-        print("\n🎮 SAMPLE RTS GAMES & VEGA 7 COMPATIBILITY:")
-        print(f"  {'Game Title':<28} {'Genre':<14} {'Price':<10} {'Vega 7 Playable FPS'}")
-        print("  " + "-" * 70)
-        for g in games[:6]:
-            title = g.get("name", "Unknown")[:26]
-            genre = g.get("genre", "RTS")[:12]
-            price = f"${g.get('priceUsd', 0)}" if g.get("priceModel") == "paid" else "Free"
-            fps = g.get("bench", {}).get("playable", {}).get("fps", "~30-40")
-            print(f"  {title:<28} {genre:<14} {price:<10} {fps}")
-
-        print("\n⚡ HARDWARE UPGRADE CANDIDATES (550W PSU GUARD):")
+        print("\nPC UPGRADE GPU CANDIDATES (550W PSU TRANSIENT GUARD):")
         print(f"  {'GPU Model':<28} {'TDP':<8} {'Peak Spike':<14} {'550W Status':<12} {'Used BDT'}")
         print("  " + "-" * 70)
         for gpu in gpus[:6]:
@@ -605,53 +839,53 @@ def run_cli_summary(query: str | None = None, as_json: bool = False) -> None:
             print(f"  {name:<28} {tdp:<8} {spike:<14} {status:<12} {bdt}")
 
         print("\n" + "=" * 76)
-        print(" 💡 Web Portal available at: http://127.0.0.1:8770")
-        print("    Run 'python src/server.py' to launch server, or pass search keyword.")
+        print(" Web Portal available at: http://127.0.0.1:8770")
+        print(" Run 'python src/server.py' to launch server, or pass search keyword.")
         print("=" * 76 + "\n")
         return
 
     results = search_databases(query)
-    print(f"\n🔍 SEARCH RESULTS FOR '{query}':")
+    print(f"\nSEARCH RESULTS FOR '{query}':")
 
-    matched_models = results["ai_models"]
-    if matched_models:
-        print(f"\n[AI Models — {len(matched_models)} matches]")
-        for f in matched_models:
+    if results["pc"]:
+        print(f"\n[PC Parts — {len(results['pc'])} matches]")
+        for item in results["pc"]:
+            print(f"  • [{item.get('category')}] {item.get('name')} — {item.get('brand', 'N/A')}")
+
+    if results["ai_models"]:
+        print(f"\n[AI Models — {len(results['ai_models'])} matches]")
+        for f in results["ai_models"]:
             intel = f["intelligence_index"] if f["intelligence_index"] is not None else "N/A"
             print(f"  • {f['name']} ({f['provider']}) — Intelligence: {intel}")
 
-    matched_games = results["games"]
-    if matched_games:
-        print(f"\n[PC Games — {len(matched_games)} matches]")
-        for g in matched_games:
-            title = g.get("name")
-            verdict = g.get("compatNote", "Compatible")
-            print(f"  • {title} — Note: {verdict}")
+    if results["games"]:
+        print(f"\n[PC Games — {len(results['games'])} matches]")
+        for g in results["games"]:
+            print(f"  • {g.get('name')} — Note: {g.get('compatNote', 'Compatible')}")
 
-    matched_gpus = results["gpus"]
-    if matched_gpus:
-        print(f"\n[Hardware GPUs — {len(matched_gpus)} matches]")
-        for gpu in matched_gpus:
-            name = gpu.get("name")
-            status = gpu.get("psu_badge") or gpu.get("psu_550w_verdict", "pass").upper()
-            spike = gpu.get("system_peak_watts", 0)
-            print(f"  • {name} — Peak Spike: ~{spike}W | PSU: {status}")
+    if results["media"]:
+        print(f"\n[Media & Adaptations — {len(results['media'])} matches]")
+        for m in results["media"]:
+            print(f"  • [{m.get('media_type', 'comic')}] {m.get('name')} ({m.get('origin')}) — {m.get('link')}")
 
-    matched_manga = results.get("manga", [])
-    if matched_manga:
-        print(f"\n[Manga & Adaptations — {len(matched_manga)} matches]")
-        for m in matched_manga:
-            print(f"  • {m.get('name')} ({m.get('origin')}) — {m.get('link')}")
+    if results["book"]:
+        print(f"\n[Book Collection — {len(results['book'])} matches]")
+        for b in results["book"]:
+            print(f"  • {b.get('title')} by {b.get('author')} [{b.get('ownership_status')}/{b.get('reading_status')}]")
 
-    matched_github = results.get("github", [])
-    if matched_github:
-        print(f"\n[GitHub Repositories — {len(matched_github)} matches]")
-        for r in matched_github:
+    if results["phone"]:
+        print(f"\n[Phone & Mobile — {len(results['phone'])} matches]")
+        for p in results["phone"]:
+            print(f"  • {p.get('name')} ({p.get('soc')}, {p.get('ram_gb')}GB RAM)")
+
+    if results["github"]:
+        print(f"\n[GitHub Repositories — {len(results['github'])} matches]")
+        for r in results["github"]:
             conc = (r.get("latest_run") or {}).get("conclusion") or "none"
             print(f"  • {r.get('full_name')} (CI: {conc}) — {r.get('description') or 'No description'}")
 
-    if not (matched_models or matched_games or matched_gpus or matched_manga or matched_github):
-        print("  (No matching records found across AI models, PC games, hardware GPUs, manga, or GitHub repos.)")
+    if not any(results[k] for k in ("pc", "ai_models", "games", "media", "book", "phone", "github")):
+        print("  (No matching records found across any domain.)")
 
     print("\n" + "=" * 76 + "\n")
 
@@ -667,11 +901,12 @@ def start_server(port: int = PORT) -> None:
     """Start the multi-threaded HTTP server on specified port."""
     with ReusableThreadingHTTPServer(("127.0.0.1", port), DatabaseHandler) as httpd:
         print("\n=======================================================")
-        print(" 🚀 Database Manager Server running on:")
-        print(f"    http://127.0.0.1:{port}")
-        print(f"    Static root: {WEB_DIR}")
-        print("    Endpoints:   /api/status, /api/ai, /api/games, /api/hardware")
-        print("    Press Ctrl+C to stop.")
+        print(" Database Manager Server running on:")
+        print(f"   http://127.0.0.1:{port}")
+        print(f"   Static root: {WEB_DIR}")
+        print("   Endpoints:   /api/status, /api/domains, /api/pc, /api/games,")
+        print("                /api/ai, /api/media, /api/book, /api/phone, /api/github")
+        print("   Press Ctrl+C to stop.")
         print("=======================================================\n")
         try:
             httpd.serve_forever()

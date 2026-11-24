@@ -1,11 +1,42 @@
 {
   "metadata": {
-    "version": "1.1.0",
-    "updated_at": "2026-11-22",
+    "domain": "pc",
+    "version": "2.0.0",
+    "updated_at": "2026-11-24",
     "currency_markets": [
       "BDT",
       "USD"
     ]
+  },
+  "system_baseline": {
+    "cpu": "AMD Ryzen 5 5600GT",
+    "architecture": "Zen 3 (Cezanne)",
+    "cores_threads": "6C / 12T (3.6 - 4.6 GHz)",
+    "l3_cache_mb": 16,
+    "cpu_demand_penalty_multiplier": 0.88,
+    "base_igpu": "Radeon Vega 7 (1900 MHz, Tier 3.0)",
+    "ram_gb": 16,
+    "ram_type": "DDR4-3200",
+    "storage": "1TB HDD (7200 RPM) + SSD Upgrade Recommendation",
+    "psu_model": "550W 80+ Bronze (43A single +12V rail)",
+    "psu_rated_wattage": 550,
+    "base_system_watts": 85,
+    "psu_continuous_safe_limit_watts": 412.5,
+    "psu_transient_trip_limit_watts": 550.0
+  },
+  "transient_rules": {
+    "high_tdp_threshold_watts": 250,
+    "mid_tdp_threshold_watts": 180,
+    "multipliers": {
+      "high": 2.0,
+      "mid": 1.65,
+      "low": 1.35
+    },
+    "guidance": {
+      "pass": "Headroom Safe: Microsecond spikes stay well within the 550W rail headroom.",
+      "warn": "Heavy PSU Load: Peak spikes reach 75-95% of PSU capacity; fan will run loud.",
+      "fail": "OCP Trip Risk: Microsecond transient spikes exceed 550W, risking emergency power shutdowns during intense scenes."
+    }
   },
   "cpus": [
     {
@@ -52,7 +83,10 @@
         }
       ],
       "price_spread_pct": 2.1,
-      "spread_alert": false
+      "spread_alert": false,
+      "tier": 6.5,
+      "integrated_gpu": "Radeon Vega 7 (1900 MHz)",
+      "notes": "Current system baseline. Solid Zen 3 APU with fast single-core clock, 16MB L3 cache."
     },
     {
       "id": "ryzen-5-5600",
@@ -98,7 +132,10 @@
         }
       ],
       "price_spread_pct": 3.0,
-      "spread_alert": false
+      "spread_alert": false,
+      "tier": 7.0,
+      "integrated_gpu": "None",
+      "notes": "Dedicated Vermeer core with double L3 cache (32MB), offering ~10-15% higher 1% lows in RTS simulation games."
     },
     {
       "id": "ryzen-7-5700x",
@@ -144,7 +181,10 @@
         }
       ],
       "price_spread_pct": 3.8,
-      "spread_alert": false
+      "spread_alert": false,
+      "tier": 7.6,
+      "integrated_gpu": "None",
+      "notes": "8-core Vermeer AM4 drop-in upgrade with 65W TDP."
     },
     {
       "id": "ryzen-7-5700x3d",
@@ -190,7 +230,10 @@
         }
       ],
       "price_spread_pct": 2.7,
-      "spread_alert": false
+      "spread_alert": false,
+      "tier": 9.0,
+      "integrated_gpu": "None",
+      "notes": "Ultimate AM4 gaming drop-in upgrade. Massive 96MB 3D V-Cache eliminates simulation frame dips in late-game RTS."
     },
     {
       "id": "ryzen-5-7500f",
@@ -236,7 +279,10 @@
         }
       ],
       "price_spread_pct": 4.2,
-      "spread_alert": false
+      "spread_alert": false,
+      "tier": 8.3,
+      "integrated_gpu": "None",
+      "notes": "Value AM5 DDR5 gaming CPU without integrated graphics."
     },
     {
       "id": "ryzen-5-7600",
@@ -282,7 +328,10 @@
         }
       ],
       "price_spread_pct": 3.3,
-      "spread_alert": false
+      "spread_alert": false,
+      "tier": 8.5,
+      "integrated_gpu": "Radeon 2CU RDNA2",
+      "notes": "Zen 4 platform upgrade path requiring DDR5 and AM5 motherboard."
     },
     {
       "id": "ryzen-7-7800x3d",
@@ -328,7 +377,10 @@
         }
       ],
       "price_spread_pct": 3.1,
-      "spread_alert": false
+      "spread_alert": false,
+      "tier": 9.8,
+      "integrated_gpu": "Radeon 2CU RDNA2",
+      "notes": "Flagship AM5 3D V-Cache gaming processor."
     },
     {
       "id": "core-i5-12400f",
@@ -374,7 +426,10 @@
         }
       ],
       "price_spread_pct": 2.9,
-      "spread_alert": false
+      "spread_alert": false,
+      "tier": 7.0,
+      "integrated_gpu": "None",
+      "notes": "Intel Alder Lake 6-performance core budget alternative."
     },
     {
       "id": "core-i5-13400f",
@@ -420,7 +475,10 @@
         }
       ],
       "price_spread_pct": 4.4,
-      "spread_alert": false
+      "spread_alert": false,
+      "tier": 7.8,
+      "integrated_gpu": "None",
+      "notes": "Hybrid 6P + 4E architecture with solid multi-threaded performance."
     },
     {
       "id": "core-i5-14400f",
@@ -466,63 +524,57 @@
         }
       ],
       "price_spread_pct": 4.0,
-      "spread_alert": false
+      "spread_alert": false,
+      "tier": 8.0,
+      "integrated_gpu": "None",
+      "notes": "10-core Raptor Lake refresh budget gaming processor."
     }
   ],
   "gpus": [
     {
-      "id": "rx-6600",
-      "name": "AMD Radeon RX 6600 (8 GB)",
+      "id": "vega-7-igpu",
+      "name": "Radeon Vega 7 (Integrated)",
       "brand": "AMD",
-      "tdp_watts": 132,
-      "vram_gb": 8,
-      "pcie_gen": 4,
-      "pcie_lanes": 8,
+      "tier": 3.0,
+      "vram_gb": 2.0,
+      "vram_type": "Shared DDR4",
+      "tdp_watts": 25.0,
+      "pcie_gen": 3,
+      "pcie_lanes": 0,
       "outputs": {
-        "hdmi": "2.1",
+        "hdmi": "1.4",
         "hdmi_count": 1,
-        "dp": "1.4",
-        "dp_count": 3
+        "dp": "1.2",
+        "dp_count": 0
       },
-      "target_res": "1080p",
-      "price_bdt": 28800,
-      "price_usd": 199,
-      "retailer_prices": {
-        "Star Tech": 29500,
-        "Ryans": 29800,
-        "UCC": 28800
-      },
-      "best_retailer": "UCC",
-      "price_spread_bdt": 1000,
-      "sources": [
-        {
-          "source": "Star Tech",
-          "url": "https://www.startech.com.bd/",
-          "tier": "tier1_httpx",
-          "scraped_at": "2026-11-22T15:50:12Z"
-        },
-        {
-          "source": "Ryans Computers",
-          "url": "https://www.ryans.com/",
-          "tier": "tier1_httpx",
-          "scraped_at": "2026-11-22T15:50:12Z"
-        },
-        {
-          "source": "UCC BD",
-          "url": "https://www.ucc.com.bd/",
-          "tier": "tier1_httpx",
-          "scraped_at": "2026-11-22T15:50:12Z"
-        }
-      ],
-      "price_spread_pct": 3.5,
-      "spread_alert": false
+      "transient_multiplier": 1.35,
+      "gpu_peak_spike_watts": 34,
+      "system_peak_watts": 119,
+      "continuous_system_watts": 110,
+      "psu_550w_verdict": "pass",
+      "psu_badge": "Headroom Safe",
+      "target_res": "720p / 900p / 1080p Low",
+      "relative_speed_vs_vega7": 1.0,
+      "price_bdt": 0.0,
+      "price_bdt_retail": 0.0,
+      "price_bdt_used": 0.0,
+      "price_usd": 0.0,
+      "retailer_prices": {},
+      "best_retailer": "Baseline",
+      "price_spread_bdt": 0,
+      "price_spread_pct": 0.0,
+      "spread_alert": false,
+      "sources": [],
+      "notes": "Base iGPU included with Ryzen 5 5600GT. Solid for esport RTS, requires lowest settings for heavy 3D."
     },
     {
       "id": "gtx-1660-super",
-      "name": "NVIDIA GeForce GTX 1660 SUPER (6 GB)",
+      "name": "GeForce GTX 1660 Super",
       "brand": "NVIDIA",
-      "tdp_watts": 125,
-      "vram_gb": 6,
+      "tier": 6.5,
+      "vram_gb": 6.0,
+      "vram_type": "GDDR6",
+      "tdp_watts": 125.0,
       "pcie_gen": 3,
       "pcie_lanes": 16,
       "outputs": {
@@ -533,9 +585,18 @@
         "dvi": "DVI-D",
         "dvi_count": 1
       },
-      "target_res": "1080p",
-      "price_bdt": 24500,
-      "price_usd": 160,
+      "transient_multiplier": 1.35,
+      "gpu_peak_spike_watts": 169,
+      "system_peak_watts": 254,
+      "continuous_system_watts": 210,
+      "psu_550w_verdict": "pass",
+      "psu_badge": "Headroom Safe",
+      "target_res": "1080p Medium / High (50-60 FPS)",
+      "relative_speed_vs_vega7": 2.8,
+      "price_bdt": 24500.0,
+      "price_bdt_retail": 24500.0,
+      "price_bdt_used": 15000.0,
+      "price_usd": 160.0,
       "retailer_prices": {
         "Star Tech": 24990,
         "Ryans": 25235,
@@ -543,6 +604,8 @@
       },
       "best_retailer": "UCC",
       "price_spread_bdt": 735,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
       "sources": [
         {
           "source": "Star Tech",
@@ -563,15 +626,111 @@
           "scraped_at": "2026-11-22T15:50:12Z"
         }
       ],
-      "price_spread_pct": 3.0,
-      "spread_alert": false
+      "notes": "Popular used budget upgrade. Low 125W draw runs very cool on 550W PSU with 296W headroom."
+    },
+    {
+      "id": "rtx-2060",
+      "name": "GeForce RTX 2060 (6 GB)",
+      "brand": "NVIDIA",
+      "tier": 7.0,
+      "vram_gb": 6.0,
+      "vram_type": "GDDR6",
+      "tdp_watts": 160.0,
+      "pcie_gen": 3,
+      "pcie_lanes": 16,
+      "outputs": {
+        "hdmi": "2.0b",
+        "hdmi_count": 1,
+        "dp": "1.4",
+        "dp_count": 2
+      },
+      "transient_multiplier": 1.35,
+      "gpu_peak_spike_watts": 216,
+      "system_peak_watts": 301,
+      "continuous_system_watts": 245,
+      "psu_550w_verdict": "pass",
+      "psu_badge": "Headroom Safe",
+      "target_res": "1080p High (60 FPS + DLSS)",
+      "relative_speed_vs_vega7": 3.3,
+      "price_bdt": 28000.0,
+      "price_bdt_retail": 28000.0,
+      "price_bdt_used": 18500.0,
+      "price_usd": 165.0,
+      "retailer_prices": {},
+      "best_retailer": "Star Tech",
+      "price_spread_bdt": 0,
+      "price_spread_pct": 0.0,
+      "spread_alert": false,
+      "sources": [],
+      "notes": "Adds DLSS support and hardware ray tracing cores. Spikes stay comfortably below 320W."
+    },
+    {
+      "id": "rx-6600",
+      "name": "Radeon RX 6600 (8 GB)",
+      "brand": "AMD",
+      "tier": 7.5,
+      "vram_gb": 8.0,
+      "vram_type": "GDDR6",
+      "tdp_watts": 132.0,
+      "pcie_gen": 4,
+      "pcie_lanes": 8,
+      "outputs": {
+        "hdmi": "2.1",
+        "hdmi_count": 1,
+        "dp": "1.4",
+        "dp_count": 3
+      },
+      "transient_multiplier": 1.35,
+      "gpu_peak_spike_watts": 178,
+      "system_peak_watts": 263,
+      "continuous_system_watts": 217,
+      "psu_550w_verdict": "pass",
+      "psu_badge": "Headroom Safe",
+      "target_res": "1080p Ultra (60-80 FPS)",
+      "relative_speed_vs_vega7": 3.9,
+      "price_bdt": 28800.0,
+      "price_bdt_retail": 28800.0,
+      "price_bdt_used": 22500.0,
+      "price_usd": 199.0,
+      "retailer_prices": {
+        "Star Tech": 29500,
+        "Ryans": 29800,
+        "UCC": 28800
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 1000,
+      "price_spread_pct": 3.5,
+      "spread_alert": false,
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier1_httpx",
+          "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ],
+      "notes": "The primary recommended upgrade champion. 8GB VRAM avoids modern stutter, 132W draw is ultra-safe for 550W PSU."
     },
     {
       "id": "rtx-3060",
       "name": "NVIDIA GeForce RTX 3060 (12 GB)",
       "brand": "NVIDIA",
-      "tdp_watts": 170,
-      "vram_gb": 12,
+      "tier": 7.8,
+      "vram_gb": 12.0,
+      "vram_type": "GDDR6",
+      "tdp_watts": 170.0,
       "pcie_gen": 4,
       "pcie_lanes": 16,
       "outputs": {
@@ -580,9 +739,18 @@
         "dp": "1.4a",
         "dp_count": 3
       },
+      "transient_multiplier": 1.35,
+      "gpu_peak_spike_watts": 230,
+      "system_peak_watts": 315,
+      "continuous_system_watts": 255,
+      "psu_550w_verdict": "pass",
+      "psu_badge": "Headroom Safe",
       "target_res": "1080p",
-      "price_bdt": 36500,
-      "price_usd": 280,
+      "relative_speed_vs_vega7": 4.3,
+      "price_bdt": 36500.0,
+      "price_bdt_retail": 36500.0,
+      "price_bdt_used": 28000.0,
+      "price_usd": 280.0,
       "retailer_prices": {
         "Star Tech": 37230,
         "Ryans": 37595,
@@ -590,6 +758,8 @@
       },
       "best_retailer": "UCC",
       "price_spread_bdt": 1095,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
       "sources": [
         {
           "source": "Star Tech",
@@ -610,15 +780,16 @@
           "scraped_at": "2026-11-22T15:50:12Z"
         }
       ],
-      "price_spread_pct": 3.0,
-      "spread_alert": false
+      "notes": "12GB VRAM great for VRAM-heavy textures and productivity; 170W TDP runs safe on 550W PSU."
     },
     {
       "id": "rtx-4060",
-      "name": "NVIDIA GeForce RTX 4060 (8 GB)",
+      "name": "GeForce RTX 4060 (8 GB)",
       "brand": "NVIDIA",
-      "tdp_watts": 115,
-      "vram_gb": 8,
+      "tier": 8.0,
+      "vram_gb": 8.0,
+      "vram_type": "GDDR6",
+      "tdp_watts": 115.0,
       "pcie_gen": 4,
       "pcie_lanes": 8,
       "outputs": {
@@ -627,9 +798,18 @@
         "dp": "1.4a",
         "dp_count": 3
       },
-      "target_res": "1080p",
-      "price_bdt": 45900,
-      "price_usd": 299,
+      "transient_multiplier": 1.35,
+      "gpu_peak_spike_watts": 155,
+      "system_peak_watts": 240,
+      "continuous_system_watts": 200,
+      "psu_550w_verdict": "pass",
+      "psu_badge": "Headroom Safe",
+      "target_res": "1080p Ultra + Frame Gen (80+ FPS)",
+      "relative_speed_vs_vega7": 4.6,
+      "price_bdt": 45900.0,
+      "price_bdt_retail": 45900.0,
+      "price_bdt_used": 34000.0,
+      "price_usd": 299.0,
       "retailer_prices": {
         "Star Tech": 46500,
         "Ryans": 47000,
@@ -637,6 +817,8 @@
       },
       "best_retailer": "UCC",
       "price_spread_bdt": 1100,
+      "price_spread_pct": 2.4,
+      "spread_alert": false,
       "sources": [
         {
           "source": "Star Tech",
@@ -657,15 +839,16 @@
           "scraped_at": "2026-11-22T15:50:12Z"
         }
       ],
-      "price_spread_pct": 2.4,
-      "spread_alert": false
+      "notes": "Ada Lovelace architecture. Extremely power efficient (115W TDP) with DLSS 3 Frame Generation."
     },
     {
       "id": "rtx-4060-ti",
       "name": "NVIDIA GeForce RTX 4060 Ti (8 GB)",
       "brand": "NVIDIA",
-      "tdp_watts": 160,
-      "vram_gb": 8,
+      "tier": 8.4,
+      "vram_gb": 8.0,
+      "vram_type": "GDDR6",
+      "tdp_watts": 160.0,
       "pcie_gen": 4,
       "pcie_lanes": 8,
       "outputs": {
@@ -674,9 +857,18 @@
         "dp": "1.4a",
         "dp_count": 3
       },
+      "transient_multiplier": 1.35,
+      "gpu_peak_spike_watts": 216,
+      "system_peak_watts": 301,
+      "continuous_system_watts": 245,
+      "psu_550w_verdict": "pass",
+      "psu_badge": "Headroom Safe",
       "target_res": "1080p",
-      "price_bdt": 54500,
-      "price_usd": 389,
+      "relative_speed_vs_vega7": 5.3,
+      "price_bdt": 54500.0,
+      "price_bdt_retail": 54500.0,
+      "price_bdt_used": 44000.0,
+      "price_usd": 389.0,
       "retailer_prices": {
         "Star Tech": 55590,
         "Ryans": 56135,
@@ -684,6 +876,8 @@
       },
       "best_retailer": "UCC",
       "price_spread_bdt": 1635,
+      "price_spread_pct": 3.0,
+      "spread_alert": false,
       "sources": [
         {
           "source": "Star Tech",
@@ -704,15 +898,16 @@
           "scraped_at": "2026-11-22T15:50:12Z"
         }
       ],
-      "price_spread_pct": 3.0,
-      "spread_alert": false
+      "notes": "Strong 1080p/1440p Ada Lovelace card at 160W TDP with DLSS 3 Frame Generation."
     },
     {
       "id": "rx-6700-xt",
-      "name": "AMD Radeon RX 6700 XT (12 GB)",
+      "name": "Radeon RX 6700 XT (12 GB)",
       "brand": "AMD",
-      "tdp_watts": 230,
-      "vram_gb": 12,
+      "tier": 8.5,
+      "vram_gb": 12.0,
+      "vram_type": "GDDR6",
+      "tdp_watts": 230.0,
       "pcie_gen": 4,
       "pcie_lanes": 16,
       "outputs": {
@@ -721,9 +916,18 @@
         "dp": "1.4",
         "dp_count": 3
       },
-      "target_res": "1440p",
-      "price_bdt": 47500,
-      "price_usd": 330,
+      "transient_multiplier": 1.65,
+      "gpu_peak_spike_watts": 380,
+      "system_peak_watts": 465,
+      "continuous_system_watts": 315,
+      "psu_550w_verdict": "pass",
+      "psu_badge": "Headroom Safe",
+      "target_res": "1440p High / Ultra (60-90 FPS)",
+      "relative_speed_vs_vega7": 5.4,
+      "price_bdt": 47500.0,
+      "price_bdt_retail": 47500.0,
+      "price_bdt_used": 33000.0,
+      "price_usd": 330.0,
       "retailer_prices": {
         "Star Tech": 47500,
         "Ryans": 49000,
@@ -731,6 +935,8 @@
       },
       "best_retailer": "Star Tech",
       "price_spread_bdt": 1500,
+      "price_spread_pct": 3.2,
+      "spread_alert": false,
       "sources": [
         {
           "source": "Star Tech",
@@ -751,15 +957,16 @@
           "scraped_at": "2026-11-22T15:50:12Z"
         }
       ],
-      "price_spread_pct": 3.2,
-      "spread_alert": false
+      "notes": "12GB VRAM powerhouse for 1440p. 230W TDP causes transient spikes to ~465W; runs close to 550W PSU comfort threshold."
     },
     {
       "id": "rtx-4070-super",
-      "name": "NVIDIA GeForce RTX 4070 Super (12 GB)",
+      "name": "GeForce RTX 4070 Super (12 GB)",
       "brand": "NVIDIA",
-      "tdp_watts": 220,
-      "vram_gb": 12,
+      "tier": 9.0,
+      "vram_gb": 12.0,
+      "vram_type": "GDDR6X",
+      "tdp_watts": 220.0,
       "pcie_gen": 4,
       "pcie_lanes": 16,
       "outputs": {
@@ -768,9 +975,18 @@
         "dp": "1.4a",
         "dp_count": 3
       },
-      "target_res": "1440p",
-      "price_bdt": 81900,
-      "price_usd": 599,
+      "transient_multiplier": 1.65,
+      "gpu_peak_spike_watts": 363,
+      "system_peak_watts": 448,
+      "continuous_system_watts": 305,
+      "psu_550w_verdict": "pass",
+      "psu_badge": "Headroom Safe",
+      "target_res": "1440p Ultra / High FPS (100+ FPS)",
+      "relative_speed_vs_vega7": 7.1,
+      "price_bdt": 81900.0,
+      "price_bdt_retail": 81900.0,
+      "price_bdt_used": 68000.0,
+      "price_usd": 599.0,
       "retailer_prices": {
         "Star Tech": 82500,
         "Ryans": 84000,
@@ -778,6 +994,8 @@
       },
       "best_retailer": "UCC",
       "price_spread_bdt": 2100,
+      "price_spread_pct": 2.6,
+      "spread_alert": false,
       "sources": [
         {
           "source": "Star Tech",
@@ -798,15 +1016,16 @@
           "scraped_at": "2026-11-22T15:50:12Z"
         }
       ],
-      "price_spread_pct": 2.6,
-      "spread_alert": false
+      "notes": "High performance 1440p card. Spikes to ~448W are tolerated on Tier A/B 550W, but PSU upgrade to 650W+ is recommended."
     },
     {
       "id": "rx-7800-xt",
-      "name": "AMD Radeon RX 7800 XT (16 GB)",
+      "name": "Radeon RX 7800 XT (16 GB)",
       "brand": "AMD",
-      "tdp_watts": 263,
-      "vram_gb": 16,
+      "tier": 9.5,
+      "vram_gb": 16.0,
+      "vram_type": "GDDR6",
+      "tdp_watts": 263.0,
       "pcie_gen": 4,
       "pcie_lanes": 16,
       "outputs": {
@@ -815,9 +1034,18 @@
         "dp": "2.1",
         "dp_count": 3
       },
-      "target_res": "1440p",
-      "price_bdt": 73900,
-      "price_usd": 499,
+      "transient_multiplier": 2.0,
+      "gpu_peak_spike_watts": 526,
+      "system_peak_watts": 611,
+      "continuous_system_watts": 348,
+      "psu_550w_verdict": "fail",
+      "psu_badge": "OCP Trip Risk",
+      "target_res": "1440p Max / 4K Entry",
+      "relative_speed_vs_vega7": 7.8,
+      "price_bdt": 73900.0,
+      "price_bdt_retail": 73900.0,
+      "price_bdt_used": 58000.0,
+      "price_usd": 499.0,
       "retailer_prices": {
         "Star Tech": 74500,
         "Ryans": 76000,
@@ -825,6 +1053,8 @@
       },
       "best_retailer": "UCC",
       "price_spread_bdt": 2100,
+      "price_spread_pct": 2.8,
+      "spread_alert": false,
       "sources": [
         {
           "source": "Star Tech",
@@ -845,8 +1075,7 @@
           "scraped_at": "2026-11-22T15:50:12Z"
         }
       ],
-      "price_spread_pct": 2.8,
-      "spread_alert": false
+      "notes": "DO NOT RUN ON 550W PSU. 263W card exhibits microsecond transient spikes up to 526W (total system 611W), triggering OCP shutdown."
     }
   ],
   "motherboards": [
@@ -1964,6 +2193,60 @@
           "scraped_at": "2026-11-22T15:50:12Z"
         }
       ]
+    }
+  ],
+  "psus": [
+    {
+      "id": "baseline-550w-bronze",
+      "name": "550W 80+ Bronze (43A Single +12V Rail)",
+      "brand": "Corsair CV550 / Baseline",
+      "wattage": 550,
+      "efficiency": "80+ Bronze",
+      "single_rail_12v_amps": 43,
+      "atx_version": "ATX 2.4",
+      "modular": "Non-Modular",
+      "price_bdt": 5200,
+      "price_usd": 49,
+      "notes": "Current baseline PC PSU. Safe <= 170W GPUs; 220W+ runs warm; >= 250W risks OCP trip."
+    },
+    {
+      "id": "deepcool-pk550d-550w",
+      "name": "DeepCool PK550D 550W 80+ Bronze",
+      "brand": "DeepCool",
+      "wattage": 550,
+      "efficiency": "80+ Bronze",
+      "single_rail_12v_amps": 45.8,
+      "atx_version": "ATX 2.4",
+      "modular": "Non-Modular",
+      "price_bdt": 5600,
+      "price_usd": 55,
+      "notes": "Budget Tier-C DC-DC 550W PSU suitable for RX 6600 / RTX 4060 builds."
+    },
+    {
+      "id": "corsair-cx650-650w",
+      "name": "Corsair CX650 650W 80+ Bronze",
+      "brand": "Corsair",
+      "wattage": 650,
+      "efficiency": "80+ Bronze",
+      "single_rail_12v_amps": 54,
+      "atx_version": "ATX 2.52",
+      "modular": "Non-Modular",
+      "price_bdt": 7400,
+      "price_usd": 69,
+      "notes": "Safe headroom upgrade for 220W-230W GPUs like RX 6700 XT and RTX 4070 Super."
+    },
+    {
+      "id": "msi-mag-a750gl-750w",
+      "name": "MSI MAG A750GL PCIE5 750W 80+ Gold",
+      "brand": "MSI",
+      "wattage": 750,
+      "efficiency": "80+ Gold",
+      "single_rail_12v_amps": 62.5,
+      "atx_version": "ATX 3.0 / PCIe 5.0",
+      "modular": "Full Modular",
+      "price_bdt": 11500,
+      "price_usd": 99,
+      "notes": "ATX 3.0 compliant 2x excursion tolerance; handles RX 7800 XT (611W spikes) safely."
     }
   ],
   "monitors": [

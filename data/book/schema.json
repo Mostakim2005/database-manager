@@ -1,0 +1,51 @@
+{
+  "domain": "book",
+  "schema_version": "2.0.0",
+  "records_key": "books",
+  "unique_key": "id",
+  "required_fields": [
+    "id",
+    "title",
+    "author",
+    "subject",
+    "format",
+    "ownership_status",
+    "reading_status"
+  ],
+  "field_types": {
+    "id": "str",
+    "title": "str",
+    "author": "str",
+    "subject": "str",
+    "format": "str",
+    "ownership_status": "str",
+    "reading_status": "str",
+    "rating": "number",
+    "notes": "str"
+  },
+  "enums": {
+    "format": [
+      "paperback",
+      "hardcover",
+      "ebook",
+      "pdf",
+      "audiobook"
+    ],
+    "ownership_status": [
+      "owned",
+      "wishlist",
+      "borrowed",
+      "library"
+    ],
+    "reading_status": [
+      "reading",
+      "completed",
+      "queued",
+      "reference",
+      "paused"
+    ]
+  },
+  "ranges": {
+    "rating": [0, 5]
+  }
+}

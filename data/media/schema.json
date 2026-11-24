@@ -1,0 +1,37 @@
+{
+  "domain": "media",
+  "schema_version": "2.0.0",
+  "records_key": null,
+  "unique_key": "id",
+  "required_fields": [
+    "id",
+    "name",
+    "media_type",
+    "link",
+    "origin",
+    "anime",
+    "live_action"
+  ],
+  "field_types": {
+    "id": "str",
+    "name": "str",
+    "alt": "str",
+    "media_type": "str",
+    "link": "str",
+    "origin": "str",
+    "anime": "str",
+    "live_action": "str",
+    "franchise_id": "str"
+  },
+  "enums": {
+    "media_type": [
+      "comic",
+      "light_novel",
+      "anime",
+      "donghua",
+      "movie",
+      "tv_series"
+    ]
+  },
+  "ranges": {}
+}

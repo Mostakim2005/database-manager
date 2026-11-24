@@ -87,12 +87,46 @@ flowchart LR
 * **Plain-English Summary of Pivot:** All personal reference catalogs (AI, Games, Hardware, CPUs, Components, Manga) now share one server (`127.0.0.1:8770`), one SQLite compilation/verification gate, and one CI pipeline.
 
 ### [DECISION: GitHub-Manager-Consolidation] | Aliases: github domain merge, github manager port 8765 collision, repo triage hub
-> **1-Line Summary:** Folded standalone `GitHub Manager` (`Mostakim2005/github-manager`) into `Database Manager` as the 7th registered SQLite/Web domain (`github`) on port `8770` with privacy redaction, safe DOM rendering, and CSRF-guarded POST handlers.
+> **1-Line Summary:** Folded standalone `GitHub Manager` (`Mostakim2005/github-manager`) into `Database Manager` as a registered DevOps domain (`github`) on port `8770` with privacy redaction, safe DOM rendering, and CSRF-guarded POST handlers.
 * **Decision Maker:** `[DECIDED BY: HUMAN]`
 * **Original User Intention:** Eliminate port collision with AnkiConnect (`127.0.0.1:8765`) and stop maintaining a duplicate stdlib HTTP server/docs suite by unifying repository activity triage, CI build health, fork drift, and Markdown export into `Database Manager`.
 * **Options Considered:**
   * **Option A (Rejected):** Keep `GitHub Manager` standalone on a reassigned port and leave raw `cache.json` (including private repos) tracked separately.
   * **Option B (Chosen):** Port scanner/exporter/CLI into `src/github/`, redact private repos from `data/github/repos_public.json` while gitignoring `live_cache.json`, compile `github.sqlite`, rewrite `web/github/index.html` using `createElement`/`textContent`, and guard `POST /api/github/{refresh,export}` with loopback `Host`/`Origin` CSRF checks and a non-blocking scan lock.
+
+### [DECISION: Domain-Reorganization-PC-Media-And-VRAM-Decoupling] | Aliases: pc domain merge, ai vram removal, media rename, obsidian retirement, alpha 2 cutover
+> **1-Line Summary:** Unified `hardware` + `cpus` + `pc_components` into `pc`, decoupled `ai` completely from local GPU VRAM, expanded `manga` into `media` (discarding Obsidian markdown sync), strengthened `games` <-> `pc` linkage, and enforced strict `Alpha 2` cutover + per-domain SQLite table isolation.
+* **Decision Maker:** `[DECIDED BY: HUMAN]`
+* **Original User Intention:** Eliminate overlap across PC hardware datasets, remove meaningless AI-to-VRAM mapping (`ai` is strictly API pricing, benchmarks, and capability tiers), turn `manga` into a multi-format interconnected `media` hub (retiring Obsidian markdown write-back once public records are imported), deeply connect `games` to `pc` GPUs/benchmarks, and remove retired endpoints cleanly.
+* **Options Considered:**
+  * **Option A (Rejected):** Keep `hardware`, `cpus`, and `pc_components` separate with legacy `/api/hardware` aliases, retain `v_local_ai_vram_fit`, and keep writing back to Obsidian `Manhua Links.md`.
+  * **Option B (Chosen):** Merge all 75 PC parts into `data/pc/pc.json` (`web/pc/`), delete `v_local_ai_vram_fit` and `/api/cross/ai-vram-fit`, join `games.game_benchmarks` with `pc.pc_gpus` (`v_game_benchmarks_with_pc`) and canonicalize GameRank GPU IDs, move `manga` to `media` (`data/media/`, `src/media/`, `web/media/`) with `franchise_id`/`relations` and clean `Outlander` TV series import (no private MEGA URLs), isolate `compile_separated_domains()` table creation per domain, and return HTTP 404 on removed legacy routes.
+
+```mermaid
+flowchart LR
+    %% Color Definitions
+    classDef oldNode fill:#b91c1c,stroke:#7f1d1d,color:#ffffff
+    classDef procNode fill:#0f766e,stroke:#115e59,color:#ffffff
+    classDef newNode fill:#15803d,stroke:#14532d,color:#ffffff
+
+    O1[hardware + cpus + pc_components]:::oldNode -->|Unified into| N1[(data/pc/pc.json + pc.sqlite)]:::newNode
+    O2[manga + Obsidian Manhua Links.md]:::oldNode -->|Expanded, Obsidian retired| N2[(data/media/media_catalog.json + media.sqlite)]:::newNode
+    O3[AI x Local VRAM fit view]:::oldNode -->|Deleted| N3[(ai.sqlite: API Pricing & Benchmarks Only)]:::newNode
+    N1 <-->|v_games_by_gpu & v_game_benchmarks_with_pc| N4[(data/games/games.sqlite)]:::newNode
+
+    subgraph Legend["Legend"]
+        L1[Red = Retired Overlap & Coupling]:::oldNode
+        L2[Green = Clean Domain Boundaries]:::newNode
+    end
+```
+
+### [DECISION: Rename-Ready-Registry-Groups-And-New-Domains] | Aliases: display_name aliases, domain groups, book domain, learning alias, phone domain
+> **1-Line Summary:** Added domain grouping (`groups`), `display_name`, `short_label`, and `aliases` across all 7 domains in `data/registry.json`, driving UI tabs, stats, CLI, and `/api/domain/<alias>` dynamically while scaffolding `book` and `phone`.
+* **Decision Maker:** `[DECIDED BY: HUMAN]`
+* **Original User Intention:** Support mobile device + app/game tracking (`phone`), personal book tracking (`book`), and effortless future renames (e.g., `Book` -> `Learning`) without code rewrites.
+* **Options Considered:**
+  * **Option A (Rejected):** Hardcode tab names and HTML buttons in `web/index.html` and require exact folder-key matches everywhere.
+  * **Option B (Chosen):** Drive portal groups/tabs/stats from `/api/status` & `data/registry.json`, resolve aliases everywhere via `resolve_domain_key`, and add full schema/SQLite/safe-DOM UI for `book` (with `learning`/`reading` aliases) and `phone`.
 * **Plain-English Summary of Pivot:** Consolidating into `Database Manager` resolves the `:8765` AnkiConnect port conflict, brings SQLite querying + `_meta` freshness tracking + schema verification + unified `--cli` search to the GitHub catalog, and hardens all security and `None`-dereference bugs from the standalone prototype.
 
 ---
@@ -183,15 +217,21 @@ flowchart LR
 
 ### [TRAP: Manga-Jikan-And-JS-Rendered-Search-Pages] | Aliases: api.jikan.moe timeout, viki iqiyi empty html, comix spa cloudflare
 > **1-Line Summary:** `api.jikan.moe` times out on this host (`WinError 10060`), `comix.to/browse?q=` is Cloudflare/SPA-gated, and Viki/iQIYI return HTTP 200 HTML shells with JS-rendered search results.
-* **Where It Lurks:** `src/manga/crawler.py`, `src/manga/adaptation_refresh.py`
+* **Where It Lurks:** `src/media/crawler.py`, `src/media/adaptation_refresh.py`
 * **What Goes Wrong:** Direct HTTP probes to Jikan time out, and `HTTP 200` on Viki/iQIYI search shells can falsely look like "no adaptation exists".
-* **The Permanent Fix:** Use `comix.to` XML sitemaps for canonical series URLs (`src/manga/crawler.py`), probe reachable sources (IMDb suggestion JSON, MyDramaList, YouTube, DuckDuckGo HTML) via `fetch_helper.safe_get`, and treat empty HTTP 200 shells on JS-heavy platforms as inconclusive rather than absent.
+* **The Permanent Fix:** Use `comix.to` XML sitemaps for canonical series URLs (`src/media/crawler.py`), probe reachable sources (IMDb suggestion JSON, MyDramaList, YouTube, DuckDuckGo HTML) via `fetch_helper.safe_get`, and treat empty HTTP 200 shells on JS-heavy platforms as inconclusive rather than absent.
 
-### [TRAP: Obsidian-Manhua-Vault-Outlander-Preservation] | Aliases: Movie Links.md rename, Outlander section overwrite
-> **1-Line Summary:** The Obsidian comic note was renamed from `Movie Links.md` to `Manhua Links.md` and contains a personal `### Outlander` section at the bottom that must never be overwritten.
-* **Where It Lurks:** `src/manga/sync_vault.py` -> `sync_to_obsidian`
-* **What Goes Wrong:** Overwriting the entire vault note wipes the user's personal MEGA preview links beneath `### Outlander`.
-* **The Permanent Fix:** Always target `Manhua Links.md`, create a `.bak` copy before writing, and slice/re-append everything starting at `### Outlander`.
+### [TRAP: Obsidian-Manhua-Vault-Outlander-Preservation] | Aliases: Movie Links.md rename, Outlander section overwrite, retired obsidian sync
+> **1-Line Summary:** Obsidian markdown write-back (`sync_vault.py`) was retired after importing public titles into `data/media/media_catalog.json`; private MEGA URLs from the personal `### Outlander` note must never be committed to public JSON.
+* **Where It Lurks:** `data/media/media_catalog.json` (historic `src/manga/sync_vault.py` deleted)
+* **What Goes Wrong:** Copying private cloud-drive URLs from Obsidian `Comic and Adaptation Catalog.md` (formerly `Manhua Links.md`) into `media_catalog.json` leaks personal links to public GitHub.
+* **The Permanent Fix:** Store `Outlander` cleanly as a `tv_series` record in `media_catalog.json` linked to public IMDb/JustWatch metadata without private file-host links, and treat `Database Manager` JSON/SQLite as canonical truth going forward.
+
+### [TRAP: Schema-Json-Range-Bounds-Must-Be-Arrays] | Aliases: db_verify TypeError int str, range bounds min max
+> **1-Line Summary:** `db_verify.py` unpacks schema `ranges` values with `lo, hi = bounds`, raising `TypeError: '<' not supported between instances of 'int' and 'str'` if authored as `{"min": 0, "max": 5}` objects.
+* **Where It Lurks:** `src/db_verify.py` -> `verify_domain`, `data/*/schema.json`
+* **What Goes Wrong:** Dictionary unpacking iterates over string keys (`"min"`, `"max"`) instead of numbers, crashing numeric boundary comparison at runtime.
+* **The Permanent Fix:** Always express `ranges` bounds in `data/<domain>/schema.json` as 2-element arrays `[min, max]` (e.g. `"rating": [0, 5]`).
 
 ### [TRAP: GitHub-Live-Cache-Private-Repo-Leak] | Aliases: github cache.json leak, repos_public redaction, is_private filter
 > **1-Line Summary:** Live `gh api` scans capture private repositories alongside public ones; committing raw cache files to this public repo exposes private project names and commit histories.

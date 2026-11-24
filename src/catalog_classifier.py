@@ -54,8 +54,19 @@ def classify_ai_model(model: dict[str, Any], chinese_labs: list[str]) -> dict[st
         tags.append("free_tier")
     elif pricing.get("prompt_per_m") is not None and float(pricing["prompt_per_m"]) <= 0.5:
         tags.append("budget_value")
-    if (scores.get("intelligence_index") or 0) >= 50:
+    if (scores.get("intelligence_index") or 0) >= 55 or (scores.get("code_arena_elo") or 0) >= 1400:
+        tier = "frontier"
         tags.append("frontier_intelligence")
+    elif (scores.get("intelligence_index") or 0) >= 42:
+        tier = "near_frontier"
+        tags.append("near_frontier")
+    elif (scores.get("intelligence_index") or 0) >= 25:
+        tier = "mid_tier"
+        tags.append("mid_tier")
+    else:
+        tier = "specialized"
+        tags.append("specialized_tier")
+
     if (scores.get("code_arena_elo") or 0) >= 1320:
         tags.append("top_coding")
     if (model.get("context_tokens") or 0) >= 1_000_000:
@@ -66,6 +77,7 @@ def classify_ai_model(model: dict[str, Any], chinese_labs: list[str]) -> dict[st
         "name": model.get("name"),
         "provider": model.get("provider") or model.get("provider_family") or "Unknown",
         "origin_bucket": origin,
+        "tier": tier,
         "is_chinese": is_chinese,
         "is_open_weights": is_open,
         "tags": tags,
@@ -123,8 +135,9 @@ def classify_games_catalog() -> dict[str, Any]:
     }
 
 
-def classify_manga_entry(entry: dict[str, Any]) -> dict[str, Any]:
-    """Assign origin family and adaptation/link-status tags to a manga catalog record."""
+def classify_media_entry(entry: dict[str, Any]) -> dict[str, Any]:
+    """Assign media_type subdomain, origin family, and adaptation/relation tags."""
+    media_type = str(entry.get("media_type", "comic")).lower()
     origin_raw = str(entry.get("origin", "Unknown"))
     origin_l = origin_raw.lower()
     if "manhua" in origin_l:
@@ -133,18 +146,18 @@ def classify_manga_entry(entry: dict[str, Any]) -> dict[str, Any]:
         origin_family = "manhwa"
     elif "manga" in origin_l:
         origin_family = "manga"
-    elif "web novel" in origin_l or "novel" in origin_l:
-        origin_family = "web_novel"
+    elif "web novel" in origin_l or "light novel" in origin_l or "novel" in origin_l:
+        origin_family = "novel"
     else:
-        origin_family = "other"
+        origin_family = media_type
 
     anime = str(entry.get("anime", "**None**"))
     live = str(entry.get("live_action", "**None**"))
     link = str(entry.get("link", ""))
-    tags: list[str] = [origin_family]
+    tags: list[str] = [media_type, origin_family]
     if "comix.to/title/" in link:
         tags.append("direct_comix_link")
-    else:
+    elif "browse?q=" in link:
         tags.append("browse_fallback")
     if not anime.startswith("**None**"):
         if "fan motion" in anime.lower() or "unofficial" in anime.lower():
@@ -155,28 +168,35 @@ def classify_manga_entry(entry: dict[str, Any]) -> dict[str, Any]:
         tags.append("has_live_action")
     if "in production" in (anime + " " + live).lower():
         tags.append("in_production")
+    if entry.get("relations"):
+        tags.append("interlinked_franchise")
 
     return {
+        "id": entry.get("id", ""),
         "name": entry.get("name", ""),
         "alt": entry.get("alt", ""),
+        "media_type": media_type,
         "origin": origin_raw,
         "origin_family": origin_family,
+        "franchise_id": entry.get("franchise_id", ""),
         "tags": tags,
     }
 
 
-def classify_manga_catalog() -> dict[str, Any]:
-    """Classify all titles in data/manga/manga_catalog.json."""
-    manga_path = DATA_DIR / "manga" / "manga_catalog.json"
-    items = _load_json(manga_path) if manga_path.exists() else []
-    classified = [classify_manga_entry(item) for item in items]
+def classify_media_catalog() -> dict[str, Any]:
+    """Classify all entries in data/media/media_catalog.json."""
+    media_path = DATA_DIR / "media" / "media_catalog.json"
+    items = _load_json(media_path) if media_path.exists() else []
+    classified = [classify_media_entry(item) for item in items]
+    media_type_counts = dict(Counter(c["media_type"] for c in classified))
     origin_counts = dict(Counter(c["origin_family"] for c in classified))
     tag_counts = dict(Counter(t for c in classified for t in c["tags"]))
     return {
         "total": len(classified),
+        "media_type_counts": media_type_counts,
         "origin_counts": origin_counts,
         "tag_counts": tag_counts,
-        "manga": classified,
+        "media": classified,
     }
 
 
@@ -235,23 +255,23 @@ def classify_github_catalog() -> dict[str, Any]:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Classify Games, LLM, Manga & GitHub catalogs into multi-axis taxonomies")
+    parser = argparse.ArgumentParser(description="Classify Games, LLM, Media & GitHub catalogs into multi-axis taxonomies")
     parser.add_argument("--games", action="store_true", help="Classify PC games catalog")
     parser.add_argument("--ai", action="store_true", help="Classify AI models catalog")
-    parser.add_argument("--manga", action="store_true", help="Classify Manga/Manhwa/Manhua catalog")
+    parser.add_argument("--media", action="store_true", help="Classify Media & Adaptations catalog")
     parser.add_argument("--github", action="store_true", help="Classify GitHub repositories catalog")
     parser.add_argument("--chinese-oss", action="store_true", help="Filter AI output to Chinese & Open-Source models")
     parser.add_argument("--json", action="store_true", help="Emit JSON output")
     args = parser.parse_args()
 
     out: dict[str, Any] = {}
-    all_default = not (args.games or args.ai or args.manga or args.github)
+    all_default = not (args.games or args.ai or args.media or args.github)
     if args.games or all_default:
         out["games"] = classify_games_catalog()
     if args.ai or all_default:
         out["ai"] = classify_ai_catalog(only_chinese_oss=args.chinese_oss)
-    if args.manga or all_default:
-        out["manga"] = classify_manga_catalog()
+    if args.media or all_default:
+        out["media"] = classify_media_catalog()
     if args.github or all_default:
         out["github"] = classify_github_catalog()
 
@@ -270,11 +290,11 @@ def main() -> None:
         for genre, cnt in sorted(gm["genre_counts"].items()):
             print(f"  • {genre:<22} {cnt}")
         print(f"  • Curated discovery expansion seeds: {len(gm['discovery_seeds'])}")
-    if "manga" in out:
-        mg = out["manga"]
-        print(f"\n=== MANGA CATALOG CLASSIFICATION ({mg['total']} titles) ===")
-        for fam, cnt in sorted(mg["origin_counts"].items()):
-            print(f"  • {fam:<22} {cnt}")
+    if "media" in out:
+        md = out["media"]
+        print(f"\n=== MEDIA CATALOG CLASSIFICATION ({md['total']} entries) ===")
+        for mtype, cnt in sorted(md["media_type_counts"].items()):
+            print(f"  • {mtype:<22} {cnt}")
     if "github" in out:
         gh = out["github"]
         print(f"\n=== GITHUB REPOS CLASSIFICATION ({gh['total']} repos) ===")

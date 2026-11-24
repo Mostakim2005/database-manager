@@ -1,9 +1,0 @@
-id,name,vendor,tier,vram_gb,vram_type,tdp_watts,transient_multiplier,gpu_peak_spike_watts,system_peak_watts,continuous_system_watts,psu_550w_verdict,target_res,price_bdt_used,price_bdt_retail,price_usd
-vega-7-igpu,Radeon Vega 7 (Integrated),AMD,3.0,2.0,Shared DDR4,25,1.35,34,119,110,pass,720p / 900p / 1080p Low,0,0,0
-gtx-1660-super,GeForce GTX 1660 Super,NVIDIA,6.5,6.0,GDDR6,125,1.35,169,254,210,pass,1080p Medium / High,15000,24000,140
-rtx-2060,GeForce RTX 2060 (6 GB),NVIDIA,7.0,6.0,GDDR6,160,1.35,216,301,245,pass,1080p High,18500,28000,165
-rx-6600,Radeon RX 6600 (8 GB),AMD,7.5,8.0,GDDR6,132,1.35,178,263,217,pass,1080p Ultra,22500,29500,199
-rtx-4060,GeForce RTX 4060 (8 GB),NVIDIA,8.0,8.0,GDDR6,115,1.35,155,240,200,pass,1080p Ultra + Frame Gen,34000,41500,299
-rx-6700-xt,Radeon RX 6700 XT (12 GB),AMD,8.5,12.0,GDDR6,230,1.65,380,465,315,warn,1440p High / Ultra,33000,49000,320
-rtx-4070-super,GeForce RTX 4070 Super (12 GB),NVIDIA,9.0,12.0,GDDR6X,220,1.65,363,448,305,warn,1440p Ultra / High FPS,68000,78000,599
-rx-7800-xt,Radeon RX 7800 XT (16 GB),AMD,9.5,16.0,GDDR6,263,2.00,526,611,348,fail,1440p Max / 4K Entry,58000,68000,499

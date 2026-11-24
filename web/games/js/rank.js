@@ -20,11 +20,22 @@ window.myPC = {
   vegaTier: 3
 };
 
-/* Discrete-GPU upgrade options for the simulator (tier on the same 0–10 scale) */
+/* Canonical PC-domain discrete-GPU upgrade options for the simulator (tier on the 0–10 scale) */
+window.LEGACY_GPU_KEYS = {
+  "gtx-1660-super": "gtx1660s",
+  "rtx-2060": "rtx2060",
+  "rx-6600": "rx6600"
+};
+
 window.UPGRADE_GPUS = {
-  gtx1660s: { name: "GTX 1660 Super", short: "1660S", tier: 6.5 },
-  rtx2060:  { name: "RTX 2060",       short: "2060",  tier: 7 },
-  rx6600:   { name: "RX 6600",        short: "6600",  tier: 7.5 }
+  "gtx-1660-super": { id: "gtx-1660-super", name: "GTX 1660 Super", short: "1660S", tier: 6.5, psuVerdict: "pass" },
+  "rtx-2060":       { id: "rtx-2060",       name: "RTX 2060",       short: "2060",  tier: 7.0, psuVerdict: "pass" },
+  "rx-6600":        { id: "rx-6600",        name: "RX 6600",        short: "6600",  tier: 7.5, psuVerdict: "pass" },
+  "rtx-3060":       { id: "rtx-3060",       name: "RTX 3060 12GB",  short: "3060",  tier: 8.2, psuVerdict: "pass" },
+  "rtx-4060":       { id: "rtx-4060",       name: "RTX 4060",       short: "4060",  tier: 8.5, psuVerdict: "pass" },
+  "rx-6700-xt":     { id: "rx-6700-xt",     name: "RX 6700 XT",     short: "6700XT",tier: 8.9, psuVerdict: "warn" },
+  "rtx-4070-super": { id: "rtx-4070-super", name: "RTX 4070 Super", short: "4070S", tier: 9.6, psuVerdict: "warn" },
+  "rx-7800-xt":     { id: "rx-7800-xt",     name: "RX 7800 XT",     short: "7800XT",tier: 9.8, psuVerdict: "fail" }
 };
 
 /* Parse a RAM string like "4 GB" or "512 MB" → GB */
@@ -107,8 +118,15 @@ window.computeCompat = function (game) {
   Disk (HDD) and CPU penalties intentionally remain — an SSD/GPU upgrade only
   fixes what it can.
 */
+window.resolveUpgradeGpuKey = function (gpuKey) {
+  if (window.UPGRADE_GPUS[gpuKey]) return gpuKey;
+  var alias = { gtx1660s: "gtx-1660-super", rtx2060: "rtx-2060", rx6600: "rx-6600" };
+  return alias[gpuKey] || gpuKey;
+};
+
 window.computeUpgradedCompat = function (game, gpuKey) {
-  var gpu = window.UPGRADE_GPUS[gpuKey];
+  var key = window.resolveUpgradeGpuKey(gpuKey);
+  var gpu = window.UPGRADE_GPUS[key];
   if (!gpu) return null;
   return window.compatScoreFor(game, gpu.tier, gpu.name);
 };
@@ -119,20 +137,25 @@ window.computeUpgradedCompat = function (game, gpuKey) {
   CPU-bound caveat (RTS sim stutter does not vanish with a better GPU).
 */
 window.upgradeVerdict = function (game, gpuKey) {
-  var gpu = window.UPGRADE_GPUS[gpuKey];
+  var key = window.resolveUpgradeGpuKey(gpuKey);
+  var gpu = window.UPGRADE_GPUS[key];
   if (!gpu) return null;
   var r = parseFloat(game.gpuRecTier);
   var m = parseFloat(game.gpuMinTier);
   var lines = [];
+  var legacyKey = (window.LEGACY_GPU_KEYS && window.LEGACY_GPU_KEYS[key]) || key;
 
-  if (game.upgradeTiers && game.upgradeTiers[gpuKey]) {
-    lines.push(game.upgradeTiers[gpuKey]);
+  if (game.upgradeTiers && (game.upgradeTiers[key] || game.upgradeTiers[legacyKey])) {
+    lines.push(game.upgradeTiers[key] || game.upgradeTiers[legacyKey]);
   } else if (gpu.tier >= r) {
     lines.push("Recommended settings (" + game.specs.rec.gpu + " class) become comfortable (est.)");
   } else if (gpu.tier >= m) {
     lines.push("Meets minimum with headroom — low/medium settings smooth; recommended needs more GPU (est.)");
   } else {
     lines.push("Still below this game's minimum GPU tier (est.)");
+  }
+  if (gpu.psuVerdict === "fail") {
+    lines.push("PSU warning: microsecond transient spikes exceed your baseline 550W PSU OCP limit.");
   }
   if (game.cpuDemand === "high") {
     lines.push("CPU-bound caveat: max-population battles / late-game sim stutter is CPU-side and mostly unchanged.");

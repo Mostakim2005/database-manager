@@ -16,11 +16,11 @@ from pathlib import Path
 from typing import Any
 
 ROOT_DIR = Path(__file__).resolve().parent.parent
-COMPONENTS_PATH = ROOT_DIR / "data" / "pc_components" / "components.json"
+COMPONENTS_PATH = ROOT_DIR / "data" / "pc" / "pc.json"
 
 
 def load_components(path: Path = COMPONENTS_PATH) -> dict[str, Any]:
-    """Load the full PC & peripherals component catalog."""
+    """Load the unified PC & peripherals catalog."""
     return json.loads(path.read_text(encoding="utf-8"))
 
 
@@ -30,6 +30,37 @@ def _transient_multiplier(tdp_watts: float) -> float:
     if tdp_watts >= 180:
         return 1.65
     return 1.35
+
+
+def compute_transient_metrics(
+    gpu_tdp_watts: float,
+    cpu_tdp_watts: float = 65.0,
+    base_system_watts: float = 85.0,
+    psu_watts: float = 550.0,
+) -> dict[str, Any]:
+    """Compute GPU transient excursion spike, continuous draw, headroom, and OCP verdict."""
+    mult = _transient_multiplier(float(gpu_tdp_watts))
+    cpu_extra = max(0.0, float(cpu_tdp_watts) - 65.0)
+    gpu_peak_spike = round(float(gpu_tdp_watts) * mult, 1)
+    continuous = round(float(gpu_tdp_watts) + float(base_system_watts) + cpu_extra, 1)
+    peak = round(gpu_peak_spike + float(base_system_watts) + cpu_extra, 1)
+    headroom = round(float(psu_watts) - peak, 1)
+    if peak > psu_watts:
+        status, badge = "fail", "OCP Trip Risk"
+    elif continuous > 0.75 * psu_watts or peak > 0.85 * psu_watts:
+        status, badge = "warn", "Heavy PSU Load"
+    else:
+        status, badge = "pass", "Headroom Safe"
+    return {
+        "psu_watts": float(psu_watts),
+        "multiplier": mult,
+        "gpu_peak_spike_watts": gpu_peak_spike,
+        "continuous_watts": continuous,
+        "peak_spike_watts": peak,
+        "headroom_watts": headroom,
+        "status": status,
+        "badge": badge,
+    }
 
 
 def evaluate_build(build: dict[str, Any]) -> dict[str, Any]:
@@ -49,7 +80,8 @@ def evaluate_build(build: dict[str, Any]) -> dict[str, Any]:
     keyboard = build.get("keyboard")
     mouse = build.get("mouse")
     tablet = build.get("graphics_tablet")
-    psu_watts = float(build.get("psu_watts", 550))
+    psu_obj = build.get("psu") or {}
+    psu_watts = float(psu_obj.get("wattage", build.get("psu_watts", 550)))
     base_watts = float(build.get("base_system_watts", 85))
 
     # 1. CPU <-> Motherboard socket
@@ -107,19 +139,22 @@ def evaluate_build(build: dict[str, Any]) -> dict[str, Any]:
     psu_summary: dict[str, Any] = {"psu_watts": psu_watts, "status": "pass"}
     if gpu:
         tdp = float(gpu.get("tdp_watts", 0))
-        mult = _transient_multiplier(tdp)
-        cpu_extra = max(0.0, float(cpu.get("tdp_watts", 65)) - 65.0)
-        continuous = round(tdp + base_watts + cpu_extra, 1)
-        peak = round(tdp * mult + base_watts + cpu_extra, 1)
-        headroom = round(psu_watts - peak, 1)
-        psu_summary.update({"continuous_watts": continuous, "peak_spike_watts": peak, "multiplier": mult, "headroom_watts": headroom})
-        if peak > psu_watts:
-            psu_summary["status"] = "fail"
+        cpu_tdp = float(cpu.get("tdp_watts", 65))
+        psu_summary = compute_transient_metrics(
+            gpu_tdp_watts=tdp,
+            cpu_tdp_watts=cpu_tdp,
+            base_system_watts=base_watts,
+            psu_watts=psu_watts,
+        )
+        peak = psu_summary["peak_spike_watts"]
+        continuous = psu_summary["continuous_watts"]
+        mult = psu_summary["multiplier"]
+        headroom = psu_summary["headroom_watts"]
+        if psu_summary["status"] == "fail":
             errors.append(
                 f"PSU OCP Trip Risk: {gpu.get('name')} transient spike (~{peak}W at {mult}x) exceeds {psu_watts}W PSU by {abs(headroom)}W."
             )
-        elif continuous > 0.75 * psu_watts or peak > 0.85 * psu_watts:
-            psu_summary["status"] = "warn"
+        elif psu_summary["status"] == "warn":
             warnings.append(f"Heavy PSU Load: Continuous {continuous}W / Peak ~{peak}W on {psu_watts}W PSU.")
 
         if int(gpu.get("pcie_gen", 4)) > effective_pcie and int(gpu.get("pcie_lanes", 16)) <= 8:

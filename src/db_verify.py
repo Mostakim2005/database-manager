@@ -61,25 +61,29 @@ def verify_domain(domain: str, cfg: dict[str, Any], root_dir: Path = ROOT_DIR) -
     schema = json.loads(schema_path.read_text(encoding="utf-8"))
 
     rec_key = schema.get("records_key")
+    cat_pairs: list[tuple[str | None, dict[str, Any]]] = []
     if rec_key:
-        records = raw.get(rec_key, [])
+        for rec in raw.get(rec_key, []):
+            cat_pairs.append((None, rec))
     elif isinstance(raw, dict) and "categories" in schema:
-        records = []
         for cat in schema.get("categories", []):
             cat_list = raw.get(cat, [])
             if isinstance(cat_list, list):
-                records.extend(cat_list)
+                for rec in cat_list:
+                    cat_pairs.append((cat, rec))
     else:
-        records = raw
-
-    if not isinstance(records, list):
-        return {"domain": domain, "ok": False, "record_count": 0, "errors": ["Expected list of records"], "warnings": []}
+        if isinstance(raw, list):
+            for rec in raw:
+                cat_pairs.append((None, rec))
+        else:
+            return {"domain": domain, "ok": False, "record_count": 0, "errors": ["Expected list of records"], "warnings": []}
 
     seen_ids: set[str] = set()
     unique_key = schema.get("unique_key", "id")
     req_fields = schema.get("required_fields") or schema.get("required_common_fields", [])
+    req_by_cat = schema.get("required_by_category", {})
 
-    for idx, rec in enumerate(records):
+    for idx, (cat_name, rec) in enumerate(cat_pairs):
         if not isinstance(rec, dict):
             errors.append(f"[{domain}#{idx}] Record is not a JSON object")
             continue
@@ -89,7 +93,8 @@ def verify_domain(domain: str, cfg: dict[str, Any], root_dir: Path = ROOT_DIR) -
                 errors.append(f"[{domain}] Duplicate {unique_key}: {rid}")
             seen_ids.add(rid)
 
-        for req in req_fields:
+        cat_reqs = req_by_cat.get(cat_name, []) if cat_name else []
+        for req in list(req_fields) + list(cat_reqs):
             if rec.get(req) is None or rec.get(req) == "":
                 errors.append(f"[{domain}:{rid}] Missing required field '{req}'")
 
@@ -116,22 +121,45 @@ def verify_domain(domain: str, cfg: dict[str, Any], root_dir: Path = ROOT_DIR) -
 
     return {
         "domain": domain,
+        "display_name": cfg.get("display_name", domain),
+        "aliases": cfg.get("aliases", []),
+        "group": cfg.get("group", "general"),
         "ok": len(errors) == 0,
-        "record_count": len(records),
+        "record_count": len(cat_pairs),
         "errors": errors,
         "warnings": warnings,
     }
 
 
+def resolve_domain_key(name_or_alias: str, reg: dict[str, Any]) -> str | None:
+    """Resolve a canonical domain key by ID, display_name, or configured aliases."""
+    needle = name_or_alias.strip().lower()
+    domains = reg.get("domains", {})
+    if needle in domains:
+        return needle
+    for dom_key, cfg in domains.items():
+        if str(cfg.get("display_name", "")).strip().lower() == needle:
+            return dom_key
+        if str(cfg.get("short_label", "")).strip().lower() == needle:
+            return dom_key
+        for alias in cfg.get("aliases", []):
+            if str(alias).strip().lower() == needle:
+                return dom_key
+    return None
+
+
 def verify_all(domain_filter: str | None = None, root_dir: Path = ROOT_DIR) -> dict[str, Any]:
-    """Validate all domains in data/registry.json (or a single domain)."""
+    """Validate all domains in data/registry.json (or a single domain by ID or alias)."""
     reg_path = root_dir / "data" / "registry.json"
     if not reg_path.exists():
         return {"ok": False, "domains": [], "error": f"Missing {reg_path}"}
     reg = json.loads(reg_path.read_text(encoding="utf-8"))
+    resolved_filter = resolve_domain_key(domain_filter, reg) if domain_filter else None
+    if domain_filter and resolved_filter is None:
+        return {"ok": False, "domains": [], "error": f"Unknown domain or alias: {domain_filter}"}
     results = []
     for dom, cfg in reg.get("domains", {}).items():
-        if domain_filter and dom != domain_filter:
+        if resolved_filter and dom != resolved_filter:
             continue
         results.append(verify_domain(dom, cfg, root_dir=root_dir))
     return {"ok": all(r["ok"] for r in results) and len(results) > 0, "domains": results}

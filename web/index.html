@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Database Manager — Unified Benchmark & Specification Hub</title>
+  <title>Database Manager — Unified Multi-Domain Portal</title>
   <style>
     :root {
       --bg: #0d1117;
@@ -74,20 +74,40 @@
     .nav-tabs {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
+      align-items: center;
+      gap: 6px;
+    }
+    .group-cluster {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(13, 17, 23, 0.55);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 3px 6px;
+    }
+    .group-tag {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: var(--text-muted);
+      padding: 0 6px 0 2px;
+      border-right: 1px solid var(--border);
+      margin-right: 2px;
     }
     .tab-btn {
       background: transparent;
       color: var(--text-muted);
       border: 1px solid transparent;
-      padding: 8px 14px;
+      padding: 6px 12px;
       border-radius: 6px;
       cursor: pointer;
       font-size: 13px;
       font-weight: 500;
       display: inline-flex;
       align-items: center;
-      gap: 7px;
+      gap: 6px;
       transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease;
     }
     .tab-btn:hover {
@@ -100,22 +120,17 @@
       border-color: var(--border);
       font-weight: 600;
     }
-    .tab-icon {
-      width: 15px;
-      height: 15px;
-      flex-shrink: 0;
-    }
 
     .quick-links {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 6px;
     }
     .link-btn {
       background: var(--surface-hover);
       color: var(--text-muted);
       border: 1px solid var(--border);
-      padding: 6px 12px;
+      padding: 5px 10px;
       border-radius: 6px;
       text-decoration: none;
       font-size: 12px;
@@ -132,7 +147,7 @@
       padding: 10px 24px;
       display: flex;
       align-items: center;
-      gap: 20px;
+      gap: 18px;
       font-size: 12px;
       color: var(--text-muted);
       flex-shrink: 0;
@@ -199,154 +214,251 @@
   <header>
     <div class="brand">
       <h1>Database Manager</h1>
-      <span class="badge-chip">v1.0.0</span>
-      <span class="brand-sub">Unified Multi-Domain Database Hub</span>
+      <span id="portal-version" class="badge-chip">v2.0.0</span>
+      <span class="brand-sub">Registry-Driven Multi-Domain Portal</span>
     </div>
 
-    <div class="nav-tabs" role="tablist" aria-label="Database domains">
-      <button id="tab-ai" class="tab-btn active" type="button" role="tab" aria-selected="true" aria-controls="frame-ai" data-tab="ai" title="AI Benchmark Matrix (Shortcut: 1)">
-        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"/></svg>
-        AI Benchmark Matrix
-      </button>
-      <button id="tab-games" class="tab-btn" type="button" role="tab" aria-selected="false" aria-controls="frame-games" tabindex="-1" data-tab="games" title="GameRank Simulator (Shortcut: 2)">
-        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/><rect x="2" y="6" width="20" height="12" rx="2"/></svg>
-        GameRank Simulator
-      </button>
-      <button id="tab-hardware" class="tab-btn" type="button" role="tab" aria-selected="false" aria-controls="frame-hardware" tabindex="-1" data-tab="hardware" title="PC Hardware &amp; PSU Guard (Shortcut: 3)">
-        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-        PC Hardware &amp; PSU Guard
-      </button>
-      <button id="tab-manga" class="tab-btn" type="button" role="tab" aria-selected="false" aria-controls="frame-manga" tabindex="-1" data-tab="manga" title="Manga &amp; Adaptations (Shortcut: 4)">
-        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-        Manga &amp; Adaptations
-      </button>
-      <button id="tab-github" class="tab-btn" type="button" role="tab" aria-selected="false" aria-controls="frame-github" tabindex="-1" data-tab="github" title="GitHub Repositories &amp; CI Health (Shortcut: 5)">
-        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" y1="9" x2="6" y2="21"/></svg>
-        GitHub Repos
-      </button>
-    </div>
-
-    <div class="quick-links">
-      <a href="ai/index.html" target="_blank" rel="noopener noreferrer" class="link-btn">AI Matrix Popout ↗</a>
-      <a href="games/index.html" target="_blank" rel="noopener noreferrer" class="link-btn">GameRank Popout ↗</a>
-      <a href="hardware/index.html" target="_blank" rel="noopener noreferrer" class="link-btn">Hardware Popout ↗</a>
-      <a href="manga/index.html" target="_blank" rel="noopener noreferrer" class="link-btn">Manga Popout ↗</a>
-      <a href="github/index.html" target="_blank" rel="noopener noreferrer" class="link-btn">GitHub Popout ↗</a>
-      <a href="/api/status" target="_blank" rel="noopener noreferrer" class="link-btn">JSON API ↗</a>
-    </div>
+    <div id="nav-tabs" class="nav-tabs" role="tablist" aria-label="Database domains"></div>
+    <div id="quick-links" class="quick-links"></div>
   </header>
 
-  <div class="stats-strip" aria-live="polite">
+  <div id="stats-strip" class="stats-strip" aria-live="polite">
     <button id="server-status" class="status-pill" type="button" data-state="checking" title="Click to refresh live API status">
       <span class="status-dot" aria-hidden="true"></span>
       <span id="server-status-text">Checking API…</span>
     </button>
-    <div class="stats-item">AI Models:<span id="stat-ai">33 models</span></div>
-    <div class="stats-item">Benchmarked Games:<span id="stat-games">43 titles</span></div>
-    <div class="stats-item">GPU Profiles:<span id="stat-gpus">8 tiers</span></div>
-    <div class="stats-item">Manga Catalog:<span id="stat-manga">104 titles</span></div>
-    <div class="stats-item">GitHub Repos:<span id="stat-github">-- repos</span></div>
-    <div class="stats-item">Baseline PC:<span>Ryzen 5 5600GT (16MB L3, Vega 7, 550W PSU)</span></div>
-    <div class="stats-item">Recommended Upgrade:<span style="color:var(--green);">Radeon RX 6600 (8 GB)</span></div>
+    <div id="dynamic-stats" style="display:contents;"></div>
   </div>
 
-  <div class="main-viewport">
-    <iframe id="frame-ai" title="AI Benchmark Matrix" src="ai/index.html" role="tabpanel" aria-labelledby="tab-ai" class="active"></iframe>
-    <iframe id="frame-games" title="GameRank Simulator" data-src="games/index.html" role="tabpanel" aria-labelledby="tab-games"></iframe>
-    <iframe id="frame-hardware" title="PC Hardware &amp; PSU Guard" data-src="hardware/index.html" role="tabpanel" aria-labelledby="tab-hardware"></iframe>
-    <iframe id="frame-manga" title="Manga &amp; Adaptations" data-src="manga/index.html" role="tabpanel" aria-labelledby="tab-manga"></iframe>
-    <iframe id="frame-github" title="GitHub Repositories" data-src="github/index.html" role="tabpanel" aria-labelledby="tab-github"></iframe>
-  </div>
+  <div id="main-viewport" class="main-viewport"></div>
 
   <script>
-    const TAB_ORDER = ['ai', 'games', 'hardware', 'manga', 'github'];
+    "use strict";
 
-    function switchTab(tab, updateHash = true) {
-      if (!TAB_ORDER.includes(tab)) tab = 'ai';
-      document.querySelectorAll('.tab-btn').forEach(btn => {
+    /* Offline / file:// fallback manifest mirroring data/registry.json v2.0.0 */
+    const FALLBACK_MANIFEST = {
+      version: "2.0.0",
+      groups: {
+        pc_gaming: { display_name: "PC & Gaming", order: 1 },
+        ai_models: { display_name: "AI Models", order: 2 },
+        media_knowledge: { display_name: "Media & Books", order: 3 },
+        mobile: { display_name: "Mobile", order: 4 },
+        devops: { display_name: "DevOps", order: 5 }
+      },
+      domains: [
+        { domain: "pc", display_name: "PC & Hardware", short_label: "PC", unit_label: "parts", aliases: ["hardware", "cpus", "pc_components"], group: "pc_gaming", tab_order: 1, show_in_portal: true, web_path: "pc/index.html", live_count: 75 },
+        { domain: "games", display_name: "PC Games", short_label: "Games", unit_label: "titles", aliases: ["gamerank"], group: "pc_gaming", tab_order: 2, show_in_portal: true, web_path: "games/index.html", live_count: 53 },
+        { domain: "ai", display_name: "AI Models", short_label: "AI", unit_label: "models", aliases: ["llms", "ai_models"], group: "ai_models", tab_order: 3, show_in_portal: true, web_path: "ai/index.html", live_count: 52 },
+        { domain: "media", display_name: "Media & Adaptations", short_label: "Media", unit_label: "entries", aliases: ["manga", "manhua", "movies", "tv_series", "light_novels"], group: "media_knowledge", tab_order: 4, show_in_portal: true, web_path: "media/index.html", live_count: 110 },
+        { domain: "book", display_name: "Book", short_label: "Book", unit_label: "books", aliases: ["books", "learning", "reading"], group: "media_knowledge", tab_order: 5, show_in_portal: true, web_path: "book/index.html", live_count: 4 },
+        { domain: "phone", display_name: "Phone & Mobile", short_label: "Phone", unit_label: "devices", aliases: ["phones", "mobile"], group: "mobile", tab_order: 6, show_in_portal: true, web_path: "phone/index.html", live_count: 4 },
+        { domain: "github", display_name: "GitHub Repositories", short_label: "GitHub", unit_label: "repos", aliases: ["repos"], group: "devops", tab_order: 7, show_in_portal: true, web_path: "github/index.html", live_count: 37 }
+      ]
+    };
+
+    let portalDomains = [];
+    let aliasIndex = {};
+
+    function resolveTargetTab(raw) {
+      const key = String(raw || "").trim().toLowerCase().replace(/^#/, "");
+      if (!key) return portalDomains[0] ? portalDomains[0].domain : "pc";
+      if (aliasIndex[key]) return aliasIndex[key];
+      return portalDomains[0] ? portalDomains[0].domain : "pc";
+    }
+
+    function switchTab(rawTab, updateHash = true) {
+      const tab = resolveTargetTab(rawTab);
+      document.querySelectorAll(".tab-btn").forEach(btn => {
         const active = btn.dataset.tab === tab;
-        btn.classList.toggle('active', active);
-        btn.setAttribute('aria-selected', active ? 'true' : 'false');
-        btn.setAttribute('tabindex', active ? '0' : '-1');
+        btn.classList.toggle("active", active);
+        btn.setAttribute("aria-selected", active ? "true" : "false");
+        btn.setAttribute("tabindex", active ? "0" : "-1");
       });
 
-      document.querySelectorAll('iframe').forEach(frame => {
-        const active = frame.id === 'frame-' + tab;
-        frame.classList.toggle('active', active);
-        if (active && !frame.getAttribute('src') && frame.dataset.src) {
-          frame.setAttribute('src', frame.dataset.src);
+      document.querySelectorAll("#main-viewport iframe").forEach(frame => {
+        const active = frame.id === "frame-" + tab;
+        frame.classList.toggle("active", active);
+        if (active && !frame.getAttribute("src") && frame.dataset.src) {
+          frame.setAttribute("src", frame.dataset.src);
         }
       });
 
-      if (updateHash && window.location.hash !== '#' + tab) {
-        history.replaceState(null, '', '#' + tab);
+      if (updateHash && window.location.hash !== "#" + tab) {
+        history.replaceState(null, "", "#" + tab);
       }
+    }
+
+    function buildPortalChrome(groupsMeta, domainsList) {
+      portalDomains = domainsList
+        .filter(d => d && d.show_in_portal !== false)
+        .sort((a, b) => Number(a.tab_order || 999) - Number(b.tab_order || 999));
+
+      aliasIndex = {};
+      portalDomains.forEach(d => {
+        aliasIndex[d.domain.toLowerCase()] = d.domain;
+        if (d.display_name) aliasIndex[String(d.display_name).toLowerCase()] = d.domain;
+        if (d.short_label) aliasIndex[String(d.short_label).toLowerCase()] = d.domain;
+        (d.aliases || []).forEach(a => {
+          aliasIndex[String(a).toLowerCase()] = d.domain;
+        });
+      });
+
+      const nav = document.getElementById("nav-tabs");
+      const links = document.getElementById("quick-links");
+      const stats = document.getElementById("dynamic-stats");
+      const viewport = document.getElementById("main-viewport");
+
+      nav.replaceChildren();
+      links.replaceChildren();
+      stats.replaceChildren();
+      viewport.replaceChildren();
+
+      /* Group domains in registry group order */
+      const buckets = [];
+      const bucketMap = {};
+      portalDomains.forEach(d => {
+        const gid = d.group || "general";
+        if (!bucketMap[gid]) {
+          const gInfo = (groupsMeta && groupsMeta[gid]) || {};
+          bucketMap[gid] = {
+            id: gid,
+            label: d.group_display_name || gInfo.display_name || gid,
+            order: Number(d.group_order || gInfo.order || 99),
+            items: []
+          };
+          buckets.push(bucketMap[gid]);
+        }
+        bucketMap[gid].items.push(d);
+      });
+      buckets.sort((a, b) => a.order - b.order);
+
+      let tabIndexCounter = 0;
+      buckets.forEach(bucket => {
+        const cluster = document.createElement("div");
+        cluster.className = "group-cluster";
+        const gLabel = document.createElement("span");
+        gLabel.className = "group-tag";
+        gLabel.textContent = bucket.label;
+        cluster.appendChild(gLabel);
+
+        bucket.items.forEach(d => {
+          tabIndexCounter += 1;
+          const btn = document.createElement("button");
+          btn.id = "tab-" + d.domain;
+          btn.className = "tab-btn";
+          btn.type = "button";
+          btn.setAttribute("role", "tab");
+          btn.setAttribute("aria-selected", "false");
+          btn.setAttribute("aria-controls", "frame-" + d.domain);
+          btn.setAttribute("tabindex", "-1");
+          btn.dataset.tab = d.domain;
+          btn.title = (d.display_name || d.domain) + " (Shortcut: " + tabIndexCounter + ")";
+          btn.textContent = d.short_label || d.display_name || d.domain;
+          btn.addEventListener("click", () => switchTab(d.domain));
+          cluster.appendChild(btn);
+
+          const pop = document.createElement("a");
+          pop.className = "link-btn";
+          pop.href = d.web_path || (d.domain + "/index.html");
+          pop.target = "_blank";
+          pop.rel = "noopener noreferrer";
+          pop.textContent = (d.short_label || d.domain) + " ↗";
+          links.appendChild(pop);
+
+          const statItem = document.createElement("div");
+          statItem.className = "stats-item";
+          statItem.textContent = (d.short_label || d.display_name || d.domain) + ":";
+          const valSpan = document.createElement("span");
+          valSpan.id = "stat-" + d.domain;
+          const cnt = d.live_count !== undefined && d.live_count !== null ? d.live_count : d.record_count;
+          valSpan.textContent = (cnt !== undefined && cnt !== null ? cnt : "--") + " " + (d.unit_label || "records");
+          statItem.appendChild(valSpan);
+          stats.appendChild(statItem);
+
+          const frame = document.createElement("iframe");
+          frame.id = "frame-" + d.domain;
+          frame.title = d.display_name || d.domain;
+          frame.dataset.src = d.web_path || (d.domain + "/index.html");
+          frame.setAttribute("role", "tabpanel");
+          frame.setAttribute("aria-labelledby", btn.id);
+          viewport.appendChild(frame);
+        });
+        nav.appendChild(cluster);
+      });
+
+      const apiLink = document.createElement("a");
+      apiLink.className = "link-btn";
+      apiLink.href = "/api/status";
+      apiLink.target = "_blank";
+      apiLink.rel = "noopener noreferrer";
+      apiLink.textContent = "JSON API ↗";
+      links.appendChild(apiLink);
+
+      const sysStat = document.createElement("div");
+      sysStat.className = "stats-item";
+      sysStat.textContent = "Baseline PC:";
+      const sysVal = document.createElement("span");
+      sysVal.style.color = "var(--green)";
+      sysVal.textContent = "Ryzen 5 5600GT (Vega 7, 550W PSU)";
+      sysStat.appendChild(sysVal);
+      stats.appendChild(sysStat);
+
+      /* Arrow-key roving focus across all tabs */
+      const buttons = Array.from(document.querySelectorAll(".tab-btn"));
+      buttons.forEach((btn, idx) => {
+        btn.addEventListener("keydown", e => {
+          if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+            e.preventDefault();
+            const next = (idx + (e.key === "ArrowRight" ? 1 : -1) + buttons.length) % buttons.length;
+            buttons[next].focus();
+            switchTab(buttons[next].dataset.tab);
+          }
+        });
+      });
+
+      switchTab(window.location.hash, false);
     }
 
     async function loadPortalStatus() {
-      const pill = document.getElementById('server-status');
-      const label = document.getElementById('server-status-text');
+      const pill = document.getElementById("server-status");
+      const label = document.getElementById("server-status-text");
       try {
-        const res = await fetch('/api/status', { cache: 'no-store' });
-        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const res = await fetch("/api/status", { cache: "no-store" });
+        if (!res.ok) throw new Error("HTTP " + res.status);
         const data = await res.json();
-        const counts = data.counts || {};
-        if (typeof counts.ai_models === 'number') {
-          document.getElementById('stat-ai').textContent = counts.ai_models + ' models';
+        if (data.version) {
+          document.getElementById("portal-version").textContent = "v" + data.version;
         }
-        if (typeof counts.games === 'number') {
-          document.getElementById('stat-games').textContent = counts.games + ' titles';
-        }
-        if (typeof counts.gpus === 'number') {
-          document.getElementById('stat-gpus').textContent = counts.gpus + ' tiers';
-        }
-        if (typeof counts.manga === 'number') {
-          document.getElementById('stat-manga').textContent = counts.manga + ' titles';
-        }
-        if (typeof counts.github === 'number') {
-          document.getElementById('stat-github').textContent = counts.github + ' repos';
-        }
-        pill.dataset.state = 'online';
-        label.textContent = 'API Online (' + window.location.host + ')';
+        const groups = (data.registry && data.registry.groups) || FALLBACK_MANIFEST.groups;
+        const domains = Array.isArray(data.domains) && data.domains.length ? data.domains : FALLBACK_MANIFEST.domains;
+        buildPortalChrome(groups, domains);
+        pill.dataset.state = "online";
+        label.textContent = "API Online (" + window.location.host + ")";
       } catch (_) {
-        pill.dataset.state = 'offline';
-        label.textContent = 'Static / Offline Mode';
+        buildPortalChrome(FALLBACK_MANIFEST.groups, FALLBACK_MANIFEST.domains);
+        pill.dataset.state = "offline";
+        label.textContent = "Static / Offline Mode";
       }
     }
 
-    document.querySelectorAll('.tab-btn').forEach((btn, idx, list) => {
-      btn.addEventListener('click', () => switchTab(btn.dataset.tab));
-      btn.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
-          e.preventDefault();
-          const next = (idx + (e.key === 'ArrowRight' ? 1 : -1) + list.length) % list.length;
-          list[next].focus();
-          switchTab(list[next].dataset.tab);
-        }
-      });
-    });
-
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener("keydown", e => {
       if (e.altKey || e.ctrlKey || e.metaKey) return;
-      const tag = (document.activeElement && document.activeElement.tagName) || '';
-      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
-      if (e.key === '1') switchTab('ai');
-      else if (e.key === '2') switchTab('games');
-      else if (e.key === '3') switchTab('hardware');
-      else if (e.key === '4') switchTab('manga');
-      else if (e.key === '5') switchTab('github');
+      const tag = (document.activeElement && document.activeElement.tagName) || "";
+      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+      const num = parseInt(e.key, 10);
+      if (num >= 1 && num <= portalDomains.length) {
+        switchTab(portalDomains[num - 1].domain);
+      }
     });
 
-    document.getElementById('server-status').addEventListener('click', loadPortalStatus);
+    document.getElementById("server-status").addEventListener("click", loadPortalStatus);
 
-    window.addEventListener('hashchange', () => {
-      const target = window.location.hash.replace('#', '');
-      if (TAB_ORDER.includes(target)) switchTab(target, false);
+    window.addEventListener("hashchange", () => {
+      switchTab(window.location.hash, false);
     });
 
-    window.addEventListener('DOMContentLoaded', () => {
-      const initial = window.location.hash.replace('#', '');
-      if (TAB_ORDER.includes(initial)) switchTab(initial, false);
+    window.addEventListener("DOMContentLoaded", () => {
+      buildPortalChrome(FALLBACK_MANIFEST.groups, FALLBACK_MANIFEST.domains);
       loadPortalStatus();
     });
   </script>

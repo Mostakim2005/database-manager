@@ -1,22 +1,72 @@
 {
-  "version": "1.0.0",
+  "version": "2.0.0",
+  "groups": {
+    "pc_gaming": {
+      "display_name": "PC & Gaming",
+      "order": 1
+    },
+    "ai_models": {
+      "display_name": "AI Models",
+      "order": 2
+    },
+    "media_knowledge": {
+      "display_name": "Media & Books",
+      "order": 3
+    },
+    "mobile": {
+      "display_name": "Mobile",
+      "order": 4
+    },
+    "devops": {
+      "display_name": "DevOps",
+      "order": 5
+    }
+  },
   "domains": {
-    "ai": {
-      "title": "AI Models & Benchmarks",
-      "source_json": "data/ai/models_master.json",
-      "records_key": "models",
-      "schema_file": "data/ai/schema.json",
-      "sqlite_file": "data/ai/ai.sqlite",
-      "primary_table": "ai_models",
+    "pc": {
+      "display_name": "PC Parts & PSU Guard",
+      "short_label": "PC & PSU",
+      "unit_label": "parts",
+      "aliases": [
+        "hardware",
+        "cpus",
+        "pc_components",
+        "rig",
+        "psu"
+      ],
+      "group": "pc_gaming",
+      "tab_order": 1,
+      "show_in_portal": true,
+      "web_path": "pc/index.html",
+      "api_path": "/api/pc",
+      "title": "PC Parts, CPUs, GPUs & PSU Guard",
+      "source_json": "data/pc/pc.json",
+      "records_key": null,
+      "schema_file": "data/pc/schema.json",
+      "sqlite_file": "data/pc/pc.sqlite",
+      "primary_table": "pc_components",
       "max_age_days": 30,
       "scraper_tiers": [
         "tier0_api",
-        "tier2_scrapling",
-        "tier3_crawl4ai"
+        "tier1_httpx",
+        "tier2_scrapling"
       ]
     },
     "games": {
-      "title": "PC Games & Compatibility",
+      "display_name": "Games & Benchmarks",
+      "short_label": "Games",
+      "unit_label": "titles",
+      "aliases": [
+        "gamerank",
+        "rts",
+        "game_benchmarks"
+      ],
+      "group": "pc_gaming",
+      "tab_order": 2,
+      "show_in_portal": true,
+      "web_path": "games/index.html",
+      "api_path": "/api/games",
+      "title": "PC Games & Benchmarks",
       "source_json": "data/games/games.json",
       "records_key": null,
       "schema_file": "data/games/schema.json",
@@ -29,53 +79,56 @@
         "tier4_ytdlp"
       ]
     },
-    "hardware": {
-      "title": "PC Hardware & PSU Guard",
-      "source_json": "data/hardware/hardware_specs.json",
-      "records_key": "gpus",
-      "schema_file": "data/hardware/schema.json",
-      "sqlite_file": "data/hardware/hardware.sqlite",
-      "primary_table": "hardware_gpus",
+    "ai": {
+      "display_name": "AI Models & Pricing",
+      "short_label": "AI Matrix",
+      "unit_label": "models",
+      "aliases": [
+        "models",
+        "llm",
+        "ai_benchmarks"
+      ],
+      "group": "ai_models",
+      "tab_order": 3,
+      "show_in_portal": true,
+      "web_path": "ai/index.html",
+      "api_path": "/api/ai",
+      "title": "AI Models, Pricing & Benchmarks",
+      "source_json": "data/ai/models_master.json",
+      "records_key": "models",
+      "schema_file": "data/ai/schema.json",
+      "sqlite_file": "data/ai/ai.sqlite",
+      "primary_table": "ai_models",
       "max_age_days": 30,
       "scraper_tiers": [
-        "tier1_httpx",
-        "tier2_scrapling",
-        "tier4_manual_paste"
-      ]
-    },
-    "cpus": {
-      "title": "Desktop Processors & Upgrades",
-      "source_json": "data/cpus/cpus.json",
-      "records_key": "cpus",
-      "schema_file": "data/cpus/schema.json",
-      "sqlite_file": "data/cpus/cpus.sqlite",
-      "primary_table": "pc_cpus",
-      "max_age_days": 45,
-      "scraper_tiers": [
         "tier0_api",
-        "tier1_httpx"
+        "tier2_scrapling",
+        "tier3_crawl4ai"
       ]
     },
-    "pc_components": {
-      "title": "Full PC & Peripherals Components",
-      "source_json": "data/pc_components/components.json",
+    "media": {
+      "display_name": "Media & Adaptations",
+      "short_label": "Media",
+      "unit_label": "entries",
+      "aliases": [
+        "manga",
+        "manhua",
+        "manhwa",
+        "movies",
+        "tv_series",
+        "light_novels"
+      ],
+      "group": "media_knowledge",
+      "tab_order": 4,
+      "show_in_portal": true,
+      "web_path": "media/index.html",
+      "api_path": "/api/media",
+      "title": "Media, Comics, Novels, Anime, Movies & Series",
+      "source_json": "data/media/media_catalog.json",
       "records_key": null,
-      "schema_file": "data/pc_components/schema.json",
-      "sqlite_file": "data/pc_components/pc_components.sqlite",
-      "primary_table": "pc_components",
-      "max_age_days": 60,
-      "scraper_tiers": [
-        "tier1_httpx",
-        "tier2_scrapling"
-      ]
-    },
-    "manga": {
-      "title": "Manga, Manhwa & Adaptations",
-      "source_json": "data/manga/manga_catalog.json",
-      "records_key": null,
-      "schema_file": "data/manga/schema.json",
-      "sqlite_file": "data/manga/manga.sqlite",
-      "primary_table": "manga_catalog",
+      "schema_file": "data/media/schema.json",
+      "sqlite_file": "data/media/media.sqlite",
+      "primary_table": "media_catalog",
       "max_age_days": 30,
       "scraper_tiers": [
         "tier0_api",
@@ -83,7 +136,69 @@
         "tier4_sitemap"
       ]
     },
+    "book": {
+      "display_name": "Book",
+      "short_label": "Book",
+      "unit_label": "books",
+      "aliases": [
+        "books",
+        "learning",
+        "reading"
+      ],
+      "group": "media_knowledge",
+      "tab_order": 5,
+      "show_in_portal": true,
+      "web_path": "book/index.html",
+      "api_path": "/api/book",
+      "title": "Book Collection & Reading Tracker",
+      "source_json": "data/book/books.json",
+      "records_key": "books",
+      "schema_file": "data/book/schema.json",
+      "sqlite_file": "data/book/book.sqlite",
+      "primary_table": "books",
+      "max_age_days": 90,
+      "scraper_tiers": [
+        "tier0_manual"
+      ]
+    },
+    "phone": {
+      "display_name": "Phone & Mobile",
+      "short_label": "Phone",
+      "unit_label": "devices",
+      "aliases": [
+        "phones",
+        "mobile",
+        "smartphones"
+      ],
+      "group": "mobile",
+      "tab_order": 6,
+      "show_in_portal": true,
+      "web_path": "phone/index.html",
+      "api_path": "/api/phone",
+      "title": "Phone Specs & Supported Games/Apps",
+      "source_json": "data/phone/phones.json",
+      "records_key": "phones",
+      "schema_file": "data/phone/schema.json",
+      "sqlite_file": "data/phone/phone.sqlite",
+      "primary_table": "phones",
+      "max_age_days": 60,
+      "scraper_tiers": [
+        "tier0_manual"
+      ]
+    },
     "github": {
+      "display_name": "GitHub Repos",
+      "short_label": "GitHub",
+      "unit_label": "repos",
+      "aliases": [
+        "repos",
+        "ci"
+      ],
+      "group": "devops",
+      "tab_order": 7,
+      "show_in_portal": true,
+      "web_path": "github/index.html",
+      "api_path": "/api/github",
       "title": "GitHub Repositories & CI Health",
       "source_json": "data/github/repos_public.json",
       "records_key": null,
@@ -101,30 +216,37 @@
       "name": "v_games_by_gpu",
       "domains": [
         "games",
-        "hardware"
+        "pc"
       ],
-      "description": "Maps PC games against candidate GPUs, PSU 550W safety, and BDT/USD prices."
+      "description": "Maps PC games against candidate GPUs in the unified PC domain, PSU 550W safety, and BDT/USD prices."
     },
     {
-      "name": "v_local_ai_vram_fit",
+      "name": "v_cpu_gpu_combos",
       "domains": [
-        "ai",
-        "hardware"
+        "pc"
       ],
-      "description": "Matches open-weights AI models against GPU VRAM tiers for local inference planning."
+      "description": "Combines desktop CPUs and GPUs from the unified PC catalog with 550W PSU transient spike safety and BDT upgrade costs."
+    },
+    {
+      "name": "v_game_benchmarks_with_pc",
+      "domains": [
+        "games",
+        "pc"
+      ],
+      "description": "Joins real-world Avg, 1% Low, and 0.1% Low FPS benchmarks against unified PC GPU/CPU specs, PSU safety, and retail pricing."
     },
     {
       "name": "v_domain_health",
       "domains": [
-        "ai",
+        "pc",
         "games",
-        "hardware",
-        "cpus",
-        "pc_components",
-        "manga",
+        "ai",
+        "media",
+        "book",
+        "phone",
         "github"
       ],
-      "description": "Unifies freshness timestamps, checksums, and record counts across all domain databases."
+      "description": "Unifies freshness timestamps, checksums, display names, aliases, and record counts across all 7 domain databases."
     }
   ]
 }

@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PC Parts, CPUs, GPUs &amp; PSU Guard — Database Manager</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --surface-hover: #21262d;
+      --border: #30363d;
+      --text: #e6edf3;
+      --text-muted: #8b949e;
+      --accent: #58a6ff;
+      --green: #3fb950;
+      --amber: #d29922;
+      --red: #f85149;
+      --purple: #bc8cff;
+      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-family);
+      line-height: 1.5;
+      padding: 20px 24px 44px;
+    }
+
+    header {
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    h1 { font-size: 22px; font-weight: 600; }
+    .subtitle { color: var(--text-muted); font-size: 13px; margin-top: 3px; }
+
+    .actions { display: flex; flex-wrap: wrap; gap: 8px; }
+    .btn {
+      background: var(--surface-hover);
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 7px 12px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-bottom: 20px;
+    }
+    @media (max-width: 900px) { .grid-2 { grid-template-columns: 1fr; } }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 18px;
+      margin-bottom: 18px;
+    }
+    .grid-2 .card { margin-bottom: 0; }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .spec-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 7px 0;
+      border-bottom: 1px solid rgba(48, 54, 61, 0.45);
+      font-size: 13px;
+      gap: 10px;
+    }
+    .spec-item:last-child { border-bottom: none; }
+    .spec-label { color: var(--text-muted); }
+    .spec-val { font-weight: 500; text-align: right; }
+
+    .calculator-form { display: flex; flex-direction: column; gap: 12px; }
+    label { font-size: 12px; color: var(--text-muted); font-weight: 600; display: block; margin-bottom: 4px; }
+    select, input {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 8px 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      width: 100%;
+    }
+
+    .gauge-box {
+      margin-top: 8px;
+      padding: 14px;
+      border-radius: 6px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--border);
+    }
+    .gauge-box.pass { border-left-color: var(--green); }
+    .gauge-box.warn { border-left-color: var(--amber); }
+    .gauge-box.fail { border-left-color: var(--red); }
+
+    .gauge-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .badge {
+      padding: 3px 9px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      border: 1px solid var(--border);
+      display: inline-block;
+    }
+    .badge.pass { background: rgba(63, 185, 80, 0.14); color: var(--green); border-color: rgba(63, 185, 80, 0.45); }
+    .badge.warn { background: rgba(210, 153, 34, 0.14); color: var(--amber); border-color: rgba(210, 153, 34, 0.45); }
+    .badge.fail { background: rgba(248, 81, 73, 0.14); color: var(--red); border-color: rgba(248, 81, 73, 0.45); }
+    .badge.info { background: rgba(88, 166, 255, 0.14); color: var(--accent); border-color: rgba(88, 166, 255, 0.45); }
+
+    .meter-container {
+      margin: 10px 0 6px;
+      background: var(--surface-hover);
+      border-radius: 4px;
+      height: 10px;
+      overflow: hidden;
+    }
+    .meter-fill { height: 100%; width: 0%; transition: width 0.3s ease, background-color 0.3s ease; }
+
+    .subtabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 14px;
+    }
+    .subtab-btn {
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: var(--text-muted);
+      padding: 9px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .subtab-btn:hover { color: var(--text); }
+    .subtab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 12px;
+      align-items: flex-end;
+    }
+    .controls > div { flex: 1; min-width: 170px; }
+
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    th { background: #1c2128; color: var(--text-muted); font-size: 12px; font-weight: 600; white-space: nowrap; }
+    tr:hover td { background: rgba(88, 166, 255, 0.04); }
+
+    .compat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .compat-box {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px;
+      font-size: 12px;
+    }
+    .compat-line { margin-top: 4px; color: var(--text-muted); }
+
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition: none !important; animation: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Unified PC Parts, CPUs, GPUs &amp; PSU Guard</h1>
+      <p class="subtitle">Single source of truth across 12 component categories, BD multi-retailer pricing, and 550W transient spike protection</p>
+    </div>
+    <div class="actions">
+      <a href="/api/pc" target="_blank" rel="noopener noreferrer" class="btn">JSON API (/api/pc)</a>
+      <a href="/api/cross/check-build" target="_blank" rel="noopener noreferrer" class="btn">Default Rig Check</a>
+    </div>
+  </header>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">
+        <span>Reference Baseline PC</span>
+        <span class="badge info">Active Rig</span>
+      </div>
+      <div id="baseline-specs">
+        <div class="spec-item"><span class="spec-label">Processor</span><span id="base-cpu" class="spec-val">AMD Ryzen 5 5600GT (6C/12T)</span></div>
+        <div class="spec-item"><span class="spec-label">Integrated GPU</span><span id="base-igpu" class="spec-val">Radeon Vega 7 (Tier 3.0)</span></div>
+        <div class="spec-item"><span class="spec-label">Memory</span><span id="base-ram" class="spec-val">16 GB DDR4-3200</span></div>
+        <div class="spec-item"><span class="spec-label">Power Supply</span><span id="base-psu" class="spec-val">550W 80+ Bronze (43A +12V)</span></div>
+        <div class="spec-item"><span class="spec-label">Base Draw</span><span id="base-draw" class="spec-val">~85W Platform Baseline</span></div>
+      </div>
+      <div style="margin-top:14px;">
+        <div class="card-title" style="margin-bottom:8px;">
+          <span>Rig Compatibility Snapshot</span>
+          <span id="compat-badge" class="badge pass">Checking...</span>
+        </div>
+        <div id="compat-grid" class="compat-grid"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <span>GPU Upgrade &amp; PSU Transient Spike Forecaster</span>
+      </div>
+      <div class="calculator-form">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+          <div>
+            <label for="gpu-select">Candidate GPU</label>
+            <select id="gpu-select"></select>
+          </div>
+          <div>
+            <label for="cpu-select">Candidate CPU</label>
+            <select id="cpu-select"></select>
+          </div>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+          <div>
+            <label for="psu-input">PSU Capacity (Watts)</label>
+            <input type="number" id="psu-input" value="550" min="300" max="1200" step="50">
+          </div>
+          <div>
+            <label for="base-input">Base Platform Draw (Watts)</label>
+            <input type="number" id="base-input" value="85" min="40" max="250" step="5">
+          </div>
+        </div>
+
+        <div id="gauge-box" class="gauge-box pass" aria-live="polite">
+          <div class="gauge-header">
+            <span id="gpu-name" style="font-weight:600;">Radeon RX 6600 (8 GB)</span>
+            <span id="status-badge" class="badge pass">Headroom Safe</span>
+          </div>
+          <div style="font-size:12px; color:var(--text-muted); display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+            <span>Continuous: <strong id="val-continuous" style="color:var(--text);">--</strong></span>
+            <span>Microsecond Spike: <strong id="val-peak" style="color:var(--text);">--</strong></span>
+            <span>Headroom: <strong id="val-headroom" style="color:var(--green);">--</strong></span>
+          </div>
+          <div class="meter-container">
+            <div id="meter-bar" class="meter-fill" style="width:45%; background-color:var(--green);"></div>
+          </div>
+          <p id="explanation-text" style="font-size:12px; color:var(--text-muted); margin-top:8px;">Loading PC catalog...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="subtabs" role="tablist" aria-label="PC Catalog Views">
+      <button type="button" class="subtab-btn active" data-view="gpus">GPUs &amp; PSU Safety</button>
+      <button type="button" class="subtab-btn" data-view="cpus">Desktop CPUs</button>
+      <button type="button" class="subtab-btn" data-view="all">All 12 Component Categories</button>
+    </div>
+
+    <div id="all-controls" class="controls" style="display:none;">
+      <div>
+        <label for="cat-filter">Category</label>
+        <select id="cat-filter"></select>
+      </div>
+      <div style="flex:2;">
+        <label for="part-search">Search Part Name or Brand</label>
+        <input id="part-search" type="search" placeholder="e.g. Ryzen, B450M, NVMe, Corsair, XP-Pen...">
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead id="table-head"></thead>
+        <tbody id="table-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    let pcData = null;
+    let currentView = 'gpus';
+
+    function setHeaders(cols) {
+      const thead = document.getElementById('table-head');
+      thead.textContent = '';
+      const tr = document.createElement('tr');
+      cols.forEach(label => {
+        const th = document.createElement('th');
+        th.textContent = label;
+        tr.appendChild(th);
+      });
+      thead.appendChild(tr);
+    }
+
+    function appendTextCell(tr, text, bold = false) {
+      const td = document.createElement('td');
+      if (bold) {
+        const strong = document.createElement('strong');
+        strong.textContent = text;
+        td.appendChild(strong);
+      } else {
+        td.textContent = text;
+      }
+      tr.appendChild(td);
+    }
+
+    function formatBdt(val) {
+      const n = Number(val || 0);
+      return n > 0 ? '৳' + n.toLocaleString() : '—';
+    }
+
+    function populateSelectors() {
+      const gpuSel = document.getElementById('gpu-select');
+      const cpuSel = document.getElementById('cpu-select');
+      const catSel = document.getElementById('cat-filter');
+      gpuSel.textContent = '';
+      cpuSel.textContent = '';
+      catSel.textContent = '';
+
+      (pcData.gpus || []).forEach(g => {
+        const opt = document.createElement('option');
+        opt.value = g.id;
+        opt.textContent = g.name + ' (' + g.tdp_watts + 'W)';
+        gpuSel.appendChild(opt);
+      });
+      if ((pcData.gpus || []).some(g => g.id === 'rx-6600')) gpuSel.value = 'rx-6600';
+
+      (pcData.cpus || []).forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c.id;
+        opt.textContent = c.name + ' (' + c.socket + ', ' + c.tdp_watts + 'W)';
+        cpuSel.appendChild(opt);
+      });
+      if ((pcData.cpus || []).some(c => c.id === 'ryzen-5-5600gt')) cpuSel.value = 'ryzen-5-5600gt';
+
+      const allOpt = document.createElement('option');
+      allOpt.value = 'all';
+      allOpt.textContent = 'All Categories';
+      catSel.appendChild(allOpt);
+      Object.entries(pcData).forEach(([k, v]) => {
+        if (Array.isArray(v)) {
+          const opt = document.createElement('option');
+          opt.value = k;
+          opt.textContent = k.replace('_', ' ').toUpperCase() + ' (' + v.length + ')';
+          catSel.appendChild(opt);
+        }
+      });
+    }
+
+    function updateCalculator() {
+      if (!pcData || !Array.isArray(pcData.gpus) || pcData.gpus.length === 0) return;
+      const gpuId = document.getElementById('gpu-select').value;
+      const cpuId = document.getElementById('cpu-select').value;
+      const psu = Number(document.getElementById('psu-input').value) || 550;
+      const base = Number(document.getElementById('base-input').value) || 85;
+
+      const gpu = pcData.gpus.find(g => g.id === gpuId) || pcData.gpus[0];
+      const cpu = (pcData.cpus || []).find(c => c.id === cpuId) || { name: 'Baseline CPU', tdp_watts: 65 };
+
+      const tdp = Number(gpu.tdp_watts || 0);
+      const mult = tdp >= 250 ? 2.0 : (tdp >= 180 ? 1.65 : 1.35);
+      const cpuExtra = Math.max(0, Number(cpu.tdp_watts || 65) - 65);
+      const continuous = Math.round(tdp + base + cpuExtra);
+      const peak = Math.round(tdp * mult + base + cpuExtra);
+      const headroom = psu - peak;
+      const pct = Math.min(100, Math.round((peak / psu) * 100));
+
+      let status = 'pass';
+      let badgeText = 'Headroom Safe';
+      let explanation = 'Combined ' + cpu.name + ' + ' + gpu.name + ' spikes to ~' + peak + 'W (' + mult + 'x GPU transient), leaving +' + headroom + 'W headroom on ' + psu + 'W PSU.';
+      if (peak > psu) {
+        status = 'fail';
+        badgeText = 'OCP Trip Risk';
+        explanation = 'DANGER: Microsecond transient spike (~' + peak + 'W) exceeds ' + psu + 'W PSU by ' + Math.abs(headroom) + 'W!';
+      } else if (continuous > 0.75 * psu || peak > 0.85 * psu) {
+        status = 'warn';
+        badgeText = 'Heavy PSU Load';
+        explanation = 'Continuous draw is ' + continuous + 'W with ~' + peak + 'W transient bursts. PSU survives but runs near threshold.';
+      }
+
+      document.getElementById('gpu-name').textContent = gpu.name + ' + ' + cpu.name;
+      document.getElementById('val-continuous').textContent = continuous + 'W';
+      document.getElementById('val-peak').textContent = peak + 'W (' + mult + 'x)';
+      const hrEl = document.getElementById('val-headroom');
+      hrEl.textContent = (headroom >= 0 ? '+' : '') + headroom + 'W';
+      hrEl.style.color = headroom >= 0 ? (status === 'warn' ? 'var(--amber)' : 'var(--green)') : 'var(--red)';
+
+      document.getElementById('gauge-box').className = 'gauge-box ' + status;
+      const badge = document.getElementById('status-badge');
+      badge.className = 'badge ' + status;
+      badge.textContent = badgeText;
+      const bar = document.getElementById('meter-bar');
+      bar.style.width = pct + '%';
+      bar.style.backgroundColor = status === 'pass' ? 'var(--green)' : (status === 'warn' ? 'var(--amber)' : 'var(--red)');
+      document.getElementById('explanation-text').textContent = explanation;
+    }
+
+    function renderActiveTable() {
+      if (!pcData) return;
+      const tbody = document.getElementById('table-body');
+      tbody.textContent = '';
+
+      if (currentView === 'gpus') {
+        setHeaders(['GPU Model', 'Tier', 'VRAM', 'TDP', 'Peak Spike', '550W Status', 'Used BDT', 'Retail BDT', 'Best Retailer']);
+        (pcData.gpus || []).forEach(g => {
+          const tr = document.createElement('tr');
+          appendTextCell(tr, g.name, true);
+          appendTextCell(tr, 'Tier ' + g.tier);
+          appendTextCell(tr, g.vram_gb + ' GB ' + (g.vram_type || ''));
+          appendTextCell(tr, g.tdp_watts + 'W');
+          appendTextCell(tr, '~' + g.system_peak_watts + 'W (' + g.transient_multiplier + 'x)');
+          const tdStatus = document.createElement('td');
+          const b = document.createElement('span');
+          const cls = ['pass', 'warn', 'fail'].includes(g.psu_550w_verdict) ? g.psu_550w_verdict : 'warn';
+          b.className = 'badge ' + cls;
+          b.textContent = g.psu_badge || cls;
+          tdStatus.appendChild(b);
+          tr.appendChild(tdStatus);
+          appendTextCell(tr, formatBdt(g.price_bdt_used));
+          appendTextCell(tr, formatBdt(g.price_bdt_retail || g.price_bdt));
+          appendTextCell(tr, g.best_retailer || '—');
+          tbody.appendChild(tr);
+        });
+      } else if (currentView === 'cpus') {
+        setHeaders(['CPU Model', 'Socket', 'DDR', 'Cores / Threads', 'L3 Cache', 'TDP', 'Tier', 'iGPU', 'Retail BDT']);
+        (pcData.cpus || []).forEach(c => {
+          const tr = document.createElement('tr');
+          appendTextCell(tr, c.name, true);
+          appendTextCell(tr, c.socket);
+          appendTextCell(tr, c.ddr_gen || '—');
+          appendTextCell(tr, c.cores + 'C / ' + c.threads + 'T');
+          appendTextCell(tr, c.l3_cache_mb + ' MB');
+          appendTextCell(tr, c.tdp_watts + 'W');
+          appendTextCell(tr, 'Tier ' + c.tier);
+          appendTextCell(tr, c.integrated_gpu || (c.has_igpu ? 'Yes' : 'None'));
+          appendTextCell(tr, formatBdt(c.price_bdt));
+          tbody.appendChild(tr);
+        });
+      } else {
+        setHeaders(['Category', 'Component', 'Brand', 'Retail BDT', 'Best Retailer', 'USD']);
+        const catF = document.getElementById('cat-filter').value;
+        const q = document.getElementById('part-search').value.trim().toLowerCase();
+        Object.entries(pcData).forEach(([cat, list]) => {
+          if (!Array.isArray(list)) return;
+          if (catF !== 'all' && cat !== catF) return;
+          list.forEach(item => {
+            if (q && !(String(item.name || '') + ' ' + String(item.brand || '') + ' ' + cat).toLowerCase().includes(q)) return;
+            const tr = document.createElement('tr');
+            appendTextCell(tr, cat.toUpperCase());
+            appendTextCell(tr, item.name || item.id, true);
+            appendTextCell(tr, item.brand || '—');
+            appendTextCell(tr, formatBdt(item.price_bdt || item.price_bdt_retail));
+            appendTextCell(tr, item.best_retailer || '—');
+            appendTextCell(tr, item.price_usd ? '$' + item.price_usd : '—');
+            tbody.appendChild(tr);
+          });
+        });
+      }
+    }
+
+    async function loadRigCompat() {
+      try {
+        const res = await fetch('/api/cross/check-build', { cache: 'no-store' });
+        if (!res.ok) return;
+        const data = await res.json();
+        const badge = document.getElementById('compat-badge');
+        badge.className = 'badge ' + (data.compatible ? 'pass' : 'fail');
+        badge.textContent = data.compatible ? ('Compatible · ' + formatBdt(data.estimated_total_bdt)) : (data.error_count + ' Errors');
+        const grid = document.getElementById('compat-grid');
+        grid.textContent = '';
+        [['Errors', data.errors || []], ['Warnings', data.warnings || []], ['Bus & Cable Notes', data.notes || []]].forEach(([title, lines]) => {
+          const box = document.createElement('div');
+          box.className = 'compat-box';
+          const strong = document.createElement('strong');
+          strong.textContent = title + ' (' + lines.length + ')';
+          box.appendChild(strong);
+          (lines.length ? lines.slice(0, 3) : ['None']).forEach(line => {
+            const d = document.createElement('div');
+            d.className = 'compat-line';
+            d.textContent = line;
+            box.appendChild(d);
+          });
+          grid.appendChild(box);
+        });
+      } catch (_) {}
+    }
+
+    async function loadPcCatalog() {
+      try {
+        const res = await fetch('/api/pc', { cache: 'no-store' });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        pcData = await res.json();
+        const sb = pcData.system_baseline || {};
+        if (sb.cpu) document.getElementById('base-cpu').textContent = sb.cpu + ' (' + (sb.cores_threads || '') + ')';
+        if (sb.base_igpu) document.getElementById('base-igpu').textContent = sb.base_igpu;
+        if (sb.ram_gb) document.getElementById('base-ram').textContent = sb.ram_gb + ' GB ' + (sb.ram_type || '');
+        if (sb.psu_model) document.getElementById('base-psu').textContent = sb.psu_model;
+        if (sb.base_system_watts) document.getElementById('base-draw').textContent = '~' + sb.base_system_watts + 'W Base Draw';
+
+        populateSelectors();
+        updateCalculator();
+        renderActiveTable();
+        loadRigCompat();
+      } catch (err) {
+        document.getElementById('explanation-text').textContent = 'Failed to load /api/pc (' + err.message + ').';
+      }
+    }
+
+    document.querySelectorAll('.subtab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        currentView = btn.dataset.view;
+        document.querySelectorAll('.subtab-btn').forEach(b => b.classList.toggle('active', b === btn));
+        document.getElementById('all-controls').style.display = currentView === 'all' ? 'flex' : 'none';
+        renderActiveTable();
+      });
+    });
+
+    ['gpu-select', 'cpu-select', 'psu-input', 'base-input'].forEach(id => {
+      document.getElementById(id).addEventListener('input', updateCalculator);
+      document.getElementById(id).addEventListener('change', updateCalculator);
+    });
+    document.getElementById('cat-filter').addEventListener('change', renderActiveTable);
+    document.getElementById('part-search').addEventListener('input', renderActiveTable);
+
+    window.addEventListener('DOMContentLoaded', loadPcCatalog);
+  </script>
+</body>
+</html>

@@ -1,9 +1,4 @@
-"""Cloudflare-tolerant, polite HTTP fetch helper for Manga Manager domain.
-
-Tries curl_cffi Chrome TLS impersonation first, then falls back to the Python
-standard library urllib client. Used for reading public metadata pages and
-checking streaming/reading link health without bypassing access controls.
-"""
+"""Cloudflare-tolerant, polite HTTP fetch helper for Media domain."""
 
 from __future__ import annotations
 
@@ -32,7 +27,6 @@ DEFAULT_HEADERS = {
 
 
 def build_headers(extra: dict[str, str] | None = None, referer: str | None = None) -> dict[str, str]:
-    """Merge optional referer and custom headers over safe browser defaults."""
     headers = dict(DEFAULT_HEADERS)
     if referer:
         headers["Referer"] = referer
@@ -80,7 +74,6 @@ def safe_get(
             return result
         except urllib.error.HTTPError as exc:
             last_error = exc
-            # Return definitive HTTP error codes (404/410/403) immediately on last retry
             if exc.code in (403, 404, 410, 451) and attempt == retries:
                 return (int(exc.code), "", url)
         except Exception as exc:

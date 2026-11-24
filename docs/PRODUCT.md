@@ -1,143 +1,95 @@
 # Product Intent & Feature Map (`PRODUCT.md`)
-> **1-Line Summary:** Unified benchmark, compatibility, and specifications database manager across AI models, PC games, and hardware upgrades.
+> **1-Line Summary:** Unified benchmark, compatibility, catalog, personal library, and repository telemetry database manager across 7 grouped domains (`pc`, `games`, `ai`, `media`, `book`, `phone`, `github`).
 
 ## 1. Core Vision & User Experience Intent
-* **What This App Does (Plain English):** Consolidates multiple fragmented datasets into one unified database and web portal: tracking 52 frontier & Chinese/OSS AI models with intelligence and coding benchmarks, 53 researched PC strategy games with compatibility scores for a Ryzen 5 5600GT (Vega 7) setup, 51 real-world 1% and 0.1% Low benchmark runs, 69 PC components and peripherals with multi-retailer price reconciliation across Bangladesh retailers (Star Tech, Ryans, UCC), and hardware GPU upgrade forecasting with PSU transient spike safety analysis.
-* **How It Must Feel to Use:** Ultra-fast, zero-dependency, local-first dashboard with dark-mode glassmorphic styling, instant client-side filtering, and dual terminal CLI and SQLite query capabilities.
+* **What This App Does (Plain English):** Consolidates 7 cleanly scoped domains into one zero-dependency local hub (`127.0.0.1:8770`): unified PC hardware & build compatibility (`pc`), strategy/RTS game benchmarks cross-linked directly with `pc` GPUs (`games`), API pricing & model intelligence rankings (`ai`, decoupled from local VRAM), interconnected multi-format media & adaptations (`media`), personal book tracking (`book`, rename-ready for `learning`/`reading`), mobile specs & supported apps/games (`phone`), and GitHub repository/CI health telemetry (`github`).
+* **How It Must Feel to Use:** Ultra-fast, zero-dependency, local-first dashboard with dark-mode GitHub styling, registry-driven grouped navigation that supports painless domain renames and aliases, instant client-side filtering, strictly table-isolated per-domain SQLite files, and dual terminal CLI/REST API interfaces.
 
 ## 2. Active Features (Do Not Break)
 
-### [FEATURE: AI-Model-Benchmark-Matrix] | Aliases: ai matrix, frontier models, coding elo, token pricing
-> **1-Line Summary:** Interactive 26+ frontier model matrix with Artificial Analysis intelligence indexes, Coding Arena ELOs, reasoning effort simulations, and token pricing telemetry.
-* **User Intention (Non-Negotiable):** Provide an objective comparison of frontier AI models to identify optimal intelligence-to-cost tradeoffs.
-* **Visual / UI Behavior:** Lives in `web/ai/index.html` (and Tab 1 of the Unified Portal) featuring sortable columns, tier chips, and effort sliders.
+### [FEATURE: Unified-PC-Domain-And-Compatibility-Engine] | Aliases: pc domain, hardware, cpus, pc_components, psu guard, compatibility engine
+> **1-Line Summary:** Consolidated PC catalog (`data/pc/pc.json`) unifying 75 parts across 12 categories (`cpus`, `gpus`, `psus`, motherboards, RAM, storage, displays, peripherals) with 550W PSU transient excursion checks and full-rig compatibility validation.
+* **User Intention (Non-Negotiable):** Maintain one canonical `pc` source of truth for all desktop hardware, preventing socket/DDR mismatches, drawing tablet DP-Alt-Mode traps, SMR drive gaming stutters, and microsecond PSU Over-Current Protection (OCP) trips.
+* **Visual / UI Behavior:** Unified dashboard in `web/pc/index.html` combining category browsing, 550W PSU transient spike gauges, multi-retailer BD pricing, and full-build validation via `/api/pc`, `/api/pc/gpus`, `/api/pc/cpus`, `/api/pc/check-build`, and `/api/cross/check-build`.
 * **Code Anchors (Grep Targets):**
-  * `web/ai/model_matrix/app.js` -> `renderTable`, `normalizeEffortKey`
+  * `data/pc/pc.json` -> `system_baseline`, `transient_rules`, `cpus`, `gpus`, `psus`
+  * `src/compatibility_engine.py` -> `compute_transient_metrics`, `evaluate_build`, `evaluate_default_build`
+  * `web/pc/index.html` -> safe-DOM PC catalog & PSU guard renderer
+
+### [FEATURE: GameRank-Compatibility-And-PC-Link] | Aliases: game rank, vega 7 rts, fps preset, upgrade simulator, game benchmarks
+> **1-Line Summary:** Evaluates 53 strategy/RTS titles against the Ryzen 5 5600GT (Vega 7) baseline, ingests 51 real-world 1%/0.1% Low benchmark runs (`benchmarks.csv`), and hydrates GPU upgrade simulation directly from canonical `pc` GPUs.
+* **User Intention (Non-Negotiable):** Link every game requirement tier and measured FPS run cleanly to unified `pc` GPU profiles so users see both estimated tier verdicts and real 550W PSU warnings before upgrading.
+* **Visual / UI Behavior:** Lives in `web/games/index.html` with card/table views, canonical `pc`-keyed GPU simulator dropdown (preserving researched `upgradeTiers` notes), and detail modals.
+* **Code Anchors (Grep Targets):**
+  * `web/games/js/rank.js` -> `UPGRADE_GPUS`, `resolveUpgradeGpuKey`, `compatScoreFor`, `computeUpgradedCompat`
+  * `web/games/js/app.js` -> `hydrateLivePcGpus`
+  * `src/db_hub.py` -> `query_games_by_gpu`, `query_game_benchmarks_with_pc`
+
+### [FEATURE: AI-Model-Benchmark-And-Pricing-Matrix] | Aliases: ai matrix, frontier models, coding elo, token pricing, chinese oss
+> **1-Line Summary:** Standalone 52-model AI pricing, benchmark, geopolitical origin, and tier matrix (`frontier`, `near_frontier`, `mid_tier`, `specialized`) completely decoupled from local GPU VRAM constraints.
+* **User Intention (Non-Negotiable):** Evaluate API cost-to-intelligence tradeoffs across Western/Chinese and open/closed models for cloud usage without meaningless local-VRAM mapping rules.
+* **Visual / UI Behavior:** Lives in `web/ai/index.html` featuring sortable columns, effort normalization, and multi-axis classification via `/api/ai` and `/api/ai/classified`.
+* **Code Anchors (Grep Targets):**
+  * `src/catalog_classifier.py` -> `classify_ai_model`, `classify_ai_catalog`
+  * `data/ai/taxonomy.json` -> `model_tiers`
   * `data/ai/models_master.json` -> `models`
 
-### [FEATURE: GameRank-Compatibility-Simulator] | Aliases: game rank, vega 7 rts, fps preset, upgrade simulator
-> **1-Line Summary:** Evaluates 43 strategy/RTS titles against a reference Ryzen 5 5600GT (Vega 7 iGPU, 16GB, HDD) with real-time FPS simulator for GPU upgrade tiers.
-* **User Intention (Non-Negotiable):** Show exact playable FPS and compatibility verdicts before purchasing games or upgrading hardware.
-* **Visual / UI Behavior:** Lives in `web/games/index.html` (and Tab 2 of the Unified Portal) with card/table views, GPU simulator dropdown, and detail modals.
+### [FEATURE: Media-Catalog-And-Adaptation-Hub] | Aliases: media domain, manga, manhua, light novel, anime, donghua, movie, tv_series
+> **1-Line Summary:** Interconnected 110-entry media catalog uniting `comic`, `light_novel`, `anime`, `donghua`, `movie`, and `tv_series` via `franchise_id`/`relations`, canonical `comix.to` sitemap lookup, adaptation probes, and link health audits without external Obsidian markdown sync.
+* **User Intention (Non-Negotiable):** Model adaptation chains (e.g., light novel -> comic/anime/donghua -> movie/series) natively inside SQLite/JSON while preserving `Outlander` TV series tracking cleanly (excluding private MEGA URLs) and discarding legacy Obsidian markdown write-back.
+* **Visual / UI Behavior:** Dashboard `web/media/index.html` featuring subdomain filters, origin filters, clickable franchise relation chips, Doctor diagnostics, and Link Audit panels backed by `/api/media`, `/api/media/doctor`, `/api/media/links`, and `/api/media/classified`.
 * **Code Anchors (Grep Targets):**
-  * `web/games/js/rank.js` -> `compatScoreFor`, `computeUpgradedCompat`
-  * `data/games/games.json` -> `window.GAMES`
+  * `src/media/__init__.py` -> `load_catalog`
+  * `src/media/adaptation_refresh.py` -> `inspect_catalog_doctor`, `propose_link_upgrades`
+  * `src/media/link_health.py` -> `audit_catalog_links_offline`, `check_catalog_links_live`
+  * `web/media/index.html` -> franchise relation chips & safe-DOM table renderer
 
-### [FEATURE: PSU-Transient-Spike-Guard] | Aliases: psu guard, hardware planner, 550w headroom, transient spike
-> **1-Line Summary:** Evaluates GPU upgrade paths against a 550W Bronze PSU (43A single +12V rail) calculating microsecond transient excursions and Over-Current Protection (OCP) trip risks.
-* **User Intention (Non-Negotiable):** Prevent system shutdowns by warning against high-TDP cards that produce 2.0x microsecond power spikes.
-* **Visual / UI Behavior:** Lives in `web/hardware/index.html` (and Tab 3 of the Unified Portal) with color-coded safety badges (Safe, Caution, Trip Risk) and dynamic headroom meters.
+### [FEATURE: Book-Collection-And-Reading-Tracker] | Aliases: book domain, books, learning, reading
+> **1-Line Summary:** Personal library catalog (`books.json` / `book.sqlite`) tracking book title, author, subject, format, ownership (`owned`, `wishlist`, `borrowed`, `library`), reading status, ratings, and notes with alias readiness (`learning`, `reading`).
+* **User Intention (Non-Negotiable):** Track owned vs wishlist vs active reading books while keeping labels and aliases in `data/registry.json` flexible enough to rename the domain (e.g. `Book` -> `Learning`) without code rewrites.
+* **Visual / UI Behavior:** Safe-DOM card view in `web/book/index.html` with KPI summary strip, ownership/reading/format filters, live alias chips, and `/api/book` + `/api/domain/learning` alias routing.
 * **Code Anchors (Grep Targets):**
-  * `web/hardware/index.html` -> `updateCalculator`
-  * `data/hardware/hardware_specs.json` -> `transient_rules`, `gpus`
+  * `data/book/schema.json` -> book field contracts and enums
+  * `src/db_export.py` -> `create_book_schema`, `export_books`
+  * `web/book/index.html` -> `applyFilters`, `renderKPIs`
 
-### [FEATURE: Unified-Web-Portal] | Aliases: master dashboard, web portal, tab switcher
-> **1-Line Summary:** Single-page glassmorphic portal integrating AI Matrix, GameRank, and Hardware Guard with persistent popout links and live status strip.
-* **User Intention (Non-Negotiable):** Access all three benchmark and planning tools from one unified browser window on `http://127.0.0.1:8770`.
-* **Visual / UI Behavior:** Sticky header with tabs, popouts, and full-height responsive viewport switching.
+### [FEATURE: Phone-Specs-And-App-Support-Catalog] | Aliases: phone domain, phones, mobile, smartphones
+> **1-Line Summary:** Mobile device specifications catalog (`phones.json` / `phone.sqlite`) tracking SoC, GPU, RAM, display refresh rate, battery/charging, BD/USD pricing, and verified `supported_games` / `supported_apps` compatibility lists.
+* **User Intention (Non-Negotiable):** Compare smartphones both on hardware capability (Snapdragon/Exynos SoC, RAM, LTPO/AMOLED display, charging wattage) and on real-world app/game compatibility profiles.
+* **Visual / UI Behavior:** Safe-DOM dashboard in `web/phone/index.html` with SoC/RAM/brand filters, dual supported games & supported apps badges (`locked`, `smooth`, `playable`, `supported`), and `/api/phone`.
 * **Code Anchors (Grep Targets):**
-  * `web/index.html` -> `switchTab`
-
-### [FEATURE: Multi-Domain-CLI-And-REST-API] | Aliases: server py, cli search, json endpoints
-> **1-Line Summary:** Standard Python HTTP server serving static dashboards and JSON API endpoints (`/api/ai`, `/api/games`, `/api/hardware`), with a formatted terminal search CLI.
-* **User Intention (Non-Negotiable):** Run zero-dependency local queries directly from PowerShell or external scripts without launching a heavy browser.
-* **Visual / UI Behavior:** Prints formatted terminal tables via `python src/server.py --cli [query]` or machine-readable JSON via `--json`.
-* **Code Anchors (Grep Targets):**
-  * `src/server.py` -> `run_cli_summary`, `DatabaseHandler.do_GET`
-
-### [FEATURE: Consolidated-SQLite-Pipeline] | Aliases: db export, sqlite compiler, database sqlite
-> **1-Line Summary:** Automated compilation script that maps AI, Game, Hardware, and CPU JSON catalogs into relational tables in `data/database.sqlite`.
-* **User Intention (Non-Negotiable):** Enable standard SQL queries and analytical aggregation across all data domains.
-* **Visual / UI Behavior:** CLI execution via `python src/db_export.py` reporting verified record counts and schema validation.
-* **Code Anchors (Grep Targets):**
-  * `src/db_export.py` -> `compile_database`, `verify_database`
-
-### [FEATURE: Multi-Domain-SQLite-Hub-And-Federation] | Aliases: multidb hub, separated domain dbs, cross-domain views
-> **1-Line Summary:** Separated domain SQLite architecture (`ai.sqlite`, `games.sqlite`, `hardware.sqlite`, `cpus.sqlite`) with in-memory ATTACH federation and cross-domain SQL views.
-* **User Intention (Non-Negotiable):** Maintain clean domain boundaries with independent TTL freshness tracking while enabling zero-copy cross-domain queries.
-* **Visual / UI Behavior:** Programmatic Python API `db_hub.py`, HTTP endpoints (`/api/domains`, `/api/cross/*`), and integrity verification via `db_verify.py`.
-* **Code Anchors (Grep Targets):**
-  * `src/db_hub.py` -> `open_federated_connection`, `query_domain_health`
-  * `src/db_verify.py` -> `verify_all`
-  * `data/registry.json` -> `domains`
-
-### [FEATURE: BD-Retail-Hardware-Price-Sync] | Aliases: bd hardware scraper, star tech sync, ryans sync, ucc sync
-> **1-Line Summary:** Multi-tier live web scraper targeting Star Tech, Ryans, and UCC to track GPU prices in BDT with non-destructive diff previews.
-* **User Intention (Non-Negotiable):** Keep hardware upgrade pricing current with actual Bangladesh local retail stock without manual data entry.
-* **Visual / UI Behavior:** CLI execution via `python src/scrapers/bd_hardware.py --dry-run` displaying tabular price deltas before optional `--apply` writing.
-* **Code Anchors (Grep Targets):**
-  * `src/scrapers/bd_hardware.py` -> `compute_live_price_sync`, `render_diff_table`
-  * `src/scrapers/adapters.py` -> `parse_bd_retail_html`
-
-### [FEATURE: Low-FPS-Benchmark-Telemetry] | Aliases: game benchmarks, 1% low fps, 0.1% low fps, 5600gt telemetry
-> **1-Line Summary:** Real-world gaming telemetry recording Avg, 1% Low, and 0.1% Low FPS for Ryzen 5 5600GT across Vega 7, RX 6600, and RTX 4060 GPUs.
-* **User Intention (Non-Negotiable):** Provide realistic frame-pacing and stutter assessments beyond deceptive average FPS numbers.
-* **Visual / UI Behavior:** Ingestion CLI via `python src/scrapers/benchmark_ingest.py --verify` rendering stability indices and percentiles.
-* **Code Anchors (Grep Targets):**
-  * `src/scrapers/benchmark_ingest.py` -> `ingest_csv`, `print_stability_report`
-  * `data/games/benchmarks.csv` -> benchmark dataset
-
-### [FEATURE: Desktop-CPUs-Domain-And-Combo-Planner] | Aliases: cpus domain, cpu gpu combos, socket am4 am5 lga1700
-> **1-Line Summary:** 4th registered domain database (`data/cpus/cpus.sqlite`) modeling desktop processors, socket architectures, and balanced CPU+GPU build combinations.
-* **User Intention (Non-Negotiable):** Evaluate upgrade paths from Ryzen 5 5600GT (AM4) to 5700X3D or AM5/LGA1700 while checking combined power consumption against a 550W PSU.
-* **Visual / UI Behavior:** REST API endpoint `/api/cpus` and `/api/cross/cpu-gpu-combos`, plus SQL view `v_cpu_gpu_combos`.
-* **Code Anchors (Grep Targets):**
-  * `data/cpus/schema.json` -> CPU schema definition
-  * `data/cpus/cpus.json` -> 6 core processors catalog
-  * `src/db_hub.py` -> `query_cpu_gpu_combos`
-
-### [FEATURE: Full-PC-And-Peripherals-Compatibility-Engine] | Aliases: compatibility engine, socket am4, ddr4 ram, pen display, smr hdd, tv 60hz
-> **1-Line Summary:** Evaluates complete PC rigs (motherboard, CPU, RAM, GPU, storage, PSU, monitors, drawing pen displays) for mechanical, electrical, and bus compatibility.
-* **User Intention (Non-Negotiable):** Prevent costly hardware purchase mistakes (socket mismatch, DDR generation conflict, PCIe lane throttling, missing DP-Alt-Mode for pen displays, SMR drive game-load freezes).
-* **Visual / UI Behavior:** CLI execution via `python src/compatibility_engine.py --demo` (or `--demo --json`) plus REST API endpoint `/api/cross/check-build` and component catalog `/api/components`.
-* **Code Anchors (Grep Targets):**
-  * `src/compatibility_engine.py` -> `evaluate_default_build`, `evaluate_build`
-  * `src/server.py` -> `/api/cross/check-build`, `/api/components`
-  * `data/pc_components/components.json` -> full component catalog
-  * `data/pc_components/schema.json` -> component spec validation
-
-### [FEATURE: Games-And-AI-Taxonomy-Classifiers] | Aliases: catalog classifier, chinese oss tiers, game taxonomy, strategy subgenres
-> **1-Line Summary:** Multi-axis taxonomy classifiers partitioning AI models (Chinese OSS vs Western OSS vs Closed Frontier) and RTS/Grand Strategy games into discoverable tactical subgenres.
-* **User Intention (Non-Negotiable):** Enable nuanced categorization for open-source AI models (DeepSeek, Qwen, GLM, Yi vs Llama, Mistral) and classify PC games by real-time micro vs macro tactical focus.
-* **Visual / UI Behavior:** CLI execution via `python src/catalog_classifier.py --ai --chinese-oss` or `python src/catalog_classifier.py --games`, plus REST API endpoints `/api/ai/classified` and `/api/games/classified`.
-* **Code Anchors (Grep Targets):**
-  * `src/catalog_classifier.py` -> `classify_ai_catalog`, `classify_games_catalog`
-  * `src/server.py` -> `/api/ai/classified`, `/api/games/classified`
-  * `data/ai/taxonomy.json` -> AI geopolitical and capability taxonomy
-  * `data/games/taxonomy.json` -> Games subgenre and pacing taxonomy
-
-### [FEATURE: Multi-Site-Catalog-Expansion] | Aliases: multi site scrapers, retail reconciliation, steam api, openrouter sync
-> **1-Line Summary:** Multi-source scraping, price reconciliation, and catalog expansion engine across PC Components (Star Tech, Ryans, UCC), Games (Steam, PCGamingWiki, BAR), and LLMs (OpenRouter, Models.dev, Arena).
-* **User Intention (Non-Negotiable):** Eliminate manual data curation and single-retailer bias through multi-source consensus, tracking BDT price spreads, SKU divergence alerts, and dual-source capability concordance.
-* **Visual / UI Behavior:** Modular scrapers `src/scrapers/multi_site_components.py`, `src/scrapers/multi_site_games.py`, and `src/scrapers/multi_site_ai.py` supporting `--dry-run` and `--apply`.
-* **Code Anchors (Grep Targets):**
-  * `src/scrapers/multi_site_components.py` -> `sync_multi_site_components`
-  * `src/scrapers/multi_site_games.py` -> `sync_multi_site_games`
-  * `src/scrapers/multi_site_ai.py` -> `sync_multi_site_ai`
-  * `data/pc_components/components.json` -> 69 verified components across 11 categories
-  * `data/games/games.json` -> 53 verified strategy games
-  * `data/ai/models_master.json` -> 52 verified LLM models
-
-### [FEATURE: Manga-Catalog-And-Adaptation-Hub] | Aliases: manga manager, manhua links, comix sitemaps, adaptation refresh, link health
-> **1-Line Summary:** Unified 104-title manga, manhwa, manhua, and web-novel catalog with canonical `comix.to` sitemap lookup, adaptation research probes, streaming link health checks, Obsidian `Manhua Links.md` sync, and a dedicated Web Portal tab.
-* **User Intention (Non-Negotiable):** Consolidate `Manga Manager` into `Database Manager` as the 6th registered domain (`data/manga/manga.sqlite`), keeping `data/manga/sitemaps/*.xml` gitignored, preserving `### Outlander` on Obsidian sync, and exposing non-destructive `--doctor` / `--propose` / `--check-links` workflows.
-* **Visual / UI Behavior:** Tab 4 (`Manga & Adaptations`, shortcut `4`) in `web/index.html` rendering `web/manga/index.html` with origin/adaptation filters and inline Doctor & Link Audit panels, plus `/api/manga`, `/api/manga/doctor`, `/api/manga/links`, and `/api/manga/classified`.
-* **Code Anchors (Grep Targets):**
-  * `src/manga/cli.py` -> `main`
-  * `src/manga/adaptation_refresh.py` -> `inspect_catalog_doctor`, `propose_link_upgrades`, `probe_public_adaptation_sources`, `run_adaptation_refresh`
-  * `src/manga/link_health.py` -> `audit_catalog_links_offline`, `check_catalog_links_live`
-  * `src/manga/sync_vault.py` -> `sync_to_obsidian`
-  * `web/manga/index.html` -> `renderTable`, `loadCatalog`
+  * `data/phone/schema.json` -> device spec ranges and required fields
+  * `src/db_export.py` -> `create_phone_schema`, `export_phones`
+  * `web/phone/index.html` -> `applyFilters`, `makeSupportBlock`
 
 ### [FEATURE: GitHub-Repositories-And-CI-Hub] | Aliases: github manager, repo triage, ci health, upstream fork drift
-> **1-Line Summary:** 7th registered domain (`github`) tracking repository activity timelines (0–4d, 4–8d, dormant), GitHub Actions CI health, unbuilt/unreleased commit gaps, upstream fork drift, and Markdown audit exports.
-* **User Intention (Non-Negotiable):** Consolidate `GitHub Manager` into `Database Manager` on port `8770` (resolving the `:8765` AnkiConnect collision), redact private repo metadata from committed `data/github/repos_public.json` into gitignored `live_cache.json`, eliminate `innerHTML` XSS, and guard `POST` mutations with strict loopback `Origin`/`Host` CSRF validation.
-* **Visual / UI Behavior:** Tab 5 (`GitHub Repos`, shortcut `5`) in `web/index.html` rendering `web/github/index.html` with KPI cards, search/type/CI filters, activity sub-tabs, Repo Doctor diagnostics, commit inspection modal, Markdown export, and live `gh api` refresh, backed by `/api/github`, `/api/github/triage`, `/api/github/doctor`, `/api/github/classified`, and `POST /api/github/{refresh,export}`.
+> **1-Line Summary:** DevOps domain (`github`) tracking repository activity timelines (0–4d, 4–8d, dormant), GitHub Actions CI health, unbuilt/unreleased commit gaps, upstream fork drift, and Markdown audit exports.
+* **User Intention (Non-Negotiable):** Track all repositories on port `8770`, redact private repo metadata from committed `data/github/repos_public.json` into gitignored `live_cache.json`, render strictly with safe DOM, and guard `POST` mutations with loopback `Origin`/`Host` CSRF validation.
+* **Visual / UI Behavior:** Grouped `DevOps` tab in `web/index.html` loading `web/github/index.html`, backed by `/api/github`, `/api/github/triage`, `/api/github/doctor`, `/api/github/classified`, and `POST /api/github/{refresh,export}`.
 * **Code Anchors (Grep Targets):**
   * `src/github/scanner.py` -> `scan_all_repositories`, `triage_repositories`, `redact_public_repos`
   * `src/github/exporter.py` -> `export_markdown_report`
-  * `src/github/cli.py` -> `main`, `inspect_github_doctor`
   * `web/github/index.html` -> `renderTable`, `inspectRepo`, `loadTriage`
+
+### [FEATURE: Registry-Driven-Dynamic-Portal-And-Isolated-SQLite] | Aliases: master dashboard, web portal, db hub, db export, table isolation, aliases
+> **1-Line Summary:** Dynamic grouped web portal (`web/index.html`), alias-aware domain resolver (`resolve_domain_key`), strictly table-isolated per-domain SQLite builds (`compile_separated_domains`), and cross-domain `games` <-> `pc` federation (`db_hub.py`).
+* **User Intention (Non-Negotiable):** Enable painless domain renames (`display_name`, `short_label`, `aliases`, `group` in `data/registry.json`), guarantee every `data/<domain>/<domain>.sqlite` holds strictly its own tables + `_meta`, and retire pre-reorg legacy routes cleanly (`404`).
+* **Visual / UI Behavior:** Top header renders group-clustered tabs, quick-links, and live domain stats straight from `/api/status`; `#<alias>` URL hashes and `/api/domain/<alias>` resolve aliases automatically.
+* **Code Anchors (Grep Targets):**
+  * `data/registry.json` -> `groups`, `domains`, `cross_domain_views`
+  * `src/db_export.py` -> `SCHEMA_CREATORS`, `compile_separated_domains`, `compile_database`
+  * `src/db_hub.py` -> `open_federated_connection`, `query_domain_health`, `resolve_domain_key`
+  * `src/server.py` -> `DatabaseHandler.do_GET`, `search_databases`
+  * `web/index.html` -> `buildPortalChrome`, `resolveTargetTab`
+
+### [FEATURE: Multi-Site-Catalog-Expansion-And-Scrapers] | Aliases: multi site scrapers, retail reconciliation, steam api, openrouter sync, bd retail
+> **1-Line Summary:** Multi-tier scraping and consensus pricing engine across PC hardware (Star Tech, Ryans, UCC -> `data/pc/pc.json`), Games (benchmarks CSV & yt-dlp), and AI catalogs with `--dry-run` diff safety.
+* **User Intention (Non-Negotiable):** Prevent single-retailer bias and destructive overwrites through multi-source consensus, BDT spread alerts (>20%), and offline CI compatibility (`Tier 0` stdlib fallback).
+* **Visual / UI Behavior:** CLI execution via `--dry-run` diff tables prior to opt-in `--apply` persistence.
+* **Code Anchors (Grep Targets):**
+  * `src/scrapers/bd_hardware.py` -> `compute_live_price_sync`
+  * `src/scrapers/multi_site_components.py` -> `sync_multi_site_components`
+  * `src/scrapers/benchmark_ingest.py` -> `ingest_csv`, `verify_benchmarks`
 
 ## 3. Planned Features & App-Merge Wishlist
 

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Collection — Database Manager</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --surface-hover: #21262d;
+      --border: #30363d;
+      --text: #e6edf3;
+      --text-muted: #8b949e;
+      --accent: #58a6ff;
+      --green: #3fb950;
+      --amber: #d29922;
+      --red: #f85149;
+      --purple: #bc8cff;
+      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-family);
+      line-height: 1.5;
+      padding: 20px 24px 40px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+    }
+    h1 { font-size: 22px; font-weight: 600; }
+    .subtitle { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+    .alias-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+    .alias-pill {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-muted);
+    }
+
+    .actions { display: flex; flex-wrap: wrap; gap: 8px; }
+    .btn {
+      background: var(--surface-hover);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 7px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .kpi {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+    }
+    .kpi-label { font-size: 12px; color: var(--text-muted); }
+    .kpi-value { font-size: 24px; font-weight: 700; margin-top: 4px; }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+      align-items: center;
+    }
+    input[type="search"], select {
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-size: 13px;
+    }
+    input[type="search"] { flex: 1; min-width: 240px; }
+
+    .book-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 14px;
+    }
+    .book-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .book-title { font-size: 16px; font-weight: 600; color: var(--text); }
+    .book-author { font-size: 13px; color: var(--text-muted); }
+    .badge-row { display: flex; flex-wrap: wrap; gap: 6px; }
+    .badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      text-transform: capitalize;
+    }
+    .badge-owned { background: rgba(63, 185, 80, 0.14); color: var(--green); border-color: rgba(63, 185, 80, 0.35); }
+    .badge-wishlist { background: rgba(210, 153, 34, 0.14); color: var(--amber); border-color: rgba(210, 153, 34, 0.35); }
+    .badge-reading { background: rgba(88, 166, 255, 0.14); color: var(--accent); border-color: rgba(88, 166, 255, 0.35); }
+    .badge-completed { background: rgba(63, 185, 80, 0.14); color: var(--green); border-color: rgba(63, 185, 80, 0.35); }
+    .badge-neutral { background: var(--surface-hover); color: var(--text-muted); border-color: var(--border); }
+    .book-notes { font-size: 12px; color: var(--text-muted); border-top: 1px solid var(--border); padding-top: 8px; }
+    .meta-footer { font-size: 12px; color: var(--text-muted); display: flex; justify-content: space-between; }
+    .empty { color: var(--text-muted); text-align: center; padding: 36px; border: 1px dashed var(--border); border-radius: 8px; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1 id="domain-title">Book Collection &amp; Reading Tracker</h1>
+      <div id="domain-sub" class="subtitle">Rename-ready domain (supports aliases such as Books, Learning, Reading)</div>
+      <div id="alias-row" class="alias-chips"></div>
+    </div>
+    <div class="actions">
+      <a class="btn" href="/api/book" target="_blank" rel="noopener noreferrer">JSON API ↗</a>
+      <a class="btn" href="/api/domain/learning" target="_blank" rel="noopener noreferrer">Alias API (/learning) ↗</a>
+    </div>
+  </header>
+
+  <section class="kpi-grid" aria-label="Book collection summary">
+    <div class="kpi"><div class="kpi-label">Total Books</div><div id="kpi-total" class="kpi-value">--</div></div>
+    <div class="kpi"><div class="kpi-label">Owned</div><div id="kpi-owned" class="kpi-value" style="color:var(--green);">--</div></div>
+    <div class="kpi"><div class="kpi-label">Reading / Reference</div><div id="kpi-active" class="kpi-value" style="color:var(--accent);">--</div></div>
+    <div class="kpi"><div class="kpi-label">Wishlist</div><div id="kpi-wishlist" class="kpi-value" style="color:var(--amber);">--</div></div>
+  </section>
+
+  <section class="controls" aria-label="Book filters">
+    <input id="search-input" type="search" placeholder="Search title, author, subject, or notes…" aria-label="Search books">
+    <select id="ownership-filter" aria-label="Ownership filter">
+      <option value="">All Ownership</option>
+      <option value="owned">Owned</option>
+      <option value="wishlist">Wishlist</option>
+      <option value="borrowed">Borrowed</option>
+      <option value="library">Library</option>
+    </select>
+    <select id="reading-filter" aria-label="Reading status filter">
+      <option value="">All Reading Status</option>
+      <option value="reading">Reading</option>
+      <option value="completed">Completed</option>
+      <option value="reference">Reference</option>
+      <option value="queued">Queued</option>
+      <option value="paused">Paused</option>
+    </select>
+    <select id="format-filter" aria-label="Format filter">
+      <option value="">All Formats</option>
+      <option value="paperback">Paperback</option>
+      <option value="hardcover">Hardcover</option>
+      <option value="ebook">eBook</option>
+      <option value="pdf">PDF</option>
+      <option value="audiobook">Audiobook</option>
+    </select>
+  </section>
+
+  <main id="book-grid" class="book-grid"></main>
+
+  <script>
+    "use strict";
+    let allBooks = [];
+
+    function makeBadge(label, cls) {
+      const span = document.createElement("span");
+      span.className = "badge " + cls;
+      span.textContent = label;
+      return span;
+    }
+
+    function renderKPIs(books) {
+      document.getElementById("kpi-total").textContent = String(books.length);
+      document.getElementById("kpi-owned").textContent = String(books.filter(b => b.ownership_status === "owned").length);
+      document.getElementById("kpi-active").textContent = String(books.filter(b => b.reading_status === "reading" || b.reading_status === "reference").length);
+      document.getElementById("kpi-wishlist").textContent = String(books.filter(b => b.ownership_status === "wishlist").length);
+    }
+
+    function applyFilters() {
+      const q = document.getElementById("search-input").value.trim().toLowerCase();
+      const own = document.getElementById("ownership-filter").value;
+      const read = document.getElementById("reading-filter").value;
+      const fmt = document.getElementById("format-filter").value;
+
+      const filtered = allBooks.filter(b => {
+        if (own && b.ownership_status !== own) return false;
+        if (read && b.reading_status !== read) return false;
+        if (fmt && b.format !== fmt) return false;
+        if (q) {
+          const hay = [b.title, b.author, b.subject, b.notes, b.format].join(" ").toLowerCase();
+          if (!hay.includes(q)) return false;
+        }
+        return true;
+      });
+
+      const grid = document.getElementById("book-grid");
+      grid.replaceChildren();
+      if (!filtered.length) {
+        const empty = document.createElement("div");
+        empty.className = "empty";
+        empty.textContent = "No books match your filters.";
+        grid.appendChild(empty);
+        return;
+      }
+
+      filtered.forEach(b => {
+        const card = document.createElement("article");
+        card.className = "book-card";
+
+        const title = document.createElement("div");
+        title.className = "book-title";
+        title.textContent = b.title || "Untitled";
+        card.appendChild(title);
+
+        const author = document.createElement("div");
+        author.className = "book-author";
+        author.textContent = (b.author || "Unknown Author") + (b.subject ? " · " + b.subject : "");
+        card.appendChild(author);
+
+        const row = document.createElement("div");
+        row.className = "badge-row";
+        row.appendChild(makeBadge(b.ownership_status || "owned", b.ownership_status === "wishlist" ? "badge-wishlist" : "badge-owned"));
+        row.appendChild(makeBadge(b.reading_status || "queued", b.reading_status === "completed" ? "badge-completed" : "badge-reading"));
+        row.appendChild(makeBadge(b.format || "paperback", "badge-neutral"));
+        card.appendChild(row);
+
+        const meta = document.createElement("div");
+        meta.className = "meta-footer";
+        const rating = Number(b.rating || 0);
+        const left = document.createElement("span");
+        left.textContent = rating > 0 ? ("Rating: " + rating.toFixed(1) + " / 5") : "Unrated";
+        const right = document.createElement("span");
+        right.textContent = b.pages ? (b.pages + " pages") : "";
+        meta.appendChild(left);
+        meta.appendChild(right);
+        card.appendChild(meta);
+
+        if (b.notes) {
+          const notes = document.createElement("div");
+          notes.className = "book-notes";
+          notes.textContent = b.notes;
+          card.appendChild(notes);
+        }
+        grid.appendChild(card);
+      });
+    }
+
+    async function init() {
+      try {
+        const [bookRes, metaRes] = await Promise.all([
+          fetch("/api/book", { cache: "no-store" }),
+          fetch("/api/domain/book", { cache: "no-store" }).catch(() => null),
+        ]);
+        if (bookRes.ok) {
+          const data = await bookRes.json();
+          allBooks = Array.isArray(data.books) ? data.books : [];
+        }
+        if (metaRes && metaRes.ok) {
+          const m = await metaRes.json();
+          const meta = m.meta || {};
+          if (meta.title) document.getElementById("domain-title").textContent = meta.title;
+          const aliasRow = document.getElementById("alias-row");
+          aliasRow.replaceChildren();
+          (meta.aliases || []).forEach(a => {
+            const pill = document.createElement("span");
+            pill.className = "alias-pill";
+            pill.textContent = "alias: " + a;
+            aliasRow.appendChild(pill);
+          });
+        }
+      } catch (err) {
+        console.error("Failed to load books:", err);
+      }
+      renderKPIs(allBooks);
+      applyFilters();
+    }
+
+    ["search-input", "ownership-filter", "reading-filter", "format-filter"].forEach(id => {
+      document.getElementById(id).addEventListener("input", applyFilters);
+      document.getElementById(id).addEventListener("change", applyFilters);
+    });
+
+    window.addEventListener("DOMContentLoaded", init);
+  </script>
+</body>
+</html>

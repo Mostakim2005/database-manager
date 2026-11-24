@@ -1,0 +1,116 @@
+{
+  "schema_version": "2.0.0",
+  "updated_at": "2026-11-24",
+  "phones": [
+    {
+      "id": "poco-f6-12-256",
+      "name": "POCO F6 (12GB / 256GB)",
+      "brand": "Xiaomi / POCO",
+      "soc": "Snapdragon 8s Gen 3",
+      "gpu": "Adreno 735",
+      "ram_gb": 12,
+      "storage_gb": 256,
+      "display_hz": 120,
+      "display_type": "6.67\" 1.5K Flow AMOLED",
+      "battery_mah": 5000,
+      "charging_watts": 90,
+      "os": "Android 14 (HyperOS)",
+      "price_bdt": 42500,
+      "price_usd": 379,
+      "supported_games": [
+        { "name": "Genshin Impact", "settings": "High 60 FPS", "status": "smooth" },
+        { "name": "Wuthering Waves", "settings": "Medium-High 60 FPS", "status": "playable" },
+        { "name": "PUBG Mobile", "settings": "Smooth + Extreme+ 90 FPS", "status": "locked" },
+        { "name": "Honkai: Star Rail", "settings": "High 60 FPS", "status": "smooth" }
+      ],
+      "supported_apps": [
+        { "name": "Mihon / Tachiyomi", "category": "Comics Reader", "status": "supported" },
+        { "name": "Obsidian Mobile", "category": "Notes", "status": "supported" },
+        { "name": "Termux + Python", "category": "Dev CLI", "status": "supported" },
+        { "name": "Winlator / Turnip", "category": "PC Emulation", "status": "supported" }
+      ],
+      "notes": "Strong price-to-SoC ratio with Adreno Turnip driver support."
+    },
+    {
+      "id": "galaxy-a55-8-256",
+      "name": "Samsung Galaxy A55 5G (8GB / 256GB)",
+      "brand": "Samsung",
+      "soc": "Exynos 1480",
+      "gpu": "Xclipse 530 (RDNA 2)",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "display_hz": 120,
+      "display_type": "6.6\" FHD+ Super AMOLED",
+      "battery_mah": 5000,
+      "charging_watts": 25,
+      "os": "Android 14 (One UI 6.1)",
+      "price_bdt": 43000,
+      "price_usd": 399,
+      "supported_games": [
+        { "name": "PUBG Mobile", "settings": "Smooth + 60 FPS", "status": "smooth" },
+        { "name": "Genshin Impact", "settings": "Medium 45-50 FPS", "status": "playable" },
+        { "name": "Mobile Legends", "settings": "Ultra 120 Hz", "status": "locked" }
+      ],
+      "supported_apps": [
+        { "name": "Samsung Notes + GoodLock", "category": "Productivity", "status": "supported" },
+        { "name": "Mihon / Kotatsu", "category": "Comics Reader", "status": "supported" },
+        { "name": "Moon+ Reader Pro", "category": "Book Reader", "status": "supported" }
+      ],
+      "notes": "microSD expansion + 4 OS upgrades; slower charging than Chinese rivals."
+    },
+    {
+      "id": "oneplus-12r-16-256",
+      "name": "OnePlus 12R (16GB / 256GB)",
+      "brand": "OnePlus",
+      "soc": "Snapdragon 8 Gen 2",
+      "gpu": "Adreno 740",
+      "ram_gb": 16,
+      "storage_gb": 256,
+      "display_hz": 120,
+      "display_type": "6.78\" LTPO4 AMOLED",
+      "battery_mah": 5500,
+      "charging_watts": 100,
+      "os": "Android 14 (OxygenOS 14)",
+      "price_bdt": 56500,
+      "price_usd": 499,
+      "supported_games": [
+        { "name": "Genshin Impact", "settings": "Highest 60 FPS", "status": "locked" },
+        { "name": "Zenless Zone Zero", "settings": "High 60 FPS", "status": "smooth" },
+        { "name": "Wuthering Waves", "settings": "High 60 FPS", "status": "smooth" }
+      ],
+      "supported_apps": [
+        { "name": "Termux + Proot Ubuntu", "category": "Dev CLI", "status": "supported" },
+        { "name": "Mihon / Aniyomi", "category": "Media & Comics", "status": "supported" },
+        { "name": "Yuzu / Sudachi", "category": "Console Emulation", "status": "supported" }
+      ],
+      "notes": "16GB RAM + sustained vapor-chamber cooling handles heavy multitasking and emulation."
+    },
+    {
+      "id": "redmi-note-13-pro-5g",
+      "name": "Redmi Note 13 Pro 5G (8GB / 256GB)",
+      "brand": "Xiaomi / Redmi",
+      "soc": "Snapdragon 7s Gen 2",
+      "gpu": "Adreno 710",
+      "ram_gb": 8,
+      "storage_gb": 256,
+      "display_hz": 120,
+      "display_type": "6.67\" 1.5K AMOLED",
+      "battery_mah": 5100,
+      "charging_watts": 67,
+      "os": "Android 14 (HyperOS)",
+      "price_bdt": 33500,
+      "price_usd": 299,
+      "supported_games": [
+        { "name": "PUBG Mobile", "settings": "Smooth + Extreme 60 FPS", "status": "smooth" },
+        { "name": "Genshin Impact", "settings": "Low-Medium 45 FPS", "status": "playable" },
+        { "name": "Slay the Spire / Into the Breach", "category_hint": "Strategy", "settings": "Native 60 FPS", "status": "locked" }
+      ],
+      "supported_apps": [
+        { "name": "Mihon", "category": "Comics Reader", "status": "supported" },
+        { "name": "Koreader / Librera", "category": "Book Reader", "status": "supported" },
+        { "name": "Obsidian Mobile", "category": "Notes", "status": "supported" }
+      ],
+      "notes": "Balanced mid-range daily driver with sharp 1.5K display for reading comics and books."
+    }
+  ]
+}

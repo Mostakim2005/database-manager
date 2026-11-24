@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "2.0.0",
   "chinese_labs": [
     "deepseek",
     "qwen",
@@ -31,21 +31,10 @@
     "western_oss": "Western Open-Weights Models (Meta, Mistral, Reflection)",
     "other": "Other Global Models"
   },
-  "vram_quant_tiers": [
-    {
-      "tier": "8GB_local",
-      "max_params_b": 9,
-      "example_gpu": "RX 6600 / RTX 4060 (8GB)"
-    },
-    {
-      "tier": "12GB_16GB_local",
-      "max_params_b": 27,
-      "example_gpu": "RX 6700 XT (12GB) / RX 7800 XT (16GB)"
-    },
-    {
-      "tier": "cloud_or_multi_gpu",
-      "max_params_b": 9999,
-      "example_gpu": "Cloud API / Multi-GPU Workstation"
-    }
-  ]
+  "model_tiers": {
+    "frontier": "Top Frontier Tier (Intelligence Index >= 55 or Coding ELO >= 1400)",
+    "near_frontier": "Near-Frontier Tier (Intelligence Index 42-54.9)",
+    "mid_tier": "Mid / Value Tier (Intelligence Index 25-41.9)",
+    "specialized": "Specialized / Compact / Reasoning-Niche Tier (< 25 or task-tuned)"
+  }
 }

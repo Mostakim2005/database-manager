@@ -2,7 +2,7 @@
 > **1-Line Summary:** Single living visual map of how Database Manager operates, its tech stack rationale, Obsidian-compatible subsystem flowcharts, and extension recipes.
 
 ## 1. High-Level Visual System Map
-* **Plain-English Overview:** Database Manager combines a zero-dependency Python backend with standalone client-side web dashboards and a relational SQLite database. Users can inspect benchmarks, simulate game frame rates, or evaluate GPU power draw via the Web Portal or the Terminal CLI.
+* **Plain-English Overview:** Database Manager combines a zero-dependency Python backend with registry-driven, grouped web dashboards and isolated per-domain SQLite databases federated via `ATTACH DATABASE`. PC hardware is unified under `pc` (`75` parts across `12` categories) and deeply cross-linked with `games`, while `ai` remains strictly pricing/benchmark-focused (no local VRAM coupling), and `media`, `book`, `phone`, and `github` run cleanly in isolated tables.
 
 ```mermaid
 flowchart TB
@@ -12,61 +12,66 @@ flowchart TB
     classDef dataNode fill:#15803d,stroke:#14532d,color:#ffffff
     classDef outputNode fill:#6b21a8,stroke:#581c87,color:#ffffff
 
-    User([User / Developer]):::startNode -->|Browser HTTP / Port 8770| Portal[Web Portal / Dashboard]:::outputNode
-    User -->|Terminal Commands| CLI[CLI Search & Server Engine]:::processNode
+    User([User / Developer]):::startNode -->|HTTP / Port 8770| Portal[Dynamic Grouped Portal]:::outputNode
+    User -->|Terminal Commands| CLI[CLI Search & Verify Tools]:::processNode
 
     subgraph Backend["Python Standard Library Services (src/)"]
         CLI -->|Serves Web & REST API| Server[server.py HTTP Server]:::processNode
-        Compiler[db_export.py Compiler]:::processNode -->|Compiles & Indexes| SQLite[(database.sqlite)]:::dataNode
-        Hub[db_hub.py Multi-DB Hub]:::processNode -->|In-Memory ATTACH Federation| SQLite
-        Scrapers[src/scrapers/ Engine]:::processNode -->|Multi-tier fetch & diff| DataHW
-        Compat[src/compatibility_engine.py]:::processNode -->|Build Rule Checks| Server
-        Classifiers[src/catalog_classifier.py]:::processNode -->|Multi-axis taxonomies| Server
+        Compiler[db_export.py Compiler]:::processNode -->|Consolidated + Table-Isolated DBs| SQLite[(database.sqlite & data/*/*.sqlite)]:::dataNode
+        Hub[db_hub.py Federated Hub]:::processNode -->|In-Memory ATTACH: games x pc| SQLite
+        Scrapers[src/scrapers/ Engine]:::processNode -->|Multi-tier fetch & diff| DataPC
+        Compat[src/compatibility_engine.py]:::processNode -->|Build & PSU Rules| Server
+        Classifiers[src/catalog_classifier.py]:::processNode -->|AI, Games, Media, GitHub Taxonomies| Server
+        MediaEngine[src/media/ Engine]:::processNode -->|Sitemaps, Doctor & Link Audit| DataMedia
         GitHubEngine[src/github/ Engine]:::processNode -->|gh api scan & triage| DataGitHub
     end
 
-    subgraph DataLayer["Multi-Domain Datasets (data/)"]
-        DataAI[(data/ai/ — Models & Taxonomy)]:::dataNode
-        DataGames[(data/games/ — Games & Benchmarks)]:::dataNode
-        DataHW[(data/hardware/ — GPU & PSU Specs)]:::dataNode
-        DataCPUs[(data/cpus/ — Desktop CPUs)]:::dataNode
-        DataComp[(data/pc_components/ — Components)]:::dataNode
-        DataManga[(data/manga/ — Manga & Adaptations)]:::dataNode
-        DataGitHub[(data/github/ — Public Repos & Live Cache)]:::dataNode
-        Registry[data/registry.json — Domain Hub]:::dataNode
+    subgraph DataLayer["7 Registered Grouped Datasets (data/)"]
+        Registry[data/registry.json — Groups, Display Names & Aliases]:::dataNode
+        DataPC[(data/pc/ — Unified CPUs, GPUs, PSUs & Peripherals)]:::dataNode
+        DataGames[(data/games/ — RTS Games & benchmarks.csv)]:::dataNode
+        DataAI[(data/ai/ — API Pricing, Intelligence & Tiers)]:::dataNode
+        DataMedia[(data/media/ — Comics, Novels, Anime, Movies & Series)]:::dataNode
+        DataBook[(data/book/ — Books & Reading Tracker)]:::dataNode
+        DataPhone[(data/phone/ — Phone Specs, Supported Games & Apps)]:::dataNode
+        DataGitHub[(data/github/ — Public Repos & Gitignored Cache)]:::dataNode
     end
 
-    subgraph WebDashboards["Client-Side Visualizers (web/)"]
-        Portal -->|Tab 1| AIView[AI Model Matrix]:::outputNode
-        Portal -->|Tab 2| GameView[GameRank FPS Simulator]:::outputNode
-        Portal -->|Tab 3| HWView[PSU Transient Guard]:::outputNode
-        Portal -->|Tab 4| MangaView[Manga & Adaptations]:::outputNode
-        Portal -->|Tab 5| GitHubView[GitHub Repos & CI]:::outputNode
+    subgraph WebDashboards["Grouped Safe-DOM Web Views (web/)"]
+        Portal -->|Group: PC & Gaming| PCView[PC & PSU Guard]:::outputNode
+        Portal -->|Group: PC & Gaming| GameView[GameRank + PC GPU Link]:::outputNode
+        Portal -->|Group: AI Models| AIView[AI Pricing & Matrix]:::outputNode
+        Portal -->|Group: Media & Books| MediaView[Media & Adaptations]:::outputNode
+        Portal -->|Group: Media & Books| BookView[Book Collection]:::outputNode
+        Portal -->|Group: Mobile| PhoneView[Phone & Apps Matrix]:::outputNode
+        Portal -->|Group: DevOps| GitHubView[GitHub Repos & CI]:::outputNode
     end
 
-    DataAI -->|Loaded by| Server
-    DataGames -->|Loaded by| Server
-    DataHW -->|Loaded by| Server
-    DataCPUs -->|Loaded by| Server
-    DataComp -->|Loaded by| Server
-    DataManga -->|Loaded by| Server
-    DataGitHub -->|Loaded by| Server
+    Registry -->|Drives tabs, aliases & stats| Server
+    DataPC <-->|GPU tiers & FPS benchmarks| DataGames
+    DataPC --> Server
+    DataGames --> Server
+    DataAI --> Server
+    DataMedia --> Server
+    DataBook --> Server
+    DataPhone --> Server
+    DataGitHub --> Server
 
-    DataAI -->|Ingested by| Compiler
-    DataGames -->|Ingested by| Compiler
-    DataHW -->|Ingested by| Compiler
-    DataCPUs -->|Ingested by| Compiler
-    DataComp -->|Ingested by| Compiler
-    DataManga -->|Ingested by| Compiler
-    DataGitHub -->|Ingested by| Compiler
+    DataPC --> Compiler
+    DataGames --> Compiler
+    DataAI --> Compiler
+    DataMedia --> Compiler
+    DataBook --> Compiler
+    DataPhone --> Compiler
+    DataGitHub --> Compiler
 
     Server -->|JSON REST Endpoints| Portal
 
     subgraph Legend["Legend (Color Guide)"]
         L1([Blue = User Entrypoint]):::startNode
         L2[Teal = Python Processing & Server Engine]:::processNode
-        L3[(Green = Master Datasets & SQLite Storage)]:::dataNode
-        L4[Purple = Interactive Web Dashboards]:::outputNode
+        L3[(Green = Registry, Datasets & SQLite Storage)]:::dataNode
+        L4[Purple = Registry-Driven Web Dashboards]:::outputNode
     end
 ```
 
@@ -74,9 +79,9 @@ flowchart TB
 
 | Layer | Tool / Library | Plain-English Reason Why |
 | :--- | :--- | :--- |
-| **Backend & CLI** | Python 3.10+ (Standard Library) | `http.server`, `sqlite3`, and `json` require zero `pip install` steps, avoiding virtual environment bloat on the local PC. |
-| **Relational Storage** | SQLite 3 | Embedded single-file database (`data/database.sqlite`) offering instant local querying and portability across machines. |
-| **Web Interface** | Vanilla HTML5 / Modern CSS / ES6 | Fast, zero-build dashboards with glassmorphic UI, responsive tables, and zero runtime overhead. |
+| **Backend & CLI** | Python 3.10+ (Standard Library) | `http.server`, `sqlite3`, `csv`, and `json` require zero `pip install` steps, avoiding virtual environment bloat on the local PC. |
+| **Relational Storage** | SQLite 3 (Isolated + Consolidated) | Each domain compiles to its own table-isolated `data/<domain>/<domain>.sqlite` plus consolidated `data/database.sqlite`, joined cross-domain in memory via `ATTACH DATABASE`. |
+| **Web Interface** | Vanilla HTML5 / Modern CSS / ES6 | Zero-build safe-DOM (`createElement` / `textContent`) dashboards dynamically structured from `data/registry.json` groups, `display_name`, and `aliases`. |
 | **Visual Charts** | Chart.js (CDN / Bundled) | Lightweight canvas-based charting for Pareto frontier curves and transient power excursion meters. |
 | **Verification & CI** | PowerShell + GitHub Actions | Dual verification paths: fast local sanity checks via `local-ci.ps1` and authoritative cloud runs via `ci.yml`. |
 
@@ -169,7 +174,7 @@ flowchart LR
     S2 -->|Tier 0: urllib + regex fallback| S3
     S3 -->|Extracted Price BDT| S4[compute_record_diff]:::diffNode
     S4 -->|--dry-run| S5[Render Markdown Diff Table]:::startNode
-    S4 -->|--apply| S6[Write hardware_specs.json & recompile]:::dataNode
+    S4 -->|--apply| S6[Write data/pc/pc.json & recompile pc.sqlite]:::dataNode
 
     subgraph Legend["Legend"]
         L1[Blue = Target GPU & CLI Output]:::startNode
@@ -180,9 +185,9 @@ flowchart LR
 ```
 
 ### [SUBSYSTEM: Cross-Domain-Federated-Hub] | Aliases: db hub, in memory attach, cross domain views
-> **1-Line Summary:** In-memory SQLite ATTACH federation combining domain databases into cross-domain analytical views.
+> **1-Line Summary:** In-memory SQLite ATTACH federation joining isolated `pc.sqlite` and `games.sqlite` databases into `games` <-> `pc` views while keeping `ai` separate.
 
-* **Plain-English Overview:** Opens an in-memory SQLite connection, dynamically attaches all registered domain databases (`ai`, `games`, `hardware`, `cpus`), and creates cross-domain views (`v_games_by_gpu`, `v_local_ai_vram_fit`, `v_cpu_gpu_combos`) without duplicating tables.
+* **Plain-English Overview:** Opens an in-memory SQLite connection, dynamically attaches all compiled domain databases (`pc`, `games`, `ai`, `media`, `book`, `phone`, `github`), resolves aliases via `resolve_domain_key`, and creates strictly `games` <-> `pc` cross-domain views (`v_games_by_gpu`, `v_game_benchmarks_with_pc`, `v_cpu_gpu_combos`) without duplicating tables or coupling cloud AI models to local GPU VRAM.
 
 ```mermaid
 flowchart LR
@@ -191,15 +196,15 @@ flowchart LR
     classDef processNode fill:#0f766e,stroke:#115e59,color:#ffffff
     classDef dataNode fill:#15803d,stroke:#14532d,color:#ffffff
 
-    D1[data/registry.json]:::dataNode -->|Loads domain paths| F1[open_federated_connection]:::processNode
-    F1 -->|ATTACH DATABASE| D2[(ai.sqlite, games.sqlite, hardware.sqlite, cpus.sqlite)]:::dataNode
+    D1[data/registry.json]:::dataNode -->|Loads paths & aliases| F1[open_federated_connection]:::processNode
+    F1 -->|ATTACH DATABASE| D2[(pc.sqlite & games.sqlite)]:::dataNode
     F1 -->|Installs| V1[Cross-Domain SQL Views]:::processNode
-    V1 -->|v_games_by_gpu| Q1[Compatibility by GPU]:::startNode
-    V1 -->|v_local_ai_vram_fit| Q2[VRAM Fit by GPU]:::startNode
+    V1 -->|v_games_by_gpu| Q1[Compatibility by GPU & 550W PSU]:::startNode
+    V1 -->|v_game_benchmarks_with_pc| Q2[Measured FPS Benchmarks x GPU Specs]:::startNode
     V1 -->|v_cpu_gpu_combos| Q3[CPU+GPU Build Combos]:::startNode
 
     subgraph Legend["Legend"]
-        L1[(Green = Domain Database Files)]:::dataNode
+        L1[(Green = Isolated Domain DBs)]:::dataNode
         L2[Teal = SQLite In-Memory Engine]:::processNode
         L3[Blue = Cross-Domain Query Outputs]:::startNode
     end
@@ -291,10 +296,10 @@ flowchart TD
     end
 ```
 
-### [SUBSYSTEM: Manga-Catalog-And-Adaptation-Pipeline] | Aliases: manga pipeline, comix sitemaps, link health, obsidian manhua sync
-> **1-Line Summary:** Sitemap indexing, Chrome-impersonated adaptation probing, link-health verification, SQLite compilation, and non-destructive Obsidian vault synchronization for 104+ comic titles.
+### [SUBSYSTEM: Media-Catalog-And-Adaptation-Pipeline] | Aliases: media pipeline, manga, manhua, light_novel, anime, donghua, movie, tv_series, comix sitemaps
+> **1-Line Summary:** Sitemap indexing, Chrome-impersonated adaptation probing, link-health verification, and interconnected franchise graph compilation (`media.sqlite`) without external Obsidian markdown sync.
 
-* **Plain-English Overview:** `src/manga/crawler.py` caches `comix.to` sitemaps locally (gitignored), `indexer.py` + `matcher.py` propose canonical series URLs, `adaptation_refresh.py` + `link_health.py` audit adaptations and URL health via `fetch_helper.py` (`curl_cffi` with `urllib` fallback), and `sync_vault.py` updates `Manhua Links.md` while keeping everything beneath `### Outlander` intact.
+* **Plain-English Overview:** `src/media/crawler.py` caches `comix.to` sitemaps locally (gitignored), `indexer.py` + `matcher.py` propose canonical series URLs, and `adaptation_refresh.py` + `link_health.py` audit adaptations and URL health via `fetch_helper.py` (`curl_cffi` with `urllib` fallback). Interconnected subdomains (`comic`, `light_novel`, `anime`, `donghua`, `movie`, `tv_series`) share `franchise_id` and `relations` links inside `data/media/media_catalog.json` (including public `Outlander` TV series tracking without private MEGA URLs), replacing the retired Obsidian markdown sync.
 
 ```mermaid
 flowchart LR
@@ -304,22 +309,45 @@ flowchart LR
     classDef dataNode fill:#15803d,stroke:#14532d,color:#ffffff
     classDef outNode fill:#6b21a8,stroke:#581c87,color:#ffffff
 
-    M1[(data/manga/manga_catalog.json)]:::dataNode -->|Compiled by db_export.py| M2[(data/manga/manga.sqlite)]:::dataNode
+    M1[(data/media/media_catalog.json)]:::dataNode -->|Compiled by db_export.py| M2[(data/media/media.sqlite)]:::dataNode
     S1[comix.to Sitemaps & Public APIs]:::startNode -->|crawler.py & fetch_helper.py| P1[adaptation_refresh.py & link_health.py]:::processNode
     M1 -->|Read & Audited| P1
-    P1 -->|Non-destructive Proposals| UI1[web/manga/index.html & /api/manga/*]:::outNode
-    M1 -->|sync_vault.py preserving Outlander| OBS[Obsidian Manhua Links.md]:::outNode
+    P1 -->|Franchise Relations & Proposals| UI1[web/media/index.html & /api/media/*]:::outNode
 
     subgraph Legend["Legend"]
         L1[Blue = External Sitemaps & Sources]:::startNode
         L2[Teal = Fetch, Match & Health Pipeline]:::processNode
-        L3[(Green = Catalog JSON & SQLite)]:::dataNode
-        L4[Purple = Web Tab & Obsidian Sync]:::outNode
+        L3[(Green = Unified Media JSON & SQLite)]:::dataNode
+        L4[Purple = Franchise Explorer & API]:::outNode
+    end
+```
+
+### [SUBSYSTEM: Book-And-Phone-Catalog-Domains] | Aliases: book domain, phone domain, learning alias, mobile games matrix
+> **1-Line Summary:** Table-isolated storage, schema contracts, REST APIs, and safe-DOM UIs for personal book tracking (`book`) and smartphone specs/supported apps (`phone`).
+
+* **Plain-English Overview:** `db_export.py` compiles `data/book/books.json` into isolated `data/book/book.sqlite` (`books` + `_meta`) and `data/phone/phones.json` into `data/phone/phone.sqlite` (`phones` + `_meta`). Both domains support alias lookup via `/api/domain/<alias>` (e.g. `learning` -> `book`) and render via safe-DOM dashboards in `web/book/index.html` and `web/phone/index.html`.
+
+```mermaid
+flowchart LR
+    %% Color Definitions
+    classDef processNode fill:#0f766e,stroke:#115e59,color:#ffffff
+    classDef dataNode fill:#15803d,stroke:#14532d,color:#ffffff
+    classDef outNode fill:#6b21a8,stroke:#581c87,color:#ffffff
+
+    B1[(data/book/books.json)]:::dataNode -->|export_books| B2[(data/book/book.sqlite)]:::dataNode
+    P1[(data/phone/phones.json)]:::dataNode -->|export_phones| P2[(data/phone/phone.sqlite)]:::dataNode
+    B2 -->|GET /api/book or /api/domain/learning| BUI[web/book/index.html]:::outNode
+    P2 -->|GET /api/phone| PUI[web/phone/index.html]:::outNode
+
+    subgraph Legend["Legend"]
+        L1[(Green = JSON Catalog & Isolated SQLite)]:::dataNode
+        L2[Purple = Safe-DOM Dashboards]:::outNode
+        L3[Teal = Schema Exporter]:::processNode
     end
 ```
 
 ### [SUBSYSTEM: GitHub-Repo-Triage-And-CI-Hub] | Aliases: github manager, repo triage, ci health, fork drift
-> **1-Line Summary:** `gh api` repository scanner with privacy redaction, push-vs-commit drift detection, safe DOM Tab 5 UI, SQLite export, and CSRF-guarded refresh/export endpoints.
+> **1-Line Summary:** `gh api` repository scanner with privacy redaction, push-vs-commit drift detection, safe DOM DevOps UI, SQLite export, and CSRF-guarded refresh/export endpoints.
 
 * **Plain-English Overview:** `src/github/scanner.py` queries `gh api` under a threading lock with 15-second timeouts and `GIT_TERMINAL_PROMPT=0`, storing full live scans locally in gitignored `data/github/live_cache.json` while `data/github/repos_public.json` supplies redacted public metadata for CI and SQLite compilation (`github.sqlite`). `triage_repositories()` separates repos into 0–4d, 4–8d, and dormant buckets while comparing commit timestamps to `pushed_at` so metadata bumps do not misclassify dormant forks. `src/github/exporter.py` generates Downloads audit reports safely, and `web/github/index.html` renders all UI strictly via `document.createElement` / `.textContent`.
 
@@ -336,32 +364,34 @@ flowchart LR
     PUB[(data/github/repos_public.json)]:::dataNode -->|Compiled by db_export.py| SQL[(data/github/github.sqlite)]:::dataNode
     LIVE -->|Fallback to repos_public.json| TRI[triage_repositories & doctor]:::processNode
     PUB --> TRI
-    TRI -->|GET + CSRF-guarded POST| UI[web/github/index.html Tab 5]:::outNode
+    TRI -->|GET + CSRF-guarded POST| UI[web/github/index.html]:::outNode
     TRI -->|src/github/exporter.py| RPT[Downloads Markdown Audit Report]:::outNode
 
     subgraph Legend["Legend"]
         L1[Blue = Live GitHub API Source]:::startNode
         L2[Teal = Scanner, Lock & Triage Engine]:::processNode
         L3[(Green = Public JSON, Local Cache & SQLite)]:::dataNode
-        L4[Purple = Safe DOM Tab 5 & Downloads Report]:::outNode
+        L4[Purple = Safe DOM Dashboard & Downloads Report]:::outNode
     end
 ```
 
-## 4. Extension Recipes: Adding New Datasets
+## 4. Extension Recipes: Adding or Renaming Datasets
 
 1. **Adding a New AI Model:**
-   * Append model object to `data/ai/models_master.json` following the `scores` and `pricing` schema.
-   * Run `python src/db_export.py` to refresh `data/database.sqlite`.
+   * Append model object to `data/ai/models_master.json` following the `scores`, `pricing`, and `classification` schema.
+   * Run `python src/db_export.py` to refresh `data/database.sqlite` and `data/ai/ai.sqlite`.
 
-2. **Adding a New PC Game:**
-   * Append game record to `data/games/games.json` (and mirror in `web/games/data/games.js`), then run `python src/db_export.py` to atomically rebuild `data/database.sqlite`.
+2. **Adding a New PC Game or Benchmark Run:**
+   * Append game record to `data/games/games.json` (and mirror in `web/games/data/games.js`), or append benchmark telemetry to `data/games/benchmarks.csv`, using canonical `data/pc/pc.json` GPU IDs (`rx-6600`, `rtx-4060`, `vega-7-igpu`).
+   * Run `python src/db_export.py` to rebuild `games.sqlite` and `v_game_benchmarks_with_pc`.
 
-3. **Adding a New GPU / Hardware Component:**
-   * Add GPU entry to `data/hardware/hardware_specs.json` with TDP, tier, and local market prices.
-   * Run `python src/db_export.py` to regenerate the relational table.
+3. **Adding a New PC Part / GPU / CPU / PSU:**
+   * Add entry into the appropriate category array inside `data/pc/pc.json` and run `python src/db_export.py` + `python src/db_verify.py --domain pc`.
 
-4. **Adding a New Domain Database (e.g. SSDs, Laptops, Monitors):**
+4. **Renaming a Domain Display Label or Adding Aliases (`Book` -> `Learning`):**
+   * Edit `display_name`, `short_label`, `unit_label`, `aliases`, or `group` in `data/registry.json` — the dynamic web portal (`web/index.html`), `/api/domains`, `/api/status`, `/api/domain/<alias>`, and `db_verify.py` pick up the new label with zero source-code edits.
+
+5. **Adding a New Domain Database (e.g. SSDs, Laptops, Courses):**
    * Run `python src/db_export.py --init-domain <domain_name>` to scaffold `data/<domain_name>/`.
-   * Define field rules in `data/<domain_name>/schema.json` and records in `data/<domain_name>/<domain_name>.json`.
-   * Add export compiler function in `src/db_export.py` and run `python src/db_export.py` to compile `<domain_name>.sqlite`.
-   * Run `python src/db_verify.py` to confirm zero errors and zero warnings across all domains.
+   * Define field rules in `data/<domain_name>/schema.json` (using `[min, max]` arrays for `ranges`) and records in `data/<domain_name>/<domain_name>.json`.
+   * Register an isolated schema creator and exporter in `src/db_export.py` (`SCHEMA_CREATORS`) and run `python src/db_export.py` + `python src/db_verify.py`.

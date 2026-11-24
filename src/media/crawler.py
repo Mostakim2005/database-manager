@@ -1,7 +1,4 @@
-"""Sitemap crawler module for Manga domain.
-
-Fetches comix.to XML sitemaps with a polite delay between requests.
-"""
+"""Sitemap crawler module for Media domain."""
 
 from __future__ import annotations
 
@@ -9,8 +6,8 @@ import subprocess
 import time
 from pathlib import Path
 
-from manga import SITEMAPS_DIR
-from manga.fetch_helper import safe_get
+from media import SITEMAPS_DIR
+from media.fetch_helper import safe_get
 
 
 def fetch_sitemaps(
@@ -20,7 +17,7 @@ def fetch_sitemaps(
 ) -> int:
     """Download sitemap XML files ``list-1.xml`` through ``list-N.xml``."""
     sitemaps_dir.mkdir(parents=True, exist_ok=True)
-    print(f"[manga.crawler] Checking and fetching sitemaps in {sitemaps_dir}...")
+    print(f"[media.crawler] Checking and fetching sitemaps in {sitemaps_dir}...")
 
     downloaded = 0
     for i in range(1, total_lists + 1):
@@ -44,12 +41,12 @@ def fetch_sitemaps(
                 fpath.write_text(body, encoding="utf-8")
                 downloaded += 1
                 if i % 10 == 0 or i == total_lists:
-                    print(f"[manga.crawler] Downloaded list-{i}.xml (enforcing {delay_sec}s delay)")
+                    print(f"[media.crawler] Downloaded list-{i}.xml (enforcing {delay_sec}s delay)")
             else:
-                print(f"[manga.crawler] Warning: Failed to retrieve list-{i}.xml")
+                print(f"[media.crawler] Warning: Failed to retrieve list-{i}.xml")
             if delay_sec > 0:
                 time.sleep(delay_sec)
 
     xml_count = len(list(sitemaps_dir.glob("*.xml")))
-    print(f"[manga.crawler] Crawl complete. {downloaded} new sitemaps downloaded ({xml_count} total).")
+    print(f"[media.crawler] Crawl complete. {downloaded} new sitemaps downloaded ({xml_count} total).")
     return xml_count

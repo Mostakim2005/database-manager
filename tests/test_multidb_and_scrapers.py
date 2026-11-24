@@ -37,7 +37,11 @@ class TestMultiDomainHubAndVerify(unittest.TestCase):
         report = db_verify.verify_all()
         self.assertTrue(report["ok"], f"Schema verification errors: {report}")
         names = {d["domain"] for d in report["domains"]}
-        self.assertEqual(names, {"ai", "games", "hardware", "cpus", "pc_components", "manga", "github"})
+        self.assertEqual(names, {"pc", "games", "ai", "media", "book", "phone", "github"})
+        reg = db_hub.load_registry()
+        self.assertEqual(db_hub.resolve_domain_key("learning", reg), "book")
+        self.assertEqual(db_hub.resolve_domain_key("manga", reg), "media")
+        self.assertEqual(db_hub.resolve_domain_key("hardware", reg), "pc")
 
     def test_domain_health_and_cross_domain_views(self) -> None:
         health = db_hub.query_domain_health()
@@ -47,14 +51,20 @@ class TestMultiDomainHubAndVerify(unittest.TestCase):
             self.assertGreater(item["record_count"], 0)
             self.assertFalse(item["is_stale"])
             self.assertEqual(len(item["content_sha256"]), 64)
+            self.assertTrue(item.get("display_name"))
+            self.assertTrue(item.get("group"))
+
+        self.assertFalse(hasattr(db_hub, "query_ai_vram_fit"))
 
         g_res = db_hub.query_games_by_gpu(gpu_id="rx-6600", max_psu_watts=550)
         self.assertTrue(g_res["psu_safe"])
         self.assertGreaterEqual(g_res["total_games"], 51)
         self.assertGreater(g_res["recommended_count"], 0)
 
-        ai_res = db_hub.query_ai_vram_fit(gpu_id="rx-6600")
-        self.assertGreater(ai_res["matched_open_models"], 0)
+        b_res = db_hub.query_game_benchmarks_with_pc(gpu_id="rx-6600")
+        self.assertGreater(b_res["total_benchmarks"], 0)
+        self.assertIn("avg_fps", b_res["benchmarks"][0])
+        self.assertIn("gpu_name", b_res["benchmarks"][0])
 
         combos_res = db_hub.query_cpu_gpu_combos(cpu_id="ryzen-5-5600gt")
         self.assertGreater(combos_res["total_combos"], 0)
@@ -69,6 +79,7 @@ class TestMultiDomainHubAndVerify(unittest.TestCase):
             self.assertTrue((created / "schema.json").exists())
             reg = json.loads((data_root / "registry.json").read_text(encoding="utf-8"))
             self.assertIn("budget_laptops", reg["domains"])
+            self.assertEqual(reg["domains"]["budget_laptops"]["display_name"], "Budget Laptops")
 
     def test_cross_domain_http_endpoints(self) -> None:
         httpd = server.ReusableThreadingHTTPServer(("127.0.0.1", 0), server.DatabaseHandler)
@@ -84,9 +95,9 @@ class TestMultiDomainHubAndVerify(unittest.TestCase):
                 data = json.loads(resp.read().decode("utf-8"))
                 self.assertTrue(data["psu_safe"])
                 self.assertGreaterEqual(data["total_games"], 51)
-            with urllib.request.urlopen(f"{base}/api/cross/ai-vram-fit?gpu=rx-6600", timeout=5) as resp:
+            with urllib.request.urlopen(f"{base}/api/cross/game-benchmarks?gpu=rx-6600", timeout=5) as resp:
                 data = json.loads(resp.read().decode("utf-8"))
-                self.assertGreater(data["matched_open_models"], 0)
+                self.assertGreater(data["total_benchmarks"], 0)
             with urllib.request.urlopen(f"{base}/api/cross/cpu-gpu-combos?cpu=ryzen-5-5600gt", timeout=5) as resp:
                 data = json.loads(resp.read().decode("utf-8"))
                 self.assertGreater(data["total_combos"], 0)
@@ -197,25 +208,27 @@ class TestMultiSiteCatalogExpansion(unittest.TestCase):
     def test_all_seven_domains_record_counts(self) -> None:
         health = db_hub.query_domain_health()
         counts = {h["domain"]: h["record_count"] for h in health}
-        self.assertGreaterEqual(counts.get("ai", 0), 45)
+        self.assertGreaterEqual(counts.get("pc", 0), 70)
         self.assertGreaterEqual(counts.get("games", 0), 51)
-        self.assertGreaterEqual(counts.get("hardware", 0), 8)
-        self.assertGreaterEqual(counts.get("cpus", 0), 6)
-        self.assertGreaterEqual(counts.get("pc_components", 0), 55)
-        self.assertGreaterEqual(counts.get("manga", 0), 100)
+        self.assertGreaterEqual(counts.get("ai", 0), 45)
+        self.assertGreaterEqual(counts.get("media", 0), 104)
+        self.assertGreaterEqual(counts.get("book", 0), 4)
+        self.assertGreaterEqual(counts.get("phone", 0), 4)
         self.assertGreaterEqual(counts.get("github", 0), 35)
 
 
-class TestMangaDomainIntegration(unittest.TestCase):
-    def test_manga_doctor_classifier_and_offline_links(self) -> None:
-        from manga import adaptation_refresh, link_health, sync_vault
+class TestMediaDomainIntegration(unittest.TestCase):
+    def test_media_doctor_classifier_and_offline_links(self) -> None:
+        import media
+        from media import adaptation_refresh, link_health
         import catalog_classifier
 
-        catalog = sync_vault.load_catalog()
-        self.assertGreaterEqual(len(catalog), 100)
+        self.assertFalse((ROOT_DIR / "src" / "media" / "sync_vault.py").exists())
+        catalog = media.load_catalog()
+        self.assertGreaterEqual(len(catalog), 110)
 
         doc = adaptation_refresh.inspect_catalog_doctor(catalog)
-        self.assertTrue(doc["healthy"], f"Manga doctor reported issues: {doc}")
+        self.assertTrue(doc["healthy"], f"Media doctor reported issues: {doc}")
         self.assertGreater(doc["direct_comix_links"], 80)
 
         links_report = link_health.audit_catalog_links_offline()
@@ -223,12 +236,22 @@ class TestMangaDomainIntegration(unittest.TestCase):
         self.assertGreater(links_report["total_links"], 100)
         self.assertIn("comix.to", links_report["top_hosts"])
 
-        cls_report = catalog_classifier.classify_manga_catalog()
+        cls_report = catalog_classifier.classify_media_catalog()
         self.assertEqual(cls_report["total"], len(catalog))
         self.assertIn("manhua", cls_report["origin_counts"])
+        self.assertIn("tv_series", cls_report["media_type_counts"])
+        self.assertIn("light_novel", cls_report["media_type_counts"])
 
-    def test_manga_sitemap_proposals_and_vault_sync_preservation(self) -> None:
-        from manga import adaptation_refresh, sync_vault
+    def test_media_sitemap_proposals_and_interconnected_franchises(self) -> None:
+        import media
+        from media import adaptation_refresh
+
+        catalog = media.load_catalog()
+        outlander = [m for m in catalog if "outlander" in m.get("name", "").lower()]
+        self.assertGreaterEqual(len(outlander), 1)
+        self.assertEqual(outlander[0]["media_type"], "tv_series")
+        joy_items = [m for m in catalog if m.get("franchise_id") == "joy-of-life"]
+        self.assertGreaterEqual(len(joy_items), 3)
 
         with tempfile.TemporaryDirectory() as td:
             td_path = Path(td)
@@ -240,8 +263,10 @@ class TestMangaDomainIntegration(unittest.TestCase):
             )
             fake_catalog = [
                 {
+                    "id": "rebirth-ultimate-master",
                     "name": "Rebirth of the Ultimate Master",
                     "alt": "The Ultimate of All Ages",
+                    "media_type": "comic",
                     "link": "https://comix.to/browse?q=Rebirth&sort=relevance%3Adesc",
                     "origin": "Chinese Manhua",
                     "anime": "**None**",
@@ -252,18 +277,9 @@ class TestMangaDomainIntegration(unittest.TestCase):
             self.assertEqual(len(proposals), 1)
             self.assertEqual(proposals[0]["proposed_link"], "https://comix.to/title/abc1-rebirth-of-the-ultimate-master")
 
-            vault_file = td_path / "Manhua Links.md"
-            vault_file.write_text("# Old\n\n### Outlander\n\nhttps://mega.nz/example\n", encoding="utf-8")
-            synced = sync_vault.sync_to_obsidian(vault_path=vault_file, create_backup=True)
-            self.assertGreaterEqual(synced, 100)
-            written = vault_file.read_text(encoding="utf-8")
-            self.assertIn("### Outlander", written)
-            self.assertIn("https://mega.nz/example", written)
-            self.assertTrue((td_path / "Manhua Links.md.bak").exists())
-
-    def test_manga_http_endpoints_and_fetch_helper(self) -> None:
+    def test_media_http_endpoints_and_fetch_helper(self) -> None:
         from http.server import BaseHTTPRequestHandler, HTTPServer
-        from manga import fetch_helper
+        from media import fetch_helper
 
         class ProbeHandler(BaseHTTPRequestHandler):
             def do_GET(self):
@@ -301,19 +317,21 @@ class TestMangaDomainIntegration(unittest.TestCase):
             self.assertEqual(bad_res["state"], "broken")
 
             base = f"http://127.0.0.1:{api_port}"
-            with urllib.request.urlopen(f"{base}/api/manga?q=Joy%20of%20Life", timeout=5) as resp:
+            with urllib.request.urlopen(f"{base}/api/media?q=Joy%20of%20Life", timeout=5) as resp:
                 items = json.loads(resp.read().decode("utf-8"))
-                self.assertGreaterEqual(len(items), 1)
-                self.assertEqual(items[0]["name"], "Joy of Life")
-            with urllib.request.urlopen(f"{base}/api/manga/doctor", timeout=5) as resp:
+                self.assertGreaterEqual(len(items), 3)
+            with urllib.request.urlopen(f"{base}/api/media?media_type=tv_series", timeout=5) as resp:
+                series = json.loads(resp.read().decode("utf-8"))
+                self.assertGreaterEqual(len(series), 2)
+            with urllib.request.urlopen(f"{base}/api/media/doctor", timeout=5) as resp:
                 doc = json.loads(resp.read().decode("utf-8"))
                 self.assertTrue(doc["doctor"]["healthy"])
-            with urllib.request.urlopen(f"{base}/api/manga/links", timeout=5) as resp:
+            with urllib.request.urlopen(f"{base}/api/media/links", timeout=5) as resp:
                 lnk = json.loads(resp.read().decode("utf-8"))
                 self.assertTrue(lnk["healthy"])
-            with urllib.request.urlopen(f"{base}/api/manga/classified", timeout=5) as resp:
+            with urllib.request.urlopen(f"{base}/api/media/classified", timeout=5) as resp:
                 cls = json.loads(resp.read().decode("utf-8"))
-                self.assertGreaterEqual(cls["total"], 100)
+                self.assertGreaterEqual(cls["total"], 110)
         finally:
             fetch_helper.HAVE_CURL_CFFI = orig_cf
             probe_srv.shutdown()

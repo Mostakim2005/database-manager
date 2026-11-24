@@ -1,16 +1,15 @@
-"""Slug and title matcher module for Manga domain."""
+"""Slug and title matcher module for Media domain."""
 
 from __future__ import annotations
 
 import re
 import urllib.parse
 
-from manga.indexer import build_index
+from media.indexer import build_index
 
 
 def _slugify(text: str) -> str:
-    slug = re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")
-    return slug
+    return re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")
 
 
 def resolve_title_url(

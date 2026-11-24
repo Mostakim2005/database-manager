@@ -31,7 +31,7 @@ from typing import Any
 
 ROOT_DIR = Path(__file__).resolve().parent.parent.parent
 DATA_DIR = ROOT_DIR / "data"
-COMPONENTS_JSON = DATA_DIR / "pc_components" / "components.json"
+COMPONENTS_JSON = DATA_DIR / "pc" / "pc.json"
 
 if str(ROOT_DIR / "src") not in sys.path:
     sys.path.insert(0, str(ROOT_DIR / "src"))
@@ -264,27 +264,27 @@ def print_diff_table(diffs: list[dict[str, Any]]) -> None:
         print(f"| {cat:<14} | {name:<28} | {price:<12} | {ret:<11} | {spread:<10} |")
 
     if len(diffs) > 15:
-        print(f"| ... and {len(diffs) - 15} more verified components across 11 categories.")
+        print(f"| ... and {len(diffs) - 15} more verified components across 12 categories.")
     print("=" * 90 + "\n")
 
 
 def apply_catalog_update(catalog: dict[str, Any]) -> None:
-    """Write updated catalog to data/pc_components/components.json and recompile."""
+    """Write updated catalog to data/pc/pc.json and recompile."""
     catalog["metadata"]["updated_at"] = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d")
     COMPONENTS_JSON.write_text(json.dumps(catalog, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    print(f"✓ Saved updated components to {COMPONENTS_JSON}")
+    print(f"✓ Saved updated PC catalog to {COMPONENTS_JSON}")
 
     # Trigger SQLite export compilation
     import subprocess
     cmd = [sys.executable, str(ROOT_DIR / "src" / "db_export.py")]
     subprocess.run(cmd, check=True)
-    print("✓ Recompiled data/pc_components/pc_components.sqlite and database.sqlite atomically.")
+    print("✓ Recompiled data/pc/pc.sqlite and database.sqlite atomically.")
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Multi-Site PC Components Scraper & Price Reconciler")
     parser.add_argument("--dry-run", action="store_true", default=True, help="Preview multi-site price diffs")
-    parser.add_argument("--apply", action="store_true", help="Persist updates to components.json and recompile SQLite")
+    parser.add_argument("--apply", action="store_true", help="Persist updates to data/pc/pc.json and recompile SQLite")
     parser.add_argument("--offline", action="store_true", help="Use offline fixtures for CI/testing")
     args = parser.parse_args()
 
@@ -295,7 +295,7 @@ def main() -> None:
         apply_catalog_update(catalog)
         print("✓ Multi-site component prices applied successfully.")
     else:
-        print("ℹ️  Dry-run complete. Run with --apply to write changes to data/pc_components/components.json.")
+        print("ℹ️  Dry-run complete. Run with --apply to write changes to data/pc/pc.json.")
 
 
 if __name__ == "__main__":

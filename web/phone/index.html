@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phone &amp; Mobile — Database Manager</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --surface-hover: #21262d;
+      --border: #30363d;
+      --text: #e6edf3;
+      --text-muted: #8b949e;
+      --accent: #58a6ff;
+      --green: #3fb950;
+      --amber: #d29922;
+      --red: #f85149;
+      --purple: #bc8cff;
+      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-family);
+      line-height: 1.5;
+      padding: 20px 24px 40px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+    }
+    h1 { font-size: 22px; font-weight: 600; }
+    .subtitle { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+
+    .btn {
+      background: var(--surface-hover);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 7px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .kpi {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+    }
+    .kpi-label { font-size: 12px; color: var(--text-muted); }
+    .kpi-value { font-size: 24px; font-weight: 700; margin-top: 4px; }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    input[type="search"], select {
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-size: 13px;
+    }
+    input[type="search"] { flex: 1; min-width: 250px; }
+
+    .phone-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 16px;
+    }
+    .phone-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .phone-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .phone-name { font-size: 16px; font-weight: 600; }
+    .phone-brand { font-size: 12px; color: var(--accent); font-weight: 600; }
+    .price-pill {
+      background: rgba(63, 185, 80, 0.14);
+      color: var(--green);
+      border: 1px solid rgba(63, 185, 80, 0.35);
+      border-radius: 8px;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .spec-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 12px;
+    }
+    .spec-label { color: var(--text-muted); font-size: 11px; }
+    .spec-val { color: var(--text); font-weight: 600; }
+
+    .section-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .support-list { display: flex; flex-direction: column; gap: 6px; }
+    .support-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      background: var(--surface-hover);
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 12px;
+    }
+    .support-sub { color: var(--text-muted); font-size: 11px; }
+    .status-chip {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+    }
+    .st-locked, .st-supported { background: rgba(63, 185, 80, 0.14); color: var(--green); border-color: rgba(63, 185, 80, 0.35); }
+    .st-smooth { background: rgba(88, 166, 255, 0.14); color: var(--accent); border-color: rgba(88, 166, 255, 0.35); }
+    .st-playable { background: rgba(210, 153, 34, 0.14); color: var(--amber); border-color: rgba(210, 153, 34, 0.35); }
+    .phone-notes { font-size: 12px; color: var(--text-muted); border-top: 1px solid var(--border); padding-top: 8px; }
+    .empty { color: var(--text-muted); text-align: center; padding: 36px; border: 1px dashed var(--border); border-radius: 8px; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1 id="domain-title">Phone Specs &amp; Supported Games/Apps</h1>
+      <div class="subtitle">Mobile SoC, GPU, display, battery, BD pricing &amp; verified game/app support matrix</div>
+    </div>
+    <div>
+      <a class="btn" href="/api/phone" target="_blank" rel="noopener noreferrer">JSON API ↗</a>
+    </div>
+  </header>
+
+  <section class="kpi-grid" aria-label="Phone catalog summary">
+    <div class="kpi"><div class="kpi-label">Tracked Phones</div><div id="kpi-count" class="kpi-value">--</div></div>
+    <div class="kpi"><div class="kpi-label">Max RAM</div><div id="kpi-ram" class="kpi-value" style="color:var(--accent);">--</div></div>
+    <div class="kpi"><div class="kpi-label">Game Profiles Logged</div><div id="kpi-games" class="kpi-value" style="color:var(--green);">--</div></div>
+    <div class="kpi"><div class="kpi-label">App Profiles Logged</div><div id="kpi-apps" class="kpi-value" style="color:var(--purple);">--</div></div>
+  </section>
+
+  <section class="controls" aria-label="Phone filters">
+    <input id="search-input" type="search" placeholder="Search phone, SoC (Snapdragon/Exynos), GPU, or supported game/app…" aria-label="Search phones and supported software">
+    <select id="brand-filter" aria-label="Brand filter">
+      <option value="">All Brands</option>
+    </select>
+    <select id="ram-filter" aria-label="Minimum RAM filter">
+      <option value="0">Any RAM</option>
+      <option value="8">8+ GB RAM</option>
+      <option value="12">12+ GB RAM</option>
+      <option value="16">16+ GB RAM</option>
+    </select>
+  </section>
+
+  <main id="phone-grid" class="phone-grid"></main>
+
+  <script>
+    "use strict";
+    let allPhones = [];
+
+    function makeSpecItem(label, val) {
+      const box = document.createElement("div");
+      const l = document.createElement("div");
+      l.className = "spec-label";
+      l.textContent = label;
+      const v = document.createElement("div");
+      v.className = "spec-val";
+      v.textContent = val;
+      box.appendChild(l);
+      box.appendChild(v);
+      return box;
+    }
+
+    function makeSupportBlock(title, items, isGame) {
+      const wrap = document.createElement("div");
+      const hdr = document.createElement("div");
+      hdr.className = "section-title";
+      hdr.textContent = title + " (" + items.length + ")";
+      wrap.appendChild(hdr);
+
+      const list = document.createElement("div");
+      list.className = "support-list";
+      items.forEach(item => {
+        const row = document.createElement("div");
+        row.className = "support-row";
+
+        const left = document.createElement("div");
+        const nameEl = document.createElement("strong");
+        nameEl.textContent = item.name || "Unknown";
+        const subEl = document.createElement("div");
+        subEl.className = "support-sub";
+        subEl.textContent = isGame ? (item.settings || "") : (item.category || "");
+        left.appendChild(nameEl);
+        if (subEl.textContent) left.appendChild(subEl);
+
+        const st = document.createElement("span");
+        const statusVal = String(item.status || "supported").toLowerCase();
+        const clsMap = { locked: "st-locked", smooth: "st-smooth", playable: "st-playable", supported: "st-supported" };
+        st.className = "status-chip " + (clsMap[statusVal] || "st-supported");
+        st.textContent = statusVal;
+
+        row.appendChild(left);
+        row.appendChild(st);
+        list.appendChild(row);
+      });
+      wrap.appendChild(list);
+      return wrap;
+    }
+
+    function renderKPIs(phones) {
+      document.getElementById("kpi-count").textContent = String(phones.length);
+      const maxRam = phones.reduce((m, p) => Math.max(m, Number(p.ram_gb || 0)), 0);
+      const gameCount = phones.reduce((s, p) => s + (Array.isArray(p.supported_games) ? p.supported_games.length : 0), 0);
+      const appCount = phones.reduce((s, p) => s + (Array.isArray(p.supported_apps) ? p.supported_apps.length : 0), 0);
+      document.getElementById("kpi-ram").textContent = maxRam ? (maxRam + " GB") : "--";
+      document.getElementById("kpi-games").textContent = String(gameCount);
+      document.getElementById("kpi-apps").textContent = String(appCount);
+    }
+
+    function applyFilters() {
+      const q = document.getElementById("search-input").value.trim().toLowerCase();
+      const brand = document.getElementById("brand-filter").value;
+      const minRam = Number(document.getElementById("ram-filter").value || 0);
+
+      const filtered = allPhones.filter(p => {
+        if (brand && p.brand !== brand) return false;
+        if (Number(p.ram_gb || 0) < minRam) return false;
+        if (q) {
+          const gamesText = (p.supported_games || []).map(g => g.name + " " + (g.settings || "")).join(" ");
+          const appsText = (p.supported_apps || []).map(a => a.name + " " + (a.category || "")).join(" ");
+          const hay = [p.name, p.brand, p.soc, p.gpu, p.os, p.notes, gamesText, appsText].join(" ").toLowerCase();
+          if (!hay.includes(q)) return false;
+        }
+        return true;
+      });
+
+      const grid = document.getElementById("phone-grid");
+      grid.replaceChildren();
+      if (!filtered.length) {
+        const empty = document.createElement("div");
+        empty.className = "empty";
+        empty.textContent = "No phones match your search filters.";
+        grid.appendChild(empty);
+        return;
+      }
+
+      filtered.forEach(p => {
+        const card = document.createElement("article");
+        card.className = "phone-card";
+
+        const top = document.createElement("div");
+        top.className = "phone-top";
+        const titleBox = document.createElement("div");
+        const brandEl = document.createElement("div");
+        brandEl.className = "phone-brand";
+        brandEl.textContent = p.brand || "Mobile";
+        const nameEl = document.createElement("div");
+        nameEl.className = "phone-name";
+        nameEl.textContent = p.name || p.id;
+        titleBox.appendChild(brandEl);
+        titleBox.appendChild(nameEl);
+
+        const price = document.createElement("div");
+        price.className = "price-pill";
+        const bdt = p.price_bdt ? ("৳" + Number(p.price_bdt).toLocaleString()) : "";
+        const usd = p.price_usd ? ("$" + p.price_usd) : "";
+        price.textContent = [bdt, usd].filter(Boolean).join(" / ") || "Price N/A";
+
+        top.appendChild(titleBox);
+        top.appendChild(price);
+        card.appendChild(top);
+
+        const specs = document.createElement("div");
+        specs.className = "spec-grid";
+        specs.appendChild(makeSpecItem("SoC", p.soc || "N/A"));
+        specs.appendChild(makeSpecItem("GPU", p.gpu || "N/A"));
+        specs.appendChild(makeSpecItem("Memory / Storage", (p.ram_gb || 0) + " GB / " + (p.storage_gb || 0) + " GB"));
+        specs.appendChild(makeSpecItem("Display", (p.display_type || "") + " (" + (p.display_hz || 60) + " Hz)"));
+        specs.appendChild(makeSpecItem("Battery / Charge", (p.battery_mah || 0) + " mAh · " + (p.charging_watts || 0) + "W"));
+        specs.appendChild(makeSpecItem("OS", p.os || "Android"));
+        card.appendChild(specs);
+
+        if (Array.isArray(p.supported_games) && p.supported_games.length) {
+          card.appendChild(makeSupportBlock("Supported Games", p.supported_games, true));
+        }
+        if (Array.isArray(p.supported_apps) && p.supported_apps.length) {
+          card.appendChild(makeSupportBlock("Supported Apps & Emulation", p.supported_apps, false));
+        }
+
+        if (p.notes) {
+          const notes = document.createElement("div");
+          notes.className = "phone-notes";
+          notes.textContent = p.notes;
+          card.appendChild(notes);
+        }
+        grid.appendChild(card);
+      });
+    }
+
+    async function init() {
+      try {
+        const res = await fetch("/api/phone", { cache: "no-store" });
+        if (res.ok) {
+          const data = await res.json();
+          allPhones = Array.isArray(data.phones) ? data.phones : [];
+        }
+      } catch (err) {
+        console.error("Failed to load phones:", err);
+      }
+
+      const brandSelect = document.getElementById("brand-filter");
+      Array.from(new Set(allPhones.map(p => p.brand).filter(Boolean))).sort().forEach(b => {
+        const opt = document.createElement("option");
+        opt.value = b;
+        opt.textContent = b;
+        brandSelect.appendChild(opt);
+      });
+
+      renderKPIs(allPhones);
+      applyFilters();
+    }
+
+    ["search-input", "brand-filter", "ram-filter"].forEach(id => {
+      document.getElementById(id).addEventListener("input", applyFilters);
+      document.getElementById(id).addEventListener("change", applyFilters);
+    });
+
+    window.addEventListener("DOMContentLoaded", init);
+  </script>
+</body>
+</html>

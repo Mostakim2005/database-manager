@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Manga, Manhwa &amp; Adaptations — Database Manager</title>
+  <title>Media &amp; Adaptations — Database Manager</title>
   <style>
     :root {
       --bg: #0d1117;
@@ -66,7 +66,7 @@
 
     .kpi-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
       gap: 12px;
       margin-bottom: 18px;
     }
@@ -91,7 +91,7 @@
       align-items: flex-end;
       margin-bottom: 16px;
     }
-    .control-group { display: flex; flex-direction: column; gap: 4px; min-width: 170px; flex: 1; }
+    .control-group { display: flex; flex-direction: column; gap: 4px; min-width: 160px; flex: 1; }
     label { font-size: 11px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; }
     input, select {
       background: var(--bg);
@@ -119,7 +119,6 @@
       font-size: 14px;
       font-weight: 600;
     }
-    .panel-body { font-size: 13px; color: var(--text-muted); }
     .panel-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -141,11 +140,7 @@
       border-radius: 8px;
       overflow: auto;
     }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13px;
-    }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
     th, td {
       text-align: left;
       padding: 11px 14px;
@@ -181,11 +176,25 @@
     .badge-direct { border-color: rgba(63, 185, 80, 0.45); color: var(--green); }
     .badge-browse { border-color: rgba(210, 153, 34, 0.45); color: var(--amber); }
     .badge-origin { border-color: rgba(188, 140, 255, 0.4); color: var(--purple); }
+    .badge-type { border-color: rgba(88, 166, 255, 0.45); color: var(--accent); }
+    .rel-chip {
+      display: inline-block;
+      margin-top: 5px;
+      margin-right: 4px;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 11px;
+      background: rgba(88, 166, 255, 0.12);
+      border: 1px solid rgba(88, 166, 255, 0.4);
+      color: var(--accent);
+      cursor: pointer;
+    }
+    .rel-chip:hover { background: rgba(88, 166, 255, 0.24); }
 
     .cell-rich a { color: var(--accent); text-decoration: none; }
     .cell-rich a:hover { text-decoration: underline; }
     .muted-none { color: var(--text-muted); font-style: italic; }
-    .result-bar { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
+    .result-bar { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; }
 
     :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; } }
@@ -194,22 +203,22 @@
 <body>
   <header>
     <div>
-      <h1>Manga, Manhwa &amp; Adaptation Catalog</h1>
-      <p class="subtitle">104+ tracked titles with canonical comix.to links, anime/donghua adaptations, and live-action tracking</p>
+      <h1>Media &amp; Adaptation Graph</h1>
+      <p class="subtitle">Interconnected comics, light novels, anime/donghua, movies, and TV series (Outlander watchlist imported; Obsidian sync retired)</p>
     </div>
     <div class="actions">
       <button id="btn-doctor" type="button" class="btn btn-primary">Catalog Doctor</button>
       <button id="btn-links-offline" type="button" class="btn">Link Audit (Offline)</button>
       <button id="btn-links-live" type="button" class="btn">Probe 5 Links Live</button>
-      <a href="/api/manga" target="_blank" rel="noopener noreferrer" class="btn">JSON API</a>
+      <a href="/api/media" target="_blank" rel="noopener noreferrer" class="btn">JSON API</a>
     </div>
   </header>
 
   <section class="kpi-grid" aria-label="Catalog Metrics">
     <div class="kpi-card">
-      <div class="kpi-label">Tracked Titles</div>
+      <div class="kpi-label">Total Media Entries</div>
       <div id="kpi-total" class="kpi-value">--</div>
-      <div id="kpi-origins" class="kpi-sub">Loading catalog...</div>
+      <div id="kpi-subdomains" class="kpi-sub">Loading catalog...</div>
     </div>
     <div class="kpi-card">
       <div class="kpi-label">Direct comix.to Links</div>
@@ -222,16 +231,33 @@
       <div class="kpi-sub">Official, teaser, or fan motion</div>
     </div>
     <div class="kpi-card">
-      <div class="kpi-label">Live-Action Adapted</div>
+      <div class="kpi-label">Live-Action / TV / Film</div>
       <div id="kpi-live" class="kpi-value" style="color:var(--purple);">--</div>
-      <div class="kpi-sub">C-Drama, K-Drama &amp; J-Film</div>
+      <div class="kpi-sub">C-Drama, K-Drama, TV &amp; Movies</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Interlinked Franchise Nodes</div>
+      <div id="kpi-linked" class="kpi-value" style="color:var(--amber);">--</div>
+      <div class="kpi-sub">Cross-medium adaptation chains</div>
     </div>
   </section>
 
-  <section class="controls" aria-label="Filter Manga Catalog">
+  <section class="controls" aria-label="Filter Media Catalog">
     <div class="control-group" style="flex:2;">
-      <label for="search-input">Search Title, Alt Name, Studio or Platform</label>
-      <input id="search-input" type="search" placeholder="e.g. Joy of Life, Bilibili, Pierrot, Lookism...">
+      <label for="search-input">Search Title, Alt Name, Franchise, Studio or Platform</label>
+      <input id="search-input" type="search" placeholder="e.g. Joy of Life, Outlander, Eminence, Lookism...">
+    </div>
+    <div class="control-group">
+      <label for="type-select">Media Subdomain</label>
+      <select id="type-select">
+        <option value="all">All Subdomains</option>
+        <option value="comic">Comics (Manga / Manhwa / Manhua)</option>
+        <option value="light_novel">Light / Web Novels</option>
+        <option value="anime">Anime</option>
+        <option value="donghua">Donghua</option>
+        <option value="movie">Movies</option>
+        <option value="tv_series">TV Series</option>
+      </select>
     </div>
     <div class="control-group">
       <label for="origin-select">Origin Medium</label>
@@ -240,15 +266,16 @@
         <option value="manhua">Manhua (Chinese)</option>
         <option value="manhwa">Manhwa (Korean)</option>
         <option value="manga">Manga (Japanese)</option>
-        <option value="web novel">Web Novel</option>
+        <option value="novel">Light / Web Novel</option>
       </select>
     </div>
     <div class="control-group">
-      <label for="adapt-select">Adaptation Filter</label>
+      <label for="adapt-select">Adaptation / Link Filter</label>
       <select id="adapt-select">
-        <option value="all">All Adaptations</option>
+        <option value="all">All Entries</option>
+        <option value="linked">Has Franchise Relations</option>
         <option value="anime">Has Anime / Donghua / Motion</option>
-        <option value="live">Has Live-Action</option>
+        <option value="live">Has Live-Action / TV</option>
         <option value="production">In Production (News)</option>
         <option value="direct">Direct comix.to Link Only</option>
         <option value="browse">Browse Fallback Only</option>
@@ -261,18 +288,21 @@
       <span id="diag-title">Diagnostic Output</span>
       <button id="diag-close" type="button" class="btn">Close</button>
     </div>
-    <div id="diag-body" class="panel-body"></div>
+    <div id="diag-body"></div>
   </section>
 
-  <div id="result-bar" class="result-bar">Loading catalog...</div>
+  <div class="result-bar">
+    <span id="result-bar">Loading catalog...</span>
+    <button id="btn-clear-franchise" type="button" class="btn" style="display:none; padding:3px 9px;">Clear Franchise Filter</button>
+  </div>
 
   <div class="table-wrap">
     <table>
       <thead>
         <tr>
-          <th style="width:28%;">Title &amp; Read Link</th>
-          <th style="width:40%;">Anime / Donghua / Fan Motion</th>
-          <th style="width:32%;">Live-Action Adaptation</th>
+          <th style="width:30%;">Title, Subdomain &amp; Relations</th>
+          <th style="width:38%;">Anime / Donghua / Fan Motion</th>
+          <th style="width:32%;">Live-Action / TV / Film</th>
         </tr>
       </thead>
       <tbody id="catalog-body"></tbody>
@@ -281,6 +311,7 @@
 
   <script>
     let ALL_ITEMS = [];
+    let ACTIVE_FRANCHISE = '';
 
     function appendSafeFormattedText(container, rawText) {
       const text = String(rawText || '');
@@ -295,7 +326,6 @@
       const lines = text.split(/<br\s*\/?>/i);
       lines.forEach((line, lineIdx) => {
         if (lineIdx > 0) container.appendChild(document.createElement('br'));
-        // Tokenize [Label](https://...) and **bold** safely without innerHTML
         const tokenRe = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)|\*\*([^*]+)\*\*/g;
         let lastIndex = 0;
         let match;
@@ -326,33 +356,48 @@
     function updateKPIs(items) {
       const direct = items.filter(i => String(i.link || '').includes('comix.to/title/')).length;
       const anime = items.filter(i => !String(i.anime || '').startsWith('**None**')).length;
-      const live = items.filter(i => !String(i.live_action || '').startsWith('**None**')).length;
+      const live = items.filter(i => !String(i.live_action || '').startsWith('**None**') || i.media_type === 'tv_series' || i.media_type === 'movie').length;
+      const linked = items.filter(i => Array.isArray(i.relations) && i.relations.length > 0).length;
+      const browse = items.filter(i => String(i.link || '').includes('browse?q=')).length;
+
       document.getElementById('kpi-total').textContent = String(items.length);
       document.getElementById('kpi-direct').textContent = String(direct);
-      document.getElementById('kpi-fallback').textContent = (items.length - direct) + ' browse fallbacks';
+      document.getElementById('kpi-fallback').textContent = browse + ' browse fallbacks';
       document.getElementById('kpi-anime').textContent = String(anime);
       document.getElementById('kpi-live').textContent = String(live);
-      document.getElementById('kpi-origins').textContent = 'Synced with Database Manager SQLite';
+      document.getElementById('kpi-linked').textContent = String(linked);
+
+      const typeCounts = {};
+      items.forEach(i => { typeCounts[i.media_type || 'comic'] = (typeCounts[i.media_type || 'comic'] || 0) + 1; });
+      document.getElementById('kpi-subdomains').textContent = Object.entries(typeCounts).map(([k, v]) => k + ': ' + v).join(' · ');
     }
 
     function renderTable() {
       const q = document.getElementById('search-input').value.trim().toLowerCase();
+      const typeF = document.getElementById('type-select').value;
       const originF = document.getElementById('origin-select').value;
       const adaptF = document.getElementById('adapt-select').value;
 
+      const clearBtn = document.getElementById('btn-clear-franchise');
+      clearBtn.style.display = ACTIVE_FRANCHISE ? 'inline-flex' : 'none';
+
       const filtered = ALL_ITEMS.filter(item => {
-        const hay = [item.name, item.alt, item.origin, item.anime, item.live_action].join(' ').toLowerCase();
+        if (ACTIVE_FRANCHISE && item.franchise_id !== ACTIVE_FRANCHISE) return false;
+        const hay = [item.name, item.alt, item.origin, item.media_type, item.franchise_id, item.anime, item.live_action].join(' ').toLowerCase();
         if (q && !hay.includes(q)) return false;
+        if (typeF !== 'all' && (item.media_type || 'comic') !== typeF) return false;
         if (originF !== 'all' && !String(item.origin || '').toLowerCase().includes(originF)) return false;
+        if (adaptF === 'linked' && !(Array.isArray(item.relations) && item.relations.length > 0)) return false;
         if (adaptF === 'anime' && String(item.anime || '').startsWith('**None**')) return false;
         if (adaptF === 'live' && String(item.live_action || '').startsWith('**None**')) return false;
         if (adaptF === 'production' && !(String(item.anime || '') + ' ' + String(item.live_action || '')).toLowerCase().includes('in production')) return false;
         if (adaptF === 'direct' && !String(item.link || '').includes('comix.to/title/')) return false;
-        if (adaptF === 'browse' && String(item.link || '').includes('comix.to/title/')) return false;
+        if (adaptF === 'browse' && !String(item.link || '').includes('browse?q=')) return false;
         return true;
       });
 
-      document.getElementById('result-bar').textContent = 'Showing ' + filtered.length + ' of ' + ALL_ITEMS.length + ' titles';
+      const prefix = ACTIVE_FRANCHISE ? ('Franchise "' + ACTIVE_FRANCHISE + '" · ') : '';
+      document.getElementById('result-bar').textContent = prefix + 'Showing ' + filtered.length + ' of ' + ALL_ITEMS.length + ' media entries';
       const tbody = document.getElementById('catalog-body');
       tbody.textContent = '';
 
@@ -375,16 +420,39 @@
           tdName.appendChild(alt);
         }
 
+        const typeBadge = document.createElement('span');
+        typeBadge.className = 'badge badge-type';
+        typeBadge.textContent = (item.media_type || 'comic').replace('_', ' ').toUpperCase();
+        tdName.appendChild(typeBadge);
+
         const originBadge = document.createElement('span');
         originBadge.className = 'badge badge-origin';
         originBadge.textContent = item.origin || 'Unknown';
         tdName.appendChild(originBadge);
 
-        const isDirect = String(item.link || '').includes('comix.to/title/');
-        const linkBadge = document.createElement('span');
-        linkBadge.className = 'badge ' + (isDirect ? 'badge-direct' : 'badge-browse');
-        linkBadge.textContent = isDirect ? 'Direct Link' : 'Browse Search';
-        tdName.appendChild(linkBadge);
+        if ((item.media_type || 'comic') === 'comic') {
+          const isDirect = String(item.link || '').includes('comix.to/title/');
+          const linkBadge = document.createElement('span');
+          linkBadge.className = 'badge ' + (isDirect ? 'badge-direct' : 'badge-browse');
+          linkBadge.textContent = isDirect ? 'Direct Link' : 'Browse Search';
+          tdName.appendChild(linkBadge);
+        }
+
+        if (Array.isArray(item.relations) && item.relations.length > 0) {
+          const relWrap = document.createElement('div');
+          item.relations.forEach(rel => {
+            const chip = document.createElement('button');
+            chip.type = 'button';
+            chip.className = 'rel-chip';
+            chip.textContent = (rel.relation || 'related').replace('_', ' ') + ': ' + (rel.target_type || '') + ' (' + (rel.title || rel.target_id) + ')';
+            chip.addEventListener('click', () => {
+              ACTIVE_FRANCHISE = item.franchise_id || '';
+              renderTable();
+            });
+            relWrap.appendChild(chip);
+          });
+          tdName.appendChild(relWrap);
+        }
 
         const tdAnime = document.createElement('td');
         tdAnime.className = 'cell-rich';
@@ -429,48 +497,50 @@
 
     async function loadCatalog() {
       try {
-        const res = await fetch('/api/manga', { cache: 'no-store' });
+        const res = await fetch('/api/media', { cache: 'no-store' });
         if (!res.ok) throw new Error('HTTP ' + res.status);
         ALL_ITEMS = await res.json();
         updateKPIs(ALL_ITEMS);
         renderTable();
       } catch (err) {
-        document.getElementById('result-bar').textContent = 'Failed to load /api/manga (' + err.message + '). Start python src/server.py on port 8770.';
+        document.getElementById('result-bar').textContent = 'Failed to load /api/media (' + err.message + '). Start python src/server.py on port 8770.';
       }
     }
 
     document.getElementById('search-input').addEventListener('input', renderTable);
+    document.getElementById('type-select').addEventListener('change', renderTable);
     document.getElementById('origin-select').addEventListener('change', renderTable);
     document.getElementById('adapt-select').addEventListener('change', renderTable);
+    document.getElementById('btn-clear-franchise').addEventListener('click', () => {
+      ACTIVE_FRANCHISE = '';
+      renderTable();
+    });
     document.getElementById('diag-close').addEventListener('click', () => {
       document.getElementById('diag-panel').classList.remove('open');
     });
 
     document.getElementById('btn-doctor').addEventListener('click', async () => {
-      const res = await fetch('/api/manga/doctor', { cache: 'no-store' });
+      const res = await fetch('/api/media/doctor', { cache: 'no-store' });
       const data = await res.json();
       const doc = data.doctor || {};
       const props = data.link_proposals || [];
-      showDiagnosticPanel('Catalog Doctor & Sitemap Link Proposals', [
+      const types = Object.entries(doc.media_type_counts || {}).map(([k, v]) => k + ': ' + v);
+      showDiagnosticPanel('Media Catalog Doctor & Sitemap Link Proposals', [
         ['Integrity Summary', [
           'Healthy: ' + (doc.healthy ? 'YES' : 'ISSUES FOUND'),
           'Direct comix.to links: ' + (doc.direct_comix_links ?? 0),
           'Browse fallbacks: ' + (doc.browse_fallback_count ?? 0),
-          'Duplicate names: ' + ((doc.duplicate_names || []).length)
+          'Linked franchise items: ' + (doc.with_relations ?? 0)
         ]],
-        ['Adaptation Coverage', [
-          'Anime / Donghua / Motion: ' + (doc.with_anime_or_motion ?? 0),
-          'Live-Action: ' + (doc.with_live_action ?? 0),
-          'In Production: ' + (doc.in_production_count ?? 0)
-        ]],
+        ['Subdomain Breakdown', types.length ? types : ['No entries']],
         ['Sitemap Link Upgrades (' + props.length + ')', props.length
           ? props.slice(0, 5).map(p => p.name + ' -> ' + p.proposed_link)
-          : ['No unapplied sitemap upgrades detected (or local sitemaps cache empty).']]
+          : ['No unapplied sitemap upgrades detected.']]
       ]);
     });
 
     document.getElementById('btn-links-offline').addEventListener('click', async () => {
-      const res = await fetch('/api/manga/links', { cache: 'no-store' });
+      const res = await fetch('/api/media/links', { cache: 'no-store' });
       const data = await res.json();
       const hosts = Object.entries(data.top_hosts || {}).slice(0, 6).map(([h, c]) => h + ': ' + c);
       showDiagnosticPanel('Offline Link Health Audit', [
@@ -486,7 +556,7 @@
 
     document.getElementById('btn-links-live').addEventListener('click', async () => {
       showDiagnosticPanel('Live Link Probe (5 URLs)', [['Status', ['Probing 5 catalog URLs politely...']]]);
-      const res = await fetch('/api/manga/links?live=true&limit=5', { cache: 'no-store' });
+      const res = await fetch('/api/media/links?live=true&limit=5', { cache: 'no-store' });
       const data = await res.json();
       const rows = (data.results || []).map(r => r.state.toUpperCase() + ' (' + r.status + ') — ' + r.url);
       showDiagnosticPanel('Live Link Probe Results', [

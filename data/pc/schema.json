@@ -1,0 +1,78 @@
+{
+  "domain": "pc",
+  "schema_version": "2.0.0",
+  "categories": [
+    "cpus",
+    "gpus",
+    "motherboards",
+    "ram",
+    "ssds",
+    "hdds",
+    "psus",
+    "monitors",
+    "tvs",
+    "keyboards",
+    "mice",
+    "graphics_tablets"
+  ],
+  "required_common_fields": [
+    "id",
+    "name",
+    "brand"
+  ],
+  "required_by_category": {
+    "cpus": [
+      "socket",
+      "cores",
+      "threads",
+      "tdp_watts",
+      "tier"
+    ],
+    "gpus": [
+      "tier",
+      "vram_gb",
+      "tdp_watts",
+      "psu_550w_verdict"
+    ],
+    "psus": [
+      "wattage"
+    ]
+  },
+  "field_types": {
+    "id": "str",
+    "name": "str",
+    "brand": "str",
+    "price_bdt": "number",
+    "price_usd": "number",
+    "tdp_watts": "number",
+    "tier": "number",
+    "vram_gb": "number",
+    "wattage": "number"
+  },
+  "enums": {
+    "psu_550w_verdict": [
+      "pass",
+      "warn",
+      "fail"
+    ]
+  },
+  "ranges": {
+    "tier": [
+      0,
+      10
+    ],
+    "vram_gb": [
+      1,
+      128
+    ],
+    "tdp_watts": [
+      5,
+      1000
+    ],
+    "wattage": [
+      200,
+      2000
+    ]
+  },
+  "unique_key": "id"
+}

@@ -1,0 +1,54 @@
+{
+  "schema_version": "2.0.0",
+  "updated_at": "2026-11-24",
+  "books": [
+    {
+      "id": "ddia-kleppmann",
+      "title": "Designing Data-Intensive Applications",
+      "author": "Martin Kleppmann",
+      "subject": "Systems Engineering",
+      "format": "paperback",
+      "ownership_status": "owned",
+      "reading_status": "reading",
+      "rating": 5,
+      "pages": 616,
+      "notes": "Core reference for storage engines, replication, and partitioning."
+    },
+    {
+      "id": "pragmatic-programmer-20th",
+      "title": "The Pragmatic Programmer (20th Anniversary Edition)",
+      "author": "David Thomas, Andrew Hunt",
+      "subject": "Software Craft",
+      "format": "ebook",
+      "ownership_status": "owned",
+      "reading_status": "completed",
+      "rating": 4.8,
+      "pages": 352,
+      "notes": "Revisit orthogonality and tracer bullet prototyping chapters."
+    },
+    {
+      "id": "genki-1-3rd",
+      "title": "Genki I: An Integrated Course in Elementary Japanese (3rd Ed.)",
+      "author": "Eri Banno, Yoko Ikeda, Yutaka Ohno",
+      "subject": "Language Learning",
+      "format": "pdf",
+      "ownership_status": "owned",
+      "reading_status": "reference",
+      "rating": 4.5,
+      "pages": 384,
+      "notes": "Paired with grammar notes and kana vocabulary drills."
+    },
+    {
+      "id": "art-of-strategy-dixit",
+      "title": "The Art of Strategy: A Game Theorist's Guide",
+      "author": "Avinash K. Dixit, Barry J. Nalebuff",
+      "subject": "Strategy & Decision Theory",
+      "format": "hardcover",
+      "ownership_status": "wishlist",
+      "reading_status": "queued",
+      "rating": 0,
+      "pages": 512,
+      "notes": "High priority wishlist pick for strategic thinking."
+    }
+  ]
+}

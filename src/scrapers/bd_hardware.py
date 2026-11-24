@@ -22,7 +22,7 @@ from typing import Any
 
 ROOT_DIR = Path(__file__).resolve().parent.parent.parent
 DATA_DIR = ROOT_DIR / "data"
-HW_JSON = DATA_DIR / "hardware" / "hardware_specs.json"
+HW_JSON = DATA_DIR / "pc" / "pc.json"
 
 # Ensure 'src' is in sys.path for relative scrapers import
 if str(ROOT_DIR / "src") not in sys.path:
@@ -331,29 +331,16 @@ def apply_sync(catalog: dict[str, Any], diff_table: list[dict[str, Any]]) -> Non
         gid = gpu.get("id")
         if gid in price_map:
             gpu["price_bdt_retail"] = price_map[gid]
+            gpu["price_bdt"] = price_map[gid]
 
     HW_JSON.write_text(json.dumps(catalog, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    print(f"✓ Updated data/hardware/hardware_specs.json with live retail prices.")
+    print("✓ Updated data/pc/pc.json with live retail prices.")
 
-    # Update CSV format as well
-    csv_path = DATA_DIR / "hardware" / "hardware_specs.csv"
-    if csv_path.exists():
-        lines = csv_path.read_text(encoding="utf-8").splitlines()
-        new_lines = [lines[0]]
-        for line in lines[1:]:
-            parts = line.split(",")
-            gid = parts[0]
-            if gid in price_map and len(parts) >= 15:
-                parts[14] = str(price_map[gid])
-            new_lines.append(",".join(parts))
-        csv_path.write_text("\n".join(new_lines) + "\n", encoding="utf-8")
-        print("✓ Updated data/hardware/hardware_specs.csv.")
-
-    # Recompile hardware.sqlite and database.sqlite
+    # Recompile pc.sqlite and database.sqlite
     import subprocess
     cmd = [sys.executable, str(ROOT_DIR / "src" / "db_export.py")]
     subprocess.run(cmd, check=True)
-    print("✓ Recompiled data/hardware/hardware.sqlite and data/database.sqlite atomically.")
+    print("✓ Recompiled data/pc/pc.sqlite and data/database.sqlite atomically.")
 
 
 def main() -> None:

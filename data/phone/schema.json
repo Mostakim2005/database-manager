@@ -1,0 +1,42 @@
+{
+  "domain": "phone",
+  "schema_version": "2.0.0",
+  "records_key": "phones",
+  "unique_key": "id",
+  "required_fields": [
+    "id",
+    "name",
+    "brand",
+    "soc",
+    "gpu",
+    "ram_gb",
+    "storage_gb",
+    "display_hz",
+    "battery_mah",
+    "os"
+  ],
+  "field_types": {
+    "id": "str",
+    "name": "str",
+    "brand": "str",
+    "soc": "str",
+    "gpu": "str",
+    "ram_gb": "number",
+    "storage_gb": "number",
+    "display_hz": "number",
+    "display_type": "str",
+    "battery_mah": "number",
+    "charging_watts": "number",
+    "os": "str",
+    "price_bdt": "number",
+    "price_usd": "number",
+    "notes": "str"
+  },
+  "enums": {},
+  "ranges": {
+    "ram_gb": [2, 32],
+    "storage_gb": [32, 2048],
+    "display_hz": [60, 240],
+    "battery_mah": [1500, 12000]
+  }
+}
