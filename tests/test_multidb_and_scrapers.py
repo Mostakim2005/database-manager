@@ -37,11 +37,11 @@ class TestMultiDomainHubAndVerify(unittest.TestCase):
         report = db_verify.verify_all()
         self.assertTrue(report["ok"], f"Schema verification errors: {report}")
         names = {d["domain"] for d in report["domains"]}
-        self.assertEqual(names, {"ai", "games", "hardware", "cpus", "pc_components", "manga"})
+        self.assertEqual(names, {"ai", "games", "hardware", "cpus", "pc_components", "manga", "github"})
 
     def test_domain_health_and_cross_domain_views(self) -> None:
         health = db_hub.query_domain_health()
-        self.assertEqual(len(health), 6)
+        self.assertEqual(len(health), 7)
         for item in health:
             self.assertTrue(item["compiled"])
             self.assertGreater(item["record_count"], 0)
@@ -79,7 +79,7 @@ class TestMultiDomainHubAndVerify(unittest.TestCase):
             base = f"http://127.0.0.1:{port}"
             with urllib.request.urlopen(f"{base}/api/domains", timeout=5) as resp:
                 data = json.loads(resp.read().decode("utf-8"))
-                self.assertEqual(len(data["health"]), 6)
+                self.assertEqual(len(data["health"]), 7)
             with urllib.request.urlopen(f"{base}/api/cross/games-by-gpu?gpu=rx-6600&psu=550", timeout=5) as resp:
                 data = json.loads(resp.read().decode("utf-8"))
                 self.assertTrue(data["psu_safe"])
@@ -194,7 +194,7 @@ class TestMultiSiteCatalogExpansion(unittest.TestCase):
                 self.assertIn("capabilities", m["fact_check"])
                 self.assertIn("sources", m["fact_check"])
 
-    def test_all_six_domains_record_counts(self) -> None:
+    def test_all_seven_domains_record_counts(self) -> None:
         health = db_hub.query_domain_health()
         counts = {h["domain"]: h["record_count"] for h in health}
         self.assertGreaterEqual(counts.get("ai", 0), 45)
@@ -203,6 +203,7 @@ class TestMultiSiteCatalogExpansion(unittest.TestCase):
         self.assertGreaterEqual(counts.get("cpus", 0), 6)
         self.assertGreaterEqual(counts.get("pc_components", 0), 55)
         self.assertGreaterEqual(counts.get("manga", 0), 100)
+        self.assertGreaterEqual(counts.get("github", 0), 35)
 
 
 class TestMangaDomainIntegration(unittest.TestCase):

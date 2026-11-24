@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitHub Repositories &amp; CI Health — Database Manager</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --surface-hover: #21262d;
+      --border: #30363d;
+      --text: #e6edf3;
+      --text-muted: #8b949e;
+      --accent: #58a6ff;
+      --green: #3fb950;
+      --amber: #d29922;
+      --red: #f85149;
+      --purple: #bc8cff;
+      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-family);
+      line-height: 1.5;
+      padding: 20px 24px 48px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+    }
+    .header-left { display: flex; align-items: center; gap: 12px; }
+    .logo-badge {
+      background: linear-gradient(135deg, #238636, #2ea043);
+      color: #fff;
+      font-weight: 800;
+      font-size: 15px;
+      padding: 6px 10px;
+      border-radius: 8px;
+      letter-spacing: 0.4px;
+    }
+    h1 { font-size: 21px; font-weight: 600; }
+    .subtitle { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+
+    .actions { display: flex; flex-wrap: wrap; gap: 8px; }
+    .btn {
+      background: var(--surface-hover);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 7px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
+    }
+    .btn:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .btn-primary {
+      background: #238636;
+      border-color: #2ea043;
+      color: #fff;
+    }
+    .btn-primary:hover:not(:disabled) { background: #2ea043; border-color: #3fb950; color: #fff; }
+    .btn-accent {
+      background: rgba(88, 166, 255, 0.14);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .kpi-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+    }
+    .kpi-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: var(--text-muted);
+    }
+    .kpi-value { font-size: 24px; font-weight: 700; margin-top: 4px; }
+    .kpi-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+    .controls {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .control-row { display: flex; flex-wrap: wrap; gap: 12px; flex: 1; align-items: flex-end; }
+    .control-group { display: flex; flex-direction: column; gap: 4px; min-width: 170px; flex: 1; }
+    label {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+    input, select {
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 7px 10px;
+      font-size: 13px;
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-bottom: 16px;
+      display: none;
+    }
+    .panel.open { display: block; }
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .panel-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 10px;
+    }
+    .mini-box {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px;
+      font-size: 12px;
+      color: var(--text);
+    }
+    .mini-line { margin-top: 4px; color: var(--text-muted); word-break: break-word; }
+
+    .subtabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 14px;
+    }
+    .subtab-btn {
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: var(--text-muted);
+      padding: 10px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .subtab-btn:hover { color: var(--text); }
+    .subtab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+    .tab-badge {
+      background: var(--surface-hover);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1px 7px;
+      font-size: 11px;
+      color: var(--text);
+    }
+
+    .result-bar { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
+
+    .table-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: auto;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td {
+      text-align: left;
+      padding: 11px 14px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+    th {
+      background: #1c2128;
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 600;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      white-space: nowrap;
+    }
+    tr:hover td { background: rgba(88, 166, 255, 0.04); }
+
+    .repo-link { color: var(--accent); font-weight: 600; text-decoration: none; font-size: 14px; }
+    .repo-link:hover { text-decoration: underline; }
+    .repo-desc {
+      color: var(--text-muted);
+      font-size: 12px;
+      margin-top: 2px;
+      max-width: 380px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+    .badge-success { background: rgba(63, 185, 80, 0.14); color: var(--green); border-color: rgba(63, 185, 80, 0.4); }
+    .badge-danger { background: rgba(248, 81, 73, 0.14); color: var(--red); border-color: rgba(248, 81, 73, 0.4); }
+    .badge-warning { background: rgba(210, 153, 34, 0.14); color: var(--amber); border-color: rgba(210, 153, 34, 0.4); }
+    .badge-info { background: rgba(88, 166, 255, 0.14); color: var(--accent); border-color: rgba(88, 166, 255, 0.4); }
+    .badge-purple { background: rgba(188, 140, 255, 0.14); color: var(--purple); border-color: rgba(188, 140, 255, 0.4); }
+
+    .drift-note { font-size: 11px; color: var(--amber); margin-top: 2px; }
+    .muted { color: var(--text-muted); }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 16px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .modal-header {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .modal-title { font-size: 16px; font-weight: 700; }
+    .modal-body { padding: 18px; overflow-y: auto; font-size: 13px; }
+    .meta-line { margin-bottom: 6px; color: var(--text); }
+    .meta-line a { color: var(--accent); text-decoration: none; }
+    .meta-line a:hover { text-decoration: underline; }
+    .commit-item {
+      padding: 8px 12px;
+      border-radius: 6px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      margin-bottom: 8px;
+    }
+    .commit-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      margin-bottom: 3px;
+      gap: 8px;
+    }
+    .commit-sha { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; color: var(--accent); }
+    .commit-date { color: var(--text-muted); }
+    .commit-msg { color: var(--text); font-weight: 500; word-break: break-word; }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #238636;
+      color: #fff;
+      padding: 10px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+      display: none;
+      z-index: 1100;
+      max-width: 440px;
+    }
+    .toast.error { background: #b91c1c; }
+    .toast.show { display: block; }
+
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition: none !important; animation: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-left">
+      <div class="logo-badge">GH</div>
+      <div>
+        <h1>GitHub Repositories &amp; CI Health</h1>
+        <p id="header-subtitle" class="subtitle">Repository activity triage, GitHub Actions CI health, and upstream fork drift</p>
+      </div>
+    </div>
+    <div class="actions">
+      <button id="btn-doctor" type="button" class="btn btn-accent">Repo Doctor</button>
+      <button id="btn-export" type="button" class="btn">Export Markdown Report</button>
+      <button id="btn-refresh" type="button" class="btn btn-primary">Refresh Live Data</button>
+      <a href="/api/github/triage" target="_blank" rel="noopener noreferrer" class="btn">JSON API</a>
+    </div>
+  </header>
+
+  <section class="kpi-grid" aria-label="GitHub Repository Metrics">
+    <div class="kpi-card">
+      <div class="kpi-label">Total Repositories</div>
+      <div id="kpi-total" class="kpi-value">--</div>
+      <div id="kpi-forks" class="kpi-sub">Loading inventory...</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Section 1 (0–4 Days)</div>
+      <div id="kpi-sec1" class="kpi-value" style="color:var(--green);">--</div>
+      <div class="kpi-sub">Recent commits or tags</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Section 2 (4–8 Days)</div>
+      <div id="kpi-sec2" class="kpi-value" style="color:var(--amber);">--</div>
+      <div class="kpi-sub">Mid-range updates</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Section 3 (2+ Weeks)</div>
+      <div id="kpi-sec3" class="kpi-value" style="color:var(--purple);">--</div>
+      <div class="kpi-sub">Dormant or commit-stale</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">CI Build Health</div>
+      <div id="kpi-ci" class="kpi-value">--</div>
+      <div id="kpi-ci-sub" class="kpi-sub">0 failing / 0 no CI</div>
+    </div>
+  </section>
+
+  <section class="controls" aria-label="Filter Repositories">
+    <div class="control-row">
+      <div class="control-group" style="flex:2;">
+        <label for="search-input">Search Name, Description, or Upstream Parent</label>
+        <input id="search-input" type="search" placeholder="e.g. database-manager, gaussboard, dataview...">
+      </div>
+      <div class="control-group">
+        <label for="type-filter">Repository Type</label>
+        <select id="type-filter">
+          <option value="all">All Types (Owned &amp; Forks)</option>
+          <option value="owned">Owned Public Projects</option>
+          <option value="fork">Upstream Forks Only</option>
+          <option value="private">Private Repos Only</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label for="ci-filter">Latest CI Status</label>
+        <select id="ci-filter">
+          <option value="all">All CI Statuses</option>
+          <option value="success">CI Passed</option>
+          <option value="failure">CI Failed / Cancelled</option>
+          <option value="running">In Progress / Queued</option>
+          <option value="none">No CI Configured</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <section id="diag-panel" class="panel" aria-live="polite">
+    <div class="panel-header">
+      <span id="diag-title">Repository Doctor</span>
+      <button id="diag-close" type="button" class="btn">Close</button>
+    </div>
+    <div id="diag-body"></div>
+  </section>
+
+  <div class="subtabs" role="tablist" aria-label="Activity Sections">
+    <button type="button" class="subtab-btn active" data-subtab="all" role="tab" aria-selected="true">
+      All Repositories <span id="badge-all" class="tab-badge">0</span>
+    </button>
+    <button type="button" class="subtab-btn" data-subtab="sec1" role="tab" aria-selected="false">
+      Section 1 (0–4 Days) <span id="badge-sec1" class="tab-badge">0</span>
+    </button>
+    <button type="button" class="subtab-btn" data-subtab="sec2" role="tab" aria-selected="false">
+      Section 2 (4–8 Days) <span id="badge-sec2" class="tab-badge">0</span>
+    </button>
+    <button type="button" class="subtab-btn" data-subtab="sec3" role="tab" aria-selected="false">
+      Section 3 (Dormant) <span id="badge-sec3" class="tab-badge">0</span>
+    </button>
+    <button type="button" class="subtab-btn" data-subtab="forks" role="tab" aria-selected="false">
+      Upstream Forks &amp; Drift <span id="badge-forks" class="tab-badge">0</span>
+    </button>
+  </div>
+
+  <div id="result-bar" class="result-bar">Loading repositories...</div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Repository</th>
+          <th>Type</th>
+          <th>Last Pushed</th>
+          <th>Latest CI Status</th>
+          <th>Latest Release</th>
+          <th>Unbuilt</th>
+          <th>Unreleased</th>
+          <th>Upstream Drift</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="repo-table-body">
+        <tr><td colspan="9" class="muted" style="text-align:center; padding:28px;">Loading repository data...</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div id="detail-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal">
+      <div class="modal-header">
+        <div id="modal-title" class="modal-title">Repository Details</div>
+        <button id="modal-close" type="button" class="btn">Close</button>
+      </div>
+      <div id="modal-body" class="modal-body"></div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    let triagedData = null;
+    let currentSubtab = 'all';
+
+    function safeHttpUrl(rawUrl) {
+      if (!rawUrl) return null;
+      try {
+        const parsed = new URL(String(rawUrl));
+        if (parsed.protocol === 'https:' || parsed.protocol === 'http:') {
+          return parsed.href;
+        }
+      } catch (_) {
+        return null;
+      }
+      return null;
+    }
+
+    function createBadge(text, variantClass) {
+      const span = document.createElement('span');
+      span.className = 'badge' + (variantClass ? ' ' + variantClass : '');
+      span.textContent = text;
+      return span;
+    }
+
+    function createExternalLink(href, text, className) {
+      const safe = safeHttpUrl(href);
+      if (!safe) {
+        const span = document.createElement('span');
+        span.textContent = text;
+        return span;
+      }
+      const a = document.createElement('a');
+      a.href = safe;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.textContent = text;
+      if (className) a.className = className;
+      return a;
+    }
+
+    function showToast(msg, isError = false) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = 'toast show' + (isError ? ' error' : '');
+      clearTimeout(showToast._timer);
+      showToast._timer = setTimeout(() => {
+        t.className = 'toast';
+      }, 4000);
+    }
+
+    function updateMetrics(data) {
+      const m = data.metrics || {};
+      document.getElementById('kpi-total').textContent = String(m.total_repos ?? 0);
+      document.getElementById('kpi-forks').textContent = (m.forks_count ?? 0) + ' upstream forks (' + (m.cache_source || 'snapshot') + ')';
+      document.getElementById('kpi-sec1').textContent = String(m.sec1_count ?? 0);
+      document.getElementById('kpi-sec2').textContent = String(m.sec2_count ?? 0);
+      document.getElementById('kpi-sec3').textContent = String(m.sec3_count ?? 0);
+      document.getElementById('kpi-ci').textContent = (m.passing_ci ?? 0) + ' passed';
+      document.getElementById('kpi-ci-sub').textContent = (m.failing_ci ?? 0) + ' failing / ' + (m.no_ci ?? 0) + ' no CI';
+
+      document.getElementById('badge-all').textContent = String(m.total_repos ?? 0);
+      document.getElementById('badge-sec1').textContent = String(m.sec1_count ?? 0);
+      document.getElementById('badge-sec2').textContent = String(m.sec2_count ?? 0);
+      document.getElementById('badge-sec3').textContent = String(m.sec3_count ?? 0);
+      document.getElementById('badge-forks').textContent = String(m.forks_count ?? 0);
+    }
+
+    function buildTypeBadge(r) {
+      if (r.is_fork) return createBadge('Fork', 'badge-purple');
+      if (r.is_private) return createBadge('Private', 'badge-warning');
+      return createBadge('Owned', 'badge-info');
+    }
+
+    function buildCiBadge(r) {
+      const run = r.latest_run;
+      if (!run) return createBadge('No CI', '');
+      const conc = run.conclusion;
+      if (conc === 'success') return createBadge('Passed', 'badge-success');
+      if (conc === 'failure' || conc === 'cancelled' || conc === 'timed_out') {
+        return createBadge(conc === 'cancelled' ? 'Cancelled' : 'Failed', 'badge-danger');
+      }
+      return createBadge(String(run.status || 'Running'), 'badge-warning');
+    }
+
+    function applyFilters() {
+      if (!triagedData) return;
+      const q = document.getElementById('search-input').value.trim().toLowerCase();
+      const typeF = document.getElementById('type-filter').value;
+      const ciF = document.getElementById('ci-filter').value;
+
+      let pool = [];
+      if (currentSubtab === 'all') {
+        pool = [...(triagedData.section_1 || []), ...(triagedData.section_2 || []), ...(triagedData.section_3 || [])];
+      } else if (currentSubtab === 'sec1') {
+        pool = triagedData.section_1 || [];
+      } else if (currentSubtab === 'sec2') {
+        pool = triagedData.section_2 || [];
+      } else if (currentSubtab === 'sec3') {
+        pool = triagedData.section_3 || [];
+      } else if (currentSubtab === 'forks') {
+        pool = [...(triagedData.section_1 || []), ...(triagedData.section_2 || []), ...(triagedData.section_3 || [])].filter(r => r.is_fork);
+      }
+
+      const filtered = pool.filter(r => {
+        if (q) {
+          const hay = [r.name, r.full_name, r.description, r.parent && r.parent.full_name].join(' ').toLowerCase();
+          if (!hay.includes(q)) return false;
+        }
+        if (typeF === 'owned' && (r.is_fork || r.is_private)) return false;
+        if (typeF === 'fork' && !r.is_fork) return false;
+        if (typeF === 'private' && !r.is_private) return false;
+
+        const run = r.latest_run;
+        const conc = run ? run.conclusion : null;
+        if (ciF === 'success' && conc !== 'success') return false;
+        if (ciF === 'failure' && !['failure', 'cancelled', 'timed_out', 'action_required'].includes(conc)) return false;
+        if (ciF === 'running' && (!run || conc !== null)) return false;
+        if (ciF === 'none' && run) return false;
+        return true;
+      });
+
+      renderTable(filtered, pool.length);
+    }
+
+    function renderTable(repos, poolSize) {
+      document.getElementById('result-bar').textContent = 'Showing ' + repos.length + ' of ' + poolSize + ' repositories';
+      const tbody = document.getElementById('repo-table-body');
+      tbody.textContent = '';
+
+      if (repos.length === 0) {
+        const tr = document.createElement('tr');
+        const td = document.createElement('td');
+        td.colSpan = 9;
+        td.className = 'muted';
+        td.style.textAlign = 'center';
+        td.style.padding = '28px';
+        td.textContent = 'No repositories match your current filters.';
+        tr.appendChild(td);
+        tbody.appendChild(tr);
+        return;
+      }
+
+      repos.forEach(r => {
+        const tr = document.createElement('tr');
+
+        // Repo name & description
+        const tdRepo = document.createElement('td');
+        const repoUrl = r.full_name ? 'https://github.com/' + encodeURI(r.full_name) : null;
+        tdRepo.appendChild(createExternalLink(repoUrl, r.name || 'unknown', 'repo-link'));
+        const desc = document.createElement('div');
+        desc.className = 'repo-desc';
+        desc.textContent = r.description || 'No description provided.';
+        tdRepo.appendChild(desc);
+        tr.appendChild(tdRepo);
+
+        // Type
+        const tdType = document.createElement('td');
+        tdType.appendChild(buildTypeBadge(r));
+        tr.appendChild(tdType);
+
+        // Pushed date
+        const tdPush = document.createElement('td');
+        tdPush.className = 'muted';
+        const pushDate = r.pushed_at ? String(r.pushed_at).slice(0, 10) : '—';
+        tdPush.textContent = pushDate + ' (' + (r.days_pushed ?? '?') + 'd)';
+        if (r.stale_push_anomaly && r.days_since_commit !== undefined) {
+          const driftNote = document.createElement('div');
+          driftNote.className = 'drift-note';
+          driftNote.textContent = 'Code untouched ' + r.days_since_commit + 'd';
+          tdPush.appendChild(driftNote);
+        }
+        tr.appendChild(tdPush);
+
+        // CI Status
+        const tdCi = document.createElement('td');
+        tdCi.appendChild(buildCiBadge(r));
+        tr.appendChild(tdCi);
+
+        // Release / Tag
+        const tdRel = document.createElement('td');
+        const relTag = (r.latest_release && r.latest_release.tag_name) || (r.latest_tag && r.latest_tag.name);
+        if (relTag) {
+          const code = document.createElement('code');
+          code.style.color = 'var(--accent)';
+          code.textContent = relTag;
+          tdRel.appendChild(code);
+        } else {
+          tdRel.className = 'muted';
+          tdRel.textContent = '—';
+        }
+        tr.appendChild(tdRel);
+
+        // Unbuilt
+        const tdUnbuilt = document.createElement('td');
+        const unbuilt = Number(r.unbuilt_commits_count || 0);
+        tdUnbuilt.appendChild(createBadge(String(unbuilt), unbuilt > 0 ? 'badge-warning' : ''));
+        tr.appendChild(tdUnbuilt);
+
+        // Unreleased
+        const tdUnrel = document.createElement('td');
+        const unrel = Number(r.unreleased_commits_count || 0);
+        tdUnrel.appendChild(createBadge(String(unrel), unrel > 0 ? 'badge-info' : ''));
+        tr.appendChild(tdUnrel);
+
+        // Upstream drift
+        const tdDrift = document.createElement('td');
+        if (r.is_fork && r.upstream_comparison) {
+          const u = r.upstream_comparison;
+          const behind = Number(u.behind_by || 0);
+          const ahead = Number(u.ahead_by || 0);
+          if (behind > 0) {
+            tdDrift.appendChild(createBadge('-' + behind + ' behind (+' + ahead + ')', 'badge-danger'));
+          } else {
+            tdDrift.appendChild(createBadge('Synced (+' + ahead + ')', 'badge-success'));
+          }
+        } else {
+          tdDrift.className = 'muted';
+          tdDrift.textContent = '—';
+        }
+        tr.appendChild(tdDrift);
+
+        // Actions
+        const tdAct = document.createElement('td');
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'btn';
+        btn.style.padding = '4px 10px';
+        btn.textContent = 'Inspect';
+        btn.addEventListener('click', () => inspectRepo(r));
+        tdAct.appendChild(btn);
+        tr.appendChild(tdAct);
+
+        tbody.appendChild(tr);
+      });
+    }
+
+    function appendMetaLine(container, label, value, linkHref, linkText) {
+      const p = document.createElement('p');
+      p.className = 'meta-line';
+      const strong = document.createElement('strong');
+      strong.textContent = label + ': ';
+      p.appendChild(strong);
+      if (value) {
+        p.appendChild(document.createTextNode(value));
+      }
+      if (linkHref) {
+        if (value) p.appendChild(document.createTextNode(' '));
+        p.appendChild(createExternalLink(linkHref, linkText || linkHref));
+      }
+      container.appendChild(p);
+    }
+
+    function inspectRepo(r) {
+      document.getElementById('modal-title').textContent = (r.name || 'Repository') + ' — Inspection & Commit Gap';
+      const body = document.getElementById('modal-body');
+      body.textContent = '';
+
+      const metaBox = document.createElement('div');
+      metaBox.style.marginBottom = '16px';
+      const repoUrl = r.full_name ? 'https://github.com/' + encodeURI(r.full_name) : null;
+      appendMetaLine(metaBox, 'Repository', '', repoUrl, r.full_name || r.name);
+      appendMetaLine(metaBox, 'Default Branch', (r.default_branch || 'main') + ' | Pushed: ' + (r.pushed_at || 'N/A'));
+      if (r.stale_push_anomaly && r.days_since_commit !== undefined) {
+        appendMetaLine(metaBox, 'Push-Commit Drift', 'Latest commit is ' + r.days_since_commit + 'd old (metadata push bump detected)');
+      }
+      if (r.is_fork && r.parent) {
+        const comp = r.upstream_comparison;
+        const compStr = comp ? (' (' + (comp.ahead_by ?? 0) + ' ahead, ' + (comp.behind_by ?? 0) + ' behind)') : '';
+        appendMetaLine(metaBox, 'Upstream Parent', (r.parent.full_name || 'Unknown') + compStr);
+      }
+      if (r.latest_run) {
+        const conc = r.latest_run.conclusion || r.latest_run.status || 'unknown';
+        appendMetaLine(
+          metaBox,
+          'Latest CI Run',
+          (r.latest_run.name || 'Workflow') + ' (' + conc + ')',
+          r.latest_run.html_url,
+          'View Run'
+        );
+      }
+      body.appendChild(metaBox);
+
+      const commits = Array.isArray(r.recent_commits) ? r.recent_commits : [];
+      const h3 = document.createElement('h3');
+      h3.style.fontSize = '14px';
+      h3.style.margin = '12px 0 8px';
+      h3.textContent = 'Recent Commits (' + commits.length + ')';
+      body.appendChild(h3);
+
+      if (commits.length === 0) {
+        const p = document.createElement('p');
+        p.className = 'muted';
+        p.textContent = 'No recent commit records available.';
+        body.appendChild(p);
+      } else {
+        commits.forEach(c => {
+          const item = document.createElement('div');
+          item.className = 'commit-item';
+          const hdr = document.createElement('div');
+          hdr.className = 'commit-header';
+          const sha = document.createElement('span');
+          sha.className = 'commit-sha';
+          sha.textContent = c.sha || '';
+          const dt = document.createElement('span');
+          dt.className = 'commit-date';
+          dt.textContent = c.date ? String(c.date).slice(0, 16).replace('T', ' ') + ' UTC' : '';
+          hdr.appendChild(sha);
+          hdr.appendChild(dt);
+
+          const msg = document.createElement('div');
+          msg.className = 'commit-msg';
+          msg.textContent = c.message || '';
+
+          item.appendChild(hdr);
+          item.appendChild(msg);
+          body.appendChild(item);
+        });
+      }
+
+      document.getElementById('detail-modal').classList.add('open');
+    }
+
+    function closeModal() {
+      document.getElementById('detail-modal').classList.remove('open');
+    }
+
+    function showDiagnosticPanel(title, blocks) {
+      const panel = document.getElementById('diag-panel');
+      document.getElementById('diag-title').textContent = title;
+      const body = document.getElementById('diag-body');
+      body.textContent = '';
+      const grid = document.createElement('div');
+      grid.className = 'panel-grid';
+      blocks.forEach(([heading, lines]) => {
+        const box = document.createElement('div');
+        box.className = 'mini-box';
+        const strong = document.createElement('strong');
+        strong.textContent = heading;
+        box.appendChild(strong);
+        lines.forEach(line => {
+          const div = document.createElement('div');
+          div.className = 'mini-line';
+          div.textContent = line;
+          box.appendChild(div);
+        });
+        grid.appendChild(box);
+      });
+      body.appendChild(grid);
+      panel.classList.add('open');
+    }
+
+    async function loadTriage() {
+      try {
+        const res = await fetch('/api/github/triage', { cache: 'no-store' });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        triagedData = await res.json();
+        updateMetrics(triagedData);
+        applyFilters();
+      } catch (err) {
+        document.getElementById('result-bar').textContent =
+          'Failed to load /api/github/triage (' + err.message + '). Ensure python src/server.py is running on port 8770.';
+      }
+    }
+
+    document.querySelectorAll('.subtab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        currentSubtab = btn.dataset.subtab;
+        document.querySelectorAll('.subtab-btn').forEach(b => {
+          const active = b === btn;
+          b.classList.toggle('active', active);
+          b.setAttribute('aria-selected', active ? 'true' : 'false');
+        });
+        applyFilters();
+      });
+    });
+
+    document.getElementById('search-input').addEventListener('input', applyFilters);
+    document.getElementById('type-filter').addEventListener('change', applyFilters);
+    document.getElementById('ci-filter').addEventListener('change', applyFilters);
+    document.getElementById('diag-close').addEventListener('click', () => {
+      document.getElementById('diag-panel').classList.remove('open');
+    });
+    document.getElementById('modal-close').addEventListener('click', closeModal);
+    document.getElementById('detail-modal').addEventListener('click', (e) => {
+      if (e.target.id === 'detail-modal') closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    document.getElementById('btn-doctor').addEventListener('click', async () => {
+      try {
+        const res = await fetch('/api/github/doctor', { cache: 'no-store' });
+        const doc = await res.json();
+        const failing = (doc.failing_repos || []).map(f => f.name + ' (' + f.conclusion + ')');
+        const behind = (doc.behind_forks || []).map(b => b.name + ' (-' + b.behind_by + ' / +' + b.ahead_by + ')');
+        const anomalies = doc.stale_push_anomalies || [];
+        showDiagnosticPanel('GitHub Repository Doctor', [
+          ['Inventory & Cache', [
+            'Total Repos: ' + (doc.total_repos ?? 0),
+            'Live Cache Present: ' + (doc.live_cache_present ? 'YES (local)' : 'NO (using repos_public.json)'),
+            'Unreleased Commits Total: ' + ((doc.metrics || {}).total_unreleased_commits ?? 0)
+          ]],
+          ['Failing / Cancelled CI (' + failing.length + ')', failing.length ? failing : ['All CI-enabled repos passing.']],
+          ['Behind-Upstream Forks (' + behind.length + ')', behind.length ? behind : ['All forks synced with upstream.']],
+          ['Push-Commit Drift Anomalies (' + anomalies.length + ')', anomalies.length ? anomalies : ['None detected.']]
+        ]);
+      } catch (err) {
+        showToast('Failed to run GitHub Doctor: ' + err.message, true);
+      }
+    });
+
+    document.getElementById('btn-export').addEventListener('click', async () => {
+      try {
+        const res = await fetch('/api/github/export', { method: 'POST' });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || ('HTTP ' + res.status));
+        showToast('Exported report to: ' + data.destination);
+      } catch (err) {
+        showToast('Export failed: ' + err.message, true);
+      }
+    });
+
+    document.getElementById('btn-refresh').addEventListener('click', async () => {
+      const btn = document.getElementById('btn-refresh');
+      btn.disabled = true;
+      showToast('Refreshing repository data via gh api...');
+      try {
+        const res = await fetch('/api/github/refresh', { method: 'POST' });
+        const data = await res.json();
+        if (res.status === 409) {
+          showToast('Scan already in progress. Please wait.', true);
+          return;
+        }
+        if (!res.ok) throw new Error(data.error || ('HTTP ' + res.status));
+        triagedData = data;
+        updateMetrics(triagedData);
+        applyFilters();
+        showToast('GitHub repository data refreshed!');
+      } catch (err) {
+        showToast('Refresh failed: ' + err.message, true);
+      } finally {
+        btn.disabled = false;
+      }
+    });
+
+    window.addEventListener('DOMContentLoaded', loadTriage);
+  </script>
+</body>
+</html>

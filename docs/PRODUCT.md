@@ -129,7 +129,22 @@
   * `src/manga/sync_vault.py` -> `sync_to_obsidian`
   * `web/manga/index.html` -> `renderTable`, `loadCatalog`
 
+### [FEATURE: GitHub-Repositories-And-CI-Hub] | Aliases: github manager, repo triage, ci health, upstream fork drift
+> **1-Line Summary:** 7th registered domain (`github`) tracking repository activity timelines (0–4d, 4–8d, dormant), GitHub Actions CI health, unbuilt/unreleased commit gaps, upstream fork drift, and Markdown audit exports.
+* **User Intention (Non-Negotiable):** Consolidate `GitHub Manager` into `Database Manager` on port `8770` (resolving the `:8765` AnkiConnect collision), redact private repo metadata from committed `data/github/repos_public.json` into gitignored `live_cache.json`, eliminate `innerHTML` XSS, and guard `POST` mutations with strict loopback `Origin`/`Host` CSRF validation.
+* **Visual / UI Behavior:** Tab 5 (`GitHub Repos`, shortcut `5`) in `web/index.html` rendering `web/github/index.html` with KPI cards, search/type/CI filters, activity sub-tabs, Repo Doctor diagnostics, commit inspection modal, Markdown export, and live `gh api` refresh, backed by `/api/github`, `/api/github/triage`, `/api/github/doctor`, `/api/github/classified`, and `POST /api/github/{refresh,export}`.
+* **Code Anchors (Grep Targets):**
+  * `src/github/scanner.py` -> `scan_all_repositories`, `triage_repositories`, `redact_public_repos`
+  * `src/github/exporter.py` -> `export_markdown_report`
+  * `src/github/cli.py` -> `main`, `inspect_github_doctor`
+  * `web/github/index.html` -> `renderTable`, `inspectRepo`, `loadTriage`
+
 ## 3. Planned Features & App-Merge Wishlist
+
+### [WISHLIST: One-Click-Fork-Sync-Button] | Aliases: remote sync, sync fork from UI, gh repo sync
+> **1-Line Summary:** Add an opt-in UI action to fast-forward behind-upstream forks via `gh repo sync` directly from the GitHub Repos tab.
+* **User Intention:** Allow zero-conflict upstream forks flagged in the drift column to be synchronized without leaving the dashboard, gated behind loopback CSRF checks and fast-forward validation.
+* **Target Integration Point:** `web/github/index.html` table actions + CSRF-protected `POST /api/github/sync` in `src/server.py`.
 
 ### [WISHLIST: Automated-Benchmark-Sync] | Aliases: github action benchmark sync, openrouter cron
 > **1-Line Summary:** Scheduled GitHub Actions workflow to periodically query OpenRouter and models.dev APIs for newly released models.

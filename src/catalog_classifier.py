@@ -180,23 +180,80 @@ def classify_manga_catalog() -> dict[str, Any]:
     }
 
 
+def classify_github_catalog() -> dict[str, Any]:
+    """Classify GitHub repositories by activity bucket, CI status, and fork drift."""
+    from github.scanner import get_cached_repos, triage_repositories
+
+    triaged = triage_repositories(get_cached_repos())
+    bucket_map: list[tuple[str, str]] = [
+        ("section_1", "active_0_4d"),
+        ("section_2", "mid_4_8d"),
+        ("section_3", "dormant"),
+    ]
+    classified: list[dict[str, Any]] = []
+    for sec_key, activity_bucket in bucket_map:
+        for repo in triaged[sec_key]:
+            run = repo.get("latest_run") or {}
+            conc = run.get("conclusion")
+            comp = repo.get("upstream_comparison") or {}
+            tags: list[str] = [activity_bucket]
+            tags.append("fork" if repo.get("is_fork") else ("private" if repo.get("is_private") else "owned"))
+            if not run:
+                tags.append("no_ci")
+            elif conc == "success":
+                tags.append("ci_passing")
+            elif conc in ("failure", "cancelled", "timed_out", "action_required"):
+                tags.append("ci_failing")
+            else:
+                tags.append("ci_running")
+            if int(comp.get("behind_by") or 0) > 0:
+                tags.append("behind_upstream")
+            if int(repo.get("unreleased_commits_count") or 0) > 0:
+                tags.append("unreleased_commits")
+            if repo.get("stale_push_anomaly"):
+                tags.append("push_commit_drift")
+
+            classified.append(
+                {
+                    "name": repo.get("name"),
+                    "full_name": repo.get("full_name"),
+                    "activity_bucket": activity_bucket,
+                    "ci_conclusion": conc or ("running" if run else "none"),
+                    "is_fork": bool(repo.get("is_fork")),
+                    "tags": tags,
+                }
+            )
+
+    bucket_counts = dict(Counter(c["activity_bucket"] for c in classified))
+    tag_counts = dict(Counter(t for c in classified for t in c["tags"]))
+    return {
+        "total": len(classified),
+        "bucket_counts": bucket_counts,
+        "tag_counts": tag_counts,
+        "repositories": classified,
+    }
+
+
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Classify Games, LLM & Manga catalogs into multi-axis taxonomies")
+    parser = argparse.ArgumentParser(description="Classify Games, LLM, Manga & GitHub catalogs into multi-axis taxonomies")
     parser.add_argument("--games", action="store_true", help="Classify PC games catalog")
     parser.add_argument("--ai", action="store_true", help="Classify AI models catalog")
     parser.add_argument("--manga", action="store_true", help="Classify Manga/Manhwa/Manhua catalog")
+    parser.add_argument("--github", action="store_true", help="Classify GitHub repositories catalog")
     parser.add_argument("--chinese-oss", action="store_true", help="Filter AI output to Chinese & Open-Source models")
     parser.add_argument("--json", action="store_true", help="Emit JSON output")
     args = parser.parse_args()
 
     out: dict[str, Any] = {}
-    all_default = not (args.games or args.ai or args.manga)
+    all_default = not (args.games or args.ai or args.manga or args.github)
     if args.games or all_default:
         out["games"] = classify_games_catalog()
     if args.ai or all_default:
         out["ai"] = classify_ai_catalog(only_chinese_oss=args.chinese_oss)
     if args.manga or all_default:
         out["manga"] = classify_manga_catalog()
+    if args.github or all_default:
+        out["github"] = classify_github_catalog()
 
     if args.json:
         print(json.dumps(out, indent=2))
@@ -218,6 +275,11 @@ def main() -> None:
         print(f"\n=== MANGA CATALOG CLASSIFICATION ({mg['total']} titles) ===")
         for fam, cnt in sorted(mg["origin_counts"].items()):
             print(f"  • {fam:<22} {cnt}")
+    if "github" in out:
+        gh = out["github"]
+        print(f"\n=== GITHUB REPOS CLASSIFICATION ({gh['total']} repos) ===")
+        for bucket, cnt in sorted(gh["bucket_counts"].items()):
+            print(f"  • {bucket:<22} {cnt}")
     print("")
 
 

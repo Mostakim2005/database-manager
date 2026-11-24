@@ -21,6 +21,7 @@ This repository incorporates or references the following third-party libraries, 
 | **TypeScript** | Static type checking for archived hardware plugin sources | [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) | [github.com/microsoft/TypeScript](https://github.com/microsoft/TypeScript) |
 | **ESLint** | Code linting and style enforcement | [MIT License](https://opensource.org/licenses/MIT) | [eslint.org](https://eslint.org/) |
 | **GitHub Actions** | Automated CI verification runner | Platform Provided | [github.com/features/actions](https://github.com/features/actions) |
+| **GitHub CLI (`gh`)** | Non-interactive GitHub API queries and repository discovery for the `github` domain | [MIT License](https://github.com/cli/cli/blob/trunk/LICENSE) | [github.com/cli/cli](https://github.com/cli/cli) |
 
 ## Optional Scraper & Database Exploration Stack (`requirements-scrapers.txt` — not required for core)
 

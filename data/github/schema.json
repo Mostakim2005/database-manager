@@ -1,0 +1,21 @@
+{
+  "domain": "github",
+  "schema_version": "1.0.0",
+  "records_key": null,
+  "unique_key": "name",
+  "required_fields": ["name", "full_name", "default_branch", "pushed_at"],
+  "field_types": {
+    "name": "str",
+    "full_name": "str",
+    "is_fork": "bool",
+    "is_private": "bool",
+    "default_branch": "str",
+    "pushed_at": "str",
+    "unbuilt_commits_count": "int",
+    "unreleased_commits_count": "int"
+  },
+  "ranges": {
+    "unbuilt_commits_count": [0, 100000],
+    "unreleased_commits_count": [0, 100000]
+  }
+}

@@ -20,6 +20,9 @@ from urllib.parse import parse_qs, urlparse
 
 # Directory anchors
 ROOT_DIR = Path(__file__).resolve().parent.parent
+SRC_DIR = Path(__file__).resolve().parent
+if str(SRC_DIR) not in sys.path:
+    sys.path.insert(0, str(SRC_DIR))
 DATA_DIR = ROOT_DIR / "data"
 WEB_DIR = ROOT_DIR / "web"
 
@@ -102,6 +105,16 @@ def load_manga_data() -> list[dict[str, Any]]:
     return []
 
 
+def load_github_data() -> list[dict[str, Any]]:
+    """Load GitHub repository data (local live_cache.json if present else repos_public.json)."""
+    try:
+        from github.scanner import get_cached_repos
+        return get_cached_repos()
+    except Exception as e:
+        sys.stderr.write(f"[ERROR] Failed to load GitHub data: {e}\n")
+    return []
+
+
 def _extract_ai_model_fields(m: dict[str, Any]) -> dict[str, Any]:
     """Normalize AI model fields across v1 and v2 catalog schemas."""
     name = m.get("name") or m.get("model") or "Unknown"
@@ -137,10 +150,18 @@ def _extract_ai_model_fields(m: dict[str, Any]) -> dict[str, Any]:
 
 def _is_allowed_loopback_origin(origin: str | None) -> bool:
     """Allow CORS only for local loopback origins."""
-    if not origin:
+    if not origin or origin == "null":
         return False
     parsed = urlparse(origin)
     return parsed.scheme in ("http", "https") and parsed.hostname in ("127.0.0.1", "localhost")
+
+
+def _is_allowed_loopback_host(host_header: str | None) -> bool:
+    """Ensure Host header resolves strictly to loopback."""
+    if not host_header:
+        return False
+    parsed = urlparse(f"http://{host_header}")
+    return parsed.hostname in ("127.0.0.1", "localhost")
 
 
 class DatabaseHandler(http.server.SimpleHTTPRequestHandler):
@@ -184,6 +205,7 @@ class DatabaseHandler(http.server.SimpleHTTPRequestHandler):
                         "cpus": len(load_cpus_data()),
                         "pc_components": comp_count,
                         "manga": len(load_manga_data()),
+                        "github": len(load_github_data()),
                     },
                 }
             )
@@ -305,8 +327,110 @@ class DatabaseHandler(http.server.SimpleHTTPRequestHandler):
                 self._send_json(audit_catalog_links_offline())
             return
 
+        if url_path == "/api/github":
+            qs = parse_qs(urlparse(self.path).query)
+            q = qs.get("q", [""])[0].strip().lower()
+            type_f = qs.get("type", [""])[0].strip().lower()
+            ci_f = qs.get("ci", [""])[0].strip().lower()
+            items = load_github_data()
+            if q:
+                items = [
+                    r for r in items
+                    if q in str(r.get("name", "")).lower()
+                    or q in str(r.get("full_name", "")).lower()
+                    or q in str(r.get("description", "")).lower()
+                    or q in str((r.get("parent") or {}).get("full_name", "")).lower()
+                ]
+            if type_f == "fork":
+                items = [r for r in items if r.get("is_fork")]
+            elif type_f == "owned":
+                items = [r for r in items if not r.get("is_fork") and not r.get("is_private")]
+            elif type_f == "private":
+                items = [r for r in items if r.get("is_private")]
+            if ci_f == "success":
+                items = [r for r in items if (r.get("latest_run") or {}).get("conclusion") == "success"]
+            elif ci_f == "failure":
+                items = [
+                    r for r in items
+                    if (r.get("latest_run") or {}).get("conclusion") in ("failure", "cancelled", "timed_out", "action_required")
+                ]
+            elif ci_f == "none":
+                items = [r for r in items if not r.get("latest_run")]
+            self._send_json(items)
+            return
+
+        if url_path == "/api/github/triage":
+            from github.scanner import triage_repositories
+            self._send_json(triage_repositories(load_github_data()))
+            return
+
+        if url_path == "/api/github/doctor":
+            from github.cli import inspect_github_doctor
+            self._send_json(inspect_github_doctor(load_github_data()))
+            return
+
+        if url_path == "/api/github/classified":
+            from catalog_classifier import classify_github_catalog
+            self._send_json(classify_github_catalog())
+            return
+
         # Serve static web content from WEB_DIR
         super().do_GET()
+
+    def _is_authorized_local_post(self) -> tuple[bool, str]:
+        """Validate Host and Origin/Referer headers to prevent cross-site POST CSRF."""
+        host_hdr = self.headers.get("Host")
+        if not _is_allowed_loopback_host(host_hdr):
+            return False, "Forbidden: non-loopback Host header"
+        origin = self.headers.get("Origin")
+        if origin is not None:
+            if not _is_allowed_loopback_origin(origin):
+                return False, "Forbidden: non-loopback Origin header"
+            parsed_orig = urlparse(origin)
+            srv_port = getattr(self.server, "server_port", None)
+            if parsed_orig.port is not None and srv_port and parsed_orig.port != srv_port:
+                return False, "Forbidden: Origin port mismatch"
+        referer = self.headers.get("Referer")
+        if origin is None and referer is not None and not _is_allowed_loopback_origin(referer):
+            return False, "Forbidden: non-loopback Referer header"
+        return True, ""
+
+    def do_POST(self) -> None:
+        """Handle CSRF-guarded local POST actions for GitHub refresh and report export."""
+        ok, reason = self._is_authorized_local_post()
+        if not ok:
+            self._send_json({"status": "error", "error": reason}, status=403)
+            return
+
+        # Drain small request body safely
+        try:
+            content_len = int(self.headers.get("Content-Length") or "0")
+        except ValueError:
+            content_len = 0
+        if content_len > 65536:
+            self._send_json({"status": "error", "error": "Payload too large"}, status=413)
+            return
+        if content_len > 0:
+            self.rfile.read(content_len)
+
+        url_path = self.path.split("?", 1)[0].rstrip("/")
+        if url_path == "/api/github/refresh":
+            from github.scanner import scan_all_repositories, triage_repositories
+            try:
+                repos = scan_all_repositories(force_refresh=True, blocking=False)
+            except RuntimeError as exc:
+                self._send_json({"status": "busy", "error": str(exc)}, status=409)
+                return
+            self._send_json(triage_repositories(repos))
+            return
+
+        if url_path == "/api/github/export":
+            from github.exporter import export_markdown_report
+            dest = export_markdown_report(load_github_data())
+            self._send_json({"status": "ok", "destination": dest})
+            return
+
+        self._send_json({"status": "error", "error": "Not Found"}, status=404)
 
     def _send_json(self, data: Any, status: int = 200) -> None:
         """Helper to send JSON response with loopback-only CORS."""
@@ -369,12 +493,22 @@ def search_databases(query: str) -> dict[str, Any]:
         or q in str(item.get("origin", "")).lower()
     ]
 
+    github_items = load_github_data()
+    matched_github = [
+        repo for repo in github_items
+        if q in str(repo.get("name", "")).lower()
+        or q in str(repo.get("full_name", "")).lower()
+        or q in str(repo.get("description", "")).lower()
+        or q in str((repo.get("parent") or {}).get("full_name", "")).lower()
+    ]
+
     return {
         "query": query,
         "ai_models": matched_models,
         "games": matched_games,
         "gpus": matched_gpus,
         "manga": matched_manga,
+        "github": matched_github,
     }
 
 
@@ -388,6 +522,7 @@ def run_cli_summary(query: str | None = None, as_json: bool = False) -> None:
     hw_data = load_hardware_data()
     gpus = hw_data.get("gpus", [])
     manga_items = load_manga_data()
+    github_items = load_github_data()
 
     if as_json:
         if query:
@@ -399,6 +534,7 @@ def run_cli_summary(query: str | None = None, as_json: bool = False) -> None:
                     "games": len(games),
                     "gpus": len(gpus),
                     "manga": len(manga_items),
+                    "github": len(github_items),
                 },
                 "top_ai_models": [_extract_ai_model_fields(m) for m in models[:6]],
                 "sample_games": [
@@ -436,6 +572,7 @@ def run_cli_summary(query: str | None = None, as_json: bool = False) -> None:
         print(f"  • PC Games Database:       {len(games)} strategy & RTS titles")
         print(f"  • Hardware GPU Tiers:      {len(gpus)} upgrade profiles")
         print(f"  • Manga & Adaptations:     {len(manga_items)} catalog titles")
+        print(f"  • GitHub Repositories:     {len(github_items)} tracked repos")
         print("  • Baseline PC:             Ryzen 5 5600GT (Vega 7, 16MB L3, 550W PSU)")
 
         print("\n🤖 TOP AI MODELS (BY INTELLIGENCE INDEX):")
@@ -506,8 +643,15 @@ def run_cli_summary(query: str | None = None, as_json: bool = False) -> None:
         for m in matched_manga:
             print(f"  • {m.get('name')} ({m.get('origin')}) — {m.get('link')}")
 
-    if not (matched_models or matched_games or matched_gpus or matched_manga):
-        print("  (No matching records found across AI models, PC games, hardware GPUs, or manga.)")
+    matched_github = results.get("github", [])
+    if matched_github:
+        print(f"\n[GitHub Repositories — {len(matched_github)} matches]")
+        for r in matched_github:
+            conc = (r.get("latest_run") or {}).get("conclusion") or "none"
+            print(f"  • {r.get('full_name')} (CI: {conc}) — {r.get('description') or 'No description'}")
+
+    if not (matched_models or matched_games or matched_gpus or matched_manga or matched_github):
+        print("  (No matching records found across AI models, PC games, hardware GPUs, manga, or GitHub repos.)")
 
     print("\n" + "=" * 76 + "\n")
 

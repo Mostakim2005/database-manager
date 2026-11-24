@@ -82,6 +82,18 @@
         "tier1_curl_cffi",
         "tier4_sitemap"
       ]
+    },
+    "github": {
+      "title": "GitHub Repositories & CI Health",
+      "source_json": "data/github/repos_public.json",
+      "records_key": null,
+      "schema_file": "data/github/schema.json",
+      "sqlite_file": "data/github/github.sqlite",
+      "primary_table": "github_repos",
+      "max_age_days": 1,
+      "scraper_tiers": [
+        "tier0_gh_cli"
+      ]
     }
   },
   "cross_domain_views": [
@@ -109,7 +121,8 @@
         "hardware",
         "cpus",
         "pc_components",
-        "manga"
+        "manga",
+        "github"
       ],
       "description": "Unifies freshness timestamps, checksums, and record counts across all domain databases."
     }

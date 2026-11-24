@@ -117,6 +117,33 @@ def create_schema(conn: sqlite3.Connection) -> None:
     cursor.execute("CREATE INDEX IF NOT EXISTS idx_manga_origin ON manga_catalog(origin);")
     cursor.execute("CREATE INDEX IF NOT EXISTS idx_manga_name ON manga_catalog(name);")
 
+    # 5. GitHub Repositories Table
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS github_repos (
+        id TEXT PRIMARY KEY,
+        name TEXT NOT NULL,
+        full_name TEXT NOT NULL,
+        is_fork INTEGER,
+        is_private INTEGER,
+        default_branch TEXT,
+        pushed_at TEXT,
+        updated_at TEXT,
+        description TEXT,
+        parent_full_name TEXT,
+        ahead_by INTEGER,
+        behind_by INTEGER,
+        latest_release_tag TEXT,
+        ci_status TEXT,
+        ci_conclusion TEXT,
+        unbuilt_commits_count INTEGER,
+        unreleased_commits_count INTEGER,
+        raw_json TEXT
+    );
+    """)
+    cursor.execute("CREATE INDEX IF NOT EXISTS idx_github_pushed ON github_repos(pushed_at);")
+    cursor.execute("CREATE INDEX IF NOT EXISTS idx_github_ci ON github_repos(ci_conclusion);")
+    cursor.execute("CREATE INDEX IF NOT EXISTS idx_github_fork ON github_repos(is_fork);")
+
     conn.commit()
 
 
@@ -516,6 +543,66 @@ def export_manga(conn: sqlite3.Connection) -> int:
     return count
 
 
+def export_github_repos(conn: sqlite3.Connection, source_path: Path | None = None) -> int:
+    """Ingest sanitized GitHub repository catalog from JSON into SQLite."""
+    gh_json_path = source_path or (DATA_DIR / "github" / "repos_public.json")
+    if not gh_json_path.exists():
+        return 0
+
+    with open(gh_json_path, "r", encoding="utf-8") as f:
+        repos = json.load(f)
+
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM github_repos;")
+
+    count = 0
+    for idx, r in enumerate(repos):
+        name = str(r.get("name") or f"repo-{idx}").strip()
+        full_name = str(r.get("full_name") or name).strip()
+        repo_id = re.sub(r"[^a-z0-9._-]+", "-", name.lower()).strip("-") or f"repo-{idx}"
+        parent = r.get("parent") if isinstance(r.get("parent"), dict) else {}
+        comp = r.get("upstream_comparison") if isinstance(r.get("upstream_comparison"), dict) else {}
+        rel = r.get("latest_release") if isinstance(r.get("latest_release"), dict) else {}
+        tag = r.get("latest_tag") if isinstance(r.get("latest_tag"), dict) else {}
+        run = r.get("latest_run") if isinstance(r.get("latest_run"), dict) else {}
+
+        latest_rel_tag = str(rel.get("tag_name") or tag.get("name") or "")
+        cursor.execute(
+            """
+            INSERT OR REPLACE INTO github_repos (
+                id, name, full_name, is_fork, is_private, default_branch,
+                pushed_at, updated_at, description, parent_full_name,
+                ahead_by, behind_by, latest_release_tag, ci_status, ci_conclusion,
+                unbuilt_commits_count, unreleased_commits_count, raw_json
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                repo_id,
+                name,
+                full_name,
+                1 if r.get("is_fork") else 0,
+                1 if r.get("is_private") else 0,
+                str(r.get("default_branch") or "main"),
+                str(r.get("pushed_at") or ""),
+                str(r.get("updated_at") or ""),
+                str(r.get("description") or ""),
+                str(parent.get("full_name") or ""),
+                int(comp.get("ahead_by") or 0),
+                int(comp.get("behind_by") or 0),
+                latest_rel_tag,
+                str(run.get("status") or ""),
+                str(run.get("conclusion") or ""),
+                int(r.get("unbuilt_commits_count") or 0),
+                int(r.get("unreleased_commits_count") or 0),
+                json.dumps(r, ensure_ascii=False),
+            ),
+        )
+        count += 1
+
+    conn.commit()
+    return count
+
+
 def verify_database(conn: sqlite3.Connection) -> None:
     """Run test queries across all tables and print results."""
     cursor = conn.cursor()
@@ -543,6 +630,11 @@ def verify_database(conn: sqlite3.Connection) -> None:
     manga_count, direct_cnt = cursor.fetchone()
     print(f"  ✓ manga_catalog: {manga_count} records (Direct links: {direct_cnt or 0})")
 
+    # Count GitHub Repos
+    cursor.execute("SELECT COUNT(*), SUM(is_fork), SUM(CASE WHEN ci_conclusion='success' THEN 1 ELSE 0 END) FROM github_repos;")
+    gh_count, gh_forks, gh_pass = cursor.fetchone()
+    print(f"  ✓ github_repos:  {gh_count} records (Forks: {gh_forks or 0}, CI Passing: {gh_pass or 0})")
+
     print("=" * 60 + "\n")
 
 
@@ -564,6 +656,7 @@ def compile_database(target_path: Path = SQLITE_PATH) -> None:
         cpu_cnt = export_cpus(conn)
         comp_cnt = export_pc_components(conn)
         manga_cnt = export_manga(conn)
+        gh_cnt = export_github_repos(conn)
         verify_database(conn)
     except Exception:
         conn.close()
@@ -580,6 +673,7 @@ def compile_database(target_path: Path = SQLITE_PATH) -> None:
         print(f"  • Desktop CPUs ingested:{cpu_cnt}")
         print(f"  • PC Components ingested:{comp_cnt}")
         print(f"  • Manga titles ingested:{manga_cnt}")
+        print(f"  • GitHub repos ingested:{gh_cnt}")
 
 
 
@@ -715,6 +809,7 @@ def compile_separated_domains(data_root: Path = DATA_DIR) -> dict[str, int]:
         ("cpus", data_root / "cpus" / "cpus.sqlite", data_root / "cpus" / "cpus.json", "1.0.0", export_cpus),
         ("pc_components", data_root / "pc_components" / "pc_components.sqlite", data_root / "pc_components" / "components.json", "1.0.0", export_pc_components),
         ("manga", data_root / "manga" / "manga.sqlite", data_root / "manga" / "manga_catalog.json", "1.0.0", export_manga),
+        ("github", data_root / "github" / "github.sqlite", data_root / "github" / "repos_public.json", "1.0.0", export_github_repos),
     ]
     for domain, db_path, src_path, schema_ver, exporter in domain_specs:
         db_path.parent.mkdir(parents=True, exist_ok=True)

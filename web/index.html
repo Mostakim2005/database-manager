@@ -220,6 +220,10 @@
         <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
         Manga &amp; Adaptations
       </button>
+      <button id="tab-github" class="tab-btn" type="button" role="tab" aria-selected="false" aria-controls="frame-github" tabindex="-1" data-tab="github" title="GitHub Repositories &amp; CI Health (Shortcut: 5)">
+        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" y1="9" x2="6" y2="21"/></svg>
+        GitHub Repos
+      </button>
     </div>
 
     <div class="quick-links">
@@ -227,6 +231,7 @@
       <a href="games/index.html" target="_blank" rel="noopener noreferrer" class="link-btn">GameRank Popout ↗</a>
       <a href="hardware/index.html" target="_blank" rel="noopener noreferrer" class="link-btn">Hardware Popout ↗</a>
       <a href="manga/index.html" target="_blank" rel="noopener noreferrer" class="link-btn">Manga Popout ↗</a>
+      <a href="github/index.html" target="_blank" rel="noopener noreferrer" class="link-btn">GitHub Popout ↗</a>
       <a href="/api/status" target="_blank" rel="noopener noreferrer" class="link-btn">JSON API ↗</a>
     </div>
   </header>
@@ -240,6 +245,7 @@
     <div class="stats-item">Benchmarked Games:<span id="stat-games">43 titles</span></div>
     <div class="stats-item">GPU Profiles:<span id="stat-gpus">8 tiers</span></div>
     <div class="stats-item">Manga Catalog:<span id="stat-manga">104 titles</span></div>
+    <div class="stats-item">GitHub Repos:<span id="stat-github">-- repos</span></div>
     <div class="stats-item">Baseline PC:<span>Ryzen 5 5600GT (16MB L3, Vega 7, 550W PSU)</span></div>
     <div class="stats-item">Recommended Upgrade:<span style="color:var(--green);">Radeon RX 6600 (8 GB)</span></div>
   </div>
@@ -249,10 +255,11 @@
     <iframe id="frame-games" title="GameRank Simulator" data-src="games/index.html" role="tabpanel" aria-labelledby="tab-games"></iframe>
     <iframe id="frame-hardware" title="PC Hardware &amp; PSU Guard" data-src="hardware/index.html" role="tabpanel" aria-labelledby="tab-hardware"></iframe>
     <iframe id="frame-manga" title="Manga &amp; Adaptations" data-src="manga/index.html" role="tabpanel" aria-labelledby="tab-manga"></iframe>
+    <iframe id="frame-github" title="GitHub Repositories" data-src="github/index.html" role="tabpanel" aria-labelledby="tab-github"></iframe>
   </div>
 
   <script>
-    const TAB_ORDER = ['ai', 'games', 'hardware', 'manga'];
+    const TAB_ORDER = ['ai', 'games', 'hardware', 'manga', 'github'];
 
     function switchTab(tab, updateHash = true) {
       if (!TAB_ORDER.includes(tab)) tab = 'ai';
@@ -296,6 +303,9 @@
         if (typeof counts.manga === 'number') {
           document.getElementById('stat-manga').textContent = counts.manga + ' titles';
         }
+        if (typeof counts.github === 'number') {
+          document.getElementById('stat-github').textContent = counts.github + ' repos';
+        }
         pill.dataset.state = 'online';
         label.textContent = 'API Online (' + window.location.host + ')';
       } catch (_) {
@@ -324,6 +334,7 @@
       else if (e.key === '2') switchTab('games');
       else if (e.key === '3') switchTab('hardware');
       else if (e.key === '4') switchTab('manga');
+      else if (e.key === '5') switchTab('github');
     });
 
     document.getElementById('server-status').addEventListener('click', loadPortalStatus);

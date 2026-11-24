@@ -22,6 +22,7 @@ flowchart TB
         Scrapers[src/scrapers/ Engine]:::processNode -->|Multi-tier fetch & diff| DataHW
         Compat[src/compatibility_engine.py]:::processNode -->|Build Rule Checks| Server
         Classifiers[src/catalog_classifier.py]:::processNode -->|Multi-axis taxonomies| Server
+        GitHubEngine[src/github/ Engine]:::processNode -->|gh api scan & triage| DataGitHub
     end
 
     subgraph DataLayer["Multi-Domain Datasets (data/)"]
@@ -31,6 +32,7 @@ flowchart TB
         DataCPUs[(data/cpus/ — Desktop CPUs)]:::dataNode
         DataComp[(data/pc_components/ — Components)]:::dataNode
         DataManga[(data/manga/ — Manga & Adaptations)]:::dataNode
+        DataGitHub[(data/github/ — Public Repos & Live Cache)]:::dataNode
         Registry[data/registry.json — Domain Hub]:::dataNode
     end
 
@@ -39,6 +41,7 @@ flowchart TB
         Portal -->|Tab 2| GameView[GameRank FPS Simulator]:::outputNode
         Portal -->|Tab 3| HWView[PSU Transient Guard]:::outputNode
         Portal -->|Tab 4| MangaView[Manga & Adaptations]:::outputNode
+        Portal -->|Tab 5| GitHubView[GitHub Repos & CI]:::outputNode
     end
 
     DataAI -->|Loaded by| Server
@@ -47,6 +50,7 @@ flowchart TB
     DataCPUs -->|Loaded by| Server
     DataComp -->|Loaded by| Server
     DataManga -->|Loaded by| Server
+    DataGitHub -->|Loaded by| Server
 
     DataAI -->|Ingested by| Compiler
     DataGames -->|Ingested by| Compiler
@@ -54,6 +58,7 @@ flowchart TB
     DataCPUs -->|Ingested by| Compiler
     DataComp -->|Ingested by| Compiler
     DataManga -->|Ingested by| Compiler
+    DataGitHub -->|Ingested by| Compiler
 
     Server -->|JSON REST Endpoints| Portal
 
@@ -310,6 +315,35 @@ flowchart LR
         L2[Teal = Fetch, Match & Health Pipeline]:::processNode
         L3[(Green = Catalog JSON & SQLite)]:::dataNode
         L4[Purple = Web Tab & Obsidian Sync]:::outNode
+    end
+```
+
+### [SUBSYSTEM: GitHub-Repo-Triage-And-CI-Hub] | Aliases: github manager, repo triage, ci health, fork drift
+> **1-Line Summary:** `gh api` repository scanner with privacy redaction, push-vs-commit drift detection, safe DOM Tab 5 UI, SQLite export, and CSRF-guarded refresh/export endpoints.
+
+* **Plain-English Overview:** `src/github/scanner.py` queries `gh api` under a threading lock with 15-second timeouts and `GIT_TERMINAL_PROMPT=0`, storing full live scans locally in gitignored `data/github/live_cache.json` while `data/github/repos_public.json` supplies redacted public metadata for CI and SQLite compilation (`github.sqlite`). `triage_repositories()` separates repos into 0–4d, 4–8d, and dormant buckets while comparing commit timestamps to `pushed_at` so metadata bumps do not misclassify dormant forks. `src/github/exporter.py` generates Downloads audit reports safely, and `web/github/index.html` renders all UI strictly via `document.createElement` / `.textContent`.
+
+```mermaid
+flowchart LR
+    %% Color Definitions
+    classDef startNode fill:#1d4ed8,stroke:#1e3a8a,color:#ffffff
+    classDef processNode fill:#0f766e,stroke:#115e59,color:#ffffff
+    classDef dataNode fill:#15803d,stroke:#14532d,color:#ffffff
+    classDef outNode fill:#6b21a8,stroke:#581c87,color:#ffffff
+
+    GHCLI[GitHub API via gh CLI]:::startNode -->|Timeout 15s + Lock| SCAN[src/github/scanner.py]:::processNode
+    SCAN -->|Full local incl. private| LIVE[(data/github/live_cache.json gitignored)]:::dataNode
+    PUB[(data/github/repos_public.json)]:::dataNode -->|Compiled by db_export.py| SQL[(data/github/github.sqlite)]:::dataNode
+    LIVE -->|Fallback to repos_public.json| TRI[triage_repositories & doctor]:::processNode
+    PUB --> TRI
+    TRI -->|GET + CSRF-guarded POST| UI[web/github/index.html Tab 5]:::outNode
+    TRI -->|src/github/exporter.py| RPT[Downloads Markdown Audit Report]:::outNode
+
+    subgraph Legend["Legend"]
+        L1[Blue = Live GitHub API Source]:::startNode
+        L2[Teal = Scanner, Lock & Triage Engine]:::processNode
+        L3[(Green = Public JSON, Local Cache & SQLite)]:::dataNode
+        L4[Purple = Safe DOM Tab 5 & Downloads Report]:::outNode
     end
 ```
 

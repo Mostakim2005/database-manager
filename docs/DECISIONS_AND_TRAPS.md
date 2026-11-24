@@ -86,6 +86,15 @@ flowchart LR
   * **Option B (Chosen):** Port modules into `src/manga/`, register `data/manga/manga_catalog.json` + `manga.sqlite` in `data/registry.json`, keep `data/manga/sitemaps/*.xml` gitignored, expose `/api/manga/*` + Web Portal Tab 4 (`web/manga/index.html`), and preserve `curl_cffi` -> `urllib` fallback in `src/manga/fetch_helper.py`.
 * **Plain-English Summary of Pivot:** All personal reference catalogs (AI, Games, Hardware, CPUs, Components, Manga) now share one server (`127.0.0.1:8770`), one SQLite compilation/verification gate, and one CI pipeline.
 
+### [DECISION: GitHub-Manager-Consolidation] | Aliases: github domain merge, github manager port 8765 collision, repo triage hub
+> **1-Line Summary:** Folded standalone `GitHub Manager` (`Mostakim2005/github-manager`) into `Database Manager` as the 7th registered SQLite/Web domain (`github`) on port `8770` with privacy redaction, safe DOM rendering, and CSRF-guarded POST handlers.
+* **Decision Maker:** `[DECIDED BY: HUMAN]`
+* **Original User Intention:** Eliminate port collision with AnkiConnect (`127.0.0.1:8765`) and stop maintaining a duplicate stdlib HTTP server/docs suite by unifying repository activity triage, CI build health, fork drift, and Markdown export into `Database Manager`.
+* **Options Considered:**
+  * **Option A (Rejected):** Keep `GitHub Manager` standalone on a reassigned port and leave raw `cache.json` (including private repos) tracked separately.
+  * **Option B (Chosen):** Port scanner/exporter/CLI into `src/github/`, redact private repos from `data/github/repos_public.json` while gitignoring `live_cache.json`, compile `github.sqlite`, rewrite `web/github/index.html` using `createElement`/`textContent`, and guard `POST /api/github/{refresh,export}` with loopback `Host`/`Origin` CSRF checks and a non-blocking scan lock.
+* **Plain-English Summary of Pivot:** Consolidating into `Database Manager` resolves the `:8765` AnkiConnect port conflict, brings SQLite querying + `_meta` freshness tracking + schema verification + unified `--cli` search to the GitHub catalog, and hardens all security and `None`-dereference bugs from the standalone prototype.
+
 ---
 
 ## 2. Critical Engineering Traps & Landmines
@@ -183,3 +192,21 @@ flowchart LR
 * **Where It Lurks:** `src/manga/sync_vault.py` -> `sync_to_obsidian`
 * **What Goes Wrong:** Overwriting the entire vault note wipes the user's personal MEGA preview links beneath `### Outlander`.
 * **The Permanent Fix:** Always target `Manhua Links.md`, create a `.bak` copy before writing, and slice/re-append everything starting at `### Outlander`.
+
+### [TRAP: GitHub-Live-Cache-Private-Repo-Leak] | Aliases: github cache.json leak, repos_public redaction, is_private filter
+> **1-Line Summary:** Live `gh api` scans capture private repositories alongside public ones; committing raw cache files to this public repo exposes private project names and commit histories.
+* **Where It Lurks:** `data/github/repos_public.json`, `data/github/live_cache.json`, `src/github/scanner.py` -> `write_public_snapshot`
+* **What Goes Wrong:** Copying `src/cache.json` verbatim into tracked `data/github/` publishes private repo descriptions and commits to GitHub.
+* **The Permanent Fix:** Keep `data/github/live_cache.json` strictly `.gitignore`d, read `live_cache.json` first locally with fallback to `repos_public.json`, and filter `not r.get("is_private")` whenever updating `repos_public.json`.
+
+### [TRAP: GitHub-Latest-Run-And-Conclusion-None] | Aliases: NoneType object has no attribute get, conclusion upper None, exporter crash
+> **1-Line Summary:** Repos without GitHub Actions store `"latest_run": None` and in-progress runs store `"conclusion": None`, crashing naive `.get("latest_run", {}).get(...)` and `.get("conclusion").upper()` calls.
+* **Where It Lurks:** `src/github/exporter.py` -> `export_markdown_report`, `_format_ci_badge`, `src/github/scanner.py` -> `triage_repositories`
+* **What Goes Wrong:** In Python, `r.get("latest_run", {})` returns `None` when key `"latest_run"` is present with value `None`, raising `AttributeError` in Section 2/3 formatting or triage counters.
+* **The Permanent Fix:** Always unwrap via `r.get("latest_run") or {}` and handle `conclusion is None` explicitly by rendering `run.get("status")`.
+
+### [TRAP: Dataview-Fork-Push-Timestamp-Anomaly] | Aliases: dataview triage, pushed_at false positive, push commit drift
+> **1-Line Summary:** GitHub updates `pushed_at` on settings/branch metadata touches even when code commits are months old, falsely placing dormant forks like `dataview-fork` into Section 1 (0–4 days).
+* **Where It Lurks:** `src/github/scanner.py` -> `triage_repositories`
+* **What Goes Wrong:** Relying strictly on `pushed_at` marks dormant forks as active whenever GitHub metadata changes without code commits.
+* **The Permanent Fix:** Compare `recent_commits[0]["date"]` against `pushed_at`; when commit age exceeds `pushed_at` age by >14 days and commit age >8 days, classify using commit age and flag `stale_push_anomaly=True`.

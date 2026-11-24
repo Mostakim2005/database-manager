@@ -29,3 +29,6 @@ Thumbs.db
 # Manga Sitemap XML Cache (large regenerated crawl dumps; keep catalog JSON committed)
 data/manga/sitemaps/*.xml
 !data/manga/sitemaps/.gitkeep
+
+# GitHub Manager live full cache (contains private repo metadata; keep repos_public.json committed)
+data/github/live_cache.json

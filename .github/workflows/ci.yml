@@ -31,12 +31,12 @@ jobs:
       - name: 1. Python Syntax Check
         run: |
           set -o pipefail
-          python -m py_compile src/server.py src/db_export.py src/db_hub.py src/db_verify.py src/scrapers/base.py src/scrapers/adapters.py src/scrapers/test_stack.py src/scrapers/bd_hardware.py src/scrapers/benchmark_ingest.py src/scrapers/multi_site_components.py src/scrapers/multi_site_games.py src/scrapers/multi_site_ai.py src/compatibility_engine.py src/catalog_classifier.py src/manga/__init__.py src/manga/fetch_helper.py src/manga/crawler.py src/manga/indexer.py src/manga/matcher.py src/manga/sync_vault.py src/manga/adaptation_refresh.py src/manga/link_health.py src/manga/cli.py 2>&1 | tee .ci-logs/01-syntax.log
+          python -m py_compile src/server.py src/db_export.py src/db_hub.py src/db_verify.py src/scrapers/base.py src/scrapers/adapters.py src/scrapers/test_stack.py src/scrapers/bd_hardware.py src/scrapers/benchmark_ingest.py src/scrapers/multi_site_components.py src/scrapers/multi_site_games.py src/scrapers/multi_site_ai.py src/compatibility_engine.py src/catalog_classifier.py src/manga/__init__.py src/manga/fetch_helper.py src/manga/crawler.py src/manga/indexer.py src/manga/matcher.py src/manga/sync_vault.py src/manga/adaptation_refresh.py src/manga/link_health.py src/manga/cli.py src/github/__init__.py src/github/scanner.py src/github/exporter.py src/github/cli.py 2>&1 | tee .ci-logs/01-syntax.log
 
       - name: 2. JSON Schema Validation
         run: |
           set -o pipefail
-          python -c "import json; json.load(open('data/hardware/hardware_specs.json', encoding='utf-8')); json.load(open('data/games/games.json', encoding='utf-8')); json.load(open('data/ai/models_master.json', encoding='utf-8')); json.load(open('data/cpus/cpus.json', encoding='utf-8')); json.load(open('data/pc_components/components.json', encoding='utf-8')); json.load(open('data/manga/manga_catalog.json', encoding='utf-8')); json.load(open('data/ai/taxonomy.json', encoding='utf-8')); json.load(open('data/games/taxonomy.json', encoding='utf-8'))" 2>&1 | tee .ci-logs/02-schema.log
+          python -c "import json; json.load(open('data/hardware/hardware_specs.json', encoding='utf-8')); json.load(open('data/games/games.json', encoding='utf-8')); json.load(open('data/ai/models_master.json', encoding='utf-8')); json.load(open('data/cpus/cpus.json', encoding='utf-8')); json.load(open('data/pc_components/components.json', encoding='utf-8')); json.load(open('data/manga/manga_catalog.json', encoding='utf-8')); json.load(open('data/github/repos_public.json', encoding='utf-8')); json.load(open('data/ai/taxonomy.json', encoding='utf-8')); json.load(open('data/games/taxonomy.json', encoding='utf-8'))" 2>&1 | tee .ci-logs/02-schema.log
 
       - name: 3. SQLite Compilation Pipeline
         run: |
@@ -60,6 +60,9 @@ jobs:
           python src/manga/cli.py --verify --json 2>&1 | tee -a .ci-logs/05-cli-smoke.log
           python src/manga/cli.py --doctor --json 2>&1 | tee -a .ci-logs/05-cli-smoke.log
           python src/manga/cli.py --check-links 2>&1 | tee -a .ci-logs/05-cli-smoke.log
+          python src/catalog_classifier.py --github 2>&1 | tee -a .ci-logs/05-cli-smoke.log
+          python src/github/cli.py --verify --json 2>&1 | tee -a .ci-logs/05-cli-smoke.log
+          python src/github/cli.py --doctor --json 2>&1 | tee -a .ci-logs/05-cli-smoke.log
 
       - name: 6. Documentation Parity Check
         run: |
