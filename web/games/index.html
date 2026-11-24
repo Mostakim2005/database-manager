@@ -3,64 +3,85 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GameRank — RTS Family Games × My PC (Vega 7)</title>
+  <title>GameRank — PC &amp; Steam Library × My PC (Vega 7)</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <header class="header">
-    <h1>GameRank — RTS &amp; Strategy Games <span class="ver" title="v3.0.0 — presets, SP/HDD, SSD &amp; GPU-upgrade model">v3.0.0</span></h1>
-    <span class="muted">43 games researched (Oct 2026) · score vs
-      <strong> Ryzen 5 5600GT · Vega 7 iGPU · 16 GB dual-channel · HDD</strong> · click any game for full details &amp; sources
+    <h1>GameRank — PC &amp; Steam Library <span class="ver" title="v4.0.0 — unified Steam library, ownership split &amp; disk footprint advisor">v4.0.0</span></h1>
+    <span class="muted">Unified PC + RTS catalog · score vs
+      <strong> Ryzen 5 5600GT · Vega 7 iGPU · 16 GB dual-channel · 1 TB HDD</strong> · click any game for full specs, companions &amp; sources
     </span>
   </header>
 
   <div class="toolbar">
     <input id="search" type="search" placeholder="Search game name…">
-    <select id="genre">
+    <select id="ownership" aria-label="Ownership filter">
+      <option value="all">Ownership: All</option>
+      <option value="owned">Owned (Steam Library)</option>
+      <option value="wishlist">Wishlist (Research)</option>
+    </select>
+    <select id="genre" aria-label="Genre filter">
       <option value="all">All genres</option>
-      <option value="classic-rts">Classic RTS</option>
-      <option value="4x-grand">4X / Grand Strategy</option>
-      <option value="hybrid-td">Hybrid / Tower Defense</option>
-      <option value="army-sim">Army / Settlement Sim</option>
+      <optgroup label="Steam / General PC">
+        <option value="fps-shooter">FPS &amp; Shooters</option>
+        <option value="action-adventure">Action &amp; Adventure</option>
+        <option value="rpg">RPG &amp; MMO</option>
+        <option value="racing-sim">Racing &amp; Driving Sim</option>
+        <option value="puzzle-platformer">Puzzle, Co-op &amp; Indie</option>
+        <option value="fighting-arcade">Fighting &amp; Arcade</option>
+        <option value="vr-utility">VR &amp; Showcase</option>
+      </optgroup>
+      <optgroup label="RTS &amp; Strategy">
+        <option value="classic-rts">Classic RTS</option>
+        <option value="4x-grand">4X / Grand Strategy</option>
+        <option value="hybrid-td">Hybrid / Tower Defense</option>
+        <option value="army-sim">Army / Settlement Sim</option>
+        <option value="tactical-rpg">Tactical RPG / Roguelike</option>
+      </optgroup>
     </select>
-    <select id="setting">
+    <select id="setting" aria-label="Setting filter">
       <option value="all">Any setting</option>
-      <option value="ancient">Ancient/history</option>
-      <option value="realistic-modern">Realistic/modern</option>
-      <option value="futuristic">Futuristic/sci-fi</option>
+      <option value="ancient">Ancient / Historical</option>
+      <option value="realistic-modern">Realistic / Modern</option>
+      <option value="futuristic">Futuristic / Sci-Fi</option>
       <option value="fantasy">Fantasy</option>
+      <option value="post-apocalyptic">Post-Apocalyptic</option>
+      <option value="steampunk">Steampunk</option>
     </select>
-    <select id="price">
+    <select id="price" aria-label="Price filter">
       <option value="all">Any price</option>
       <option value="f2p">Free to play only</option>
       <option value="cheap">≤ $15 or free</option>
       <option value="any">Paid only</option>
     </select>
-    <select id="campaign">
+    <select id="campaign" aria-label="Campaign filter">
       <option value="all">Campaign any</option>
       <option value="yes">Has campaign</option>
       <option value="free">Free campaign included</option>
       <option value="none">No campaign</option>
     </select>
-    <select id="compat">
+    <select id="compat" aria-label="Compatibility filter">
       <option value="all">Runs on my PC: any</option>
       <option value="great">Runs great ✅</option>
       <option value="ok">Playable w/ tweaks ⚠️</option>
       <option value="struggle">Struggles ❌</option>
     </select>
-    <select id="players">
+    <select id="players" aria-label="Player base filter">
       <option value="all">Player base: any</option>
       <option value="mp-active">Active multiplayer base</option>
       <option value="mp-any">Has MP (any activity)</option>
       <option value="sp-only">Single-player only</option>
     </select>
-    <select id="preset">
+    <select id="preset" aria-label="FPS preset view">
       <option value="playable">Preset: playable ~30–40 fps (1080p)</option>
       <option value="quality30">Preset: best graphics @ ~30 fps (1080p/900p)</option>
       <option value="sixty">Preset: pushing ~60 fps</option>
     </select>
-    <select id="gpu">
+    <select id="gpu" aria-label="GPU simulator">
       <option value="none">GPU: my Vega 7 iGPU</option>
+      <option value="gtx-1060-6gb">Simulate: + GTX 1060 6GB</option>
+      <option value="rx-580-8gb">Simulate: + RX 580 8GB</option>
       <option value="gtx-1660-super">Simulate: + GTX 1660 Super</option>
       <option value="rtx-2060">Simulate: + RTX 2060</option>
       <option value="rx-6600">Simulate: + RX 6600</option>
@@ -70,7 +91,7 @@
       <option value="rtx-4070-super">Simulate: + RTX 4070 Super</option>
       <option value="rx-7800-xt">Simulate: + RX 7800 XT (550W PSU Risk)</option>
     </select>
-    <select id="sort">
+    <select id="sort" aria-label="Sort by">
       <option value="compat">Sort: my-PC score</option>
       <option value="campaign">Sort: campaign quality</option>
       <option value="ai">Sort: AI quality</option>
@@ -81,7 +102,7 @@
       <option value="name">Sort: name</option>
     </select>
     <button id="dirBtn" type="button" title="Flip sort direction" aria-label="Flip sort direction">↑▼</button>
-    <select id="view">
+    <select id="view" aria-label="Layout view">
       <option value="cards">Cards view</option>
       <option value="table">Table view</option>
     </select>
@@ -90,6 +111,7 @@
   </div>
 
   <div class="stats" id="stats" aria-live="polite"></div>
+  <section class="storage-advisor" id="storage-advisor" aria-live="polite"></section>
   <main id="results"></main>
 
   <div id="detail"></div>

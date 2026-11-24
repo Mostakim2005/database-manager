@@ -49,6 +49,66 @@
       "rating": 0,
       "pages": 512,
       "notes": "High priority wishlist pick for strategic thinking."
+    },
+    {
+      "id": "the-last-wish-witcher-1",
+      "title": "The Last Wish (The Witcher, Book 1)",
+      "author": "Andrzej Sapkowski",
+      "subject": "Fantasy Fiction (Game Source)",
+      "format": "paperback",
+      "ownership_status": "wishlist",
+      "reading_status": "queued",
+      "rating": 0,
+      "pages": 384,
+      "notes": "Wishlist / Plan to Read (unread) — Original Geralt short stories behind The Witcher Steam trilogy."
+    },
+    {
+      "id": "sword-of-destiny-witcher-2",
+      "title": "Sword of Destiny (The Witcher, Book 2)",
+      "author": "Andrzej Sapkowski",
+      "subject": "Fantasy Fiction (Game Source)",
+      "format": "paperback",
+      "ownership_status": "wishlist",
+      "reading_status": "queued",
+      "rating": 0,
+      "pages": 400,
+      "notes": "Wishlist / Plan to Read (unread) — Direct prequel bridge to the Witcher saga and games."
+    },
+    {
+      "id": "metro-2033-glukhovsky",
+      "title": "Metro 2033",
+      "author": "Dmitry Glukhovsky",
+      "subject": "Post-Apocalyptic Sci-Fi (Game Source)",
+      "format": "paperback",
+      "ownership_status": "wishlist",
+      "reading_status": "queued",
+      "rating": 0,
+      "pages": 458,
+      "notes": "Wishlist / Plan to Read (unread) — Source novel adapted into Metro 2033 Redux and Metro: Last Light."
+    },
+    {
+      "id": "rainbow-six-clancy",
+      "title": "Rainbow Six",
+      "author": "Tom Clancy",
+      "subject": "Military Techno-Thriller (Game Source)",
+      "format": "paperback",
+      "ownership_status": "wishlist",
+      "reading_status": "queued",
+      "rating": 0,
+      "pages": 740,
+      "notes": "Wishlist / Plan to Read (unread) — Original novel behind Tom Clancy's Rainbow Six Siege."
+    },
+    {
+      "id": "assassins-creed-renaissance",
+      "title": "Assassin's Creed: Renaissance",
+      "author": "Oliver Bowden",
+      "subject": "Historical Action (Game Source)",
+      "format": "paperback",
+      "ownership_status": "wishlist",
+      "reading_status": "queued",
+      "rating": 0,
+      "pages": 528,
+      "notes": "Wishlist / Plan to Read (unread) — Novel companion to the Assassin's Creed Steam library series."
     }
   ]
 }

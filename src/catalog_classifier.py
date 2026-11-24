@@ -97,8 +97,12 @@ def classify_ai_catalog(only_chinese_oss: bool = False) -> dict[str, Any]:
 
 
 def classify_game(game: dict[str, Any]) -> dict[str, Any]:
-    """Assign multi-axis gameplay, hardware-friendliness, and storage tags to a game."""
+    """Assign multi-axis gameplay, ownership, hardware-friendliness, and storage tags to a game."""
     tags: list[str] = []
+    ownership = str(game.get("ownership") or "wishlist").lower()
+    tags.append("owned_library" if ownership == "owned" else "wishlist")
+    if game.get("steamAppId"):
+        tags.append("steam_verified")
     if game.get("priceModel") == "f2p":
         tags.append("free_to_play")
     if float(game.get("gpuMinTier") or 10) <= 3.0:
@@ -115,6 +119,8 @@ def classify_game(game: dict[str, Any]) -> dict[str, Any]:
     return {
         "id": game.get("id"),
         "name": game.get("name"),
+        "ownership": ownership,
+        "steam_app_id": game.get("steamAppId"),
         "genre": game.get("genre", "other"),
         "setting": game.get("setting", "other"),
         "tags": tags,
@@ -127,8 +133,10 @@ def classify_games_catalog() -> dict[str, Any]:
     games = _load_json(DATA_DIR / "games" / "games.json")
     classified = [classify_game(g) for g in games]
     genre_counts = dict(Counter(c["genre"] for c in classified))
+    ownership_counts = dict(Counter(c["ownership"] for c in classified))
     return {
         "total": len(classified),
+        "ownership_counts": ownership_counts,
         "genre_counts": genre_counts,
         "discovery_seeds": tax.get("discovery_expansion_seeds", []),
         "games": classified,
@@ -170,6 +178,8 @@ def classify_media_entry(entry: dict[str, Any]) -> dict[str, Any]:
         tags.append("in_production")
     if entry.get("relations"):
         tags.append("interlinked_franchise")
+    if entry.get("watchlist_status"):
+        tags.append(str(entry["watchlist_status"]))
 
     return {
         "id": entry.get("id", ""),
@@ -179,6 +189,7 @@ def classify_media_entry(entry: dict[str, Any]) -> dict[str, Any]:
         "origin": origin_raw,
         "origin_family": origin_family,
         "franchise_id": entry.get("franchise_id", ""),
+        "watchlist_status": entry.get("watchlist_status", ""),
         "tags": tags,
     }
 

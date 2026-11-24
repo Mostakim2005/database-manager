@@ -21,7 +21,11 @@
         { "name": "Genshin Impact", "settings": "High 60 FPS", "status": "smooth" },
         { "name": "Wuthering Waves", "settings": "Medium-High 60 FPS", "status": "playable" },
         { "name": "PUBG Mobile", "settings": "Smooth + Extreme+ 90 FPS", "status": "locked" },
-        { "name": "Honkai: Star Rail", "settings": "High 60 FPS", "status": "smooth" }
+        { "name": "Honkai: Star Rail", "settings": "High 60 FPS", "status": "smooth" },
+        { "name": "Farlight 84", "settings": "Ultra 90 FPS", "status": "locked" },
+        { "name": "Combat Master Mobile", "settings": "High 120 FPS", "status": "locked" },
+        { "name": "Hitman: Blood Money — Reprisal", "settings": "High 60 FPS", "status": "smooth" },
+        { "name": "IdleOn - The Incremental MMO", "settings": "Native 60 FPS (Cross-Save w/ Steam)", "status": "locked" }
       ],
       "supported_apps": [
         { "name": "Mihon / Tachiyomi", "category": "Comics Reader", "status": "supported" },
@@ -49,7 +53,9 @@
       "supported_games": [
         { "name": "PUBG Mobile", "settings": "Smooth + 60 FPS", "status": "smooth" },
         { "name": "Genshin Impact", "settings": "Medium 45-50 FPS", "status": "playable" },
-        { "name": "Mobile Legends", "settings": "Ultra 120 Hz", "status": "locked" }
+        { "name": "Mobile Legends", "settings": "Ultra 120 Hz", "status": "locked" },
+        { "name": "Farlight 84", "settings": "High 60 FPS", "status": "smooth" },
+        { "name": "IdleOn - The Incremental MMO", "settings": "Native 60 FPS (Cross-Save w/ Steam)", "status": "locked" }
       ],
       "supported_apps": [
         { "name": "Samsung Notes + GoodLock", "category": "Productivity", "status": "supported" },
@@ -76,7 +82,10 @@
       "supported_games": [
         { "name": "Genshin Impact", "settings": "Highest 60 FPS", "status": "locked" },
         { "name": "Zenless Zone Zero", "settings": "High 60 FPS", "status": "smooth" },
-        { "name": "Wuthering Waves", "settings": "High 60 FPS", "status": "smooth" }
+        { "name": "Wuthering Waves", "settings": "High 60 FPS", "status": "smooth" },
+        { "name": "Hitman: Blood Money — Reprisal", "settings": "Max 60 FPS", "status": "locked" },
+        { "name": "GTA: San Andreas — Definitive", "settings": "High 30-60 FPS", "status": "smooth" },
+        { "name": "Combat Master Mobile", "settings": "Max 120 FPS", "status": "locked" }
       ],
       "supported_apps": [
         { "name": "Termux + Proot Ubuntu", "category": "Dev CLI", "status": "supported" },
@@ -103,7 +112,9 @@
       "supported_games": [
         { "name": "PUBG Mobile", "settings": "Smooth + Extreme 60 FPS", "status": "smooth" },
         { "name": "Genshin Impact", "settings": "Low-Medium 45 FPS", "status": "playable" },
-        { "name": "Slay the Spire / Into the Breach", "category_hint": "Strategy", "settings": "Native 60 FPS", "status": "locked" }
+        { "name": "Slay the Spire / Into the Breach", "category_hint": "Strategy", "settings": "Native 60 FPS", "status": "locked" },
+        { "name": "Combat Master Mobile", "settings": "Medium-High 60 FPS", "status": "smooth" },
+        { "name": "IdleOn - The Incremental MMO", "settings": "Native 60 FPS (Cross-Save w/ Steam)", "status": "locked" }
       ],
       "supported_apps": [
         { "name": "Mihon", "category": "Comics Reader", "status": "supported" },

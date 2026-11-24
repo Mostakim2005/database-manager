@@ -28,14 +28,16 @@ window.LEGACY_GPU_KEYS = {
 };
 
 window.UPGRADE_GPUS = {
+  "gtx-1060-6gb":   { id: "gtx-1060-6gb",   name: "GTX 1060 6GB",   short: "1060",  tier: 5.2, psuVerdict: "pass" },
+  "rx-580-8gb":     { id: "rx-580-8gb",     name: "RX 580 8GB",     short: "580",   tier: 5.2, psuVerdict: "pass" },
   "gtx-1660-super": { id: "gtx-1660-super", name: "GTX 1660 Super", short: "1660S", tier: 6.5, psuVerdict: "pass" },
   "rtx-2060":       { id: "rtx-2060",       name: "RTX 2060",       short: "2060",  tier: 7.0, psuVerdict: "pass" },
   "rx-6600":        { id: "rx-6600",        name: "RX 6600",        short: "6600",  tier: 7.5, psuVerdict: "pass" },
-  "rtx-3060":       { id: "rtx-3060",       name: "RTX 3060 12GB",  short: "3060",  tier: 8.2, psuVerdict: "pass" },
-  "rtx-4060":       { id: "rtx-4060",       name: "RTX 4060",       short: "4060",  tier: 8.5, psuVerdict: "pass" },
-  "rx-6700-xt":     { id: "rx-6700-xt",     name: "RX 6700 XT",     short: "6700XT",tier: 8.9, psuVerdict: "warn" },
-  "rtx-4070-super": { id: "rtx-4070-super", name: "RTX 4070 Super", short: "4070S", tier: 9.6, psuVerdict: "warn" },
-  "rx-7800-xt":     { id: "rx-7800-xt",     name: "RX 7800 XT",     short: "7800XT",tier: 9.8, psuVerdict: "fail" }
+  "rtx-3060":       { id: "rtx-3060",       name: "RTX 3060 12GB",  short: "3060",  tier: 7.8, psuVerdict: "pass" },
+  "rtx-4060":       { id: "rtx-4060",       name: "RTX 4060",       short: "4060",  tier: 8.0, psuVerdict: "pass" },
+  "rx-6700-xt":     { id: "rx-6700-xt",     name: "RX 6700 XT",     short: "6700XT",tier: 8.5, psuVerdict: "pass" },
+  "rtx-4070-super": { id: "rtx-4070-super", name: "RTX 4070 Super", short: "4070S", tier: 9.0, psuVerdict: "pass" },
+  "rx-7800-xt":     { id: "rx-7800-xt",     name: "RX 7800 XT",     short: "7800XT",tier: 9.5, psuVerdict: "fail" }
 };
 
 /* Parse a RAM string like "4 GB" or "512 MB" → GB */

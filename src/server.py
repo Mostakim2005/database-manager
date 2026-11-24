@@ -577,6 +577,11 @@ class DatabaseHandler(http.server.SimpleHTTPRequestHandler):
             self._send_json(evaluate_default_build())
             return
 
+        if url_path == "/api/cross/games-storage":
+            from db_hub import query_games_storage_summary
+            self._send_json(query_games_storage_summary())
+            return
+
         # Explicit 404 for unknown / retired /api/* routes (Alpha 2 clean cutover)
         if url_path.startswith("/api/"):
             self._send_json({"status": "error", "error": f"Endpoint not found: {url_path}"}, status=404)
@@ -700,7 +705,12 @@ def search_databases(query: str) -> dict[str, Any]:
 
     matched_games = [
         g for g in games
-        if q in str(g.get("name", "")).lower() or q in str(g.get("genre", "")).lower()
+        if q in str(g.get("name", "")).lower()
+        or q in str(g.get("id", "")).lower()
+        or q in str(g.get("genre", "")).lower()
+        or q in str(g.get("setting", "")).lower()
+        or q in str(g.get("ownership", "")).lower()
+        or q in str(g.get("compatNote", "")).lower()
     ]
 
     matched_media = [
@@ -710,6 +720,7 @@ def search_databases(query: str) -> dict[str, Any]:
         or q in str(item.get("origin", "")).lower()
         or q in str(item.get("media_type", "")).lower()
         or q in str(item.get("franchise_id", "")).lower()
+        or q in str(item.get("watchlist_status", "")).lower()
     ]
 
     matched_books = [
@@ -812,7 +823,7 @@ def run_cli_summary(query: str | None = None, as_json: bool = False) -> None:
     if not query:
         print("\nTOTAL INVENTORY (7 REGISTERED DOMAINS):")
         print(f"  • PC & Hardware Catalog:   {_count_pc_parts(pc_data)} parts ({len(gpus)} GPUs, {len(pc_data.get('cpus', []))} CPUs)")
-        print(f"  • PC Games Database:       {len(games)} strategy & RTS titles")
+        print(f"  • PC Games Database:       {len(games)} PC & strategy titles ({sum(1 for g in games if g.get('ownership') == 'owned')} owned, {sum(1 for g in games if g.get('ownership') != 'owned')} wishlist)")
         print(f"  • AI Models & Pricing:     {len(models)} models benchmarked")
         print(f"  • Media & Adaptations:     {len(media_items)} entries (comics, novels, anime, series)")
         print(f"  • Book Collection:         {len(books)} tracked books")

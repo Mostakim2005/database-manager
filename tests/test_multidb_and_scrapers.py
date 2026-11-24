@@ -105,6 +105,10 @@ class TestMultiDomainHubAndVerify(unittest.TestCase):
                 data = json.loads(resp.read().decode("utf-8"))
                 self.assertTrue(data["compatible"])
                 self.assertEqual(data["error_count"], 0)
+            with urllib.request.urlopen(f"{base}/api/cross/games-storage", timeout=5) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+                self.assertGreaterEqual(data["total_games"], 150)
+                self.assertGreater(len(data["pc_storage_options"]), 5)
             with urllib.request.urlopen(f"{base}/api/ai/classified?chinese_oss=true", timeout=5) as resp:
                 data = json.loads(resp.read().decode("utf-8"))
                 self.assertGreater(data["total"], 0)
@@ -182,13 +186,55 @@ class TestMultiSiteCatalogExpansion(unittest.TestCase):
 
     def test_multi_site_games_expansion(self) -> None:
         games, stats = sync_multi_site_games(offline=True)
-        self.assertGreaterEqual(stats["total"], 51)
+        self.assertGreaterEqual(stats["total"], 150)
+        seen_ids = set()
+        seen_names = set()
+        owned = 0
+        wishlist = 0
         for g in games:
             self.assertIn("id", g)
             self.assertIn("name", g)
             self.assertIn("genre", g)
+            self.assertIn("ownership", g)
             self.assertIn("priceModel", g)
+            self.assertIn("hddSp", g)
+            self.assertIn("storageAdvice", g)
             self.assertGreater(g["installGB"], 0)
+            self.assertNotIn(g["id"], seen_ids)
+            self.assertNotIn(g["name"], seen_names)
+            seen_ids.add(g["id"])
+            seen_names.add(g["name"])
+            if g["ownership"] == "owned":
+                owned += 1
+            else:
+                wishlist += 1
+        self.assertGreaterEqual(owned, 105)
+        self.assertGreaterEqual(wishlist, 48)
+
+    def test_cross_domain_benchmarks_and_storage_summary(self) -> None:
+        b_res = db_hub.query_game_benchmarks_with_pc()
+        self.assertGreater(b_res["total_benchmarks"], 40)
+        for row in b_res["benchmarks"]:
+            self.assertIsNotNone(row["genre"], f"Unjoined benchmark game_id: {row['game_id']}")
+
+        s_res = db_hub.query_games_storage_summary()
+        self.assertGreaterEqual(s_res["total_games"], 150)
+        self.assertGreater(s_res["owned_install_gb"], 2000.0)
+        self.assertGreater(len(s_res["pc_storage_options"]), 5)
+
+    def test_wishlist_unread_tags_on_game_adaptations(self) -> None:
+        books = json.loads((ROOT_DIR / "data" / "book" / "books.json").read_text(encoding="utf-8"))["books"]
+        witcher_books = [b for b in books if "witcher" in b["title"].lower() or "metro 2033" in b["title"].lower()]
+        self.assertGreaterEqual(len(witcher_books), 3)
+        for b in witcher_books:
+            self.assertEqual(b["ownership_status"], "wishlist")
+            self.assertEqual(b["reading_status"], "queued")
+
+        media = json.loads((ROOT_DIR / "data" / "media" / "media_catalog.json").read_text(encoding="utf-8"))
+        wl_items = [m for m in media if m.get("watchlist_status")]
+        self.assertGreaterEqual(len(wl_items), 6)
+        for m in wl_items:
+            self.assertIn(m["watchlist_status"], ("plan_to_watch", "plan_to_read"))
 
     def test_multi_source_ai_reconciliation(self) -> None:
         data, stats = sync_multi_site_ai(offline=True)

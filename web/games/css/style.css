@@ -45,9 +45,32 @@ a { color: var(--accent); }
 .toolbar button:hover { border-color: var(--accent); }
 #count { color: var(--muted); align-self: center; }
 
-/* stats line */
-.stats { padding: 10px 24px; color: var(--muted); }
+/* stats line & storage footprint advisor */
+.stats { padding: 10px 24px 4px; color: var(--muted); }
 .stats strong { color: var(--fg); }
+.storage-advisor {
+  margin: 6px 24px 8px;
+  padding: 10px 14px;
+  background: #141a25;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  align-items: center;
+  font-size: 13px;
+  color: var(--muted);
+}
+.storage-advisor strong { color: var(--fg); }
+.storage-advisor .adv-chip {
+  padding: 2px 9px;
+  border-radius: 12px;
+  font-size: 12px;
+  border: 1px solid var(--line);
+  background: #1c2331;
+}
+.storage-advisor .adv-warn { border-color: #d8a34a; color: #ecc178; }
+.storage-advisor .adv-good { border-color: #5aa86e; color: #7ecf95; }
 
 /* badges */
 .badge {
@@ -61,6 +84,16 @@ a { color: var(--accent); }
 .badge.g-4x-grand      { border-color: #b48be8; color: #d0b3f7; }
 .badge.g-hybrid-td     { border-color: #e8a96e; color: #f3c493; }
 .badge.g-army-sim      { border-color: #7fd8c4; color: #a8ecdc; }
+.badge.g-tactical-rpg  { border-color: #c297f0; color: #d9b8ff; }
+.badge.g-fps-shooter   { border-color: #f08080; color: #ffb3b3; }
+.badge.g-action-adventure { border-color: #f4a261; color: #ffd1a6; }
+.badge.g-rpg           { border-color: #c792ea; color: #e2c2ff; }
+.badge.g-racing-sim    { border-color: #64dfdf; color: #a6f4f4; }
+.badge.g-puzzle-platformer { border-color: #95d5b2; color: #bfead3; }
+.badge.g-fighting-arcade { border-color: #f78c6b; color: #ffba9e; }
+.badge.g-vr-utility    { border-color: #8ecae6; color: #bde3f5; }
+.badge.own-owned       { border-color: #3fb950; color: #7ee787; background: rgba(63, 185, 80, 0.12); font-weight: 600; }
+.badge.own-wishlist    { border-color: #d29922; color: #f2cc60; background: rgba(210, 153, 34, 0.12); font-weight: 600; }
 .badge.g-free          { border-color: var(--accent); color: var(--accent); }
 .badge.g-norm          { color: var(--muted); }
 .badge.g-warn          { border-color: #d8a34a; color: #ecc178; }

@@ -1,11 +1,12 @@
 {
   "domain": "games",
-  "schema_version": "3.0.0",
+  "schema_version": "4.0.0",
   "records_key": null,
   "required_fields": [
     "id",
     "name",
     "genre",
+    "ownership",
     "priceModel",
     "gpuMinTier",
     "gpuRecTier"
@@ -13,13 +14,45 @@
   "field_types": {
     "id": "str",
     "name": "str",
+    "ownership": "str",
     "priceUsd": "number",
     "installGB": "number"
   },
   "enums": {
+    "ownership": [
+      "owned",
+      "wishlist"
+    ],
     "priceModel": [
       "f2p",
       "paid"
+    ],
+    "genre": [
+      "classic-rts",
+      "4x-grand",
+      "hybrid-td",
+      "army-sim",
+      "tactical-rpg",
+      "fps-shooter",
+      "action-adventure",
+      "rpg",
+      "racing-sim",
+      "puzzle-platformer",
+      "fighting-arcade",
+      "vr-utility"
+    ],
+    "setting": [
+      "ancient",
+      "realistic-modern",
+      "futuristic",
+      "fantasy",
+      "post-apocalyptic",
+      "steampunk"
+    ],
+    "cpuDemand": [
+      "low",
+      "medium",
+      "high"
     ]
   },
   "ranges": {

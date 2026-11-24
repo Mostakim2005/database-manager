@@ -84,6 +84,8 @@ def open_federated_connection(root_dir: Path = ROOT_DIR) -> sqlite3.Connection:
                 g.id AS game_id,
                 g.name AS game_name,
                 g.genre,
+                g.ownership,
+                g.steam_app_id,
                 g.gpu_min_tier,
                 g.gpu_rec_tier,
                 g.install_gb,
@@ -107,6 +109,7 @@ def open_federated_connection(root_dir: Path = ROOT_DIR) -> sqlite3.Connection:
                 b.game_id,
                 COALESCE(g.name, b.game_id) AS game_name,
                 g.genre,
+                g.ownership,
                 b.cpu_name,
                 b.gpu_id,
                 COALESCE(h.name, b.gpu_id) AS gpu_name,
@@ -319,5 +322,66 @@ def query_cpu_gpu_combos(cpu_id: str = "ryzen-5-5600gt", root_dir: Path = ROOT_D
         }
     except sqlite3.OperationalError as e:
         return {"error": str(e), "combos": []}
+    finally:
+        conn.close()
+
+
+def query_games_storage_summary(root_dir: Path = ROOT_DIR) -> dict[str, Any]:
+    """Summarize game install footprints across owned vs wishlist against PC SSD/HDD options."""
+    conn = open_federated_connection(root_dir)
+    try:
+        game_rows = conn.execute(
+            "SELECT id, name, ownership, install_gb, raw_json FROM games.pc_games"
+        ).fetchall()
+        drive_rows = conn.execute(
+            "SELECT id, category, name, price_bdt, price_usd, specs_json FROM pc.pc_components WHERE category IN ('ssds', 'hdds')"
+        ).fetchall()
+
+        total_gb = 0.0
+        owned_gb = 0.0
+        wishlist_gb = 0.0
+        ssd_priority_gb = 0.0
+        hdd_safe_gb = 0.0
+        for r in game_rows:
+            gb = float(r["install_gb"] or 0.0)
+            total_gb += gb
+            if r["ownership"] == "owned":
+                owned_gb += gb
+            else:
+                wishlist_gb += gb
+            raw = json.loads(r["raw_json"] or "{}")
+            verdict = (raw.get("storageAdvice") or {}).get("verdict", "hdd-fine")
+            if verdict == "hdd-fine":
+                hdd_safe_gb += gb
+            else:
+                ssd_priority_gb += gb
+
+        drives = []
+        for d in drive_rows:
+            sp = json.loads(d["specs_json"] or "{}")
+            cap_gb = sp.get("capacity_gb") or (float(sp.get("capacity_tb") or 0) * 1000.0)
+            drives.append(
+                {
+                    "id": d["id"],
+                    "category": d["category"],
+                    "name": d["name"],
+                    "capacity_gb": cap_gb,
+                    "price_bdt": d["price_bdt"],
+                    "recording_tech": sp.get("recording_tech"),
+                    "interface": sp.get("interface"),
+                }
+            )
+
+        return {
+            "total_games": len(game_rows),
+            "total_install_gb": round(total_gb, 1),
+            "owned_install_gb": round(owned_gb, 1),
+            "wishlist_install_gb": round(wishlist_gb, 1),
+            "ssd_priority_gb": round(ssd_priority_gb, 1),
+            "hdd_safe_gb": round(hdd_safe_gb, 1),
+            "pc_storage_options": drives,
+        }
+    except sqlite3.OperationalError as e:
+        return {"error": str(e)}
     finally:
         conn.close()

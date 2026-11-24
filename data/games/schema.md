@@ -1,23 +1,26 @@
-# GameRank — data/schema.md
+# GameRank — data/games/schema.md (v4.0.0)
 
 ## Purpose
-Defines every field in `data/games.js` so any future edit/AI can extend the dataset without guessing.
+Defines every field in `data/games/games.json` and the synchronized `games.js` mirrors (`web/games/data/games.js`, `data/games/games.js`) so any future game additions via `src/scrapers/multi_site_games.py --add-steam` follow one unified structure.
 
-## A record (each object in `window.GAMES`)
+## A record (each object in `window.GAMES` / `games.json`)
 
 | Field | Type | Values / meaning |
 |---|---|---|
 | `id` | string | stable slug used for lookups + `data-id` in the UI **(never change once saved)** |
 | `name` | string | display name |
-| `genre` | enum | `classic-rts` / `4x-grand` / `hybrid-td` / `army-sim` (v3: army/settlement sims — big-battle RPGs & settlement builders like Kingdom Come, Manor Lords) |
+| `steamAppId` | number \| null | official Steam Store AppID when available (`null` for Battle.net / standalone) |
+| `ownership` | enum | `owned` (Steam library) / `wishlist` (researched candidates) |
+| `genre` | enum | `classic-rts` / `4x-grand` / `hybrid-td` / `army-sim` / `tactical-rpg` / `fps-shooter` / `action-adventure` / `rpg` / `racing-sim` / `puzzle-platformer` / `fighting-arcade` / `vr-utility` |
 | `priceModel` | enum | `f2p` / `paid` |
-| `priceUsd` | number | 0 when free |
-| `priceNote` | string | pricing nuance (DLC situation, sales, subscription) |
+| `priceUsd` | number | 0 when free or bundled |
+| `priceNote` | string | pricing nuance (DLC situation, sales, bundle/delisted status) |
 | `campaign` | object | `exists` (bool) · `freeOrPaid` (`free`/`paid`/`paid-dlc`/`n/a`) · `quality` 0–10 · `notes` |
-| `ai` | object | `score` 0–10 for campaign/skirmish/enemy AI · `notes` captures community sentiment |
-| `setting` | enum | `ancient` / `realistic-modern` / `futuristic` / `fantasy` |
+| `ai` | object | `score` 0–10 for AI/bots/enemies · `notes` captures behavior |
+| `setting` | enum | `ancient` / `realistic-modern` / `futuristic` / `fantasy` / `post-apocalyptic` / `steampunk` |
 | `graphics` | object | `score` 0–10 · `notes` |
-| `players` | object | `status` (`very-active` / `active` / `small` / `inactive` / `n/a-sp`) · `notes` with Oct-2026 concrete numbers when available. Multiplayer activity answers "is the player base active"; `n/a-sp` = single-player-only titles. |
+| `players` | object | `status` (`very-active` / `active` / `moderate` / `small` / `inactive` / `n/a-sp`) · `notes` |
+| `companions` | array | optional linked `{ name, kind, note }` for Test Servers, Friend's Pass, expansions, or duplicates |
 | `specs` | object | `min`/`rec` objects with verbatim store-page `cpu` / `gpu` / `ram` / `storage` / `os` |
 | `size` | object | `download` and `install` strings as published/estimated (`~` marks estimate) |
 | `installGB` | number | numeric install size used for sorting + HDD scoring (max value if a range) |

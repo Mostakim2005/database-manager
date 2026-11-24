@@ -68,6 +68,8 @@ def create_games_schema(conn: sqlite3.Connection) -> None:
             id TEXT PRIMARY KEY,
             name TEXT NOT NULL,
             genre TEXT,
+            ownership TEXT,
+            steam_app_id INTEGER,
             price_model TEXT,
             price_usd REAL,
             campaign_quality REAL,
@@ -84,6 +86,7 @@ def create_games_schema(conn: sqlite3.Connection) -> None:
         """
     )
     cursor.execute("CREATE INDEX IF NOT EXISTS idx_game_genre ON pc_games(genre);")
+    cursor.execute("CREATE INDEX IF NOT EXISTS idx_game_ownership ON pc_games(ownership);")
     cursor.execute("CREATE INDEX IF NOT EXISTS idx_game_price ON pc_games(price_usd);")
 
     cursor.execute(
@@ -464,6 +467,9 @@ def export_pc_games(conn: sqlite3.Connection, data_root: Path = DATA_DIR) -> int
         game_id = g.get("id") or str(g.get("name", "")).lower().replace(" ", "-")
         name = g.get("name", "Unknown")
         genre = g.get("genre", "")
+        ownership = g.get("ownership", "wishlist")
+        steam_app_id = g.get("steamAppId")
+        steam_app_id = int(steam_app_id) if steam_app_id is not None else None
         p_model = g.get("priceModel", "paid")
         price = float(g.get("priceUsd") or 0.0)
 
@@ -486,15 +492,17 @@ def export_pc_games(conn: sqlite3.Connection, data_root: Path = DATA_DIR) -> int
         cursor.execute(
             """
             INSERT OR REPLACE INTO pc_games (
-                id, name, genre, price_model, price_usd, campaign_quality,
-                ai_score, graphics_score, setting, install_gb, gpu_min_tier,
-                gpu_rec_tier, compat_note, playable_fps, raw_json
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                id, name, genre, ownership, steam_app_id, price_model, price_usd,
+                campaign_quality, ai_score, graphics_score, setting, install_gb,
+                gpu_min_tier, gpu_rec_tier, compat_note, playable_fps, raw_json
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 game_id,
                 name,
                 genre,
+                ownership,
+                steam_app_id,
                 p_model,
                 price,
                 camp_q,
@@ -1057,7 +1065,7 @@ def compile_separated_domains(data_root: Path = DATA_DIR) -> dict[str, int]:
     counts: dict[str, int] = {}
     domain_specs: list[tuple[str, Path, Path, str, Callable[..., int]]] = [
         ("pc", data_root / "pc" / "pc.sqlite", data_root / "pc" / "pc.json", "2.0.0", export_pc_domain),
-        ("games", data_root / "games" / "games.sqlite", data_root / "games" / "games.json", "3.0.0", export_pc_games),
+        ("games", data_root / "games" / "games.sqlite", data_root / "games" / "games.json", "4.0.0", export_pc_games),
         ("ai", data_root / "ai" / "ai.sqlite", data_root / "ai" / "models_master.json", "2.0.0", export_ai_models),
         ("media", data_root / "media" / "media.sqlite", data_root / "media" / "media_catalog.json", "2.0.0", export_media),
         ("book", data_root / "book" / "book.sqlite", data_root / "book" / "books.json", "2.0.0", export_books),

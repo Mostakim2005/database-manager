@@ -2,7 +2,7 @@
 > **1-Line Summary:** Single living visual map of how Database Manager operates, its tech stack rationale, Obsidian-compatible subsystem flowcharts, and extension recipes.
 
 ## 1. High-Level Visual System Map
-* **Plain-English Overview:** Database Manager combines a zero-dependency Python backend with registry-driven, grouped web dashboards and isolated per-domain SQLite databases federated via `ATTACH DATABASE`. PC hardware is unified under `pc` (`75` parts across `12` categories) and deeply cross-linked with `games`, while `ai` remains strictly pricing/benchmark-focused (no local VRAM coupling), and `media`, `book`, `phone`, and `github` run cleanly in isolated tables.
+* **Plain-English Overview:** Database Manager combines a zero-dependency Python backend with registry-driven, grouped web dashboards and isolated per-domain SQLite databases federated via `ATTACH DATABASE`. PC hardware is unified under `pc` (`79` parts across `12` categories) and deeply cross-linked with `games` (`153` unified owned Steam & wishlist titles across `12` genres), while `ai` remains strictly pricing/benchmark-focused (no local VRAM coupling), and `media`, `book`, `phone`, and `github` run cleanly in isolated tables.
 
 ```mermaid
 flowchart TB
@@ -110,7 +110,7 @@ flowchart LR
 ```
 
 ### [SUBSYSTEM: GameRank-Compatibility-Engine] | Aliases: vega 7 simulator, game benchmark flow
-> **1-Line Summary:** Heuristic scoring engine evaluating 43 RTS games against Ryzen 5 5600GT hardware parameters and simulated GPU upgrades.
+> **1-Line Summary:** Heuristic scoring, Steam enrichment, and storage footprint engine evaluating 153 owned/wishlist PC & RTS games against Ryzen 5 5600GT hardware and simulated GPU/SSD upgrades.
 
 ```mermaid
 flowchart LR
@@ -119,15 +119,16 @@ flowchart LR
     classDef processNode fill:#0f766e,stroke:#115e59,color:#ffffff
     classDef dataNode fill:#15803d,stroke:#14532d,color:#ffffff
 
-    G1[(data/games/games.json)]:::dataNode -->|Loads 43 records| G2[js/rank.js Scoring Engine]:::processNode
-    G3[User selects GPU preset: Vega 7 / RX 6600]:::startNode -->|Inputs tier| G2
-    G2 -->|Applies GPU margin + CPU/HDD penalties| G4[Calculates 0-100 Compatibility Score]:::processNode
-    G4 -->|Assigns Great / OK / Struggle verdict| G5[js/render.js Card & Table View]:::startNode
+    S0[Steam Store + Player + SteamSpy APIs]:::startNode -->|multi_site_games.py normalize & enrich| G1[(data/games/games.json)]:::dataNode
+    G1 -->|Loads 153 records: 105 owned + 48 wishlist| G2[js/rank.js & Disk Footprint Advisor]:::processNode
+    G3[User filters Ownership / Genre / GPU / Preset]:::startNode -->|Inputs filter + GPU tier| G2
+    G2 -->|Applies GPU margin + CPU/HDD penalties| G4[Calculates 0-100 Score & SSD Recommendation]:::processNode
+    G4 -->|Assigns Great / OK / Struggle + Storage Match| G5[js/render.js Card, Table & Companion Modal]:::startNode
 
     subgraph Legend["Legend"]
-        L1[(Green = Game Database)]:::dataNode
-        L2[Teal = Compatibility Heuristic]:::processNode
-        L3[Blue = User Interaction & Verdict UI]:::startNode
+        L1[(Green = Unified Game Database)]:::dataNode
+        L2[Teal = Compatibility & Storage Heuristic]:::processNode
+        L3[Blue = Steam API & User Interaction UI]:::startNode
     end
 ```
 
@@ -202,6 +203,7 @@ flowchart LR
     V1 -->|v_games_by_gpu| Q1[Compatibility by GPU & 550W PSU]:::startNode
     V1 -->|v_game_benchmarks_with_pc| Q2[Measured FPS Benchmarks x GPU Specs]:::startNode
     V1 -->|v_cpu_gpu_combos| Q3[CPU+GPU Build Combos]:::startNode
+    F1 -->|query_games_storage_summary| Q4[Owned/Wishlist GB vs PC SSDs & HDDs]:::startNode
 
     subgraph Legend["Legend"]
         L1[(Green = Isolated Domain DBs)]:::dataNode

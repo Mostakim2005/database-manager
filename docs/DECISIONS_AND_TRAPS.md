@@ -250,3 +250,14 @@ flowchart LR
 * **Where It Lurks:** `src/github/scanner.py` -> `triage_repositories`
 * **What Goes Wrong:** Relying strictly on `pushed_at` marks dormant forks as active whenever GitHub metadata changes without code commits.
 * **The Permanent Fix:** Compare `recent_commits[0]["date"]` against `pushed_at`; when commit age exceeds `pushed_at` age by >14 days and commit age >8 days, classify using commit age and flag `stale_push_anomaly=True`.
+
+### [DECISION: Unified-Steam-And-RTS-Games-Schema-v4] | Aliases: games schema v4, owned vs wishlist, steam integration
+> **1-Line Summary:** `[DECIDED BY: HUMAN]` Unified existing RTS research (`48` `wishlist` titles) and personal Steam library (`105` `owned` titles) under one canonical schema v4.0.0 (`ownership`, `steamAppId`, `companions`, 12 genres, 6 settings) enriched via Steam Store/Player/SteamSpy APIs.
+* **What Changed:** Instead of maintaining separate lists for strategy research and Steam library titles, all 153 games share `data/games/games.json` (and synchronized `games.js` mirrors) normalized by `normalize_game_record()`, deduplicating 4 prior scraper duplicates and aligning `data/games/benchmarks.csv` slugs (`aoe2-de`, `aoe4`, `coh3`, `civ6`, `twwh3`, `sins2`).
+* **Why:** Every title connects uniformly to `pc` GPUs and NVMe/HDD storage recommendations in `db_hub.py`, and future games can be added with one `multi_site_games.py --add-steam` command.
+
+### [TRAP: Steam-Storesearch-Sequel-Ranking-And-Bundle-Prices] | Aliases: steam storesearch sequel, delisted steam appid, ghostrunner 2 mismatch
+> **1-Line Summary:** Steam `storesearch` ranks newer sequels ahead of exact base-title matches (e.g., *Ghostrunner 2* ahead of *Ghostrunner*), and delisted/bundled apps (*Hitman: Sniper Challenge*, *Metro: Last Light Complete Edition*, *GTA V Legacy*) omit or bundle `price_overview`.
+* **Where It Lurks:** `src/scrapers/multi_site_games.py` -> `fetch_steam_metadata`, `build_record_from_steam`
+* **What Goes Wrong:** Taking `items[0]` blindly resolves sequels, and relying on `appdetails.price_overview` alone marks delisted or multi-edition bundle titles as `$0` free-to-play.
+* **The Permanent Fix:** Match normalized exact title names first across `storesearch` results (or pass pinned AppIDs), check `is_free` alongside `"Free To Play"` genre tags before treating `$0` as F2P, and cross-check SteamSpy when `appdetails` returns `success: false` on retired store pages.

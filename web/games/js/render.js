@@ -3,11 +3,11 @@
    GameRank — js/render.js
    Pure rendering functions: table rows, cards, detail modal, badges.
    No event logic here — see js/app.js.
-   v3.0.0:
-     - preset-aware FPS columns (playable / 60fps / graphics@30 in 1080p+900p)
-     - single-player-on-HDD block (stutter-focused)
-     - "If I add an SSD" block (framed around stutter, not load times)
-     - GPU-upgrade simulator badges + per-card upgrade expectations
+   v4.0.0:
+     - All PC + Steam + RTS genres & settings cleanly labeled (zero undefined)
+     - Ownership badges (Owned vs Wishlist)
+     - Linked Companions / Test Servers / Friend's Pass badges in modal
+     - Null-safe hddSp, quality30, storageAdvice, and sources (string or object)
    ========================================================================== */
 
 var COMPAT_LABEL = {
@@ -20,21 +20,36 @@ var COMPAT_KEY_LABEL = {
   ok: "Playable w/ tweaks",
   struggle: "Struggles"
 };
+var OWNERSHIP_LABEL = {
+  owned: "Owned",
+  wishlist: "Wishlist"
+};
 var SETTING_LABEL = {
-  "ancient": "Ancient / History",
+  "ancient": "Ancient / Historical",
   "realistic-modern": "Realistic / Modern",
   "futuristic": "Futuristic / Sci-Fi",
-  "fantasy": "Fantasy"
+  "fantasy": "Fantasy",
+  "post-apocalyptic": "Post-Apocalyptic",
+  "steampunk": "Steampunk"
 };
 var GENRE_LABEL = {
   "classic-rts": "Classic RTS",
   "4x-grand": "4X / Grand Strategy",
   "hybrid-td": "Hybrid / Tower Defense",
-  "army-sim": "Army / Settlement Sim"
+  "army-sim": "Army / Settlement Sim",
+  "tactical-rpg": "Tactical RPG / Roguelike",
+  "fps-shooter": "FPS & Shooters",
+  "action-adventure": "Action & Adventure",
+  "rpg": "RPG & MMO",
+  "racing-sim": "Racing & Driving Sim",
+  "puzzle-platformer": "Puzzle, Co-op & Indie",
+  "fighting-arcade": "Fighting & Arcade",
+  "vr-utility": "VR & Showcase"
 };
 var PLAYER_LABEL = {
   "very-active": "Very active \u{1F525}",
   "active": "Active",
+  "moderate": "Moderate",
   "small": "Small",
   "inactive": "Inactive / dead",
   "n/a-sp": "N/A (single player)"
@@ -73,7 +88,7 @@ function esc(s) {
   });
 }
 function bar(val) {
-  var pct = Math.max(0, Math.min(100, (val / 10) * 100));
+  var pct = Math.max(0, Math.min(100, ((Number(val) || 0) / 10) * 100));
   return '<span class="bar"><span class="bar-fill" style="width:' + pct + '%"></span></span>';
 }
 
@@ -83,11 +98,22 @@ function badge(cls, text, href) {
   if (href) inner = '<a href="' + esc(href) + '" target="_blank" rel="noopener noreferrer">' + inner + "</a>";
   return '<span class="badge ' + cls + '">' + inner + "</span>";
 }
-var storeBadges = function (game, max) {
+function storeBadges(game, max) {
   return (game.stores || []).slice(0, max || 2).map(function (s) {
     return badge("g-store", s.name, s.url);
   }).join(" ");
-};
+}
+function ownershipBadge(game) {
+  var own = game.ownership === "owned" ? "owned" : "wishlist";
+  return badge("own-" + own, OWNERSHIP_LABEL[own]);
+}
+function safeStorageVerdict(game) {
+  var v = game.storageAdvice && game.storageAdvice.verdict;
+  return DISK_LABEL[v] ? v : "hdd-fine";
+}
+function safeHddSp(game) {
+  return game.hddSp && game.hddSp.verdict ? game.hddSp : { verdict: "fine", stutter: "none", loads: "\u2014", fpsEffect: "\u2014", note: "" };
+}
 
 /* ---- active-compat helpers (upgrades the view when the simulator is on) ---- */
 function activeCompat(g) {
@@ -125,7 +151,10 @@ function showDetail(game, triggerEl) {
   var b = game.bench || {};
   var q30 = window.getQuality30(game);
   var sources = (game.sources || []).map(function (u) {
-    return '<li><a href="' + esc(u) + '" target="_blank" rel="noopener noreferrer">' + esc(u) + "</a></li>";
+    var url = typeof u === "string" ? u : (u && u.url ? u.url : "");
+    var label = typeof u === "string" ? u : (u && (u.source || u.url) ? (u.source || u.url) : "");
+    if (!url) return "";
+    return '<li><a href="' + esc(url) + '" target="_blank" rel="noopener noreferrer">' + esc(label) + "</a></li>";
   }).join("");
   var benchSrc = (b.source || []).map(function (u) {
     return '<li><a href="' + esc(u) + '" target="_blank" rel="noopener noreferrer">' + esc(u) + "</a></li>";
@@ -140,21 +169,31 @@ function showDetail(game, triggerEl) {
     (sp.note ? "<p>" + esc(sp.note) + "</p>" : ""));
 
   /* SSD block */
+  var diskVerdict = safeStorageVerdict(game);
   var ssd = window.ssdExpectation(game);
-  var ssdBlock = blockClear("If I add an SSD \u2014 what changes? (" + DISK_LABEL[game.storageAdvice.verdict] + ")",
+  var ssdBlock = blockClear("If I add an SSD \u2014 what changes? (" + DISK_LABEL[diskVerdict] + ")",
     "<p><strong>" + esc(ssd.head) + ".</strong> " + esc(ssd.body) + "</p>" +
-    "<p>Base research: " + esc(game.storageAdvice.note) + "</p>");
+    "<p>Base research: " + esc((game.storageAdvice && game.storageAdvice.note) || "") + "</p>");
 
-  /* GPU-upgrade block (all three cards, active one highlighted) */
+  /* GPU-upgrade block */
   var gpuLines = Object.keys(window.UPGRADE_GPUS).map(function (k) {
     var u = window.upgradeVerdict(game, k);
     var isActive = state.gpu === k;
     return "<p" + (isActive ? ' class="gpu-active"' : "") + "><strong>" +
-      (window.UPGRADE_GPUS[k].name + (isActive ? " (simulated)" : "")) + ":</strong> " +
+      esc(window.UPGRADE_GPUS[k].name + (isActive ? " (simulated)" : "")) + ":</strong> " +
       esc(u.lines.join(" ")) + "</p>";
   }).join("");
   var gpuBlock = blockClear("If I add a graphics card \u2014 expectations", gpuLines +
-    '<p style="opacity:.7">fps figures are estimates; big RTS battles stay CPU-bound regardless of GPU.</p>');
+    '<p style="opacity:.7">fps figures are estimates; CPU-bound scenes remain limited by CPU speed.</p>');
+
+  /* Companion / Test Server block */
+  var companionsBlock = "";
+  if (Array.isArray(game.companions) && game.companions.length > 0) {
+    var compList = game.companions.map(function (cp) {
+      return "<li><strong>" + esc(cp.name) + "</strong> (" + esc(cp.kind || "companion") + "): " + esc(cp.note || "Shares base requirements.") + "</li>";
+    }).join("");
+    companionsBlock = blockClear("Linked Test Servers &amp; Companion Entries", "<ul>" + compList + "</ul>");
+  }
 
   /* Preset blocks */
   var presetBlock =
@@ -171,11 +210,19 @@ function showDetail(game, triggerEl) {
     blockClear("Buy / play on",
       "<div style='display:flex;flex-wrap:wrap;gap:6px'>" + storeBadges(game, 8) + "</div>" +
       "<p>" + esc(game.storeNote || "") + "</p>") +
+    companionsBlock +
     blockClear("My-PC compatibility breakdown",
       "<ul>" + activeCompat(game).notes.map(function (n) { return "<li>" + esc(n) + "</li>"; }).join("") + "</ul>" +
-      "<p>" + esc(game.compatNote) + "</p>");
+      "<p>" + esc(game.compatNote || "") + "</p>");
 
   var c = activeCompat(game);
+  var hddSp = safeHddSp(game);
+  var camp = game.campaign || {};
+  var ai = game.ai || {};
+  var gfx = game.graphics || {};
+  var pl = game.players || {};
+  var sz = game.size || {};
+  var specs = game.specs || { min: {}, rec: {} };
 
   el.innerHTML =
     '<div class="modal" role="dialog" aria-modal="true">' +
@@ -183,24 +230,25 @@ function showDetail(game, triggerEl) {
         '<button class="modal-close" id="detailClose" type="button" aria-label="Close game details">\u00D7</button>' +
         "<h2>" + esc(game.name) + "</h2>" +
         '<div class="badges-row">' +
-          badge("g-" + game.genre, GENRE_LABEL[game.genre]) +
-          badge("g-norm", SETTING_LABEL[game.setting]) +
+          ownershipBadge(game) +
+          badge("g-" + game.genre, GENRE_LABEL[game.genre] || game.genre) +
+          badge("g-norm", SETTING_LABEL[game.setting] || game.setting) +
           badge(game.priceModel === "f2p" ? "g-free" : "g-norm", game.priceModel === "f2p" ? "Free to play" : "Paid (" + fmtPrice(game) + ")") +
           badge("compat-" + c.tier, COMPAT_KEY_LABEL[c.tier] + " \u2014 " + c.score + "/100" +
             (state.gpu && state.gpu !== "none" && game.upCompat ? " \u00B7 " + window.UPGRADE_GPUS[state.gpu].short + " sim" : "")) +
-          badge("disk-" + game.storageAdvice.verdict, DISK_LABEL[game.storageAdvice.verdict]) +
-          badge("g-norm", window.HDDSP_LABEL[game.hddSp.verdict] || "") +
+          badge("disk-" + diskVerdict, DISK_LABEL[diskVerdict]) +
+          badge("g-norm", window.HDDSP_LABEL[hddSp.verdict] || "") +
         "</div>" +
 
         '<div class="detail-grid">' +
-          blockClear("Price", game.priceNote || (game.priceUsd ? "$" + game.priceUsd : "Free")) +
-          blockClear("Campaign", esc(formatCampaignLabel(game.campaign.freeOrPaid)) +
-            (game.campaign.exists === false ? "" : " \u2014 quality " + game.campaign.quality + "/10 " + bar(game.campaign.quality)) +
-            "<p>" + esc(game.campaign.notes) + "</p>") +
-          blockClear("Campaign / Skirmish AI", game.ai.score + "/10 " + bar(game.ai.score) + "<p>" + esc(game.ai.notes) + "</p>") +
-          blockClear("Graphics", game.graphics.score + "/10 " + bar(game.graphics.score) + "<p>" + esc(game.graphics.notes) + "</p>") +
-          blockClear("Player base (" + PLAYER_LABEL[game.players.status] + ")", "<p>" + esc(game.players.notes) + "</p>") +
-          blockClear("Size", "Download: " + esc(game.size.download) + " <br> Install: " + esc(game.size.install)) +
+          blockClear("Price", esc(game.priceNote || (game.priceUsd ? "$" + game.priceUsd : "Free"))) +
+          blockClear("Campaign / Story", esc(formatCampaignLabel(camp.freeOrPaid)) +
+            (camp.exists === false ? "" : " \u2014 quality " + (camp.quality || 0) + "/10 " + bar(camp.quality || 0)) +
+            "<p>" + esc(camp.notes || "") + "</p>") +
+          blockClear("AI / Bots / Enemies", (ai.score || 0) + "/10 " + bar(ai.score || 0) + "<p>" + esc(ai.notes || "") + "</p>") +
+          blockClear("Graphics", (gfx.score || 0) + "/10 " + bar(gfx.score || 0) + "<p>" + esc(gfx.notes || "") + "</p>") +
+          blockClear("Player base (" + (PLAYER_LABEL[pl.status] || pl.status || "Active") + ")", "<p>" + esc(pl.notes || "") + "</p>") +
+          blockClear("Size", "Download: " + esc(sz.download || "\u2014") + " <br> Install: " + esc(sz.install || "\u2014")) +
           spBlock +
           ssdBlock +
           gpuBlock +
@@ -209,17 +257,17 @@ function showDetail(game, triggerEl) {
 
         "<h3>System requirements</h3>" +
         '<table class="specs-table"><thead><tr><th></th><th>Minimum</th><th>Recommended</th></tr></thead><tbody>' +
-          specsRow("CPU", game.specs.min.cpu, game.specs.rec.cpu) +
-          specsRow("GPU", game.specs.min.gpu, game.specs.rec.gpu) +
-          specsRow("RAM", game.specs.min.ram, game.specs.rec.ram) +
-          specsRow("Storage", game.specs.min.storage, game.specs.rec.storage) +
-          specsRow("OS", game.specs.min.os, game.specs.rec.os) +
+          specsRow("CPU", specs.min.cpu, specs.rec.cpu) +
+          specsRow("GPU", specs.min.gpu, specs.rec.gpu) +
+          specsRow("RAM", specs.min.ram, specs.rec.ram) +
+          specsRow("Storage", specs.min.storage, specs.rec.storage) +
+          specsRow("OS", specs.min.os, specs.rec.os) +
         "</tbody></table>" +
 
         "<h3>CPU / GPU demand on my PC</h3>" +
-        "<p>CPU load: <strong>" + (CPU_LABEL[game.cpuDemand] || game.cpuDemand) + "</strong> &nbsp;\u00B7&nbsp; Min GPU tier: <strong>" +
-        game.gpuMinTier + "</strong> / 10 \u00B7 Recommended GPU tier: <strong>" + game.gpuRecTier + "</strong> / 10<br>" +
-        '<em style="opacity:.7">Vega 7 iGPU \u2248 tier 3 \u00B7 GTX 1660S \u2248 6.5 \u00B7 RTX 2060 \u2248 7 \u00B7 RX 6600 \u2248 7.5. HDD penalty depends on install size and streaming load.</em></p>' +
+        "<p>CPU load: <strong>" + esc(CPU_LABEL[game.cpuDemand] || game.cpuDemand) + "</strong> &nbsp;\u00B7&nbsp; Min GPU tier: <strong>" +
+        esc(game.gpuMinTier) + "</strong> / 10 \u00B7 Recommended GPU tier: <strong>" + esc(game.gpuRecTier) + "</strong> / 10<br>" +
+        '<em style="opacity:.7">Vega 7 iGPU \u2248 tier 3 \u00B7 GTX 1060 / RX 580 \u2248 5.2 \u00B7 GTX 1660S \u2248 6.5 \u00B7 RTX 2060 \u2248 7 \u00B7 RX 6600 \u2248 7.5. HDD penalty depends on install size and streaming load.</em></p>' +
 
         "<h3>Sources</h3><ul class='sources'>" + sources + "</ul>" +
       "</div>" +
@@ -231,10 +279,10 @@ function showDetail(game, triggerEl) {
   el.onclick = function (e) { if (!e.target.closest(".modal-inner")) hideDetail(); };
 }
 function SP_LABEL_TITLE(game) {
-  var v = game.hddSp.verdict;
-  if (v === "fine") return "Single-player only, on my HDD \u2014 disruption?";
-  if (v === "slower-loads") return "Single-player only, on my HDD \u2014 slower loads (which I don't mind)";
-  return "Single-player only, on my HDD \u2014 stutter warning";
+  var v = safeHddSp(game).verdict;
+  if (v === "fine") return "Single-player on my HDD \u2014 disruption?";
+  if (v === "slower-loads") return "Single-player on my HDD \u2014 slower loads (which I don't mind)";
+  return "Single-player on my HDD \u2014 stutter warning";
 }
 function hideDetail() {
   var el = document.getElementById("detail");
@@ -261,25 +309,32 @@ function renderTable(games) {
   if (!games || games.length === 0) return renderEmptyState();
   var preset = (typeof state !== "undefined" && state.preset) || "playable";
   var head = "<thead><tr>" +
-    "<th>Game</th><th>Price</th><th>Genre</th><th>Setting</th><th>Campaign</th>" +
+    "<th>Game</th><th>Status</th><th>Price</th><th>Genre</th><th>Setting</th><th>Campaign</th>" +
     "<th>Campaign \u2605</th><th>AI \u2605</th><th>Graphics \u2605</th><th>Players</th>" +
     "<th>Install</th><th>" + esc(PRESET_LABEL[preset] || "1080p \u00B7 Vega 7") + "</th><th>SP on HDD</th><th>My PC</th></tr></thead>";
   var rows = games.map(function (g) {
-    var c = activeCompat(g);
+    var diskVerdict = safeStorageVerdict(g);
+    var hddSp = safeHddSp(g);
+    var camp = g.campaign || {};
+    var ai = g.ai || {};
+    var gfx = g.graphics || {};
+    var pl = g.players || {};
+    var sz = g.size || {};
     return "<tr class='row' tabindex='0' role='button' data-id='" + esc(g.id) + "' title='Click or press Enter for details'>" +
       "<td class='strong'>" + esc(g.name) + "</td>" +
-      "<td>" + (g.priceModel === "f2p" ? badge("g-free", "F2P") : "$" + g.priceUsd) + "</td>" +
-      "<td>" + esc(GENRE_LABEL[g.genre]) + "</td>" +
-      "<td>" + esc(SETTING_LABEL[g.setting]) + "</td>" +
-      "<td>" + (g.campaign.exists ? esc(formatCampaignLabel(g.campaign.freeOrPaid)) : "None") + "</td>" +
-      "<td>" + g.campaign.quality + bar(g.campaign.quality) + "</td>" +
-      "<td>" + g.ai.score + bar(g.ai.score) + "</td>" +
-      "<td>" + g.graphics.score + bar(g.graphics.score) + "</td>" +
-      "<td>" + esc(PLAYER_LABEL[g.players.status]) + "</td>" +
-      "<td>" + esc(g.size.install) + " " + badge("disk-" + g.storageAdvice.verdict, DISK_LABEL[g.storageAdvice.verdict]) + "</td>" +
+      "<td>" + ownershipBadge(g) + "</td>" +
+      "<td>" + (g.priceModel === "f2p" ? badge("g-free", "F2P") : "$" + esc(g.priceUsd)) + "</td>" +
+      "<td>" + esc(GENRE_LABEL[g.genre] || g.genre) + "</td>" +
+      "<td>" + esc(SETTING_LABEL[g.setting] || g.setting) + "</td>" +
+      "<td>" + (camp.exists ? esc(formatCampaignLabel(camp.freeOrPaid)) : "None") + "</td>" +
+      "<td>" + (camp.quality || 0) + bar(camp.quality || 0) + "</td>" +
+      "<td>" + (ai.score || 0) + bar(ai.score || 0) + "</td>" +
+      "<td>" + (gfx.score || 0) + bar(gfx.score || 0) + "</td>" +
+      "<td>" + esc(PLAYER_LABEL[pl.status] || pl.status || "Active") + "</td>" +
+      "<td>" + esc(sz.install || (g.installGB + " GB")) + " " + badge("disk-" + diskVerdict, DISK_LABEL[diskVerdict]) + "</td>" +
       "<td class='fps-cell'>" + esc(presetLine(g, preset)) + "</td>" +
-      "<td class='fps-cell'>" + esc(window.HDDSP_LABEL[g.hddSp.verdict].replace("SP on HDD: ", "")) +
-        (g.hddSp.stutter !== "none" ? " \u00B7 " + esc(g.hddSp.stutter) + " stutter" : "") + "</td>" +
+      "<td class='fps-cell'>" + esc((window.HDDSP_LABEL[hddSp.verdict] || "").replace("SP on HDD: ", "")) +
+        (hddSp.stutter !== "none" ? " \u00B7 " + esc(hddSp.stutter) + " stutter" : "") + "</td>" +
       "<td>" + compatBadge(g) + "</td>" +
     "</tr>";
   }).join("");
@@ -292,25 +347,34 @@ function renderCards(games) {
   var preset = (typeof state !== "undefined" && state.preset) || "playable";
   return "<div class='cards'>" + games.map(function (g) {
     var c = activeCompat(g);
+    var diskVerdict = safeStorageVerdict(g);
+    var hddSp = safeHddSp(g);
+    var camp = g.campaign || {};
+    var ai = g.ai || {};
+    var gfx = g.graphics || {};
+    var pl = g.players || {};
+    var sz = g.size || {};
     return "<div class='card compat-border-" + c.tier + " row' tabindex='0' role='button' data-id='" + esc(g.id) + "'>" +
       "<div class='card-h'>" +
         "<h3>" + esc(g.name) + "</h3>" +
         compatBadge(g) +
       "</div>" +
       "<div class='badges-row'>" +
-        badge("g-" + g.genre, GENRE_LABEL[g.genre]) +
-        badge("g-norm", SETTING_LABEL[g.setting]) +
-        badge(g.priceModel === "f2p" ? "g-free" : "g-norm", g.priceModel === "f2p" ? "F2P" : "$" + g.priceUsd) +
-        badge("disk-" + g.storageAdvice.verdict, DISK_LABEL[g.storageAdvice.verdict]) +
-        (g.hddSp.stutter !== "none" ? badge("g-warn", window.STUTTER_LABEL[g.hddSp.stutter]) : "") +
+        ownershipBadge(g) +
+        badge("g-" + g.genre, GENRE_LABEL[g.genre] || g.genre) +
+        badge("g-norm", SETTING_LABEL[g.setting] || g.setting) +
+        badge(g.priceModel === "f2p" ? "g-free" : "g-norm", g.priceModel === "f2p" ? "F2P" : (g.priceUsd ? "$" + g.priceUsd : "Included")) +
+        badge("disk-" + diskVerdict, DISK_LABEL[diskVerdict]) +
+        (hddSp.stutter !== "none" ? badge("g-warn", window.STUTTER_LABEL[hddSp.stutter] || hddSp.stutter) : "") +
+        (Array.isArray(g.companions) && g.companions.length ? badge("g-norm", "+" + g.companions.length + " Test/Pass") : "") +
       "</div>" +
       "<div class='card-meta'>" +
-        "<div><span>Campaign</span>" + (g.campaign.exists ? esc(formatCampaignLabel(g.campaign.freeOrPaid)) + " \u2014 " + g.campaign.quality + "/10" : "None") + "</div>" +
-        "<div><span>AI</span>" + g.ai.score + "/10 &nbsp;<span>Graphics</span>" + g.graphics.score + "/10</div>" +
+        "<div><span>Campaign</span>" + (camp.exists ? esc(formatCampaignLabel(camp.freeOrPaid)) + " \u2014 " + (camp.quality || 0) + "/10" : "None") + "</div>" +
+        "<div><span>AI</span>" + (ai.score || 0) + "/10 &nbsp;<span>Graphics</span>" + (gfx.score || 0) + "/10</div>" +
         "<div><span>" + esc(PRESET_LABEL[preset] || "1080p") + "</span>" + esc(presetLine(g, preset)) + "</div>" +
-        "<div><span>SP on HDD</span>" + esc(window.HDDSP_LABEL[g.hddSp.verdict].replace("SP on HDD: ", "")) + "</div>" +
-        "<div><span>Players</span>" + esc(PLAYER_LABEL[g.players.status]) + "</div>" +
-        "<div><span>Install</span>" + esc(g.size.install) + "</div>" +
+        "<div><span>SP on HDD</span>" + esc((window.HDDSP_LABEL[hddSp.verdict] || "").replace("SP on HDD: ", "")) + "</div>" +
+        "<div><span>Players</span>" + esc(PLAYER_LABEL[pl.status] || pl.status || "Active") + "</div>" +
+        "<div><span>Install</span>" + esc(sz.install || (g.installGB + " GB")) + "</div>" +
         "<div class='stores-row'>" + storeBadges(g) + "</div>" +
       "</div>" +
     "</div>";

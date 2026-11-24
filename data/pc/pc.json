@@ -17,7 +17,8 @@
     "base_igpu": "Radeon Vega 7 (1900 MHz, Tier 3.0)",
     "ram_gb": 16,
     "ram_type": "DDR4-3200",
-    "storage": "1TB HDD (7200 RPM) + SSD Upgrade Recommendation",
+    "storage": "1TB HDD (7200 RPM) + 2TB/4TB NVMe SSD Recommended for Steam Library",
+    "steam_library_storage_note": "Large Steam libraries (100+ titles) exceed 1TB quickly; reserve NVMe SSD for streaming open-world/modern titles and keep compact/older titles on CMR HDD.",
     "psu_model": "550W 80+ Bronze (43A single +12V rail)",
     "psu_rated_wattage": 550,
     "base_system_watts": 85,
@@ -1076,6 +1077,78 @@
         }
       ],
       "notes": "DO NOT RUN ON 550W PSU. 263W card exhibits microsecond transient spikes up to 526W (total system 611W), triggering OCP shutdown."
+    },
+    {
+      "id": "gtx-1060-6gb",
+      "name": "GeForce GTX 1060 (6 GB) [Steam Ref]",
+      "brand": "NVIDIA",
+      "tier": 5.2,
+      "vram_gb": 6.0,
+      "vram_type": "GDDR5",
+      "tdp_watts": 120.0,
+      "pcie_gen": 3,
+      "pcie_lanes": 16,
+      "outputs": {
+        "hdmi": "2.0b",
+        "hdmi_count": 1,
+        "dp": "1.4",
+        "dp_count": 3
+      },
+      "transient_multiplier": 1.35,
+      "gpu_peak_spike_watts": 162,
+      "system_peak_watts": 247,
+      "continuous_system_watts": 205,
+      "psu_550w_verdict": "pass",
+      "psu_badge": "Headroom Safe",
+      "target_res": "1080p Medium–High (50-60 FPS)",
+      "relative_speed_vs_vega7": 2.3,
+      "price_bdt": 13500.0,
+      "price_bdt_retail": 13500.0,
+      "price_bdt_used": 11500.0,
+      "price_usd": 95.0,
+      "retailer_prices": {},
+      "best_retailer": "Used Market",
+      "price_spread_bdt": 0,
+      "price_spread_pct": 0.0,
+      "spread_alert": false,
+      "sources": [],
+      "notes": "Canonical Steam Recommended baseline across 2016–2021 AAA titles; low 120W draw is effortless on 550W PSU."
+    },
+    {
+      "id": "rx-580-8gb",
+      "name": "Radeon RX 580 (8 GB) [Steam Ref]",
+      "brand": "AMD",
+      "tier": 5.2,
+      "vram_gb": 8.0,
+      "vram_type": "GDDR5",
+      "tdp_watts": 185.0,
+      "pcie_gen": 3,
+      "pcie_lanes": 16,
+      "outputs": {
+        "hdmi": "2.0b",
+        "hdmi_count": 1,
+        "dp": "1.4",
+        "dp_count": 3
+      },
+      "transient_multiplier": 1.65,
+      "gpu_peak_spike_watts": 305,
+      "system_peak_watts": 390,
+      "continuous_system_watts": 270,
+      "psu_550w_verdict": "pass",
+      "psu_badge": "Headroom Safe",
+      "target_res": "1080p Medium–High (50-60 FPS)",
+      "relative_speed_vs_vega7": 2.3,
+      "price_bdt": 12500.0,
+      "price_bdt_retail": 12500.0,
+      "price_bdt_used": 10500.0,
+      "price_usd": 90.0,
+      "retailer_prices": {},
+      "best_retailer": "Used Market",
+      "price_spread_bdt": 0,
+      "price_spread_pct": 0.0,
+      "spread_alert": false,
+      "sources": [],
+      "notes": "Widely listed Steam Recommended GPU alongside GTX 1060; 8GB VRAM helps modern textures while staying inside 550W PSU limits."
     }
   ],
   "motherboards": [
@@ -1989,6 +2062,90 @@
           "url": "https://www.ucc.com.bd/",
           "tier": "tier0_fixture",
           "scraped_at": "2026-11-22T15:50:12Z"
+        }
+      ]
+    },
+    {
+      "id": "samsung-990-pro-2tb",
+      "name": "Samsung 990 PRO 2TB PCIe 4.0 NVMe",
+      "brand": "Samsung",
+      "interface": "NVMe M.2",
+      "pcie_gen": 4,
+      "capacity_gb": 2000,
+      "has_dram": true,
+      "seq_read_mbs": 7450,
+      "price_bdt": 21500,
+      "price_usd": 169,
+      "retailer_prices": {
+        "Star Tech": 21900,
+        "Ryans": 22200,
+        "UCC": 21500
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 700,
+      "price_spread_pct": 3.3,
+      "spread_alert": false,
+      "notes": "High-endurance 2TB DRAM NVMe ideal for holding 15+ modern open-world Steam titles simultaneously.",
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-24T13:00:00Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-24T13:00:00Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-24T13:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "wd-black-sn850x-4tb",
+      "name": "WD Black SN850X 4TB PCIe 4.0 NVMe",
+      "brand": "Western Digital",
+      "interface": "NVMe M.2",
+      "pcie_gen": 4,
+      "capacity_gb": 4000,
+      "has_dram": true,
+      "seq_read_mbs": 7300,
+      "price_bdt": 39500,
+      "price_usd": 299,
+      "retailer_prices": {
+        "Star Tech": 40200,
+        "Ryans": 40800,
+        "UCC": 39500
+      },
+      "best_retailer": "UCC",
+      "price_spread_bdt": 1300,
+      "price_spread_pct": 3.3,
+      "spread_alert": false,
+      "notes": "4TB Steam Library single-drive capacity — enough headroom to install the entire 105-game Steam library without uninstall juggling.",
+      "sources": [
+        {
+          "source": "Star Tech",
+          "url": "https://www.startech.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-24T13:00:00Z"
+        },
+        {
+          "source": "Ryans Computers",
+          "url": "https://www.ryans.com/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-24T13:00:00Z"
+        },
+        {
+          "source": "UCC BD",
+          "url": "https://www.ucc.com.bd/",
+          "tier": "tier0_fixture",
+          "scraped_at": "2026-11-24T13:00:00Z"
         }
       ]
     }

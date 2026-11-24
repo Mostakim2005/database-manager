@@ -277,6 +277,7 @@
         <option value="anime">Has Anime / Donghua / Motion</option>
         <option value="live">Has Live-Action / TV</option>
         <option value="production">In Production (News)</option>
+        <option value="plan">Plan to Watch / Read (Wishlist)</option>
         <option value="direct">Direct comix.to Link Only</option>
         <option value="browse">Browse Fallback Only</option>
       </select>
@@ -391,6 +392,7 @@
         if (adaptF === 'anime' && String(item.anime || '').startsWith('**None**')) return false;
         if (adaptF === 'live' && String(item.live_action || '').startsWith('**None**')) return false;
         if (adaptF === 'production' && !(String(item.anime || '') + ' ' + String(item.live_action || '')).toLowerCase().includes('in production')) return false;
+        if (adaptF === 'plan' && !item.watchlist_status) return false;
         if (adaptF === 'direct' && !String(item.link || '').includes('comix.to/title/')) return false;
         if (adaptF === 'browse' && !String(item.link || '').includes('browse?q=')) return false;
         return true;
@@ -429,6 +431,13 @@
         originBadge.className = 'badge badge-origin';
         originBadge.textContent = item.origin || 'Unknown';
         tdName.appendChild(originBadge);
+
+        if (item.watchlist_status) {
+          const wlBadge = document.createElement('span');
+          wlBadge.className = 'badge badge-browse';
+          wlBadge.textContent = item.watchlist_status === 'plan_to_read' ? 'Plan to Read (Unread)' : 'Plan to Watch (Unwatched)';
+          tdName.appendChild(wlBadge);
+        }
 
         if ((item.media_type || 'comic') === 'comic') {
           const isDirect = String(item.link || '').includes('comix.to/title/');

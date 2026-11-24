@@ -1,12 +1,31 @@
 {
-  "version": "1.0.0",
+  "version": "2.0.0",
+  "ownership_buckets": {
+    "owned": "Confirmed Steam / PC library owned titles",
+    "wishlist": "Researched strategy/PC wishlist candidates not yet owned"
+  },
   "primary_categories": {
     "classic-rts": "Classic Real-Time Strategy (base building + resource macro + army control)",
     "4x-grand": "4X & Grand Strategy (empire diplomacy, long campaigns, map painting)",
-    "hybrid-td": "Hybrid Strategy & Tower Defense (survival waves, defense optimization)",
+    "hybrid-td": "Hybrid Strategy & Tower Defense (survival waves, defense optimization, lane strategy)",
     "army-sim": "Army, Colony & Settlement Simulation (logistics, city building, sandbox battles)",
-    "tactical-rpg": "Turn-Based & Real-Time Tactical RPG (squad tactics, positioning)"
+    "tactical-rpg": "Turn-Based & Real-Time Tactical RPG (squad tactics, positioning, dungeon roguelike)",
+    "fps-shooter": "FPS & Tactical Shooters (competitive, co-op, story shooters & battle royale)",
+    "action-adventure": "Action, Stealth & Open-World Adventure (sandbox crime, parkour, stealth, brawlers)",
+    "rpg": "Role-Playing & Action MMO (open-world RPGs, ARPGs, incremental MMOs)",
+    "racing-sim": "Racing & Vehicle Simulation (arcade racers, track sims, trucking)",
+    "puzzle-platformer": "Puzzle, Co-op & Narrative Adventure (physics puzzles, co-op platformers, visual novels)",
+    "fighting-arcade": "Fighting & Arcade Action (2D/3D fighters and arcade challenges)",
+    "vr-utility": "VR & Training Experiences (PC VR showcases and interactive suites)"
   },
+  "settings": [
+    "ancient",
+    "realistic-modern",
+    "futuristic",
+    "fantasy",
+    "post-apocalyptic",
+    "steampunk"
+  ],
   "discovery_expansion_seeds": [
     {
       "name": "Beyond All Reason (BAR)",

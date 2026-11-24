@@ -25,8 +25,8 @@
 
 ## 3. Repository Directory Structure & Conventions
 * `data/` - Normalized master datasets across 7 registered domains (`groups`, `display_name`, `aliases` defined in `registry.json`):
-  * `data/pc/` - Unified PC hardware catalog (75 parts across 12 categories: CPUs, GPUs, motherboards, RAM, SSDs, HDDs, PSUs, displays, peripherals) + `psu` transient excursion rules (`pc.json`, `schema.json`).
-  * `data/games/` - PC strategy/RTS benchmark database, GPU upgrade simulator links, and taxonomy (`games.js`, `games.json`, `taxonomy.json`, `benchmarks.csv`).
+  * `data/pc/` - Unified PC hardware catalog (79 parts across 12 categories: CPUs, GPUs incl. Steam Ref GTX 1060 / RX 580, motherboards, RAM, SSDs incl. 2TB/4TB NVMe, HDDs, PSUs, displays, peripherals) + `psu` transient excursion rules (`pc.json`, `schema.json`).
+  * `data/games/` - Unified PC & strategy games database (`153` titles: `105` owned Steam + `48` wishlist), GPU/storage compatibility links, and taxonomy (`games.json`, `games.js`, `taxonomy.json`, `schema.json`, `benchmarks.csv`).
   * `data/ai/` - AI model pricing, benchmarks, tiers, and origin taxonomy (`models_master.*`, `taxonomy.json`, `raw_api_dumps/`). Decoupled from local VRAM hardware.
   * `data/media/` - Interconnected Media & Adaptations catalog (`media_catalog.json`, `schema.json`, gitignored `sitemaps/*.xml`) covering comics, light novels, anime, donghua, movies, and TV series.
   * `data/book/` - Book collection & reading tracker (`books.json`, `schema.json`), rename-ready with `learning`/`reading` aliases.
@@ -77,3 +77,4 @@
 * **TRAP 17:** Guard `latest_run` and `conclusion` against `None` in GitHub exporters/triage — see `docs/DECISIONS_AND_TRAPS.md` -> `[TRAP: GitHub-Latest-Run-And-Conclusion-None]`.
 * **TRAP 18:** Compare `recent_commits` HEAD date against `pushed_at` to avoid false-active triage on metadata bumps like `dataview-fork` — see `docs/DECISIONS_AND_TRAPS.md` -> `[TRAP: Dataview-Fork-Push-Timestamp-Anomaly]`.
 * **TRAP 19:** `db_verify.py` unpacks `ranges` entries as `[min, max]` arrays rather than `{min, max}` objects — see `docs/DECISIONS_AND_TRAPS.md` -> `[TRAP: Schema-Json-Range-Bounds-Must-Be-Arrays]`.
+* **TRAP 20:** Steam `storesearch` ranks sequels ahead of exact matches and delisted/bundled apps omit `price_overview` — see `docs/DECISIONS_AND_TRAPS.md` -> `[TRAP: Steam-Storesearch-Sequel-Ranking-And-Bundle-Prices]`.

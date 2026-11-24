@@ -1409,5 +1409,129 @@
     "live_action": "**Yes (TV Series)** — Seasons 1–6+ adapted from Diana Gabaldon novels.",
     "franchise_id": "outlander",
     "relations": []
+  },
+  {
+    "id": "the-witcher-novels",
+    "name": "The Witcher (Original Novel Saga)",
+    "alt": "Wiedzmin (by Andrzej Sapkowski) · [Plan to Read / Unread]",
+    "media_type": "light_novel",
+    "origin": "Polish Fantasy Novel Series (Steam Game Source)",
+    "watchlist_status": "plan_to_read",
+    "link": "https://www.goodreads.com/series/40911-the-witcher",
+    "anime": "**Adapted To** — *The Witcher: Nightmare of the Wolf* (2021 Anime Film, Plan to Watch).",
+    "live_action": "**Adapted To** — *The Witcher* (Netflix Series, Plan to Watch).",
+    "franchise_id": "the-witcher",
+    "relations": [
+      {
+        "relation": "adapted_to",
+        "target_id": "the-witcher-netflix",
+        "target_type": "tv_series",
+        "title": "The Witcher (Netflix Series)"
+      },
+      {
+        "relation": "adapted_to",
+        "target_id": "the-witcher-nightmare-of-the-wolf",
+        "target_type": "anime",
+        "title": "The Witcher: Nightmare of the Wolf"
+      }
+    ]
+  },
+  {
+    "id": "the-witcher-netflix",
+    "name": "The Witcher (Netflix Series)",
+    "alt": "Plan to Watch (Unwatched) — Linked to Witcher Steam Trilogy",
+    "media_type": "tv_series",
+    "origin": "Fantasy Drama (Netflix)",
+    "watchlist_status": "plan_to_watch",
+    "link": "https://www.imdb.com/title/tt5180504/",
+    "anime": "**Related** — *The Witcher: Nightmare of the Wolf* (Anime Prequel).",
+    "live_action": "**Yes (TV Series — Plan to Watch)** — Netflix live-action series (S1–S3+).",
+    "franchise_id": "the-witcher",
+    "relations": [
+      {
+        "relation": "adapted_from",
+        "target_id": "the-witcher-novels",
+        "target_type": "light_novel",
+        "title": "The Witcher (Original Novel Saga)"
+      },
+      {
+        "relation": "related",
+        "target_id": "the-witcher-nightmare-of-the-wolf",
+        "target_type": "anime",
+        "title": "The Witcher: Nightmare of the Wolf"
+      }
+    ]
+  },
+  {
+    "id": "the-witcher-nightmare-of-the-wolf",
+    "name": "The Witcher: Nightmare of the Wolf",
+    "alt": "Vesemir Prequel Anime Film · [Plan to Watch / Unwatched]",
+    "media_type": "anime",
+    "origin": "Anime Film (Studio Mir / Netflix)",
+    "watchlist_status": "plan_to_watch",
+    "link": "https://www.imdb.com/title/tt11657662/",
+    "anime": "**Yes (Anime Film — Plan to Watch)** — 2021 animated prequel film by Studio Mir.",
+    "live_action": "**Related** — *The Witcher* (Netflix Series).",
+    "franchise_id": "the-witcher",
+    "relations": [
+      {
+        "relation": "adapted_from",
+        "target_id": "the-witcher-novels",
+        "target_type": "light_novel",
+        "title": "The Witcher (Original Novel Saga)"
+      }
+    ]
+  },
+  {
+    "id": "metro-2033-novel",
+    "name": "Metro 2033 (Original Novel)",
+    "alt": "Dmitry Glukhovsky · [Plan to Read / Unread] · Linked to Metro 2033 Redux & Last Light",
+    "media_type": "light_novel",
+    "origin": "Russian Post-Apocalyptic Novel (Steam Game Source)",
+    "watchlist_status": "plan_to_read",
+    "link": "https://www.goodreads.com/book/show/17274667-metro-2033",
+    "anime": "**None**",
+    "live_action": "**None**",
+    "franchise_id": "metro-2033",
+    "relations": []
+  },
+  {
+    "id": "halo-tv-series",
+    "name": "Halo (TV Series)",
+    "alt": "Plan to Watch (Unwatched) — Linked to Halo Infinite (Steam)",
+    "media_type": "tv_series",
+    "origin": "Military Sci-Fi Series (Paramount+)",
+    "watchlist_status": "plan_to_watch",
+    "link": "https://www.imdb.com/title/tt2934286/",
+    "anime": "**Related (Anime Anthology)** — *Halo Legends* (2010, Plan to Watch).",
+    "live_action": "**Yes (TV Series — Plan to Watch)** — Seasons 1–2 (2022–2024).",
+    "franchise_id": "halo",
+    "relations": []
+  },
+  {
+    "id": "assassins-creed-movie",
+    "name": "Assassin's Creed (2016 Film)",
+    "alt": "Plan to Watch (Unwatched) — Linked to Assassin's Creed Steam Titles",
+    "media_type": "movie",
+    "origin": "Action-Adventure Film (20th Century Fox)",
+    "watchlist_status": "plan_to_watch",
+    "link": "https://www.imdb.com/title/tt2094766/",
+    "anime": "**None**",
+    "live_action": "**Yes (Movie — Plan to Watch)** — 2016 film set in the Assassin's Creed universe.",
+    "franchise_id": "assassins-creed",
+    "relations": []
+  },
+  {
+    "id": "borderlands-movie",
+    "name": "Borderlands (2024 Film)",
+    "alt": "Plan to Watch (Unwatched) — Linked to Borderlands 2 / 3 / Pre-Sequel (Steam)",
+    "media_type": "movie",
+    "origin": "Sci-Fi Action Comedy Film (Lionsgate)",
+    "watchlist_status": "plan_to_watch",
+    "link": "https://www.imdb.com/title/tt4978420/",
+    "anime": "**None**",
+    "live_action": "**Yes (Movie — Plan to Watch)** — 2024 film adaptation of the Borderlands games.",
+    "franchise_id": "borderlands",
+    "relations": []
   }
 ]
