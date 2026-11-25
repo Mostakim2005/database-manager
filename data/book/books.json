@@ -1,6 +1,6 @@
 {
   "schema_version": "2.0.0",
-  "updated_at": "2026-11-24",
+  "updated_at": "2026-11-25",
   "books": [
     {
       "id": "ddia-kleppmann",
@@ -109,6 +109,54 @@
       "rating": 0,
       "pages": 528,
       "notes": "Wishlist / Plan to Read (unread) — Novel companion to the Assassin's Creed Steam library series."
+    },
+    {
+      "id": "metro-2034-glukhovsky",
+      "title": "Metro 2034",
+      "author": "Dmitry Glukhovsky",
+      "subject": "Post-Apocalyptic Sci-Fi (Game Source)",
+      "format": "paperback",
+      "ownership_status": "wishlist",
+      "reading_status": "queued",
+      "rating": 0,
+      "pages": 320,
+      "notes": "Wishlist / Plan to Read (unread) — Sequel novel to Metro 2033; alongside Metro: Last Light Complete Edition."
+    },
+    {
+      "id": "metro-2035-glukhovsky",
+      "title": "Metro 2035",
+      "author": "Dmitry Glukhovsky",
+      "subject": "Post-Apocalyptic Sci-Fi (Game Source)",
+      "format": "paperback",
+      "ownership_status": "wishlist",
+      "reading_status": "queued",
+      "rating": 0,
+      "pages": 502,
+      "notes": "Wishlist / Plan to Read (unread) — Concluding Artyom novel bridging into Metro Exodus."
+    },
+    {
+      "id": "dishonored-corroded-man",
+      "title": "Dishonored: The Corroded Man",
+      "author": "Adam Christopher",
+      "subject": "Steampunk Stealth Fiction (Game Tie-In)",
+      "format": "paperback",
+      "ownership_status": "wishlist",
+      "reading_status": "queued",
+      "rating": 0,
+      "pages": 368,
+      "notes": "Wishlist / Plan to Read (unread) — Official novel bridging Dishonored and Dishonored 2."
+    },
+    {
+      "id": "alien-isolation-novel",
+      "title": "Alien: Isolation (The Novel)",
+      "author": "Keith R.A. DeCandido",
+      "subject": "Sci-Fi Survival Horror (Game Tie-In)",
+      "format": "paperback",
+      "ownership_status": "wishlist",
+      "reading_status": "queued",
+      "rating": 0,
+      "pages": 352,
+      "notes": "Wishlist / Plan to Read (unread) — Official novelization of Amanda Ripley's Sevastopol Station story."
     }
   ]
 }

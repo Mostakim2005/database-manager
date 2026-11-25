@@ -110,7 +110,7 @@ flowchart LR
 ```
 
 ### [SUBSYSTEM: GameRank-Compatibility-Engine] | Aliases: vega 7 simulator, game benchmark flow
-> **1-Line Summary:** Heuristic scoring, Steam enrichment, 8-GPU progressive benchmark table (`benchmarks.csv`), and storage footprint engine evaluating 163 owned/wishlist PC & RTS games against Ryzen 5 5600GT hardware and simulated GPU/SSD upgrades.
+> **1-Line Summary:** Heuristic scoring, Steam enrichment, 8-GPU progressive benchmark table (`benchmarks.csv`), and storage footprint engine evaluating 195 owned/wishlist PC & RTS games against Ryzen 5 5600GT hardware and simulated GPU/SSD upgrades.
 
 ```mermaid
 flowchart LR
@@ -121,7 +121,7 @@ flowchart LR
 
     S0[Steam Store + Player + SteamSpy APIs]:::startNode -->|multi_site_games.py normalize & enrich| G1[(data/games/games.json)]:::dataNode
     B0[(data/games/benchmarks.csv 8-GPU Ladder)]:::dataNode -->|GET /api/games/benchmarks| G5
-    G1 -->|Loads 163 records: 105 owned + 58 wishlist| G2[js/rank.js & Disk Footprint Advisor]:::processNode
+    G1 -->|Loads 195 records: 105 owned + 90 wishlist| G2[js/rank.js & Disk Footprint Advisor]:::processNode
     G3[User filters Ownership / Genre / GPU / Preset]:::startNode -->|Inputs filter + GPU tier| G2
     G2 -->|Applies GPU margin + CPU/HDD penalties| G4[Calculates 0-100 Score & SSD Recommendation]:::processNode
     G4 -->|Assigns Great / OK / Struggle + Storage Match| G5[js/render.js Card, Table & Progressive GPU Modal]:::startNode

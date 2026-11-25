@@ -1533,5 +1533,110 @@
     "live_action": "**Yes (Movie — Plan to Watch)** — 2024 film adaptation of the Borderlands games.",
     "franchise_id": "borderlands",
     "relations": []
+  },
+  {
+    "id": "devil-may-cry-2025",
+    "name": "Devil May Cry (2025 Netflix Anime)",
+    "alt": "Plan to Watch (Unwatched) — Linked to Devil May Cry 5 (Steam)",
+    "media_type": "anime",
+    "origin": "Netflix Adult Animated Series (Studio Mir / Capcom)",
+    "watchlist_status": "plan_to_watch",
+    "link": "https://www.imdb.com/title/tt15716776/",
+    "anime": "**Yes (Netflix ONA S1 — 2025)** — 8 episodes adapted from Capcom's Devil May Cry game series.<br>• **Watch:** Netflix",
+    "live_action": "**None** — Animated game adaptation.",
+    "franchise_id": "devil-may-cry",
+    "relations": [
+      {
+        "relation": "related",
+        "target_id": "devil-may-cry-2007",
+        "target_type": "anime",
+        "title": "Devil May Cry: The Animated Series (2007)"
+      }
+    ]
+  },
+  {
+    "id": "devil-may-cry-2007",
+    "name": "Devil May Cry: The Animated Series (2007)",
+    "alt": "Plan to Watch (Unwatched) — Linked to Devil May Cry 5 (Steam)",
+    "media_type": "anime",
+    "origin": "Madhouse TV Anime (Capcom)",
+    "watchlist_status": "plan_to_watch",
+    "link": "https://www.imdb.com/title/tt1048049/",
+    "anime": "**Yes (TV Anime — 2007)** — 12-episode anime by Studio Madhouse starring Dante.<br>• **Watch:** Crunchyroll / Hulu",
+    "live_action": "**None** — Original Madhouse anime adaptation.",
+    "franchise_id": "devil-may-cry",
+    "relations": [
+      {
+        "relation": "related",
+        "target_id": "devil-may-cry-2025",
+        "target_type": "anime",
+        "title": "Devil May Cry (2025 Netflix Anime)"
+      }
+    ]
+  },
+  {
+    "id": "dragons-dogma-2020",
+    "name": "Dragon's Dogma (2020 Netflix Anime)",
+    "alt": "Plan to Watch (Unwatched) — Linked to Dragon's Dogma: Dark Arisen (Steam)",
+    "media_type": "anime",
+    "origin": "Netflix 3D CG Anime (Sublimation / Capcom)",
+    "watchlist_status": "plan_to_watch",
+    "link": "https://www.imdb.com/title/tt10011298/",
+    "anime": "**Yes (Netflix ONA — 2020)** — 7-episode dark fantasy CG adaptation based on Capcom's Dragon's Dogma.<br>• **Watch:** Netflix",
+    "live_action": "**None** — 3D CG anime adaptation.",
+    "franchise_id": "dragons-dogma",
+    "relations": []
+  },
+  {
+    "id": "secret-level-2024",
+    "name": "Secret Level (Prime Video Anthology)",
+    "alt": "Plan to Watch (Unwatched) — Linked to Sifu, Warhammer 40K, Unreal & PlayStation Titles",
+    "media_type": "anime",
+    "origin": "Adult Animated Sci-Fi/Gaming Anthology (Blur Studio / Amazon MGM)",
+    "watchlist_status": "plan_to_watch",
+    "link": "https://www.imdb.com/title/tt33204697/",
+    "anime": "**Yes (Prime Video Anthology — 2024)** — 15-episode CGI anthology featuring dedicated episodes for Sifu ('It Takes a Life'), Warhammer 40,000, Armored Core, Unreal Tournament & PlayStation titles.<br>• **Watch:** Amazon Prime Video",
+    "live_action": "**None** — Blur Studio CGI anthology.",
+    "franchise_id": "secret-level",
+    "relations": []
+  },
+  {
+    "id": "batman-assault-on-arkham",
+    "name": "Batman: Assault on Arkham (2014 Film)",
+    "alt": "Plan to Watch (Unwatched) — Linked to Batman: Arkham Knight (Steam)",
+    "media_type": "movie",
+    "origin": "DC Universe Animated Film (Batman: Arkham Universe)",
+    "watchlist_status": "plan_to_watch",
+    "link": "https://www.imdb.com/title/tt3139086/",
+    "anime": "**Yes (Animated Film — 2014)** — Feature animated movie set inside the Batman: Arkham video game continuity.",
+    "live_action": "**None** — DC Animated feature.",
+    "franchise_id": "batman-arkham",
+    "relations": []
+  },
+  {
+    "id": "alien-earth-2025",
+    "name": "Alien: Earth (TV Series)",
+    "alt": "Plan to Watch (Unwatched) — Linked to Alien: Isolation (Steam & Mobile)",
+    "media_type": "tv_series",
+    "origin": "Sci-Fi Horror Series (FX / Hulu)",
+    "watchlist_status": "plan_to_watch",
+    "link": "https://www.imdb.com/title/tt13623632/",
+    "anime": "**None** — Live-action TV prequel in the Alien universe.",
+    "live_action": "**Yes (Live-Action Series — 2025)** — Sci-fi horror series by Noah Hawley set on Earth prior to the original Alien film.<br>• **Watch:** Hulu / FX / Disney+",
+    "franchise_id": "alien",
+    "relations": []
+  },
+  {
+    "id": "resident-evil-infinite-darkness",
+    "name": "Resident Evil: Infinite Darkness (Netflix)",
+    "alt": "Plan to Watch (Unwatched) — Linked to Resident Evil 2 Remake & Resident Evil 7 (Steam)",
+    "media_type": "anime",
+    "origin": "Netflix 3D CG Animated Miniseries (Capcom)",
+    "watchlist_status": "plan_to_watch",
+    "link": "https://www.imdb.com/title/tt13173144/",
+    "anime": "**Yes (Netflix CG Miniseries — 2021)** — 4-episode canon CGI series starring Leon S. Kennedy and Claire Redfield.<br>• **Watch:** Netflix",
+    "live_action": "**None** — Canon 3D CG animated miniseries.",
+    "franchise_id": "resident-evil",
+    "relations": []
   }
 ]

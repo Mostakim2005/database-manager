@@ -17,7 +17,7 @@
   * `web/pc/index.html` -> safe-DOM PC catalog & PSU guard renderer
 
 ### [FEATURE: GameRank-Compatibility-And-PC-Link] | Aliases: game rank, vega 7 rts, fps preset, upgrade simulator, game benchmarks, steam library
-> **1-Line Summary:** Unified 163-title PC & strategy catalog (`105` owned Steam titles + `58` researched wishlist titles) across 12 genres evaluated against Ryzen 5 5600GT (Vega 7), 155 FPS benchmark rows (`benchmarks.csv`) across the canonical 8-GPU progressive ladder, live Disk Footprint & Storage Advisor, and canonical `pc` GPU/SSD cross-links.
+> **1-Line Summary:** Unified 195-title PC & strategy catalog (`105` owned Steam titles + `90` researched wishlist titles) across 12 genres evaluated against Ryzen 5 5600GT (Vega 7), 488 FPS benchmark rows (`benchmarks.csv`) across the canonical 8-GPU progressive ladder, live Disk Footprint & Storage Advisor, and canonical `pc` GPU/SSD cross-links.
 * **User Intention (Non-Negotiable):** Keep owned Steam games and researched wishlist titles in one unified schema v4.0.0 structure (`ownership`, `steamAppId`, `companions`, `specs`, `hddSp`, `storageAdvice`), automatically populating progressive benchmarks across the user's Ryzen 5 5600GT + 8-GPU ladder (`vega-7-igpu`, `rx-580-8gb`, `gtx-1660-super`, `rtx-2060-super`, `rx-6600`, `rtx-2070`, `rtx-3060`, `rtx-2070-super`) on every new game addition or benchmark update.
 * **Visual / UI Behavior:** Lives in `web/games/index.html` with `All / Owned / Wishlist` filter, 12 genre filters across Steam PC and RTS categories, live Disk Footprint & SSD/HDD Advisor bar, canonical `pc`-keyed GPU simulator dropdown, live **Progressive GPU FPS Scaling Table** inside the detail modal (with 550W PSU status), companion/test-server modal badges, and card/table views.
 * **Code Anchors (Grep Targets):**
@@ -38,7 +38,7 @@
   * `data/ai/models_master.json` -> `models`
 
 ### [FEATURE: Media-Catalog-And-Adaptation-Hub] | Aliases: media domain, manga, manhua, light novel, anime, donghua, movie, tv_series
-> **1-Line Summary:** Interconnected 117-entry media catalog uniting `comic`, `light_novel`, `anime`, `donghua`, `movie`, and `tv_series` via `franchise_id`/`relations` (including Steam-linked adaptations tagged `plan_to_watch` / `plan_to_read`), canonical `comix.to` sitemap lookup, adaptation probes, and link health audits without external Obsidian markdown sync.
+> **1-Line Summary:** Interconnected 124-entry media catalog uniting `comic`, `light_novel`, `anime`, `donghua`, `movie`, and `tv_series` via `franchise_id`/`relations` (including Steam/PC-game-linked adaptations tagged `plan_to_watch` / `plan_to_read`), canonical `comix.to` sitemap lookup, adaptation probes, and link health audits without external Obsidian markdown sync.
 * **User Intention (Non-Negotiable):** Model adaptation chains (e.g., light novel -> comic/anime/donghua -> movie/series) natively inside SQLite/JSON while preserving `Outlander` TV series tracking cleanly (excluding private MEGA URLs), marking game-linked additions unambiguously as `plan_to_watch` / `plan_to_read`, and discarding legacy Obsidian markdown write-back.
 * **Visual / UI Behavior:** Dashboard `web/media/index.html` featuring subdomain filters, origin filters, `Plan to Watch / Read (Wishlist)` filter & badges, clickable franchise relation chips, Doctor diagnostics, and Link Audit panels backed by `/api/media`, `/api/media/doctor`, `/api/media/links`, and `/api/media/classified`.
 * **Code Anchors (Grep Targets):**
@@ -48,7 +48,7 @@
   * `web/media/index.html` -> franchise relation chips, watchlist badges & safe-DOM table renderer
 
 ### [FEATURE: Book-Collection-And-Reading-Tracker] | Aliases: book domain, books, learning, reading
-> **1-Line Summary:** Personal library catalog (`books.json` / `book.sqlite`) tracking 9 books (4 owned/core + 5 Steam-franchise source novels tagged `wishlist` / `queued` / unread) with title, author, subject, format, ownership, reading status, ratings, and notes with alias readiness (`learning`, `reading`).
+> **1-Line Summary:** Personal library catalog (`books.json` / `book.sqlite`) tracking 13 books (4 owned/core + 9 PC/Steam-franchise source & tie-in novels tagged `wishlist` / `queued` / unread) with title, author, subject, format, ownership, reading status, ratings, and notes with alias readiness (`learning`, `reading`).
 * **User Intention (Non-Negotiable):** Track owned vs wishlist vs active reading books (explicitly marking unread game-source books as `wishlist` + `queued`) while keeping labels and aliases in `data/registry.json` flexible enough to rename the domain (e.g. `Book` -> `Learning`) without code rewrites.
 * **Visual / UI Behavior:** Safe-DOM card view in `web/book/index.html` with KPI summary strip, ownership/reading/format filters, live alias chips, and `/api/book` + `/api/domain/learning` alias routing.
 * **Code Anchors (Grep Targets):**

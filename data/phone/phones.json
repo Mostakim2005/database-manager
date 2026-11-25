@@ -1,6 +1,6 @@
 {
   "schema_version": "2.0.0",
-  "updated_at": "2026-11-24",
+  "updated_at": "2026-11-25",
   "phones": [
     {
       "id": "poco-f6-12-256",
@@ -18,20 +18,88 @@
       "price_bdt": 42500,
       "price_usd": 379,
       "supported_games": [
-        { "name": "Genshin Impact", "settings": "High 60 FPS", "status": "smooth" },
-        { "name": "Wuthering Waves", "settings": "Medium-High 60 FPS", "status": "playable" },
-        { "name": "PUBG Mobile", "settings": "Smooth + Extreme+ 90 FPS", "status": "locked" },
-        { "name": "Honkai: Star Rail", "settings": "High 60 FPS", "status": "smooth" },
-        { "name": "Farlight 84", "settings": "Ultra 90 FPS", "status": "locked" },
-        { "name": "Combat Master Mobile", "settings": "High 120 FPS", "status": "locked" },
-        { "name": "Hitman: Blood Money — Reprisal", "settings": "High 60 FPS", "status": "smooth" },
-        { "name": "IdleOn - The Incremental MMO", "settings": "Native 60 FPS (Cross-Save w/ Steam)", "status": "locked" }
+        {
+          "name": "Genshin Impact",
+          "settings": "High 60 FPS",
+          "status": "smooth"
+        },
+        {
+          "name": "Wuthering Waves",
+          "settings": "Medium-High 60 FPS",
+          "status": "playable"
+        },
+        {
+          "name": "PUBG Mobile",
+          "settings": "Smooth + Extreme+ 90 FPS",
+          "status": "locked"
+        },
+        {
+          "name": "Honkai: Star Rail",
+          "settings": "High 60 FPS",
+          "status": "smooth"
+        },
+        {
+          "name": "Farlight 84",
+          "settings": "Ultra 90 FPS",
+          "status": "locked"
+        },
+        {
+          "name": "Combat Master Mobile",
+          "settings": "High 120 FPS",
+          "status": "locked"
+        },
+        {
+          "name": "Valorant Mobile",
+          "settings": "High 120 FPS (CN / Global Rollout)",
+          "status": "locked"
+        },
+        {
+          "name": "Subnautica (Mobile)",
+          "settings": "High 60 FPS (Playdigious Port)",
+          "status": "smooth"
+        },
+        {
+          "name": "Alien: Isolation",
+          "settings": "Graphics / 60 FPS Mode (Feral Port)",
+          "status": "smooth"
+        },
+        {
+          "name": "Rocket League Sideswipe",
+          "settings": "High 60 FPS",
+          "status": "locked"
+        },
+        {
+          "name": "Hitman: Blood Money — Reprisal",
+          "settings": "High 60 FPS",
+          "status": "smooth"
+        },
+        {
+          "name": "IdleOn - The Incremental MMO",
+          "settings": "Native 60 FPS (Cross-Save w/ Steam)",
+          "status": "locked"
+        }
       ],
       "supported_apps": [
-        { "name": "Mihon / Tachiyomi", "category": "Comics Reader", "status": "supported" },
-        { "name": "Obsidian Mobile", "category": "Notes", "status": "supported" },
-        { "name": "Termux + Python", "category": "Dev CLI", "status": "supported" },
-        { "name": "Winlator / Turnip", "category": "PC Emulation", "status": "supported" }
+        {
+          "name": "Mihon / Tachiyomi",
+          "category": "Comics Reader",
+          "status": "supported"
+        },
+        {
+          "name": "Obsidian Mobile",
+          "category": "Notes",
+          "status": "supported"
+        },
+        {
+          "name": "Termux + Python",
+          "category": "Dev CLI",
+          "status": "supported"
+        },
+        {
+          "name": "Winlator / Turnip",
+          "category": "PC Emulation",
+          "status": "supported"
+        }
       ],
       "notes": "Strong price-to-SoC ratio with Adreno Turnip driver support."
     },
@@ -51,16 +119,63 @@
       "price_bdt": 43000,
       "price_usd": 399,
       "supported_games": [
-        { "name": "PUBG Mobile", "settings": "Smooth + 60 FPS", "status": "smooth" },
-        { "name": "Genshin Impact", "settings": "Medium 45-50 FPS", "status": "playable" },
-        { "name": "Mobile Legends", "settings": "Ultra 120 Hz", "status": "locked" },
-        { "name": "Farlight 84", "settings": "High 60 FPS", "status": "smooth" },
-        { "name": "IdleOn - The Incremental MMO", "settings": "Native 60 FPS (Cross-Save w/ Steam)", "status": "locked" }
+        {
+          "name": "PUBG Mobile",
+          "settings": "Smooth + 60 FPS",
+          "status": "smooth"
+        },
+        {
+          "name": "Genshin Impact",
+          "settings": "Medium 45-50 FPS",
+          "status": "playable"
+        },
+        {
+          "name": "Mobile Legends",
+          "settings": "Ultra 120 Hz",
+          "status": "locked"
+        },
+        {
+          "name": "Farlight 84",
+          "settings": "High 60 FPS",
+          "status": "smooth"
+        },
+        {
+          "name": "Rocket League Sideswipe",
+          "settings": "High 60 FPS",
+          "status": "locked"
+        },
+        {
+          "name": "Subnautica (Mobile)",
+          "settings": "Medium 30-45 FPS (Playdigious Port)",
+          "status": "playable"
+        },
+        {
+          "name": "Alien: Isolation",
+          "settings": "Performance 30-60 FPS",
+          "status": "playable"
+        },
+        {
+          "name": "IdleOn - The Incremental MMO",
+          "settings": "Native 60 FPS (Cross-Save w/ Steam)",
+          "status": "locked"
+        }
       ],
       "supported_apps": [
-        { "name": "Samsung Notes + GoodLock", "category": "Productivity", "status": "supported" },
-        { "name": "Mihon / Kotatsu", "category": "Comics Reader", "status": "supported" },
-        { "name": "Moon+ Reader Pro", "category": "Book Reader", "status": "supported" }
+        {
+          "name": "Samsung Notes + GoodLock",
+          "category": "Productivity",
+          "status": "supported"
+        },
+        {
+          "name": "Mihon / Kotatsu",
+          "category": "Comics Reader",
+          "status": "supported"
+        },
+        {
+          "name": "Moon+ Reader Pro",
+          "category": "Book Reader",
+          "status": "supported"
+        }
       ],
       "notes": "microSD expansion + 4 OS upgrades; slower charging than Chinese rivals."
     },
@@ -80,17 +195,73 @@
       "price_bdt": 56500,
       "price_usd": 499,
       "supported_games": [
-        { "name": "Genshin Impact", "settings": "Highest 60 FPS", "status": "locked" },
-        { "name": "Zenless Zone Zero", "settings": "High 60 FPS", "status": "smooth" },
-        { "name": "Wuthering Waves", "settings": "High 60 FPS", "status": "smooth" },
-        { "name": "Hitman: Blood Money — Reprisal", "settings": "Max 60 FPS", "status": "locked" },
-        { "name": "GTA: San Andreas — Definitive", "settings": "High 30-60 FPS", "status": "smooth" },
-        { "name": "Combat Master Mobile", "settings": "Max 120 FPS", "status": "locked" }
+        {
+          "name": "Genshin Impact",
+          "settings": "Highest 60 FPS",
+          "status": "locked"
+        },
+        {
+          "name": "Zenless Zone Zero",
+          "settings": "High 60 FPS",
+          "status": "smooth"
+        },
+        {
+          "name": "Wuthering Waves",
+          "settings": "High 60 FPS",
+          "status": "smooth"
+        },
+        {
+          "name": "Hitman: Blood Money — Reprisal",
+          "settings": "Max 60 FPS",
+          "status": "locked"
+        },
+        {
+          "name": "GTA: San Andreas — Definitive",
+          "settings": "High 30-60 FPS",
+          "status": "smooth"
+        },
+        {
+          "name": "Combat Master Mobile",
+          "settings": "Max 120 FPS",
+          "status": "locked"
+        },
+        {
+          "name": "Valorant Mobile",
+          "settings": "Max 120 FPS (CN / Global Rollout)",
+          "status": "locked"
+        },
+        {
+          "name": "Subnautica (Mobile)",
+          "settings": "High 60 FPS (Playdigious Port)",
+          "status": "smooth"
+        },
+        {
+          "name": "Alien: Isolation",
+          "settings": "Graphics / 60 FPS Mode (Feral Port)",
+          "status": "smooth"
+        },
+        {
+          "name": "Rocket League Sideswipe",
+          "settings": "High 60 FPS",
+          "status": "locked"
+        }
       ],
       "supported_apps": [
-        { "name": "Termux + Proot Ubuntu", "category": "Dev CLI", "status": "supported" },
-        { "name": "Mihon / Aniyomi", "category": "Media & Comics", "status": "supported" },
-        { "name": "Yuzu / Sudachi", "category": "Console Emulation", "status": "supported" }
+        {
+          "name": "Termux + Proot Ubuntu",
+          "category": "Dev CLI",
+          "status": "supported"
+        },
+        {
+          "name": "Mihon / Aniyomi",
+          "category": "Media & Comics",
+          "status": "supported"
+        },
+        {
+          "name": "Yuzu / Sudachi",
+          "category": "Console Emulation",
+          "status": "supported"
+        }
       ],
       "notes": "16GB RAM + sustained vapor-chamber cooling handles heavy multitasking and emulation."
     },
@@ -110,16 +281,64 @@
       "price_bdt": 33500,
       "price_usd": 299,
       "supported_games": [
-        { "name": "PUBG Mobile", "settings": "Smooth + Extreme 60 FPS", "status": "smooth" },
-        { "name": "Genshin Impact", "settings": "Low-Medium 45 FPS", "status": "playable" },
-        { "name": "Slay the Spire / Into the Breach", "category_hint": "Strategy", "settings": "Native 60 FPS", "status": "locked" },
-        { "name": "Combat Master Mobile", "settings": "Medium-High 60 FPS", "status": "smooth" },
-        { "name": "IdleOn - The Incremental MMO", "settings": "Native 60 FPS (Cross-Save w/ Steam)", "status": "locked" }
+        {
+          "name": "PUBG Mobile",
+          "settings": "Smooth + Extreme 60 FPS",
+          "status": "smooth"
+        },
+        {
+          "name": "Genshin Impact",
+          "settings": "Low-Medium 45 FPS",
+          "status": "playable"
+        },
+        {
+          "name": "Slay the Spire / Into the Breach",
+          "category_hint": "Strategy",
+          "settings": "Native 60 FPS",
+          "status": "locked"
+        },
+        {
+          "name": "Combat Master Mobile",
+          "settings": "Medium-High 60 FPS",
+          "status": "smooth"
+        },
+        {
+          "name": "Rocket League Sideswipe",
+          "settings": "High 60 FPS",
+          "status": "locked"
+        },
+        {
+          "name": "Subnautica (Mobile)",
+          "settings": "Low-Medium 30-40 FPS (Playdigious Port)",
+          "status": "playable"
+        },
+        {
+          "name": "Alien: Isolation",
+          "settings": "Battery / Performance 30 FPS",
+          "status": "playable"
+        },
+        {
+          "name": "IdleOn - The Incremental MMO",
+          "settings": "Native 60 FPS (Cross-Save w/ Steam)",
+          "status": "locked"
+        }
       ],
       "supported_apps": [
-        { "name": "Mihon", "category": "Comics Reader", "status": "supported" },
-        { "name": "Koreader / Librera", "category": "Book Reader", "status": "supported" },
-        { "name": "Obsidian Mobile", "category": "Notes", "status": "supported" }
+        {
+          "name": "Mihon",
+          "category": "Comics Reader",
+          "status": "supported"
+        },
+        {
+          "name": "Koreader / Librera",
+          "category": "Book Reader",
+          "status": "supported"
+        },
+        {
+          "name": "Obsidian Mobile",
+          "category": "Notes",
+          "status": "supported"
+        }
       ],
       "notes": "Balanced mid-range daily driver with sharp 1.5K display for reading comics and books."
     }
