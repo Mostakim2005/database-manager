@@ -20,6 +20,7 @@ from __future__ import annotations
 import argparse
 import csv
 import datetime
+from html.parser import HTMLParser
 import json
 import re
 import subprocess
@@ -252,43 +253,98 @@ def _fetch_text(url: str, timeout: int = 25) -> str:
         return resp.read().decode("utf-8", errors="replace")
 
 
+class _AATableHTMLParser(HTMLParser):
+    """Stdlib HTMLParser fallback for Artificial Analysis leaderboard tables when selectolax is absent."""
+
+    def __init__(self) -> None:
+        super().__init__()
+        self._in_tbody = False
+        self._in_tr = False
+        self._in_td = False
+        self._cur_cells: list[str] = []
+        self._cur_cell_parts: list[str] = []
+        self._cur_hrefs: list[str] = []
+        self.rows: list[tuple[list[str], list[str]]] = []
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        t = tag.lower()
+        if t == "tbody":
+            self._in_tbody = True
+        elif self._in_tbody and t == "tr":
+            self._in_tr = True
+            self._cur_cells = []
+            self._cur_hrefs = []
+        elif self._in_tr and t == "td":
+            self._in_td = True
+            self._cur_cell_parts = []
+        elif self._in_tr and t == "a":
+            href = dict(attrs).get("href") or ""
+            if href:
+                self._cur_hrefs.append(href)
+
+    def handle_endtag(self, tag: str) -> None:
+        t = tag.lower()
+        if t == "td" and self._in_td:
+            self._cur_cells.append("".join(self._cur_cell_parts).strip())
+            self._in_td = False
+        elif t == "tr" and self._in_tr:
+            if self._cur_cells:
+                self.rows.append((self._cur_cells, self._cur_hrefs))
+            self._in_tr = False
+        elif t == "tbody":
+            self._in_tbody = False
+
+    def handle_data(self, data: str) -> None:
+        if self._in_td:
+            self._cur_cell_parts.append(data)
+
+
 def parse_aa_leaderboard(html: str) -> dict[str, dict[str, Any]]:
-    """Parse Artificial Analysis leaderboard rows using selectolax (or regex fallback)."""
+    """Parse Artificial Analysis leaderboard rows using selectolax or stdlib HTMLParser fallback."""
     rows_out: dict[str, dict[str, Any]] = {}
     if not html:
         return rows_out
+
+    raw_rows: list[tuple[list[str], list[str]]] = []
     if HAVE_SELECTOLAX:
         tree = LexborHTMLParser(html)
-        for rank, tr in enumerate(tree.css("table tbody tr"), 1):
+        for tr in tree.css("table tbody tr"):
             tds = [td.text(strip=True) for td in tr.css("td")]
-            if len(tds) < 6:
-                continue
-            slug = ""
-            for a in tr.css("a"):
-                href = a.attributes.get("href", "")
-                if href.startswith("/models/") and "/providers" not in href:
-                    slug = href.replace("/models/", "").strip("/")
-                    break
-            if not slug or slug in rows_out:
-                continue
-            try:
-                aa_intel = float(tds[1]) if tds[1] not in ("--", "") else None
-            except ValueError:
-                aa_intel = None
-            cost_m = re.search(r"\$([0-9]+(?:\.[0-9]+)?)", tds[2])
-            speed_m = re.search(r"([0-9]+(?:\.[0-9]+)?)", tds[3])
-            lat_m = re.search(r"([0-9]+(?:\.[0-9]+)?)", tds[4])
-            rows_out[slug] = {
-                "aa_rank": rank,
-                "aa_slug": slug,
-                "aa_url": f"https://artificialanalysis.ai/models/{slug}",
-                "raw_name": tds[0],
-                "intelligence_index": aa_intel,
-                "cost_per_task_usd": float(cost_m.group(1)) if cost_m else None,
-                "speed_tok_s": float(speed_m.group(1)) if speed_m else None,
-                "latency_s": float(lat_m.group(1)) if lat_m else None,
-                "context_tokens": _parse_ctx_str(tds[5]),
-            }
+            hrefs = [a.attributes.get("href", "") for a in tr.css("a")]
+            raw_rows.append((tds, hrefs))
+    else:
+        parser = _AATableHTMLParser()
+        parser.feed(html)
+        raw_rows = parser.rows
+
+    for rank, (tds, hrefs) in enumerate(raw_rows, 1):
+        if len(tds) < 6:
+            continue
+        slug = ""
+        for href in hrefs:
+            if href.startswith("/models/") and "/providers" not in href:
+                slug = href.replace("/models/", "").strip("/")
+                break
+        if not slug or slug in rows_out:
+            continue
+        try:
+            aa_intel = float(tds[1]) if tds[1] not in ("--", "") else None
+        except ValueError:
+            aa_intel = None
+        cost_m = re.search(r"\$([0-9]+(?:\.[0-9]+)?)", tds[2])
+        speed_m = re.search(r"([0-9]+(?:\.[0-9]+)?)", tds[3])
+        lat_m = re.search(r"([0-9]+(?:\.[0-9]+)?)", tds[4])
+        rows_out[slug] = {
+            "aa_rank": rank,
+            "aa_slug": slug,
+            "aa_url": f"https://artificialanalysis.ai/models/{slug}",
+            "raw_name": tds[0],
+            "intelligence_index": aa_intel,
+            "cost_per_task_usd": float(cost_m.group(1)) if cost_m else None,
+            "speed_tok_s": float(speed_m.group(1)) if speed_m else None,
+            "latency_s": float(lat_m.group(1)) if lat_m else None,
+            "context_tokens": _parse_ctx_str(tds[5]),
+        }
     return rows_out
 
 

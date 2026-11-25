@@ -266,10 +266,18 @@ class TestMultiSiteCatalogExpansion(unittest.TestCase):
                 self.assertIn("capabilities", m["fact_check"])
                 self.assertIn("sources", m["fact_check"])
 
+        from scrapers import multi_site_ai
+
         sample_aa = '<table><tbody><tr><td><a href="/models/gpt-6-2-astra">GPT-6.2 Astra</a></td><td>62</td><td>$4.00</td><td>14.2</td><td>161.42</td><td>1M</td></tr></tbody></table>'
-        parsed_aa = parse_aa_leaderboard(sample_aa)
-        self.assertIn("gpt-6-2-astra", parsed_aa)
-        self.assertEqual(parsed_aa["gpt-6-2-astra"]["intelligence_index"], 62.0)
+        orig_sel = multi_site_ai.HAVE_SELECTOLAX
+        try:
+            for flag in (orig_sel, False):
+                multi_site_ai.HAVE_SELECTOLAX = flag
+                parsed_aa = parse_aa_leaderboard(sample_aa)
+                self.assertIn("gpt-6-2-astra", parsed_aa)
+                self.assertEqual(parsed_aa["gpt-6-2-astra"]["intelligence_index"], 62.0)
+        finally:
+            multi_site_ai.HAVE_SELECTOLAX = orig_sel
 
     def test_all_seven_domains_record_counts(self) -> None:
         health = db_hub.query_domain_health()
