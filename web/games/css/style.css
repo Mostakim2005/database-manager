@@ -178,6 +178,8 @@ a { color: var(--accent); }
 .specs-table th, .specs-table td { border: 1px solid var(--line); padding: 6px 10px; }
 .specs-table thead th { background: #1c2331; color: var(--muted); }
 .specs-table tbody th { background: #1c2331; text-align: left; color: var(--accent); font-weight: 600; width: 90px; }
+.specs-table tr.gpu-bench-base td { background: rgba(63, 185, 80, 0.08); }
+.specs-table tr.gpu-bench-active td { background: rgba(88, 166, 255, 0.14); border-color: var(--accent); }
 
 .sources { font-size: 12.5px; padding-left: 18px; color: var(--muted); word-break: break-all; }
 

@@ -49,11 +49,11 @@ class TestDbExport(unittest.TestCase):
                 book_cnt = cur.execute("SELECT COUNT(*) FROM books").fetchone()[0]
                 phone_cnt = cur.execute("SELECT COUNT(*) FROM phones").fetchone()[0]
                 self.assertGreaterEqual(ai_cnt, 45)
-                self.assertGreaterEqual(game_cnt, 51)
-                self.assertGreaterEqual(bench_cnt, 50)
-                self.assertGreaterEqual(nonzero_gb, 51)
-                self.assertGreaterEqual(comp_cnt, 70)
-                self.assertGreaterEqual(gpu_cnt, 8)
+                self.assertGreaterEqual(game_cnt, 160)
+                self.assertGreaterEqual(bench_cnt, 150)
+                self.assertGreaterEqual(nonzero_gb, 160)
+                self.assertGreaterEqual(comp_cnt, 80)
+                self.assertGreaterEqual(gpu_cnt, 15)
                 self.assertGreaterEqual(cpu_cnt, 6)
                 self.assertGreaterEqual(media_cnt, 104)
                 self.assertGreaterEqual(book_cnt, 4)
@@ -151,6 +151,15 @@ class TestServerCliAndHttp(unittest.TestCase):
             with self.assertRaises(urllib.error.HTTPError) as ctx:
                 urllib.request.urlopen(f"{base}/games/js/", timeout=5)
             self.assertEqual(ctx.exception.code, 403)
+
+            # 4. Shared cross-domain navigation bar & Overview Hub serve safely (zero innerHTML)
+            with urllib.request.urlopen(f"{base}/shared/nav.js", timeout=5) as resp:
+                nav_js = resp.read().decode("utf-8")
+                self.assertEqual(resp.status, 200)
+                self.assertNotIn("innerHTML", nav_js)
+            with urllib.request.urlopen(f"{base}/index.html", timeout=5) as resp:
+                idx_html = resp.read().decode("utf-8")
+                self.assertIn("home-overview", idx_html)
         finally:
             httpd.shutdown()
             httpd.server_close()

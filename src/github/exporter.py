@@ -192,6 +192,29 @@ def export_markdown_report(
 
     md.append("")
 
+    sync_state = None
+    try:
+        from .scanner import load_sync_state
+        sync_state = load_sync_state()
+    except Exception:
+        sync_state = None
+    local_sync = (sync_state or {}).get("local_sync") if isinstance(sync_state, dict) else None
+    if isinstance(local_sync, dict) and local_sync.get("counts"):
+        lc = local_sync["counts"]
+        md.append("---")
+        md.append("")
+        md.append("## Local Workspace vs. GitHub Web Sync")
+        md.append(
+            f"> **Checked:** {local_sync.get('checked_at', '—')} | "
+            f"**Synced:** {lc.get('synced', 0)} | **Dirty/Ahead:** {lc.get('dirty_or_ahead', 0)} | "
+            f"**Local-Only:** {lc.get('local_only', 0)} | **Web-Only:** {lc.get('web_only', 0)}"
+        )
+        if local_sync.get("deleted_on_web_since_last"):
+            md.append(f"- **Deleted on Web Since Last Scan:** {', '.join(local_sync['deleted_on_web_since_last'])}")
+        if local_sync.get("deleted_locally_since_last"):
+            md.append(f"- **Deleted Locally Since Last Scan:** {', '.join(local_sync['deleted_locally_since_last'])}")
+        md.append("")
+
     content = "\n".join(md)
     dest_path.parent.mkdir(parents=True, exist_ok=True)
     dest_path.write_text(content, encoding="utf-8")

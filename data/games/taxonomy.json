@@ -1,5 +1,15 @@
 {
-  "version": "2.0.0",
+  "version": "2.1.0",
+  "benchmark_gpu_ladder": [
+    "vega-7-igpu",
+    "rx-580-8gb",
+    "gtx-1660-super",
+    "rtx-2060-super",
+    "rx-6600",
+    "rtx-2070",
+    "rtx-3060",
+    "rtx-2070-super"
+  ],
   "ownership_buckets": {
     "owned": "Confirmed Steam / PC library owned titles",
     "wishlist": "Researched strategy/PC wishlist candidates not yet owned"

@@ -10,7 +10,7 @@
       --surface: #161b22;
       --surface-hover: #21262d;
       --surface-active: #30363d;
-      --card-bg: rgba(22, 27, 34, 0.85);
+      --card-bg: rgba(22, 27, 34, 0.88);
       --border: #30363d;
       --text: #e6edf3;
       --text-muted: #8b949e;
@@ -47,20 +47,9 @@
       flex-shrink: 0;
     }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .brand h1 {
-      font-size: 18px;
-      font-weight: 700;
-      letter-spacing: -0.3px;
-    }
-    .brand-sub {
-      font-size: 13px;
-      color: var(--text-muted);
-    }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+    .brand-sub { font-size: 13px; color: var(--text-muted); }
     .badge-chip {
       background: rgba(88, 166, 255, 0.15);
       color: var(--accent);
@@ -71,12 +60,7 @@
       font-weight: 600;
     }
 
-    .nav-tabs {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 6px;
-    }
+    .nav-tabs { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
     .group-cluster {
       display: inline-flex;
       align-items: center;
@@ -110,10 +94,7 @@
       gap: 6px;
       transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease;
     }
-    .tab-btn:hover {
-      background: var(--surface-hover);
-      color: var(--text);
-    }
+    .tab-btn:hover { background: var(--surface-hover); color: var(--text); }
     .tab-btn.active {
       background: var(--surface-hover);
       color: var(--accent);
@@ -121,11 +102,7 @@
       font-weight: 600;
     }
 
-    .quick-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
+    .quick-links { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
     .link-btn {
       background: var(--surface-hover);
       color: var(--text-muted);
@@ -134,12 +111,10 @@
       border-radius: 6px;
       text-decoration: none;
       font-size: 12px;
+      cursor: pointer;
       transition: background-color 0.18s ease, color 0.18s ease;
     }
-    .link-btn:hover {
-      color: #fff;
-      background: var(--surface-active);
-    }
+    .link-btn:hover { color: #fff; background: var(--surface-active); }
 
     .stats-strip {
       background: var(--bg);
@@ -153,11 +128,8 @@
       flex-shrink: 0;
       flex-wrap: wrap;
     }
-    .stats-item span {
-      color: var(--text);
-      font-weight: 600;
-      margin-left: 4px;
-    }
+    .stats-item span { color: var(--text); font-weight: 600; margin-left: 4px; }
+
     .status-pill {
       display: inline-flex;
       align-items: center;
@@ -170,21 +142,117 @@
       font-size: 12px;
       cursor: pointer;
     }
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--amber);
-    }
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--amber); }
     .status-pill[data-state="online"] .status-dot { background: var(--green); }
     .status-pill[data-state="offline"] .status-dot { background: var(--red); }
 
-    .main-viewport {
-      flex: 1;
-      position: relative;
-      background: #090d13;
-      min-height: 0;
+    .main-viewport { flex: 1; position: relative; background: #090d13; min-height: 0; overflow: hidden; }
+
+    .home-view {
+      position: absolute;
+      inset: 0;
+      overflow-y: auto;
+      padding: 24px;
+      display: none;
     }
+    .home-view.active { display: block; }
+
+    .home-banner {
+      background: linear-gradient(135deg, rgba(22, 27, 34, 0.96), rgba(16, 24, 38, 0.96));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    .home-banner h2 { font-size: 20px; margin-bottom: 4px; }
+    .home-banner p { font-size: 13px; color: var(--text-muted); }
+
+    .ai-ask-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin-bottom: 20px;
+    }
+    .ai-ask-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .ai-ask-row { display: flex; flex-wrap: wrap; gap: 8px; }
+    .ai-ask-row input {
+      flex: 1;
+      min-width: 240px;
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-size: 13px;
+    }
+    .ai-ask-row select {
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 10px;
+      font-size: 12.5px;
+    }
+    .btn-primary {
+      background: #238636;
+      color: #fff;
+      border: 1px solid #2ea043;
+      border-radius: 6px;
+      padding: 7px 14px;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-primary:hover:not(:disabled) { background: #2ea043; }
+    .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .ai-answer-box {
+      margin-top: 10px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px;
+      font-size: 13px;
+      white-space: pre-wrap;
+      display: none;
+      max-height: 280px;
+      overflow-y: auto;
+    }
+    .ai-answer-box.open { display: block; }
+
+    .domain-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 14px;
+    }
+    .domain-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: border-color 0.15s ease, transform 0.15s ease;
+    }
+    .domain-card:hover { border-color: var(--accent); transform: translateY(-1px); }
+    .domain-card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+    .domain-card-title { font-size: 16px; font-weight: 700; }
+    .domain-card-meta { font-size: 12.5px; color: var(--text-muted); }
+    .domain-card-actions { display: flex; gap: 8px; margin-top: auto; padding-top: 6px; }
 
     iframe {
       width: 100%;
@@ -195,15 +263,9 @@
       left: 0;
       display: none;
     }
-    iframe.active {
-      display: block;
-    }
+    iframe.active { display: block; }
 
-    :focus-visible {
-      outline: 2px solid var(--accent);
-      outline-offset: 2px;
-    }
-
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { transition: none !important; animation: none !important; }
     }
@@ -230,7 +292,9 @@
     <div id="dynamic-stats" style="display:contents;"></div>
   </div>
 
-  <div id="main-viewport" class="main-viewport"></div>
+  <div id="main-viewport" class="main-viewport">
+    <section id="home-overview" class="home-view" aria-label="Database Manager Main Overview"></section>
+  </div>
 
   <script>
     "use strict";
@@ -246,11 +310,11 @@
         devops: { display_name: "DevOps", order: 5 }
       },
       domains: [
-        { domain: "pc", display_name: "PC & Hardware", short_label: "PC", unit_label: "parts", aliases: ["hardware", "cpus", "pc_components"], group: "pc_gaming", tab_order: 1, show_in_portal: true, web_path: "pc/index.html", live_count: 79 },
-        { domain: "games", display_name: "PC Games", short_label: "Games", unit_label: "titles", aliases: ["gamerank"], group: "pc_gaming", tab_order: 2, show_in_portal: true, web_path: "games/index.html", live_count: 153 },
-        { domain: "ai", display_name: "AI Models", short_label: "AI", unit_label: "models", aliases: ["llms", "ai_models"], group: "ai_models", tab_order: 3, show_in_portal: true, web_path: "ai/index.html", live_count: 52 },
+        { domain: "pc", display_name: "PC Parts & PSU Guard", short_label: "PC & PSU", unit_label: "parts", aliases: ["hardware", "cpus", "pc_components"], group: "pc_gaming", tab_order: 1, show_in_portal: true, web_path: "pc/index.html", live_count: 82 },
+        { domain: "games", display_name: "Games & Benchmarks", short_label: "Games", unit_label: "titles", aliases: ["gamerank"], group: "pc_gaming", tab_order: 2, show_in_portal: true, web_path: "games/index.html", live_count: 163 },
+        { domain: "ai", display_name: "AI Models & Pricing", short_label: "AI Matrix", unit_label: "models", aliases: ["llms", "ai_models"], group: "ai_models", tab_order: 3, show_in_portal: true, web_path: "ai/index.html", live_count: 52 },
         { domain: "media", display_name: "Media & Adaptations", short_label: "Media", unit_label: "entries", aliases: ["manga", "manhua", "movies", "tv_series", "light_novels"], group: "media_knowledge", tab_order: 4, show_in_portal: true, web_path: "media/index.html", live_count: 117 },
-        { domain: "book", display_name: "Book", short_label: "Book", unit_label: "books", aliases: ["books", "learning", "reading"], group: "media_knowledge", tab_order: 5, show_in_portal: true, web_path: "book/index.html", live_count: 9 },
+        { domain: "book", display_name: "Book Collection", short_label: "Book", unit_label: "books", aliases: ["books", "learning", "reading"], group: "media_knowledge", tab_order: 5, show_in_portal: true, web_path: "book/index.html", live_count: 9 },
         { domain: "phone", display_name: "Phone & Mobile", short_label: "Phone", unit_label: "devices", aliases: ["phones", "mobile"], group: "mobile", tab_order: 6, show_in_portal: true, web_path: "phone/index.html", live_count: 4 },
         { domain: "github", display_name: "GitHub Repositories", short_label: "GitHub", unit_label: "repos", aliases: ["repos"], group: "devops", tab_order: 7, show_in_portal: true, web_path: "github/index.html", live_count: 36 }
       ]
@@ -258,22 +322,43 @@
 
     let portalDomains = [];
     let aliasIndex = {};
+    let activeTabKey = "home";
+    let cachedAgentStatus = null;
 
     function resolveTargetTab(raw) {
       const key = String(raw || "").trim().toLowerCase().replace(/^#/, "");
-      if (!key) return portalDomains[0] ? portalDomains[0].domain : "pc";
+      if (!key || key === "home" || key === "overview" || key === "main") return "home";
       if (aliasIndex[key]) return aliasIndex[key];
-      return portalDomains[0] ? portalDomains[0].domain : "pc";
+      return "home";
+    }
+
+    function updatePopOutLink(tab) {
+      const popLink = document.getElementById("pop-current-link");
+      if (!popLink) return;
+      const found = portalDomains.find(d => d.domain === tab);
+      if (found) {
+        popLink.href = found.web_path || (found.domain + "/index.html");
+        popLink.textContent = "Open " + (found.short_label || found.domain) + " Standalone ↗";
+        popLink.style.display = "inline-flex";
+      } else {
+        popLink.style.display = "none";
+      }
     }
 
     function switchTab(rawTab, updateHash = true) {
       const tab = resolveTargetTab(rawTab);
+      activeTabKey = tab;
       document.querySelectorAll(".tab-btn").forEach(btn => {
         const active = btn.dataset.tab === tab;
         btn.classList.toggle("active", active);
         btn.setAttribute("aria-selected", active ? "true" : "false");
         btn.setAttribute("tabindex", active ? "0" : "-1");
       });
+
+      const homeView = document.getElementById("home-overview");
+      if (homeView) {
+        homeView.classList.toggle("active", tab === "home");
+      }
 
       document.querySelectorAll("#main-viewport iframe").forEach(frame => {
         const active = frame.id === "frame-" + tab;
@@ -283,9 +368,228 @@
         }
       });
 
+      updatePopOutLink(tab);
       if (updateHash && window.location.hash !== "#" + tab) {
         history.replaceState(null, "", "#" + tab);
       }
+    }
+
+    function renderOverviewHub(domainsList) {
+      const home = document.getElementById("home-overview");
+      if (!home) return;
+      home.replaceChildren();
+
+      const totalRecords = domainsList.reduce((acc, d) => acc + Number(d.live_count ?? d.record_count ?? 0), 0);
+
+      const banner = document.createElement("div");
+      banner.className = "home-banner";
+      const bannerLeft = document.createElement("div");
+      const h2 = document.createElement("h2");
+      h2.textContent = "Main Overview — Unified Multi-Domain Hub";
+      const p = document.createElement("p");
+      p.textContent = domainsList.length + " registered domains · " + totalRecords + " total records · Baseline PC: Ryzen 5 5600GT (Vega 7, 16 GB DDR4, 550W PSU)";
+      bannerLeft.appendChild(h2);
+      bannerLeft.appendChild(p);
+
+      const bannerRight = document.createElement("div");
+      bannerRight.style.display = "flex";
+      bannerRight.style.flexWrap = "wrap";
+      bannerRight.style.gap = "8px";
+      bannerRight.style.alignItems = "center";
+
+      const proxyPill = document.createElement("span");
+      proxyPill.id = "home-proxy-pill";
+      proxyPill.className = "badge-chip";
+      proxyPill.textContent = "CLIProxyAPI: checking...";
+      bannerRight.appendChild(proxyPill);
+
+      const startProxyBtn = document.createElement("button");
+      startProxyBtn.id = "home-start-proxy-btn";
+      startProxyBtn.type = "button";
+      startProxyBtn.className = "btn-primary";
+      startProxyBtn.style.display = "none";
+      startProxyBtn.textContent = "Start CLIProxyAPI";
+      startProxyBtn.addEventListener("click", async () => {
+        startProxyBtn.disabled = true;
+        startProxyBtn.textContent = "Starting...";
+        try {
+          await fetch("/api/agent/start", { method: "POST" });
+        } finally {
+          await refreshHomeProxyStatus();
+          startProxyBtn.disabled = false;
+          startProxyBtn.textContent = "Start CLIProxyAPI";
+        }
+      });
+      bannerRight.appendChild(startProxyBtn);
+
+      banner.appendChild(bannerLeft);
+      banner.appendChild(bannerRight);
+      home.appendChild(banner);
+
+      /* Cross-Domain AI Ask Card (Charlie 5) */
+      const aiCard = document.createElement("div");
+      aiCard.className = "ai-ask-card";
+      const aiTop = document.createElement("div");
+      aiTop.className = "ai-ask-top";
+      const aiTitle = document.createElement("strong");
+      aiTitle.textContent = "Global Cross-Domain AI Assistant (CLIProxyAPI + Authenticated Google Accounts)";
+      const aiAcct = document.createElement("span");
+      aiAcct.id = "home-accounts-label";
+      aiAcct.style.fontSize = "12px";
+      aiAcct.style.color = "var(--text-muted)";
+      aiAcct.textContent = "Checking authenticated accounts...";
+      aiTop.appendChild(aiTitle);
+      aiTop.appendChild(aiAcct);
+
+      const aiRow = document.createElement("div");
+      aiRow.className = "ai-ask-row";
+      const qInput = document.createElement("input");
+      qInput.id = "home-ai-question";
+      qInput.type = "text";
+      qInput.placeholder = "Ask across PC, Games, AI Models, Media, Books, Phones, or GitHub (e.g. 'Which GPUs fit my 550W PSU for Bodycam?')";
+      const modelSel = document.createElement("select");
+      modelSel.id = "home-ai-model";
+      const defOpt = document.createElement("option");
+      defOpt.value = "";
+      defOpt.textContent = "Auto Model";
+      modelSel.appendChild(defOpt);
+      const askBtn = document.createElement("button");
+      askBtn.type = "button";
+      askBtn.className = "btn-primary";
+      askBtn.textContent = "Ask Agent";
+
+      const ansBox = document.createElement("div");
+      ansBox.id = "home-ai-answer";
+      ansBox.className = "ai-answer-box";
+
+      async function runHomeAsk() {
+        const q = qInput.value.trim();
+        if (!q) return;
+        askBtn.disabled = true;
+        askBtn.textContent = "Thinking...";
+        ansBox.classList.add("open");
+        ansBox.textContent = "Querying CLIProxyAPI across domain catalogs...";
+        try {
+          const res = await fetch("/api/agent/ask", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ question: q, model: modelSel.value })
+          });
+          const data = await res.json();
+          if (!res.ok || !data.ok) throw new Error(data.error || ("HTTP " + res.status));
+          ansBox.textContent = "[" + (data.model || "model") + "]\n\n" + (data.content || "");
+        } catch (err) {
+          ansBox.textContent = "Agent error: " + err.message;
+        } finally {
+          askBtn.disabled = false;
+          askBtn.textContent = "Ask Agent";
+        }
+      }
+      askBtn.addEventListener("click", runHomeAsk);
+      qInput.addEventListener("keydown", e => { if (e.key === "Enter") runHomeAsk(); });
+
+      aiRow.appendChild(qInput);
+      aiRow.appendChild(modelSel);
+      aiRow.appendChild(askBtn);
+      aiCard.appendChild(aiTop);
+      aiCard.appendChild(aiRow);
+      aiCard.appendChild(ansBox);
+      home.appendChild(aiCard);
+
+      /* Domain Cards Grid */
+      const grid = document.createElement("div");
+      grid.className = "domain-grid";
+      domainsList.forEach((d, idx) => {
+        const card = document.createElement("div");
+        card.className = "domain-card";
+
+        const head = document.createElement("div");
+        head.className = "domain-card-head";
+        const title = document.createElement("div");
+        title.className = "domain-card-title";
+        title.textContent = d.display_name || d.domain;
+        const grp = document.createElement("span");
+        grp.className = "badge-chip";
+        grp.textContent = d.group_display_name || d.group || "Domain";
+        head.appendChild(title);
+        head.appendChild(grp);
+
+        const cnt = d.live_count !== undefined && d.live_count !== null ? d.live_count : d.record_count;
+        const meta = document.createElement("div");
+        meta.className = "domain-card-meta";
+        const freshness = d.compiled ? (d.is_stale ? "Stale SQLite" : "SQLite Ready") : "JSON Active";
+        meta.textContent = (cnt ?? "--") + " " + (d.unit_label || "records") + " · Shortcut [" + (idx + 1) + "] · " + freshness;
+
+        const actions = document.createElement("div");
+        actions.className = "domain-card-actions";
+        const openTabBtn = document.createElement("button");
+        openTabBtn.type = "button";
+        openTabBtn.className = "btn-primary";
+        openTabBtn.textContent = "Open in Portal";
+        openTabBtn.addEventListener("click", () => switchTab(d.domain));
+
+        const openSolo = document.createElement("a");
+        openSolo.className = "link-btn";
+        openSolo.href = d.web_path || (d.domain + "/index.html");
+        openSolo.textContent = "Open Page ↗";
+
+        actions.appendChild(openTabBtn);
+        actions.appendChild(openSolo);
+        card.appendChild(head);
+        card.appendChild(meta);
+        card.appendChild(actions);
+        grid.appendChild(card);
+      });
+      home.appendChild(grid);
+
+      if (cachedAgentStatus) applyAgentStatusToHome(cachedAgentStatus);
+    }
+
+    function applyAgentStatusToHome(st) {
+      const pill = document.getElementById("home-proxy-pill");
+      const startBtn = document.getElementById("home-start-proxy-btn");
+      const acctLbl = document.getElementById("home-accounts-label");
+      const modelSel = document.getElementById("home-ai-model");
+      if (!pill || !st) return;
+
+      pill.textContent = st.online
+        ? ("CLIProxyAPI Online (" + (st.models ? st.models.length : 0) + " models)")
+        : "CLIProxyAPI Offline (:8317)";
+      pill.style.borderColor = st.online ? "var(--green)" : "var(--amber)";
+      pill.style.color = st.online ? "var(--green)" : "var(--amber)";
+
+      if (startBtn) {
+        startBtn.style.display = (!st.online && st.can_auto_start) ? "inline-flex" : "none";
+      }
+      if (acctLbl) {
+        acctLbl.textContent = (st.google_account_count || 0) + " Google / Antigravity accounts connected";
+      }
+      if (modelSel) {
+        modelSel.replaceChildren();
+        if (Array.isArray(st.models) && st.models.length) {
+          st.models.forEach(m => {
+            const opt = document.createElement("option");
+            opt.value = m;
+            opt.textContent = m;
+            if (m === st.default_model) opt.selected = true;
+            modelSel.appendChild(opt);
+          });
+        } else {
+          const opt = document.createElement("option");
+          opt.value = "";
+          opt.textContent = "Auto Model";
+          modelSel.appendChild(opt);
+        }
+      }
+    }
+
+    async function refreshHomeProxyStatus() {
+      try {
+        const res = await fetch("/api/agent/status", { cache: "no-store" });
+        if (!res.ok) return;
+        cachedAgentStatus = await res.json();
+        applyAgentStatusToHome(cachedAgentStatus);
+      } catch (_) {}
     }
 
     function buildPortalChrome(groupsMeta, domainsList) {
@@ -307,11 +611,30 @@
       const links = document.getElementById("quick-links");
       const stats = document.getElementById("dynamic-stats");
       const viewport = document.getElementById("main-viewport");
+      const homeView = document.getElementById("home-overview");
 
       nav.replaceChildren();
       links.replaceChildren();
       stats.replaceChildren();
-      viewport.replaceChildren();
+      Array.from(viewport.querySelectorAll("iframe")).forEach(f => f.remove());
+
+      /* Main Overview Home tab (Shortcut 0) */
+      const homeCluster = document.createElement("div");
+      homeCluster.className = "group-cluster";
+      const homeBtn = document.createElement("button");
+      homeBtn.id = "tab-home";
+      homeBtn.className = "tab-btn";
+      homeBtn.type = "button";
+      homeBtn.setAttribute("role", "tab");
+      homeBtn.setAttribute("aria-selected", "false");
+      homeBtn.setAttribute("aria-controls", "home-overview");
+      homeBtn.setAttribute("tabindex", "-1");
+      homeBtn.dataset.tab = "home";
+      homeBtn.title = "Main Overview Hub (Shortcut: 0)";
+      homeBtn.textContent = "Overview";
+      homeBtn.addEventListener("click", () => switchTab("home"));
+      homeCluster.appendChild(homeBtn);
+      nav.appendChild(homeCluster);
 
       /* Group domains in registry group order */
       const buckets = [];
@@ -357,14 +680,6 @@
           btn.addEventListener("click", () => switchTab(d.domain));
           cluster.appendChild(btn);
 
-          const pop = document.createElement("a");
-          pop.className = "link-btn";
-          pop.href = d.web_path || (d.domain + "/index.html");
-          pop.target = "_blank";
-          pop.rel = "noopener noreferrer";
-          pop.textContent = (d.short_label || d.domain) + " ↗";
-          links.appendChild(pop);
-
           const statItem = document.createElement("div");
           statItem.className = "stats-item";
           statItem.textContent = (d.short_label || d.display_name || d.domain) + ":";
@@ -386,6 +701,14 @@
         nav.appendChild(cluster);
       });
 
+      const popCur = document.createElement("a");
+      popCur.id = "pop-current-link";
+      popCur.className = "link-btn";
+      popCur.href = "pc/index.html";
+      popCur.style.display = "none";
+      popCur.textContent = "Open Standalone ↗";
+      links.appendChild(popCur);
+
       const apiLink = document.createElement("a");
       apiLink.className = "link-btn";
       apiLink.href = "/api/status";
@@ -403,7 +726,9 @@
       sysStat.appendChild(sysVal);
       stats.appendChild(sysStat);
 
-      /* Arrow-key roving focus across all tabs */
+      renderOverviewHub(portalDomains);
+
+      /* Arrow-key roving focus across all tabs including Overview */
       const buttons = Array.from(document.querySelectorAll(".tab-btn"));
       buttons.forEach((btn, idx) => {
         btn.addEventListener("keydown", e => {
@@ -416,6 +741,9 @@
         });
       });
 
+      if (!homeView.dataset.initialized) {
+        homeView.dataset.initialized = "1";
+      }
       switchTab(window.location.hash, false);
     }
 
@@ -434,6 +762,7 @@
         buildPortalChrome(groups, domains);
         pill.dataset.state = "online";
         label.textContent = "API Online (" + window.location.host + ")";
+        refreshHomeProxyStatus();
       } catch (_) {
         buildPortalChrome(FALLBACK_MANIFEST.groups, FALLBACK_MANIFEST.domains);
         pill.dataset.state = "offline";
@@ -445,6 +774,10 @@
       if (e.altKey || e.ctrlKey || e.metaKey) return;
       const tag = (document.activeElement && document.activeElement.tagName) || "";
       if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+      if (e.key === "0") {
+        switchTab("home");
+        return;
+      }
       const num = parseInt(e.key, 10);
       if (num >= 1 && num <= portalDomains.length) {
         switchTab(portalDomains[num - 1].domain);

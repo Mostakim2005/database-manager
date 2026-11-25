@@ -261,3 +261,11 @@ flowchart LR
 * **Where It Lurks:** `src/scrapers/multi_site_games.py` -> `fetch_steam_metadata`, `build_record_from_steam`
 * **What Goes Wrong:** Taking `items[0]` blindly resolves sequels, and relying on `appdetails.price_overview` alone marks delisted or multi-edition bundle titles as `$0` free-to-play.
 * **The Permanent Fix:** Match normalized exact title names first across `storesearch` results (or pass pinned AppIDs), check `is_free` alongside `"Free To Play"` genre tags before treating `$0` as F2P, and cross-check SteamSpy when `appdetails` returns `success: false` on retired store pages.
+
+### [DECISION: Progressive-8-GPU-Benchmark-Ladder-And-CLIProxy-Integration] | Aliases: 8 gpu ladder, cliproxyapi integration, local vs web sync, cross domain nav
+> **1-Line Summary:** `[DECIDED BY: HUMAN]` Standardized future GameRank benchmark collection on an 8-GPU progressive ladder for Ryzen 5 5600GT, added local-vs-web Git drift/deletion checks in gitignored `sync_state.json`, wired backend CLIProxyAPI (`127.0.0.1:8317/v1`) for authenticated Google account workflows, and unified navigation with `#home` Overview + `web/shared/nav.js`.
+* **What Changed:**
+  1. Standardized `data/games/taxonomy.json -> benchmark_gpu_ladder` and `AGENTS.md` on the 8 progressive GPUs (`vega-7-igpu`, `rx-580-8gb`, `gtx-1660-super`, `rtx-2060-super`, `rx-6600`, `rtx-2070`, `rtx-3060`, `rtx-2070-super`) so every new game or benchmark refresh updates all 8 configurations together.
+  2. Kept local filesystem paths, dirty tree status, and web/local deletion tracking strictly inside gitignored `data/github/sync_state.json` (and `live_cache.json`) via `src/github/local_sync.py` rather than polluting public `repos_public.json` or breaking its JSON list schema.
+  3. Proxied all CLIProxyAPI (`127.0.0.1:8317/v1`) model queries and Google/Antigravity account status checks through `src/agent_proxy.py` on the loopback backend instead of calling port `8317` directly from browser JS.
+* **Why:** Preserves public repository privacy, zero-dependency Python stdlib deployment, safe-DOM XSS resistance (`zero innerHTML` in `github` and `shared/nav.js`), and consistent hardware scaling across every game entry.

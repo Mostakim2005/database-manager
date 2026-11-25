@@ -8,7 +8,7 @@
 ## 2. Active Features (Do Not Break)
 
 ### [FEATURE: Unified-PC-Domain-And-Compatibility-Engine] | Aliases: pc domain, hardware, cpus, pc_components, psu guard, compatibility engine
-> **1-Line Summary:** Consolidated PC catalog (`data/pc/pc.json`) unifying 79 parts across 12 categories (`cpus`, `gpus`, `psus`, motherboards, RAM, storage incl. 2TB/4TB NVMe SSDs, displays, peripherals) with 550W PSU transient excursion checks and full-rig compatibility validation.
+> **1-Line Summary:** Consolidated PC catalog (`data/pc/pc.json`) unifying 82 parts across 12 categories (`cpus`, 15 `gpus` incl. Steam Ref GTX 1060 / RX 580 and RTX 2060 Super / 2070 / 2070 Super, `psus`, motherboards, RAM, storage incl. 2TB/4TB NVMe SSDs, displays, peripherals) with 550W PSU transient excursion checks and full-rig compatibility validation.
 * **User Intention (Non-Negotiable):** Maintain one canonical `pc` source of truth for all desktop hardware, preventing socket/DDR mismatches, drawing tablet DP-Alt-Mode traps, SMR drive gaming stutters, and microsecond PSU Over-Current Protection (OCP) trips.
 * **Visual / UI Behavior:** Unified dashboard in `web/pc/index.html` combining category browsing, 550W PSU transient spike gauges, multi-retailer BD pricing, and full-build validation via `/api/pc`, `/api/pc/gpus`, `/api/pc/cpus`, `/api/pc/check-build`, and `/api/cross/check-build`.
 * **Code Anchors (Grep Targets):**
@@ -17,13 +17,15 @@
   * `web/pc/index.html` -> safe-DOM PC catalog & PSU guard renderer
 
 ### [FEATURE: GameRank-Compatibility-And-PC-Link] | Aliases: game rank, vega 7 rts, fps preset, upgrade simulator, game benchmarks, steam library
-> **1-Line Summary:** Unified 153-title PC & strategy catalog (`105` owned Steam titles + `48` researched wishlist titles) across 12 genres evaluated against Ryzen 5 5600GT (Vega 7), 51 measured FPS benchmark runs (`benchmarks.csv`), live Disk Footprint & Storage Advisor, and canonical `pc` GPU/SSD cross-links.
-* **User Intention (Non-Negotiable):** Keep owned Steam games and researched wishlist titles in one unified schema v4.0.0 structure (`ownership`, `steamAppId`, `companions`, `specs`, `hddSp`, `storageAdvice`), enriched via Steam Store/Player/SteamSpy APIs and cross-linked to `pc` GPUs and NVMe/HDD storage.
-* **Visual / UI Behavior:** Lives in `web/games/index.html` with `All / Owned / Wishlist` filter, 12 genre filters across Steam PC and RTS categories, live Disk Footprint & SSD/HDD Advisor bar, canonical `pc`-keyed GPU simulator dropdown, companion/test-server modal badges, and card/table views.
+> **1-Line Summary:** Unified 163-title PC & strategy catalog (`105` owned Steam titles + `58` researched wishlist titles) across 12 genres evaluated against Ryzen 5 5600GT (Vega 7), 155 FPS benchmark rows (`benchmarks.csv`) across the canonical 8-GPU progressive ladder, live Disk Footprint & Storage Advisor, and canonical `pc` GPU/SSD cross-links.
+* **User Intention (Non-Negotiable):** Keep owned Steam games and researched wishlist titles in one unified schema v4.0.0 structure (`ownership`, `steamAppId`, `companions`, `specs`, `hddSp`, `storageAdvice`), automatically populating progressive benchmarks across the user's Ryzen 5 5600GT + 8-GPU ladder (`vega-7-igpu`, `rx-580-8gb`, `gtx-1660-super`, `rtx-2060-super`, `rx-6600`, `rtx-2070`, `rtx-3060`, `rtx-2070-super`) on every new game addition or benchmark update.
+* **Visual / UI Behavior:** Lives in `web/games/index.html` with `All / Owned / Wishlist` filter, 12 genre filters across Steam PC and RTS categories, live Disk Footprint & SSD/HDD Advisor bar, canonical `pc`-keyed GPU simulator dropdown, live **Progressive GPU FPS Scaling Table** inside the detail modal (with 550W PSU status), companion/test-server modal badges, and card/table views.
 * **Code Anchors (Grep Targets):**
-  * `src/scrapers/multi_site_games.py` -> `normalize_game_record`, `fetch_steam_metadata`, `build_record_from_steam`, `apply_games_update`
+  * `src/scrapers/multi_site_games.py` -> `BENCHMARK_GPU_LADDER`, `normalize_game_record`, `fetch_steam_metadata`, `build_record_from_steam`, `apply_games_update`
+  * `data/games/taxonomy.json` -> `benchmark_gpu_ladder`
   * `web/games/js/rank.js` -> `UPGRADE_GPUS`, `resolveUpgradeGpuKey`, `compatScoreFor`, `computeUpgradedCompat`
-  * `web/games/js/app.js` -> `hydrateLivePcGpus`, `hydrateLivePcStorage`, `renderStorageAdvisor`
+  * `web/games/js/app.js` -> `hydrateLivePcGpus`, `hydrateLivePcStorage`, `hydrateLiveBenchmarks`, `renderStorageAdvisor`
+  * `web/games/js/render.js` -> `showDetail` (Progressive GPU FPS Scaling table)
   * `src/db_hub.py` -> `query_games_by_gpu`, `query_game_benchmarks_with_pc`, `query_games_storage_summary`
 
 ### [FEATURE: AI-Model-Benchmark-And-Pricing-Matrix] | Aliases: ai matrix, frontier models, coding elo, token pricing, chinese oss
@@ -63,25 +65,29 @@
   * `src/db_export.py` -> `create_phone_schema`, `export_phones`
   * `web/phone/index.html` -> `applyFilters`, `makeSupportBlock`
 
-### [FEATURE: GitHub-Repositories-And-CI-Hub] | Aliases: github manager, repo triage, ci health, upstream fork drift
-> **1-Line Summary:** DevOps domain (`github`) tracking repository activity timelines (0–4d, 4–8d, dormant), GitHub Actions CI health, unbuilt/unreleased commit gaps, upstream fork drift, and Markdown audit exports.
-* **User Intention (Non-Negotiable):** Track all repositories on port `8770`, redact private repo metadata from committed `data/github/repos_public.json` into gitignored `live_cache.json`, render strictly with safe DOM, and guard `POST` mutations with loopback `Origin`/`Host` CSRF validation.
-* **Visual / UI Behavior:** Grouped `DevOps` tab in `web/index.html` loading `web/github/index.html`, backed by `/api/github`, `/api/github/triage`, `/api/github/doctor`, `/api/github/classified`, and `POST /api/github/{refresh,export}`.
+### [FEATURE: GitHub-Repositories-And-CI-Hub] | Aliases: github manager, repo triage, ci health, upstream fork drift, local sync, cliproxyapi
+> **1-Line Summary:** DevOps domain (`github`) tracking repository activity timelines (0–4d, 4–8d, dormant), live async refresh progress bar + cancel + single-repo refresh, local-vs-web git drift/deletion reconciliation, CLIProxyAPI AI assistant with authenticated Google accounts, and Markdown audit exports.
+* **User Intention (Non-Negotiable):** Track all repositories on port `8770`, redact private repo metadata and local workspace paths from committed `data/github/repos_public.json` into gitignored `live_cache.json`/`sync_state.json`, show real-time progress during scans, reconcile local folders against GitHub web for deletions/dirty state, connect securely via backend to local CLIProxyAPI (`127.0.0.1:8317/v1`), render strictly with safe DOM (`zero innerHTML`), and guard all `POST` mutations with loopback `Origin`/`Host` CSRF checks.
+* **Visual / UI Behavior:** Grouped `DevOps` tab or standalone `web/github/index.html` featuring live refresh progress card + cancel button, freshness timestamp/staleness badge, `Local vs. Web Sync` tab with configurable roots, CLIProxyAPI status/account/model selector + AI Executive Report & Refresh Summary buttons, single-repo Inspect refresh, and Repo Doctor.
 * **Code Anchors (Grep Targets):**
-  * `src/github/scanner.py` -> `scan_all_repositories`, `triage_repositories`, `redact_public_repos`
+  * `src/github/scanner.py` -> `start_background_refresh`, `get_refresh_status`, `cancel_background_refresh`, `refresh_single_repository`, `run_local_sync_check`, `triage_repositories`
+  * `src/github/local_sync.py` -> `scan_local_git_repos`, `reconcile_local_with_web`, `discover_default_roots`
   * `src/github/exporter.py` -> `export_markdown_report`
-  * `web/github/index.html` -> `renderTable`, `inspectRepo`, `loadTriage`
+  * `src/agent_proxy.py` -> `discover_cliproxy_config`, `get_proxy_status`, `start_cliproxy_service`, `generate_github_ai_report`, `summarize_github_refresh`
+  * `web/github/index.html` -> `startPollingRefreshStatus`, `renderLocalSyncTable`, `loadAgentProxyStatus`, `runAiAction`
 
-### [FEATURE: Registry-Driven-Dynamic-Portal-And-Isolated-SQLite] | Aliases: master dashboard, web portal, db hub, db export, table isolation, aliases
-> **1-Line Summary:** Dynamic grouped web portal (`web/index.html`), alias-aware domain resolver (`resolve_domain_key`), strictly table-isolated per-domain SQLite builds (`compile_separated_domains`), and cross-domain `games` <-> `pc` federation (`db_hub.py`).
-* **User Intention (Non-Negotiable):** Enable painless domain renames (`display_name`, `short_label`, `aliases`, `group` in `data/registry.json`), guarantee every `data/<domain>/<domain>.sqlite` holds strictly its own tables + `_meta`, and retire pre-reorg legacy routes cleanly (`404`).
-* **Visual / UI Behavior:** Top header renders group-clustered tabs, quick-links, and live domain stats straight from `/api/status`; `#<alias>` URL hashes and `/api/domain/<alias>` resolve aliases automatically.
+### [FEATURE: Registry-Driven-Dynamic-Portal-And-Isolated-SQLite] | Aliases: master dashboard, web portal, db hub, db export, table isolation, aliases, cross domain nav
+> **1-Line Summary:** Dynamic grouped web portal (`web/index.html`) with `#home` Main Overview Hub + cross-domain AI ask bar, shared safe-DOM domain switcher bar (`web/shared/nav.js`), alias-aware domain resolver (`resolve_domain_key`), strictly table-isolated per-domain SQLite builds (`compile_separated_domains`), and cross-domain `games` <-> `pc` federation (`db_hub.py`).
+* **User Intention (Non-Negotiable):** Let users move smoothly from the Main Overview Hub (`#home`) to any domain and directly between standalone domain pages without browser Back buttons, support painless domain renames (`display_name`, `short_label`, `aliases`, `group` in `data/registry.json`), guarantee every `data/<domain>/<domain>.sqlite` holds strictly its own tables + `_meta`, and retire pre-reorg legacy routes cleanly (`404`).
+* **Visual / UI Behavior:** Default `#home` Overview Hub renders domain health cards + Global Cross-Domain AI Assistant (`POST /api/agent/ask`), top header renders group-clustered tabs + `0`–`7` keyboard shortcuts, and `web/shared/nav.js` injects a sticky cross-domain bar whenever a domain page is viewed standalone (hiding automatically inside iframes).
 * **Code Anchors (Grep Targets):**
   * `data/registry.json` -> `groups`, `domains`, `cross_domain_views`
   * `src/db_export.py` -> `SCHEMA_CREATORS`, `compile_separated_domains`, `compile_database`
   * `src/db_hub.py` -> `open_federated_connection`, `query_domain_health`, `resolve_domain_key`
-  * `src/server.py` -> `DatabaseHandler.do_GET`, `search_databases`
-  * `web/index.html` -> `buildPortalChrome`, `resolveTargetTab`
+  * `src/agent_proxy.py` -> `ask_cross_domain_agent`
+  * `src/server.py` -> `DatabaseHandler.do_GET`, `DatabaseHandler.do_POST`, `search_databases`
+  * `web/index.html` -> `buildPortalChrome`, `renderOverviewHub`, `resolveTargetTab`
+  * `web/shared/nav.js` -> `buildNav`, `initSharedNav`
 
 ### [FEATURE: Multi-Site-Catalog-Expansion-And-Scrapers] | Aliases: multi site scrapers, retail reconciliation, steam api, openrouter sync, bd retail
 > **1-Line Summary:** Multi-tier scraping and consensus pricing engine across PC hardware (Star Tech, Ryans, UCC -> `data/pc/pc.json`), Games (benchmarks CSV & yt-dlp), and AI catalogs with `--dry-run` diff safety.

@@ -110,7 +110,7 @@ flowchart LR
 ```
 
 ### [SUBSYSTEM: GameRank-Compatibility-Engine] | Aliases: vega 7 simulator, game benchmark flow
-> **1-Line Summary:** Heuristic scoring, Steam enrichment, and storage footprint engine evaluating 153 owned/wishlist PC & RTS games against Ryzen 5 5600GT hardware and simulated GPU/SSD upgrades.
+> **1-Line Summary:** Heuristic scoring, Steam enrichment, 8-GPU progressive benchmark table (`benchmarks.csv`), and storage footprint engine evaluating 163 owned/wishlist PC & RTS games against Ryzen 5 5600GT hardware and simulated GPU/SSD upgrades.
 
 ```mermaid
 flowchart LR
@@ -120,13 +120,14 @@ flowchart LR
     classDef dataNode fill:#15803d,stroke:#14532d,color:#ffffff
 
     S0[Steam Store + Player + SteamSpy APIs]:::startNode -->|multi_site_games.py normalize & enrich| G1[(data/games/games.json)]:::dataNode
-    G1 -->|Loads 153 records: 105 owned + 48 wishlist| G2[js/rank.js & Disk Footprint Advisor]:::processNode
+    B0[(data/games/benchmarks.csv 8-GPU Ladder)]:::dataNode -->|GET /api/games/benchmarks| G5
+    G1 -->|Loads 163 records: 105 owned + 58 wishlist| G2[js/rank.js & Disk Footprint Advisor]:::processNode
     G3[User filters Ownership / Genre / GPU / Preset]:::startNode -->|Inputs filter + GPU tier| G2
     G2 -->|Applies GPU margin + CPU/HDD penalties| G4[Calculates 0-100 Score & SSD Recommendation]:::processNode
-    G4 -->|Assigns Great / OK / Struggle + Storage Match| G5[js/render.js Card, Table & Companion Modal]:::startNode
+    G4 -->|Assigns Great / OK / Struggle + Storage Match| G5[js/render.js Card, Table & Progressive GPU Modal]:::startNode
 
     subgraph Legend["Legend"]
-        L1[(Green = Unified Game Database)]:::dataNode
+        L1[(Green = Unified Game & Benchmark Data)]:::dataNode
         L2[Teal = Compatibility & Storage Heuristic]:::processNode
         L3[Blue = Steam API & User Interaction UI]:::startNode
     end
@@ -348,10 +349,10 @@ flowchart LR
     end
 ```
 
-### [SUBSYSTEM: GitHub-Repo-Triage-And-CI-Hub] | Aliases: github manager, repo triage, ci health, fork drift
-> **1-Line Summary:** `gh api` repository scanner with privacy redaction, push-vs-commit drift detection, safe DOM DevOps UI, SQLite export, and CSRF-guarded refresh/export endpoints.
+### [SUBSYSTEM: GitHub-Repo-Triage-And-CI-Hub] | Aliases: github manager, repo triage, ci health, fork drift, local sync, cliproxyapi
+> **1-Line Summary:** Async `gh api` scanner with live progress/cancel/single-repo refresh, local-vs-web git drift reconciliation (`local_sync.py`), backend CLIProxyAPI (`127.0.0.1:8317/v1`) AI assistant (`agent_proxy.py`), privacy redaction, safe DOM DevOps UI, and SQLite export.
 
-* **Plain-English Overview:** `src/github/scanner.py` queries `gh api` under a threading lock with 15-second timeouts and `GIT_TERMINAL_PROMPT=0`, storing full live scans locally in gitignored `data/github/live_cache.json` while `data/github/repos_public.json` supplies redacted public metadata for CI and SQLite compilation (`github.sqlite`). `triage_repositories()` separates repos into 0–4d, 4–8d, and dormant buckets while comparing commit timestamps to `pushed_at` so metadata bumps do not misclassify dormant forks. `src/github/exporter.py` generates Downloads audit reports safely, and `web/github/index.html` renders all UI strictly via `document.createElement` / `.textContent`.
+* **Plain-English Overview:** `src/github/scanner.py` runs async or blocking `gh api` scans with 15-second timeouts, real-time per-repo progress polling (`/api/github/refresh/status`), cancellation, and single-repo quick refresh. `src/github/local_sync.py` scans local Git roots (`GIT_TERMINAL_PROMPT=0`) to flag local-only, web-only, dirty, ahead/behind, and newly deleted repos, persisting private/local telemetry strictly in gitignored `data/github/live_cache.json` and `sync_state.json`. `src/agent_proxy.py` connects securely on loopback to CLIProxyAPI (`ecosystem-registry.json -> 127.0.0.1:8317/v1`) and authenticated Google/Antigravity accounts (`~/.cli-proxy-api/`) to generate AI executive reports and cross-domain Q&A, while `web/shared/nav.js` and `web/index.html` (`#home` Overview Hub) provide one-click navigation across all 7 domains.
 
 ```mermaid
 flowchart LR
@@ -361,18 +362,21 @@ flowchart LR
     classDef dataNode fill:#15803d,stroke:#14532d,color:#ffffff
     classDef outNode fill:#6b21a8,stroke:#581c87,color:#ffffff
 
-    GHCLI[GitHub API via gh CLI]:::startNode -->|Timeout 15s + Lock| SCAN[src/github/scanner.py]:::processNode
-    SCAN -->|Full local incl. private| LIVE[(data/github/live_cache.json gitignored)]:::dataNode
+    GHCLI[GitHub API via gh CLI]:::startNode -->|Async + Progress Lock| SCAN[src/github/scanner.py]:::processNode
+    LOC[Local Git Roots] -->|local_sync.py| SYNC[Local vs Web Diff Engine]:::processNode
+    SCAN -->|Full local incl. private| LIVE[(data/github/live_cache.json + sync_state.json gitignored)]:::dataNode
+    SYNC --> LIVE
     PUB[(data/github/repos_public.json)]:::dataNode -->|Compiled by db_export.py| SQL[(data/github/github.sqlite)]:::dataNode
     LIVE -->|Fallback to repos_public.json| TRI[triage_repositories & doctor]:::processNode
     PUB --> TRI
-    TRI -->|GET + CSRF-guarded POST| UI[web/github/index.html]:::outNode
-    TRI -->|src/github/exporter.py| RPT[Downloads Markdown Audit Report]:::outNode
+    PROXY[CLIProxyAPI :8317 + Google OAuth]:::startNode -->|agent_proxy.py| TRI
+    TRI -->|GET + CSRF-guarded POST| UI[web/github/index.html + shared/nav.js]:::outNode
+    TRI -->|exporter.py + AI Report| RPT[Downloads Markdown Audit Reports]:::outNode
 
     subgraph Legend["Legend"]
-        L1[Blue = Live GitHub API Source]:::startNode
-        L2[Teal = Scanner, Lock & Triage Engine]:::processNode
-        L3[(Green = Public JSON, Local Cache & SQLite)]:::dataNode
+        L1[Blue = GitHub API, Local Git & CLIProxyAPI]:::startNode
+        L2[Teal = Scanner, Local Diff & Triage Engine]:::processNode
+        L3[(Green = Public JSON, Gitignored State & SQLite)]:::dataNode
         L4[Purple = Safe DOM Dashboard & Downloads Report]:::outNode
     end
 ```
@@ -384,7 +388,7 @@ flowchart LR
    * Run `python src/db_export.py` to refresh `data/database.sqlite` and `data/ai/ai.sqlite`.
 
 2. **Adding a New PC Game or Benchmark Run:**
-   * Append game record to `data/games/games.json` (and mirror in `web/games/data/games.js`), or append benchmark telemetry to `data/games/benchmarks.csv`, using canonical `data/pc/pc.json` GPU IDs (`rx-6600`, `rtx-4060`, `vega-7-igpu`).
+   * Append game record to `data/games/games.json` (and mirror in `web/games/data/games.js` & `data/games/games.js`), and always populate `data/games/benchmarks.csv` for all 8 canonical GPUs in `data/games/taxonomy.json -> benchmark_gpu_ladder` (`vega-7-igpu`, `rx-580-8gb`, `gtx-1660-super`, `rtx-2060-super`, `rx-6600`, `rtx-2070`, `rtx-3060`, `rtx-2070-super`) paired with `AMD Ryzen 5 5600GT`.
    * Run `python src/db_export.py` to rebuild `games.sqlite` and `v_game_benchmarks_with_pc`.
 
 3. **Adding a New PC Part / GPU / CPU / PSU:**

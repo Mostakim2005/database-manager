@@ -30,12 +30,16 @@ window.PC_SSDS = [
   { id: "wd-black-sn850x-4tb", name: "WD Black SN850X 4TB NVMe", capacity_gb: 4000, price_bdt: 39500 }
 ];
 
+window.GAME_BENCHMARKS_BY_ID = {};
+window.GPU_META_BY_ID = {};
+
 document.addEventListener("DOMContentLoaded", function () {
   applyCompat(window.GAMES);
   wireFilters();
   update();
   hydrateLivePcGpus();
   hydrateLivePcStorage();
+  hydrateLiveBenchmarks();
 });
 
 function hydrateLivePcGpus() {
@@ -48,7 +52,9 @@ function hydrateLivePcGpus() {
       var nextMap = {};
       var optsHtml = [];
       gpus.forEach(function (g) {
-        if (!g || !g.id || g.id === "vega-7-igpu") return;
+        if (!g || !g.id) return;
+        window.GPU_META_BY_ID[g.id] = g;
+        if (g.id === "vega-7-igpu") return;
         var cleanName = String(g.name || g.id).replace(/^GeForce\s+|^Radeon\s+|^NVIDIA\s+GeForce\s+/i, "");
         nextMap[g.id] = {
           id: g.id,
@@ -90,6 +96,23 @@ function hydrateLivePcStorage() {
       if (!payload || !Array.isArray(payload.items) || !payload.items.length) return;
       window.PC_SSDS = payload.items;
       renderStorageAdvisor(currentGames());
+    })
+    .catch(function () {});
+}
+
+function hydrateLiveBenchmarks() {
+  if (typeof fetch !== "function" || window.location.protocol === "file:") return;
+  fetch("/api/games/benchmarks", { cache: "no-store" })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (rows) {
+      if (!Array.isArray(rows)) return;
+      var grouped = {};
+      rows.forEach(function (row) {
+        if (!row || !row.game_id) return;
+        if (!grouped[row.game_id]) grouped[row.game_id] = [];
+        grouped[row.game_id].push(row);
+      });
+      window.GAME_BENCHMARKS_BY_ID = grouped;
     })
     .catch(function () {});
 }

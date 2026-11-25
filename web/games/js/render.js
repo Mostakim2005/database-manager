@@ -186,6 +186,42 @@ function showDetail(game, triggerEl) {
   var gpuBlock = blockClear("If I add a graphics card \u2014 expectations", gpuLines +
     '<p style="opacity:.7">fps figures are estimates; CPU-bound scenes remain limited by CPU speed.</p>');
 
+  /* Progressive GPU Benchmark Scaling table (wired live to /api/games/benchmarks) */
+  var benchRows = (window.GAME_BENCHMARKS_BY_ID && window.GAME_BENCHMARKS_BY_ID[game.id]) || [];
+  var benchTableBlock = "";
+  if (benchRows.length > 0) {
+    var gpuOrder = ["vega-7-igpu", "rx-580-8gb", "gtx-1660-super", "rtx-2060-super", "rx-6600", "rtx-2070", "rtx-3060", "rtx-2070-super", "rtx-4060"];
+    var orderedRows = benchRows.slice().sort(function (a, b) {
+      var ia = gpuOrder.indexOf(a.gpu_id);
+      var ib = gpuOrder.indexOf(b.gpu_id);
+      if (ia !== -1 && ib !== -1 && ia !== ib) return ia - ib;
+      return (a.avg_fps || 0) - (b.avg_fps || 0);
+    });
+    var tRows = orderedRows.map(function (r) {
+      var meta = (window.GPU_META_BY_ID && window.GPU_META_BY_ID[r.gpu_id]) || window.UPGRADE_GPUS[r.gpu_id] || {};
+      var gpuLabel = r.gpu_id === "vega-7-igpu" ? "Radeon Vega 7 iGPU (My PC)" : (meta.name || r.gpu_id);
+      var psu = meta.psu_550w_verdict || meta.psuVerdict || "pass";
+      var rowCls = r.gpu_id === state.gpu ? ' class="gpu-bench-active"' : (r.gpu_id === "vega-7-igpu" ? ' class="gpu-bench-base"' : "");
+      var psuCls = psu === "fail" ? "compat-struggle" : (psu === "warn" ? "compat-ok" : "compat-great");
+      var srcHtml = r.source_url ? '<a href="' + esc(r.source_url) + '" target="_blank" rel="noopener noreferrer">Ref</a>' : "\u2014";
+      return "<tr" + rowCls + ">" +
+        "<td><strong>" + esc(gpuLabel) + "</strong></td>" +
+        "<td>" + esc(r.resolution) + "</td>" +
+        "<td>" + esc(r.preset) + "</td>" +
+        "<td class='fps-cell'><strong>" + esc(r.avg_fps) + " FPS</strong></td>" +
+        "<td>" + esc(r.low_1pct_fps) + "</td>" +
+        "<td>" + esc(r.low_01pct_fps) + "</td>" +
+        "<td>" + badge(psuCls, psu.toUpperCase()) + "</td>" +
+        "<td>" + srcHtml + "</td>" +
+      "</tr>";
+    }).join("");
+    benchTableBlock =
+      "<h3>Progressive GPU FPS Scaling (Ryzen 5 5600GT · 16 GB DDR4)</h3>" +
+      "<div class='table-scroll' style='padding:0'><table class='specs-table'>" +
+      "<thead><tr><th>GPU Configuration</th><th>Res</th><th>Preset</th><th>Avg FPS</th><th>1% Low</th><th>0.1% Low</th><th>550W PSU</th><th>Source</th></tr></thead>" +
+      "<tbody>" + tRows + "</tbody></table></div>";
+  }
+
   /* Companion / Test Server block */
   var companionsBlock = "";
   if (Array.isArray(game.companions) && game.companions.length > 0) {
@@ -263,6 +299,8 @@ function showDetail(game, triggerEl) {
           specsRow("Storage", specs.min.storage, specs.rec.storage) +
           specsRow("OS", specs.min.os, specs.rec.os) +
         "</tbody></table>" +
+
+        benchTableBlock +
 
         "<h3>CPU / GPU demand on my PC</h3>" +
         "<p>CPU load: <strong>" + esc(CPU_LABEL[game.cpuDemand] || game.cpuDemand) + "</strong> &nbsp;\u00B7&nbsp; Min GPU tier: <strong>" +

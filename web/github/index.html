@@ -36,8 +36,8 @@
       flex-wrap: wrap;
       gap: 12px;
       border-bottom: 1px solid var(--border);
-      padding-bottom: 16px;
-      margin-bottom: 20px;
+      padding-bottom: 14px;
+      margin-bottom: 14px;
     }
     .header-left { display: flex; align-items: center; gap: 12px; }
     .logo-badge {
@@ -51,8 +51,16 @@
     }
     h1 { font-size: 21px; font-weight: 600; }
     .subtitle { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+    .freshness-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin-top: 6px;
+      font-size: 12px;
+    }
 
-    .actions { display: flex; flex-wrap: wrap; gap: 8px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
     .btn {
       background: var(--surface-hover);
       color: var(--text);
@@ -81,12 +89,104 @@
       border-color: var(--accent);
       color: var(--accent);
     }
+    .btn-danger {
+      background: rgba(248, 81, 73, 0.14);
+      border-color: rgba(248, 81, 73, 0.55);
+      color: var(--red);
+    }
+    .btn-purple {
+      background: rgba(188, 140, 255, 0.14);
+      border-color: rgba(188, 140, 255, 0.55);
+      color: var(--purple);
+    }
+
+    /* Live Refresh Progress Strip */
+    .progress-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 14px;
+      display: none;
+    }
+    .progress-card.open { display: block; }
+    .progress-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    .progress-track {
+      width: 100%;
+      height: 10px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #238636, #58a6ff);
+      transition: width 0.25s ease;
+    }
+    .progress-fill.indeterminate {
+      width: 35%;
+      animation: slide-bar 1.2s infinite ease-in-out;
+    }
+    @keyframes slide-bar {
+      0% { margin-left: 0%; }
+      50% { margin-left: 65%; }
+      100% { margin-left: 0%; }
+    }
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 6px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* CLIProxyAPI & Google Accounts Strip */
+    .agent-bar {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 12px;
+    }
+    .agent-left, .agent-right {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--amber);
+      display: inline-block;
+    }
+    .status-dot.online { background: var(--green); }
+    .status-dot.offline { background: var(--red); }
 
     .kpi-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
       gap: 12px;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
     }
     .kpi-card {
       background: var(--surface);
@@ -150,6 +250,8 @@
       margin-bottom: 10px;
       font-size: 14px;
       font-weight: 600;
+      gap: 8px;
+      flex-wrap: wrap;
     }
     .panel-grid {
       display: grid;
@@ -165,6 +267,20 @@
       color: var(--text);
     }
     .mini-line { margin-top: 4px; color: var(--text-muted); word-break: break-word; }
+
+    .ai-output {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px 14px;
+      font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+      font-size: 12.5px;
+      white-space: pre-wrap;
+      line-height: 1.55;
+      max-height: 420px;
+      overflow-y: auto;
+      color: var(--text);
+    }
 
     .subtabs {
       display: flex;
@@ -197,7 +313,7 @@
       color: var(--text);
     }
 
-    .result-bar { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
+    .result-bar { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
 
     .table-wrap {
       background: var(--surface);
@@ -283,6 +399,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 8px;
     }
     .modal-title { font-size: 16px; font-weight: 700; }
     .modal-body { padding: 18px; overflow-y: auto; font-size: 13px; }
@@ -306,6 +423,20 @@
     .commit-sha { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; color: var(--accent); }
     .commit-date { color: var(--text-muted); }
     .commit-msg { color: var(--text); font-weight: 500; word-break: break-word; }
+
+    .local-toolbar {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-bottom: 12px;
+      display: none;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+    .local-toolbar.open { display: flex; }
 
     .toast {
       position: fixed;
@@ -337,16 +468,58 @@
       <div class="logo-badge">GH</div>
       <div>
         <h1>GitHub Repositories &amp; CI Health</h1>
-        <p id="header-subtitle" class="subtitle">Repository activity triage, GitHub Actions CI health, and upstream fork drift</p>
+        <p id="header-subtitle" class="subtitle">Repository activity triage, GitHub Actions CI health, local workspace drift, and CLIProxyAPI triage</p>
+        <div class="freshness-row">
+          <span id="freshness-source-badge" class="badge">Source: loading...</span>
+          <span id="freshness-age-badge" class="badge">Last Refreshed: checking...</span>
+        </div>
       </div>
     </div>
     <div class="actions">
+      <button id="btn-local-sync" type="button" class="btn btn-accent">Check Local Sync</button>
       <button id="btn-doctor" type="button" class="btn btn-accent">Repo Doctor</button>
       <button id="btn-export" type="button" class="btn">Export Markdown Report</button>
       <button id="btn-refresh" type="button" class="btn btn-primary">Refresh Live Data</button>
       <a href="/api/github/triage" target="_blank" rel="noopener noreferrer" class="btn">JSON API</a>
     </div>
   </header>
+
+  <section id="refresh-progress-card" class="progress-card" aria-live="polite">
+    <div class="progress-top">
+      <div>
+        <strong id="progress-stage-label">Refreshing GitHub Repositories...</strong>
+        <span id="progress-counter-label" class="muted" style="margin-left:8px;">0 / 0</span>
+      </div>
+      <div style="display:flex; gap:8px; align-items:center;">
+        <span id="progress-pct-label" class="badge badge-info">0%</span>
+        <button id="btn-cancel-refresh" type="button" class="btn btn-danger" style="padding:4px 10px;">Cancel Scan</button>
+      </div>
+    </div>
+    <div class="progress-track">
+      <div id="progress-fill" class="progress-fill"></div>
+    </div>
+    <div class="progress-meta">
+      <span id="progress-message">Initializing live scan...</span>
+      <span id="progress-elapsed">Elapsed: 0.0s</span>
+    </div>
+  </section>
+
+  <section id="agent-bar" class="agent-bar" aria-label="CLIProxyAPI and Connected Google Accounts">
+    <div class="agent-left">
+      <span id="proxy-dot" class="status-dot"></span>
+      <strong id="proxy-status-label">CLIProxyAPI: Checking 127.0.0.1:8317...</strong>
+      <span id="google-accounts-badge" class="badge badge-purple">Google Accounts: checking...</span>
+      <button id="btn-start-proxy" type="button" class="btn" style="padding:4px 10px; display:none;">Start CLIProxyAPI</button>
+    </div>
+    <div class="agent-right">
+      <label for="agent-model-select" style="margin:0;">Model</label>
+      <select id="agent-model-select" style="padding:4px 8px; font-size:12px; min-width:190px;">
+        <option value="">Default Auto Model</option>
+      </select>
+      <button id="btn-ai-summary" type="button" class="btn btn-purple" style="padding:5px 10px;">AI Refresh Summary</button>
+      <button id="btn-ai-report" type="button" class="btn btn-purple" style="padding:5px 10px;">AI Executive Report</button>
+    </div>
+  </section>
 
   <section class="kpi-grid" aria-label="GitHub Repository Metrics">
     <div class="kpi-card">
@@ -374,12 +547,17 @@
       <div id="kpi-ci" class="kpi-value">--</div>
       <div id="kpi-ci-sub" class="kpi-sub">0 failing / 0 no CI</div>
     </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Local vs. Web Sync</div>
+      <div id="kpi-local" class="kpi-value">--</div>
+      <div id="kpi-local-sub" class="kpi-sub">Click Check Local Sync</div>
+    </div>
   </section>
 
   <section class="controls" aria-label="Filter Repositories">
     <div class="control-row">
       <div class="control-group" style="flex:2;">
-        <label for="search-input">Search Name, Description, or Upstream Parent</label>
+        <label for="search-input">Search Name, Description, Local Path, or Upstream Parent</label>
         <input id="search-input" type="search" placeholder="e.g. database-manager, gaussboard, dataview...">
       </div>
       <div class="control-group">
@@ -412,6 +590,15 @@
     <div id="diag-body"></div>
   </section>
 
+  <section id="ai-panel" class="panel" aria-live="polite">
+    <div class="panel-header">
+      <span id="ai-panel-title">AI Agent Analysis</span>
+      <button id="ai-panel-close" type="button" class="btn">Close</button>
+    </div>
+    <div id="ai-panel-meta" class="muted" style="font-size:12px; margin-bottom:8px;"></div>
+    <pre id="ai-panel-body" class="ai-output"></pre>
+  </section>
+
   <div class="subtabs" role="tablist" aria-label="Activity Sections">
     <button type="button" class="subtab-btn active" data-subtab="all" role="tab" aria-selected="true">
       All Repositories <span id="badge-all" class="tab-badge">0</span>
@@ -428,13 +615,33 @@
     <button type="button" class="subtab-btn" data-subtab="forks" role="tab" aria-selected="false">
       Upstream Forks &amp; Drift <span id="badge-forks" class="tab-badge">0</span>
     </button>
+    <button type="button" class="subtab-btn" data-subtab="local" role="tab" aria-selected="false">
+      Local vs. Web Sync <span id="badge-local" class="tab-badge">0</span>
+    </button>
   </div>
+
+  <section id="local-toolbar" class="local-toolbar" aria-label="Local Sync Roots">
+    <div class="control-group" style="flex:2; min-width:260px;">
+      <label for="local-roots-input">Local Workspace Roots (comma or semicolon separated)</label>
+      <input id="local-roots-input" type="text" placeholder="C:\Users\kazir\Documents\Agentic Harness">
+    </div>
+    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+      <select id="local-filter-select" aria-label="Filter local sync state">
+        <option value="all">Show All Local &amp; Web Differences</option>
+        <option value="issues">Action Needed (Dirty / Ahead / Local-Only / Deleted)</option>
+        <option value="local_only">Local-Only / Deleted on Web</option>
+        <option value="web_only">Web-Only / Deleted Locally</option>
+        <option value="matched">Matched Local &amp; Web Clones</option>
+      </select>
+      <button id="btn-save-roots" type="button" class="btn">Save Roots &amp; Re-Scan</button>
+    </div>
+  </section>
 
   <div id="result-bar" class="result-bar">Loading repositories...</div>
 
   <div class="table-wrap">
     <table>
-      <thead>
+      <thead id="table-head">
         <tr>
           <th>Repository</th>
           <th>Type</th>
@@ -457,7 +664,10 @@
     <div class="modal">
       <div class="modal-header">
         <div id="modal-title" class="modal-title">Repository Details</div>
-        <button id="modal-close" type="button" class="btn">Close</button>
+        <div style="display:flex; gap:8px; align-items:center;">
+          <button id="modal-refresh-repo" type="button" class="btn btn-primary" style="padding:5px 10px;">Refresh This Repo</button>
+          <button id="modal-close" type="button" class="btn">Close</button>
+        </div>
       </div>
       <div id="modal-body" class="modal-body"></div>
     </div>
@@ -466,14 +676,18 @@
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
   <script>
+    "use strict";
     let triagedData = null;
-    let currentSubtab = 'all';
+    let localSyncData = null;
+    let currentSubtab = "all";
+    let activeModalRepo = null;
+    let refreshPollTimer = null;
 
     function safeHttpUrl(rawUrl) {
       if (!rawUrl) return null;
       try {
         const parsed = new URL(String(rawUrl));
-        if (parsed.protocol === 'https:' || parsed.protocol === 'http:') {
+        if (parsed.protocol === "https:" || parsed.protocol === "http:") {
           return parsed.href;
         }
       } catch (_) {
@@ -483,8 +697,8 @@
     }
 
     function createBadge(text, variantClass) {
-      const span = document.createElement('span');
-      span.className = 'badge' + (variantClass ? ' ' + variantClass : '');
+      const span = document.createElement("span");
+      span.className = "badge" + (variantClass ? " " + variantClass : "");
       span.textContent = text;
       return span;
     }
@@ -492,97 +706,152 @@
     function createExternalLink(href, text, className) {
       const safe = safeHttpUrl(href);
       if (!safe) {
-        const span = document.createElement('span');
+        const span = document.createElement("span");
         span.textContent = text;
         return span;
       }
-      const a = document.createElement('a');
+      const a = document.createElement("a");
       a.href = safe;
-      a.target = '_blank';
-      a.rel = 'noopener noreferrer';
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
       a.textContent = text;
       if (className) a.className = className;
       return a;
     }
 
     function showToast(msg, isError = false) {
-      const t = document.getElementById('toast');
+      const t = document.getElementById("toast");
       t.textContent = msg;
-      t.className = 'toast show' + (isError ? ' error' : '');
+      t.className = "toast show" + (isError ? " error" : "");
       clearTimeout(showToast._timer);
       showToast._timer = setTimeout(() => {
-        t.className = 'toast';
-      }, 4000);
+        t.className = "toast";
+      }, 4500);
+    }
+
+    function formatRelativeAge(isoStr, ageHours) {
+      if (!isoStr) return "Timestamp unknown";
+      const d = new Date(isoStr);
+      const localLabel = Number.isNaN(d.getTime()) ? isoStr : d.toLocaleString();
+      if (ageHours === null || ageHours === undefined) return localLabel;
+      if (ageHours < 1) return localLabel + " (<1h ago)";
+      return localLabel + " (" + ageHours + "h ago)";
     }
 
     function updateMetrics(data) {
       const m = data.metrics || {};
-      document.getElementById('kpi-total').textContent = String(m.total_repos ?? 0);
-      document.getElementById('kpi-forks').textContent = (m.forks_count ?? 0) + ' upstream forks (' + (m.cache_source || 'snapshot') + ')';
-      document.getElementById('kpi-sec1').textContent = String(m.sec1_count ?? 0);
-      document.getElementById('kpi-sec2').textContent = String(m.sec2_count ?? 0);
-      document.getElementById('kpi-sec3').textContent = String(m.sec3_count ?? 0);
-      document.getElementById('kpi-ci').textContent = (m.passing_ci ?? 0) + ' passed';
-      document.getElementById('kpi-ci-sub').textContent = (m.failing_ci ?? 0) + ' failing / ' + (m.no_ci ?? 0) + ' no CI';
+      document.getElementById("kpi-total").textContent = String(m.total_repos ?? 0);
+      document.getElementById("kpi-forks").textContent = (m.forks_count ?? 0) + " upstream forks (" + (m.cache_source || "snapshot") + ")";
+      document.getElementById("kpi-sec1").textContent = String(m.sec1_count ?? 0);
+      document.getElementById("kpi-sec2").textContent = String(m.sec2_count ?? 0);
+      document.getElementById("kpi-sec3").textContent = String(m.sec3_count ?? 0);
+      document.getElementById("kpi-ci").textContent = (m.passing_ci ?? 0) + " passed";
+      document.getElementById("kpi-ci-sub").textContent = (m.failing_ci ?? 0) + " failing / " + (m.no_ci ?? 0) + " no CI";
 
-      document.getElementById('badge-all').textContent = String(m.total_repos ?? 0);
-      document.getElementById('badge-sec1').textContent = String(m.sec1_count ?? 0);
-      document.getElementById('badge-sec2').textContent = String(m.sec2_count ?? 0);
-      document.getElementById('badge-sec3').textContent = String(m.sec3_count ?? 0);
-      document.getElementById('badge-forks').textContent = String(m.forks_count ?? 0);
+      document.getElementById("badge-all").textContent = String(m.total_repos ?? 0);
+      document.getElementById("badge-sec1").textContent = String(m.sec1_count ?? 0);
+      document.getElementById("badge-sec2").textContent = String(m.sec2_count ?? 0);
+      document.getElementById("badge-sec3").textContent = String(m.sec3_count ?? 0);
+      document.getElementById("badge-forks").textContent = String(m.forks_count ?? 0);
+
+      const srcBadge = document.getElementById("freshness-source-badge");
+      srcBadge.textContent = "Source: " + (m.cache_source || "snapshot");
+      srcBadge.className = "badge " + (m.cache_source === "live_cache.json" ? "badge-success" : "badge-warning");
+
+      const ageBadge = document.getElementById("freshness-age-badge");
+      ageBadge.textContent = "Refreshed: " + formatRelativeAge(m.last_refreshed_at, m.cache_age_hours) + (m.is_cache_stale ? " — Stale (>24h)" : "");
+      ageBadge.className = "badge " + (m.is_cache_stale ? "badge-warning" : "badge-info");
+
+      if (m.local_sync_counts && !localSyncData) {
+        updateLocalKpiFromCounts(m.local_sync_counts);
+      }
+    }
+
+    function updateLocalKpiFromCounts(lc) {
+      if (!lc) return;
+      const issues = Number(lc.dirty_or_ahead || 0) + Number(lc.local_only || 0) + Number(lc.deleted_on_web_since_last || 0) + Number(lc.deleted_locally_since_last || 0);
+      document.getElementById("kpi-local").textContent = (lc.synced ?? 0) + " / " + (lc.local_total ?? 0);
+      document.getElementById("kpi-local").style.color = issues > 0 ? "var(--amber)" : "var(--green)";
+      document.getElementById("kpi-local-sub").textContent =
+        (lc.dirty_or_ahead ?? 0) + " dirty/ahead · " + (lc.local_only ?? 0) + " local-only · " + (lc.web_only ?? 0) + " web-only";
+      document.getElementById("badge-local").textContent = String(issues);
     }
 
     function buildTypeBadge(r) {
-      if (r.is_fork) return createBadge('Fork', 'badge-purple');
-      if (r.is_private) return createBadge('Private', 'badge-warning');
-      return createBadge('Owned', 'badge-info');
+      if (r.is_fork) return createBadge("Fork", "badge-purple");
+      if (r.is_private) return createBadge("Private", "badge-warning");
+      return createBadge("Owned", "badge-info");
     }
 
     function buildCiBadge(r) {
       const run = r.latest_run;
-      if (!run) return createBadge('No CI', '');
+      if (!run) return createBadge("No CI", "");
       const conc = run.conclusion;
-      if (conc === 'success') return createBadge('Passed', 'badge-success');
-      if (conc === 'failure' || conc === 'cancelled' || conc === 'timed_out') {
-        return createBadge(conc === 'cancelled' ? 'Cancelled' : 'Failed', 'badge-danger');
+      if (conc === "success") return createBadge("Passed", "badge-success");
+      if (conc === "failure" || conc === "cancelled" || conc === "timed_out") {
+        return createBadge(conc === "cancelled" ? "Cancelled" : "Failed", "badge-danger");
       }
-      return createBadge(String(run.status || 'Running'), 'badge-warning');
+      return createBadge(String(run.status || "Running"), "badge-warning");
+    }
+
+    function setTableHeaders(mode) {
+      const thead = document.getElementById("table-head");
+      const tr = document.createElement("tr");
+      const cols = mode === "local"
+        ? ["Folder / Repo", "Location & Sync Status", "Branch & HEAD", "Local Dirty / Ahead", "Remote Slug", "Detected Notes"]
+        : ["Repository", "Type", "Last Pushed", "Latest CI Status", "Latest Release", "Unbuilt", "Unreleased", "Upstream Drift", "Actions"];
+      cols.forEach(c => {
+        const th = document.createElement("th");
+        th.textContent = c;
+        tr.appendChild(th);
+      });
+      thead.replaceChildren(tr);
     }
 
     function applyFilters() {
+      const localTb = document.getElementById("local-toolbar");
+      if (currentSubtab === "local") {
+        localTb.classList.add("open");
+        setTableHeaders("local");
+        renderLocalSyncTable();
+        return;
+      }
+      localTb.classList.remove("open");
+      setTableHeaders("repos");
       if (!triagedData) return;
-      const q = document.getElementById('search-input').value.trim().toLowerCase();
-      const typeF = document.getElementById('type-filter').value;
-      const ciF = document.getElementById('ci-filter').value;
+
+      const q = document.getElementById("search-input").value.trim().toLowerCase();
+      const typeF = document.getElementById("type-filter").value;
+      const ciF = document.getElementById("ci-filter").value;
 
       let pool = [];
-      if (currentSubtab === 'all') {
+      if (currentSubtab === "all") {
         pool = [...(triagedData.section_1 || []), ...(triagedData.section_2 || []), ...(triagedData.section_3 || [])];
-      } else if (currentSubtab === 'sec1') {
+      } else if (currentSubtab === "sec1") {
         pool = triagedData.section_1 || [];
-      } else if (currentSubtab === 'sec2') {
+      } else if (currentSubtab === "sec2") {
         pool = triagedData.section_2 || [];
-      } else if (currentSubtab === 'sec3') {
+      } else if (currentSubtab === "sec3") {
         pool = triagedData.section_3 || [];
-      } else if (currentSubtab === 'forks') {
+      } else if (currentSubtab === "forks") {
         pool = [...(triagedData.section_1 || []), ...(triagedData.section_2 || []), ...(triagedData.section_3 || [])].filter(r => r.is_fork);
       }
 
       const filtered = pool.filter(r => {
         if (q) {
-          const hay = [r.name, r.full_name, r.description, r.parent && r.parent.full_name].join(' ').toLowerCase();
+          const hay = [r.name, r.full_name, r.description, r.parent && r.parent.full_name].join(" ").toLowerCase();
           if (!hay.includes(q)) return false;
         }
-        if (typeF === 'owned' && (r.is_fork || r.is_private)) return false;
-        if (typeF === 'fork' && !r.is_fork) return false;
-        if (typeF === 'private' && !r.is_private) return false;
+        if (typeF === "owned" && (r.is_fork || r.is_private)) return false;
+        if (typeF === "fork" && !r.is_fork) return false;
+        if (typeF === "private" && !r.is_private) return false;
 
         const run = r.latest_run;
         const conc = run ? run.conclusion : null;
-        if (ciF === 'success' && conc !== 'success') return false;
-        if (ciF === 'failure' && !['failure', 'cancelled', 'timed_out', 'action_required'].includes(conc)) return false;
-        if (ciF === 'running' && (!run || conc !== null)) return false;
-        if (ciF === 'none' && run) return false;
+        if (ciF === "success" && conc !== "success") return false;
+        if (ciF === "failure" && !["failure", "cancelled", "timed_out", "action_required"].includes(conc)) return false;
+        if (ciF === "running" && (!run || conc !== null)) return false;
+        if (ciF === "none" && run) return false;
         return true;
       });
 
@@ -590,110 +859,101 @@
     }
 
     function renderTable(repos, poolSize) {
-      document.getElementById('result-bar').textContent = 'Showing ' + repos.length + ' of ' + poolSize + ' repositories';
-      const tbody = document.getElementById('repo-table-body');
-      tbody.textContent = '';
+      document.getElementById("result-bar").textContent = "Showing " + repos.length + " of " + poolSize + " repositories";
+      const tbody = document.getElementById("repo-table-body");
+      tbody.replaceChildren();
 
       if (repos.length === 0) {
-        const tr = document.createElement('tr');
-        const td = document.createElement('td');
+        const tr = document.createElement("tr");
+        const td = document.createElement("td");
         td.colSpan = 9;
-        td.className = 'muted';
-        td.style.textAlign = 'center';
-        td.style.padding = '28px';
-        td.textContent = 'No repositories match your current filters.';
+        td.className = "muted";
+        td.style.textAlign = "center";
+        td.style.padding = "28px";
+        td.textContent = "No repositories match your current filters.";
         tr.appendChild(td);
         tbody.appendChild(tr);
         return;
       }
 
       repos.forEach(r => {
-        const tr = document.createElement('tr');
+        const tr = document.createElement("tr");
 
-        // Repo name & description
-        const tdRepo = document.createElement('td');
-        const repoUrl = r.full_name ? 'https://github.com/' + encodeURI(r.full_name) : null;
-        tdRepo.appendChild(createExternalLink(repoUrl, r.name || 'unknown', 'repo-link'));
-        const desc = document.createElement('div');
-        desc.className = 'repo-desc';
-        desc.textContent = r.description || 'No description provided.';
+        const tdRepo = document.createElement("td");
+        const repoUrl = r.full_name ? "https://github.com/" + encodeURI(r.full_name) : null;
+        tdRepo.appendChild(createExternalLink(repoUrl, r.name || "unknown", "repo-link"));
+        const desc = document.createElement("div");
+        desc.className = "repo-desc";
+        desc.textContent = r.description || "No description provided.";
         tdRepo.appendChild(desc);
         tr.appendChild(tdRepo);
 
-        // Type
-        const tdType = document.createElement('td');
+        const tdType = document.createElement("td");
         tdType.appendChild(buildTypeBadge(r));
         tr.appendChild(tdType);
 
-        // Pushed date
-        const tdPush = document.createElement('td');
-        tdPush.className = 'muted';
-        const pushDate = r.pushed_at ? String(r.pushed_at).slice(0, 10) : '—';
-        tdPush.textContent = pushDate + ' (' + (r.days_pushed ?? '?') + 'd)';
+        const tdPush = document.createElement("td");
+        tdPush.className = "muted";
+        const pushDate = r.pushed_at ? String(r.pushed_at).slice(0, 10) : "—";
+        tdPush.textContent = pushDate + " (" + (r.days_pushed ?? "?") + "d)";
         if (r.stale_push_anomaly && r.days_since_commit !== undefined) {
-          const driftNote = document.createElement('div');
-          driftNote.className = 'drift-note';
-          driftNote.textContent = 'Code untouched ' + r.days_since_commit + 'd';
+          const driftNote = document.createElement("div");
+          driftNote.className = "drift-note";
+          driftNote.textContent = "Code untouched " + r.days_since_commit + "d";
           tdPush.appendChild(driftNote);
         }
         tr.appendChild(tdPush);
 
-        // CI Status
-        const tdCi = document.createElement('td');
+        const tdCi = document.createElement("td");
         tdCi.appendChild(buildCiBadge(r));
         tr.appendChild(tdCi);
 
-        // Release / Tag
-        const tdRel = document.createElement('td');
+        const tdRel = document.createElement("td");
         const relTag = (r.latest_release && r.latest_release.tag_name) || (r.latest_tag && r.latest_tag.name);
         if (relTag) {
-          const code = document.createElement('code');
-          code.style.color = 'var(--accent)';
+          const code = document.createElement("code");
+          code.style.color = "var(--accent)";
           code.textContent = relTag;
           tdRel.appendChild(code);
         } else {
-          tdRel.className = 'muted';
-          tdRel.textContent = '—';
+          tdRel.className = "muted";
+          tdRel.textContent = "—";
         }
         tr.appendChild(tdRel);
 
-        // Unbuilt
-        const tdUnbuilt = document.createElement('td');
+        const tdUnbuilt = document.createElement("td");
         const unbuilt = Number(r.unbuilt_commits_count || 0);
-        tdUnbuilt.appendChild(createBadge(String(unbuilt), unbuilt > 0 ? 'badge-warning' : ''));
+        tdUnbuilt.appendChild(createBadge(String(unbuilt), unbuilt > 0 ? "badge-warning" : ""));
         tr.appendChild(tdUnbuilt);
 
-        // Unreleased
-        const tdUnrel = document.createElement('td');
+        const tdUnrel = document.createElement("td");
         const unrel = Number(r.unreleased_commits_count || 0);
-        tdUnrel.appendChild(createBadge(String(unrel), unrel > 0 ? 'badge-info' : ''));
+        tdUnrel.appendChild(createBadge(String(unrel), unrel > 0 ? "badge-info" : ""));
         tr.appendChild(tdUnrel);
 
-        // Upstream drift
-        const tdDrift = document.createElement('td');
+        const tdDrift = document.createElement("td");
         if (r.is_fork && r.upstream_comparison) {
           const u = r.upstream_comparison;
           const behind = Number(u.behind_by || 0);
           const ahead = Number(u.ahead_by || 0);
           if (behind > 0) {
-            tdDrift.appendChild(createBadge('-' + behind + ' behind (+' + ahead + ')', 'badge-danger'));
+            tdDrift.appendChild(createBadge("-" + behind + " behind (+" + ahead + ")", "badge-danger"));
           } else {
-            tdDrift.appendChild(createBadge('Synced (+' + ahead + ')', 'badge-success'));
+            tdDrift.appendChild(createBadge("Synced (+" + ahead + ")", "badge-success"));
           }
         } else {
-          tdDrift.className = 'muted';
-          tdDrift.textContent = '—';
+          tdDrift.className = "muted";
+          tdDrift.textContent = "—";
         }
         tr.appendChild(tdDrift);
 
-        // Actions
-        const tdAct = document.createElement('td');
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'btn';
-        btn.style.padding = '4px 10px';
-        btn.textContent = 'Inspect';
-        btn.addEventListener('click', () => inspectRepo(r));
+        const tdAct = document.createElement("td");
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "btn";
+        btn.style.padding = "4px 10px";
+        btn.textContent = "Inspect";
+        btn.addEventListener("click", () => inspectRepo(r));
         tdAct.appendChild(btn);
         tr.appendChild(tdAct);
 
@@ -701,82 +961,224 @@
       });
     }
 
-    function appendMetaLine(container, label, value, linkHref, linkText) {
-      const p = document.createElement('p');
-      p.className = 'meta-line';
-      const strong = document.createElement('strong');
-      strong.textContent = label + ': ';
-      p.appendChild(strong);
-      if (value) {
-        p.appendChild(document.createTextNode(value));
+    function renderLocalSyncTable() {
+      const tbody = document.getElementById("repo-table-body");
+      tbody.replaceChildren();
+      if (!localSyncData) {
+        document.getElementById("result-bar").textContent = "Loading local vs. web sync check...";
+        const tr = document.createElement("tr");
+        const td = document.createElement("td");
+        td.colSpan = 6;
+        td.className = "muted";
+        td.style.textAlign = "center";
+        td.style.padding = "24px";
+        td.textContent = "Click 'Check Local Sync' to scan your local workspace folders.";
+        tr.appendChild(td);
+        tbody.appendChild(tr);
+        return;
       }
+
+      const q = document.getElementById("search-input").value.trim().toLowerCase();
+      const filterMode = document.getElementById("local-filter-select").value;
+      const rows = [];
+
+      (localSyncData.local_only || []).forEach(l => {
+        rows.push({
+          kind: "local_only",
+          title: l.folder_name,
+          subtitle: l.local_path,
+          status: l.deleted_on_web ? "Deleted on GitHub Web" : (l.github_slug ? "Remote Missing on Web" : "Local-Only (No Origin)"),
+          badgeClass: l.deleted_on_web ? "badge-danger" : "badge-warning",
+          branch: (l.branch || "HEAD") + (l.head_sha ? " @ " + l.head_sha : ""),
+          dirtyLabel: (l.dirty_count || 0) + " uncommitted",
+          slug: l.github_slug || "—",
+          note: l.head_message || "Not present in GitHub web repository list"
+        });
+      });
+
+      (localSyncData.matched || []).forEach(m => {
+        const isIssue = m.sync_status !== "synced";
+        let cls = "badge-success";
+        let label = "Synced Locally & Web";
+        if (m.sync_status === "diverged") { cls = "badge-danger"; label = "Diverged (+ahead / -behind)"; }
+        else if (m.sync_status === "ahead") { cls = "badge-warning"; label = "Unpushed Commits"; }
+        else if (m.sync_status === "behind") { cls = "badge-info"; label = "Behind Origin"; }
+        else if (m.sync_status === "dirty") { cls = "badge-warning"; label = "Uncommitted Changes"; }
+
+        rows.push({
+          kind: isIssue ? "matched_issue" : "matched_clean",
+          title: m.folder_name,
+          subtitle: m.local_path,
+          status: label,
+          badgeClass: cls,
+          branch: (m.branch || "main") + (m.head_sha ? " @ " + m.head_sha : ""),
+          dirtyLabel: (m.dirty_count || 0) + " dirty · +" + (m.ahead_by || 0) + " / -" + (m.behind_by || 0),
+          slug: m.web_full_name || m.github_slug || "—",
+          note: m.head_message || ""
+        });
+      });
+
+      (localSyncData.web_only || []).forEach(w => {
+        rows.push({
+          kind: "web_only",
+          title: w.name,
+          subtitle: "GitHub Web Only",
+          status: w.deleted_locally ? "Deleted Locally" : "Not Cloned in Roots",
+          badgeClass: w.deleted_locally ? "badge-danger" : "badge-purple",
+          branch: "remote",
+          dirtyLabel: "—",
+          slug: w.full_name || "—",
+          note: w.pushed_at ? "Last pushed " + String(w.pushed_at).slice(0, 10) : ""
+        });
+      });
+
+      const filtered = rows.filter(r => {
+        if (q) {
+          const hay = [r.title, r.subtitle, r.slug, r.status, r.note].join(" ").toLowerCase();
+          if (!hay.includes(q)) return false;
+        }
+        if (filterMode === "issues") return r.kind !== "matched_clean" && r.status !== "Not Cloned in Roots";
+        if (filterMode === "local_only") return r.kind === "local_only";
+        if (filterMode === "web_only") return r.kind === "web_only";
+        if (filterMode === "matched") return r.kind === "matched_clean" || r.kind === "matched_issue";
+        return true;
+      });
+
+      document.getElementById("result-bar").textContent =
+        "Local Sync checked " + (localSyncData.checked_at || "now") + " — showing " + filtered.length + " of " + rows.length + " entries";
+
+      if (filtered.length === 0) {
+        const tr = document.createElement("tr");
+        const td = document.createElement("td");
+        td.colSpan = 6;
+        td.className = "muted";
+        td.style.textAlign = "center";
+        td.style.padding = "24px";
+        td.textContent = "No local/web sync mismatches match this filter.";
+        tr.appendChild(td);
+        tbody.appendChild(tr);
+        return;
+      }
+
+      filtered.forEach(item => {
+        const tr = document.createElement("tr");
+
+        const tdTitle = document.createElement("td");
+        const strong = document.createElement("strong");
+        strong.textContent = item.title;
+        tdTitle.appendChild(strong);
+        const sub = document.createElement("div");
+        sub.className = "repo-desc";
+        sub.textContent = item.subtitle || "";
+        tdTitle.appendChild(sub);
+        tr.appendChild(tdTitle);
+
+        const tdStat = document.createElement("td");
+        tdStat.appendChild(createBadge(item.status, item.badgeClass));
+        tr.appendChild(tdStat);
+
+        const tdBr = document.createElement("td");
+        tdBr.className = "muted";
+        tdBr.textContent = item.branch;
+        tr.appendChild(tdBr);
+
+        const tdDirty = document.createElement("td");
+        tdDirty.className = "muted";
+        tdDirty.textContent = item.dirtyLabel;
+        tr.appendChild(tdDirty);
+
+        const tdSlug = document.createElement("td");
+        if (item.slug && item.slug.includes("/")) {
+          tdSlug.appendChild(createExternalLink("https://github.com/" + encodeURI(item.slug), item.slug, "repo-link"));
+        } else {
+          tdSlug.textContent = item.slug || "—";
+        }
+        tr.appendChild(tdSlug);
+
+        const tdNote = document.createElement("td");
+        tdNote.className = "muted";
+        tdNote.textContent = item.note || "—";
+        tr.appendChild(tdNote);
+
+        tbody.appendChild(tr);
+      });
+    }
+
+    function appendMetaLine(container, label, value, linkHref, linkText) {
+      const p = document.createElement("p");
+      p.className = "meta-line";
+      const strong = document.createElement("strong");
+      strong.textContent = label + ": ";
+      p.appendChild(strong);
+      if (value) p.appendChild(document.createTextNode(value));
       if (linkHref) {
-        if (value) p.appendChild(document.createTextNode(' '));
+        if (value) p.appendChild(document.createTextNode(" "));
         p.appendChild(createExternalLink(linkHref, linkText || linkHref));
       }
       container.appendChild(p);
     }
 
     function inspectRepo(r) {
-      document.getElementById('modal-title').textContent = (r.name || 'Repository') + ' — Inspection & Commit Gap';
-      const body = document.getElementById('modal-body');
-      body.textContent = '';
+      activeModalRepo = r;
+      document.getElementById("modal-title").textContent = (r.name || "Repository") + " — Inspection & Commit Gap";
+      const body = document.getElementById("modal-body");
+      body.replaceChildren();
 
-      const metaBox = document.createElement('div');
-      metaBox.style.marginBottom = '16px';
-      const repoUrl = r.full_name ? 'https://github.com/' + encodeURI(r.full_name) : null;
-      appendMetaLine(metaBox, 'Repository', '', repoUrl, r.full_name || r.name);
-      appendMetaLine(metaBox, 'Default Branch', (r.default_branch || 'main') + ' | Pushed: ' + (r.pushed_at || 'N/A'));
+      const metaBox = document.createElement("div");
+      metaBox.style.marginBottom = "16px";
+      const repoUrl = r.full_name ? "https://github.com/" + encodeURI(r.full_name) : null;
+      appendMetaLine(metaBox, "Repository", "", repoUrl, r.full_name || r.name);
+      appendMetaLine(metaBox, "Default Branch", (r.default_branch || "main") + " | Pushed: " + (r.pushed_at || "N/A"));
       if (r.stale_push_anomaly && r.days_since_commit !== undefined) {
-        appendMetaLine(metaBox, 'Push-Commit Drift', 'Latest commit is ' + r.days_since_commit + 'd old (metadata push bump detected)');
+        appendMetaLine(metaBox, "Push-Commit Drift", "Latest commit is " + r.days_since_commit + "d old (metadata push bump detected)");
       }
       if (r.is_fork && r.parent) {
         const comp = r.upstream_comparison;
-        const compStr = comp ? (' (' + (comp.ahead_by ?? 0) + ' ahead, ' + (comp.behind_by ?? 0) + ' behind)') : '';
-        appendMetaLine(metaBox, 'Upstream Parent', (r.parent.full_name || 'Unknown') + compStr);
+        const compStr = comp ? (" (" + (comp.ahead_by ?? 0) + " ahead, " + (comp.behind_by ?? 0) + " behind)") : "";
+        appendMetaLine(metaBox, "Upstream Parent", (r.parent.full_name || "Unknown") + compStr);
       }
       if (r.latest_run) {
-        const conc = r.latest_run.conclusion || r.latest_run.status || 'unknown';
+        const conc = r.latest_run.conclusion || r.latest_run.status || "unknown";
         appendMetaLine(
           metaBox,
-          'Latest CI Run',
-          (r.latest_run.name || 'Workflow') + ' (' + conc + ')',
+          "Latest CI Run",
+          (r.latest_run.name || "Workflow") + " (" + conc + ")",
           r.latest_run.html_url,
-          'View Run'
+          "View Run"
         );
       }
       body.appendChild(metaBox);
 
       const commits = Array.isArray(r.recent_commits) ? r.recent_commits : [];
-      const h3 = document.createElement('h3');
-      h3.style.fontSize = '14px';
-      h3.style.margin = '12px 0 8px';
-      h3.textContent = 'Recent Commits (' + commits.length + ')';
+      const h3 = document.createElement("h3");
+      h3.style.fontSize = "14px";
+      h3.style.margin = "12px 0 8px";
+      h3.textContent = "Recent Commits (" + commits.length + ")";
       body.appendChild(h3);
 
       if (commits.length === 0) {
-        const p = document.createElement('p');
-        p.className = 'muted';
-        p.textContent = 'No recent commit records available.';
+        const p = document.createElement("p");
+        p.className = "muted";
+        p.textContent = "No recent commit records available.";
         body.appendChild(p);
       } else {
         commits.forEach(c => {
-          const item = document.createElement('div');
-          item.className = 'commit-item';
-          const hdr = document.createElement('div');
-          hdr.className = 'commit-header';
-          const sha = document.createElement('span');
-          sha.className = 'commit-sha';
-          sha.textContent = c.sha || '';
-          const dt = document.createElement('span');
-          dt.className = 'commit-date';
-          dt.textContent = c.date ? String(c.date).slice(0, 16).replace('T', ' ') + ' UTC' : '';
+          const item = document.createElement("div");
+          item.className = "commit-item";
+          const hdr = document.createElement("div");
+          hdr.className = "commit-header";
+          const sha = document.createElement("span");
+          sha.className = "commit-sha";
+          sha.textContent = c.sha || "";
+          const dt = document.createElement("span");
+          dt.className = "commit-date";
+          dt.textContent = c.date ? String(c.date).slice(0, 16).replace("T", " ") + " UTC" : "";
           hdr.appendChild(sha);
           hdr.appendChild(dt);
 
-          const msg = document.createElement('div');
-          msg.className = 'commit-msg';
-          msg.textContent = c.message || '';
+          const msg = document.createElement("div");
+          msg.className = "commit-msg";
+          msg.textContent = c.message || "";
 
           item.appendChild(hdr);
           item.appendChild(msg);
@@ -784,134 +1186,412 @@
         });
       }
 
-      document.getElementById('detail-modal').classList.add('open');
+      document.getElementById("detail-modal").classList.add("open");
     }
 
     function closeModal() {
-      document.getElementById('detail-modal').classList.remove('open');
+      document.getElementById("detail-modal").classList.remove("open");
+      activeModalRepo = null;
     }
 
     function showDiagnosticPanel(title, blocks) {
-      const panel = document.getElementById('diag-panel');
-      document.getElementById('diag-title').textContent = title;
-      const body = document.getElementById('diag-body');
-      body.textContent = '';
-      const grid = document.createElement('div');
-      grid.className = 'panel-grid';
+      const panel = document.getElementById("diag-panel");
+      document.getElementById("diag-title").textContent = title;
+      const body = document.getElementById("diag-body");
+      body.replaceChildren();
+      const grid = document.createElement("div");
+      grid.className = "panel-grid";
       blocks.forEach(([heading, lines]) => {
-        const box = document.createElement('div');
-        box.className = 'mini-box';
-        const strong = document.createElement('strong');
+        const box = document.createElement("div");
+        box.className = "mini-box";
+        const strong = document.createElement("strong");
         strong.textContent = heading;
         box.appendChild(strong);
         lines.forEach(line => {
-          const div = document.createElement('div');
-          div.className = 'mini-line';
+          const div = document.createElement("div");
+          div.className = "mini-line";
           div.textContent = line;
           box.appendChild(div);
         });
         grid.appendChild(box);
       });
       body.appendChild(grid);
-      panel.classList.add('open');
+      panel.classList.add("open");
+    }
+
+    function renderRefreshProgress(status) {
+      const card = document.getElementById("refresh-progress-card");
+      const btnRefresh = document.getElementById("btn-refresh");
+      const btnCancel = document.getElementById("btn-cancel-refresh");
+      const fill = document.getElementById("progress-fill");
+
+      if (!status || status.stage === "idle") {
+        card.classList.remove("open");
+        btnRefresh.disabled = false;
+        return;
+      }
+
+      card.classList.add("open");
+      const isRunning = Boolean(status.running);
+      btnRefresh.disabled = isRunning;
+      btnCancel.style.display = isRunning ? "inline-flex" : "none";
+      btnCancel.disabled = Boolean(status.cancel_requested);
+
+      const stageTitles = {
+        listing: "Querying GitHub Repository List...",
+        scanning_repos: "Scanning Live Repositories via gh api...",
+        saving: "Saving Live Cache & Checking Local Workspaces...",
+        completed: "Live Refresh Completed",
+        cancelled: "Live Refresh Cancelled",
+        error: "Live Refresh Issue"
+      };
+      document.getElementById("progress-stage-label").textContent = stageTitles[status.stage] || "Refreshing...";
+      const total = Number(status.total || 0);
+      const cur = Number(status.current || 0);
+      document.getElementById("progress-counter-label").textContent = total > 0 ? (cur + " / " + total + " repos") : "Preparing...";
+      const pct = Number(status.percent || 0);
+      document.getElementById("progress-pct-label").textContent = Math.round(pct) + "%";
+      document.getElementById("progress-message").textContent = status.message || "";
+      document.getElementById("progress-elapsed").textContent = "Elapsed: " + (status.elapsed_seconds ?? 0) + "s";
+
+      if (isRunning && total === 0) {
+        fill.classList.add("indeterminate");
+        fill.style.width = "35%";
+      } else {
+        fill.classList.remove("indeterminate");
+        fill.style.width = Math.max(0, Math.min(100, pct)) + "%";
+      }
+      fill.style.background = status.stage === "error" || status.stage === "cancelled"
+        ? "var(--amber)"
+        : "linear-gradient(90deg, #238636, #58a6ff)";
+    }
+
+    function startPollingRefreshStatus() {
+      clearInterval(refreshPollTimer);
+      refreshPollTimer = setInterval(async () => {
+        try {
+          const res = await fetch("/api/github/refresh/status", { cache: "no-store" });
+          if (!res.ok) return;
+          const st = await res.json();
+          renderRefreshProgress(st);
+          if (!st.running) {
+            clearInterval(refreshPollTimer);
+            refreshPollTimer = null;
+            if (st.stage === "completed") {
+              await loadTriage();
+              await loadLocalSync(false);
+              showToast("GitHub repository data & local sync refreshed!");
+            } else if (st.stage === "cancelled") {
+              showToast("Refresh scan cancelled.", true);
+            } else if (st.stage === "error") {
+              showToast(st.message || "Refresh encountered an issue.", true);
+            }
+          }
+        } catch (_) {
+          clearInterval(refreshPollTimer);
+          refreshPollTimer = null;
+        }
+      }, 450);
     }
 
     async function loadTriage() {
       try {
-        const res = await fetch('/api/github/triage', { cache: 'no-store' });
-        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const res = await fetch("/api/github/triage", { cache: "no-store" });
+        if (!res.ok) throw new Error("HTTP " + res.status);
         triagedData = await res.json();
         updateMetrics(triagedData);
         applyFilters();
       } catch (err) {
-        document.getElementById('result-bar').textContent =
-          'Failed to load /api/github/triage (' + err.message + '). Ensure python src/server.py is running on port 8770.';
+        document.getElementById("result-bar").textContent =
+          "Failed to load /api/github/triage (" + err.message + "). Ensure python src/server.py is running on port 8770.";
       }
     }
 
-    document.querySelectorAll('.subtab-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        currentSubtab = btn.dataset.subtab;
-        document.querySelectorAll('.subtab-btn').forEach(b => {
-          const active = b === btn;
-          b.classList.toggle('active', active);
-          b.setAttribute('aria-selected', active ? 'true' : 'false');
+    async function loadLocalSync(forceRefresh = false) {
+      try {
+        const url = forceRefresh ? "/api/github/local-sync" : "/api/github/local-sync";
+        const res = await fetch(url, forceRefresh ? { method: "POST" } : { cache: "no-store" });
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        localSyncData = await res.json();
+        updateLocalKpiFromCounts(localSyncData.counts);
+        if (Array.isArray(localSyncData.scanned_roots)) {
+          document.getElementById("local-roots-input").value = localSyncData.scanned_roots.join("; ");
+        }
+        if (currentSubtab === "local") applyFilters();
+      } catch (err) {
+        if (forceRefresh) showToast("Local sync failed: " + err.message, true);
+      }
+    }
+
+    async function loadAgentProxyStatus() {
+      const dot = document.getElementById("proxy-dot");
+      const label = document.getElementById("proxy-status-label");
+      const accBadge = document.getElementById("google-accounts-badge");
+      const startBtn = document.getElementById("btn-start-proxy");
+      const modelSel = document.getElementById("agent-model-select");
+      try {
+        const res = await fetch("/api/agent/status", { cache: "no-store" });
+        const st = await res.json();
+        dot.className = "status-dot " + (st.online ? "online" : "offline");
+        label.textContent = st.online
+          ? ("CLIProxyAPI Online (" + (st.models ? st.models.length : 0) + " models)")
+          : "CLIProxyAPI Offline (127.0.0.1:8317)";
+        const gCount = Number(st.google_account_count || 0);
+        accBadge.textContent = "Google Accounts: " + gCount + " authenticated";
+        accBadge.className = "badge " + (gCount > 0 ? "badge-success" : "badge-warning");
+        accBadge.title = (st.accounts || []).map(a => a.provider + ": " + a.account).join("\n");
+        startBtn.style.display = (!st.online && st.can_auto_start) ? "inline-flex" : "none";
+
+        modelSel.replaceChildren();
+        if (Array.isArray(st.models) && st.models.length > 0) {
+          st.models.forEach(m => {
+            const opt = document.createElement("option");
+            opt.value = m;
+            opt.textContent = m;
+            if (m === st.default_model) opt.selected = true;
+            modelSel.appendChild(opt);
+          });
+        } else {
+          const opt = document.createElement("option");
+          opt.value = "";
+          opt.textContent = st.online ? "Default Model" : "Start CLIProxyAPI to load models";
+          modelSel.appendChild(opt);
+        }
+      } catch (_) {
+        dot.className = "status-dot offline";
+        label.textContent = "CLIProxyAPI status unavailable";
+      }
+    }
+
+    async function runAiAction(endpoint, title) {
+      const model = document.getElementById("agent-model-select").value;
+      const panel = document.getElementById("ai-panel");
+      document.getElementById("ai-panel-title").textContent = title;
+      document.getElementById("ai-panel-meta").textContent = "Running via CLIProxyAPI (" + (model || "auto model") + ")...";
+      document.getElementById("ai-panel-body").textContent = "Generating response...";
+      panel.classList.add("open");
+
+      try {
+        const res = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ model })
         });
+        const data = await res.json();
+        if (!res.ok || !data.ok) {
+          throw new Error(data.error || ("HTTP " + res.status));
+        }
+        document.getElementById("ai-panel-meta").textContent =
+          "Model: " + (data.model || model || "default") + (data.destination ? (" | Saved to: " + data.destination) : "");
+        document.getElementById("ai-panel-body").textContent = data.content || "";
+        showToast(data.destination ? ("Saved AI Executive Report to " + data.destination) : "AI summary ready!");
+      } catch (err) {
+        document.getElementById("ai-panel-meta").textContent = "Error: " + err.message;
+        document.getElementById("ai-panel-body").textContent = err.message;
+        showToast("AI request failed: " + err.message, true);
+      }
+    }
+
+    document.querySelectorAll(".subtab-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        currentSubtab = btn.dataset.subtab;
+        document.querySelectorAll(".subtab-btn").forEach(b => {
+          const active = b === btn;
+          b.classList.toggle("active", active);
+          b.setAttribute("aria-selected", active ? "true" : "false");
+        });
+        if (currentSubtab === "local" && !localSyncData) {
+          loadLocalSync(true);
+        }
         applyFilters();
       });
     });
 
-    document.getElementById('search-input').addEventListener('input', applyFilters);
-    document.getElementById('type-filter').addEventListener('change', applyFilters);
-    document.getElementById('ci-filter').addEventListener('change', applyFilters);
-    document.getElementById('diag-close').addEventListener('click', () => {
-      document.getElementById('diag-panel').classList.remove('open');
+    document.getElementById("search-input").addEventListener("input", applyFilters);
+    document.getElementById("type-filter").addEventListener("change", applyFilters);
+    document.getElementById("ci-filter").addEventListener("change", applyFilters);
+    document.getElementById("local-filter-select").addEventListener("change", applyFilters);
+    document.getElementById("diag-close").addEventListener("click", () => {
+      document.getElementById("diag-panel").classList.remove("open");
     });
-    document.getElementById('modal-close').addEventListener('click', closeModal);
-    document.getElementById('detail-modal').addEventListener('click', (e) => {
-      if (e.target.id === 'detail-modal') closeModal();
+    document.getElementById("ai-panel-close").addEventListener("click", () => {
+      document.getElementById("ai-panel").classList.remove("open");
     });
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeModal();
+    document.getElementById("modal-close").addEventListener("click", closeModal);
+    document.getElementById("detail-modal").addEventListener("click", (e) => {
+      if (e.target.id === "detail-modal") closeModal();
     });
-
-    document.getElementById('btn-doctor').addEventListener('click', async () => {
-      try {
-        const res = await fetch('/api/github/doctor', { cache: 'no-store' });
-        const doc = await res.json();
-        const failing = (doc.failing_repos || []).map(f => f.name + ' (' + f.conclusion + ')');
-        const behind = (doc.behind_forks || []).map(b => b.name + ' (-' + b.behind_by + ' / +' + b.ahead_by + ')');
-        const anomalies = doc.stale_push_anomalies || [];
-        showDiagnosticPanel('GitHub Repository Doctor', [
-          ['Inventory & Cache', [
-            'Total Repos: ' + (doc.total_repos ?? 0),
-            'Live Cache Present: ' + (doc.live_cache_present ? 'YES (local)' : 'NO (using repos_public.json)'),
-            'Unreleased Commits Total: ' + ((doc.metrics || {}).total_unreleased_commits ?? 0)
-          ]],
-          ['Failing / Cancelled CI (' + failing.length + ')', failing.length ? failing : ['All CI-enabled repos passing.']],
-          ['Behind-Upstream Forks (' + behind.length + ')', behind.length ? behind : ['All forks synced with upstream.']],
-          ['Push-Commit Drift Anomalies (' + anomalies.length + ')', anomalies.length ? anomalies : ['None detected.']]
-        ]);
-      } catch (err) {
-        showToast('Failed to run GitHub Doctor: ' + err.message, true);
-      }
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeModal();
     });
 
-    document.getElementById('btn-export').addEventListener('click', async () => {
-      try {
-        const res = await fetch('/api/github/export', { method: 'POST' });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error || ('HTTP ' + res.status));
-        showToast('Exported report to: ' + data.destination);
-      } catch (err) {
-        showToast('Export failed: ' + err.message, true);
-      }
-    });
-
-    document.getElementById('btn-refresh').addEventListener('click', async () => {
-      const btn = document.getElementById('btn-refresh');
+    document.getElementById("modal-refresh-repo").addEventListener("click", async () => {
+      if (!activeModalRepo || !activeModalRepo.full_name) return;
+      const btn = document.getElementById("modal-refresh-repo");
       btn.disabled = true;
-      showToast('Refreshing repository data via gh api...');
+      btn.textContent = "Refreshing...";
       try {
-        const res = await fetch('/api/github/refresh', { method: 'POST' });
+        const res = await fetch("/api/github/refresh/repo", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ full_name: activeModalRepo.full_name })
+        });
         const data = await res.json();
-        if (res.status === 409) {
-          showToast('Scan already in progress. Please wait.', true);
-          return;
-        }
-        if (!res.ok) throw new Error(data.error || ('HTTP ' + res.status));
-        triagedData = data;
+        if (!res.ok) throw new Error(data.error || ("HTTP " + res.status));
+        triagedData = data.triage;
         updateMetrics(triagedData);
         applyFilters();
-        showToast('GitHub repository data refreshed!');
+        inspectRepo(data.repository);
+        showToast("Refreshed " + activeModalRepo.full_name + "!");
       } catch (err) {
-        showToast('Refresh failed: ' + err.message, true);
+        showToast("Single-repo refresh failed: " + err.message, true);
       } finally {
         btn.disabled = false;
+        btn.textContent = "Refresh This Repo";
       }
     });
 
-    window.addEventListener('DOMContentLoaded', loadTriage);
+    document.getElementById("btn-local-sync").addEventListener("click", async () => {
+      showToast("Scanning local workspace folders...");
+      await loadLocalSync(true);
+      const localTab = document.querySelector('.subtab-btn[data-subtab="local"]');
+      if (localTab) localTab.click();
+      showToast("Local vs. web sync check complete!");
+    });
+
+    document.getElementById("btn-save-roots").addEventListener("click", async () => {
+      const raw = document.getElementById("local-roots-input").value;
+      const roots = raw.split(/[;,]+/).map(s => s.trim()).filter(Boolean);
+      try {
+        const res = await fetch("/api/github/local-roots", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ roots })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || ("HTTP " + res.status));
+        localSyncData = data.local_sync;
+        updateLocalKpiFromCounts(localSyncData.counts);
+        applyFilters();
+        showToast("Updated local scan roots and re-scanned!");
+      } catch (err) {
+        showToast("Failed to save local roots: " + err.message, true);
+      }
+    });
+
+    document.getElementById("btn-doctor").addEventListener("click", async () => {
+      try {
+        const res = await fetch("/api/github/doctor", { cache: "no-store" });
+        const doc = await res.json();
+        const failing = (doc.failing_repos || []).map(f => f.name + " (" + f.conclusion + ")");
+        const behind = (doc.behind_forks || []).map(b => b.name + " (-" + b.behind_by + " / +" + b.ahead_by + ")");
+        const anomalies = doc.stale_push_anomalies || [];
+        const cm = doc.cache_metadata || {};
+        const lc = doc.local_sync_counts || {};
+        showDiagnosticPanel("GitHub Repository Doctor", [
+          ["Inventory & Freshness", [
+            "Total Repos: " + (doc.total_repos ?? 0),
+            "Live Cache Present: " + (doc.live_cache_present ? "YES (local)" : "NO (using repos_public.json)"),
+            "Last Refreshed: " + formatRelativeAge(cm.last_refreshed_at, cm.cache_age_hours),
+            "Unreleased Commits Total: " + ((doc.metrics || {}).total_unreleased_commits ?? 0)
+          ]],
+          ["Local vs. Web Sync", [
+            "Synced: " + (lc.synced ?? "—") + " | Dirty/Ahead: " + (lc.dirty_or_ahead ?? "—"),
+            "Local-Only: " + (lc.local_only ?? "—") + " | Web-Only: " + (lc.web_only ?? "—"),
+            "Deleted on Web: " + (lc.deleted_on_web_since_last ?? 0) + " | Deleted Locally: " + (lc.deleted_locally_since_last ?? 0)
+          ]],
+          ["Failing / Cancelled CI (" + failing.length + ")", failing.length ? failing : ["All CI-enabled repos passing."]],
+          ["Behind-Upstream Forks (" + behind.length + ")", behind.length ? behind : ["All forks synced with upstream."]],
+          ["Push-Commit Drift Anomalies (" + anomalies.length + ")", anomalies.length ? anomalies : ["None detected."]]
+        ]);
+      } catch (err) {
+        showToast("Failed to run GitHub Doctor: " + err.message, true);
+      }
+    });
+
+    document.getElementById("btn-export").addEventListener("click", async () => {
+      try {
+        const res = await fetch("/api/github/export", { method: "POST" });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || ("HTTP " + res.status));
+        showToast("Exported report to: " + data.destination);
+      } catch (err) {
+        showToast("Export failed: " + err.message, true);
+      }
+    });
+
+    document.getElementById("btn-refresh").addEventListener("click", async () => {
+      const btn = document.getElementById("btn-refresh");
+      btn.disabled = true;
+      try {
+        const res = await fetch("/api/github/refresh?async=1&include_local=1", { method: "POST" });
+        const data = await res.json();
+        if (res.status === 409) {
+          showToast("Scan already in progress — tracking live progress.", true);
+          startPollingRefreshStatus();
+          return;
+        }
+        if (!res.ok) throw new Error(data.error || ("HTTP " + res.status));
+        renderRefreshProgress(data);
+        startPollingRefreshStatus();
+      } catch (err) {
+        btn.disabled = false;
+        showToast("Refresh failed: " + err.message, true);
+      }
+    });
+
+    document.getElementById("btn-cancel-refresh").addEventListener("click", async () => {
+      try {
+        const res = await fetch("/api/github/refresh/cancel", { method: "POST" });
+        const data = await res.json();
+        if (data.refresh) renderRefreshProgress(data.refresh);
+        showToast("Cancelling refresh after current repository...");
+      } catch (err) {
+        showToast("Cancel failed: " + err.message, true);
+      }
+    });
+
+    document.getElementById("btn-start-proxy").addEventListener("click", async () => {
+      const btn = document.getElementById("btn-start-proxy");
+      btn.disabled = true;
+      btn.textContent = "Starting...";
+      try {
+        const res = await fetch("/api/agent/start", { method: "POST" });
+        const st = await res.json();
+        await loadAgentProxyStatus();
+        showToast(st.message || (st.online ? "CLIProxyAPI started!" : "Still warming up..."), !st.online);
+      } catch (err) {
+        showToast("Failed to start CLIProxyAPI: " + err.message, true);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Start CLIProxyAPI";
+      }
+    });
+
+    document.getElementById("btn-ai-summary").addEventListener("click", () => {
+      runAiAction("/api/agent/github-summary", "AI Refresh Summary & Recommendations");
+    });
+
+    document.getElementById("btn-ai-report").addEventListener("click", () => {
+      runAiAction("/api/agent/github-report", "AI Agent Executive Audit Report (Saved to Downloads)");
+    });
+
+    window.addEventListener("DOMContentLoaded", async () => {
+      await loadTriage();
+      loadLocalSync(false);
+      loadAgentProxyStatus();
+      try {
+        const res = await fetch("/api/github/refresh/status", { cache: "no-store" });
+        if (res.ok) {
+          const st = await res.json();
+          if (st.running) {
+            renderRefreshProgress(st);
+            startPollingRefreshStatus();
+          }
+        }
+      } catch (_) {}
+    });
   </script>
+  <script src="../shared/nav.js"></script>
 </body>
 </html>

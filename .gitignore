@@ -32,3 +32,5 @@ data/media/sitemaps/*.xml
 
 # GitHub Manager live full cache (contains private repo metadata; keep repos_public.json committed)
 data/github/live_cache.json
+data/github/sync_state.json
+data/github/local_roots.json

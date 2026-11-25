@@ -545,6 +545,33 @@ class DatabaseHandler(http.server.SimpleHTTPRequestHandler):
             self._send_json(classify_github_catalog())
             return
 
+        if url_path == "/api/github/refresh/status":
+            from github.scanner import get_refresh_status
+            self._send_json(get_refresh_status())
+            return
+
+        if url_path == "/api/github/local-sync":
+            from github.scanner import load_sync_state, run_local_sync_check
+            qs = parse_qs(urlparse(self.path).query)
+            force_local = qs.get("refresh", ["false"])[0].lower() in ("true", "1", "yes")
+            sync_state = load_sync_state()
+            cached_local = sync_state.get("local_sync") if not force_local else None
+            if isinstance(cached_local, dict):
+                self._send_json(cached_local)
+            else:
+                self._send_json(run_local_sync_check(persist=True))
+            return
+
+        if url_path == "/api/github/local-roots":
+            from github.local_sync import discover_default_roots
+            self._send_json({"roots": [str(p) for p in discover_default_roots()]})
+            return
+
+        if url_path == "/api/agent/status":
+            import agent_proxy
+            self._send_json(agent_proxy.get_proxy_status())
+            return
+
         # --- Cross-Domain PC <-> Games Queries ---
         if url_path == "/api/cross/games-by-gpu":
             from db_hub import query_games_by_gpu
@@ -622,24 +649,138 @@ class DatabaseHandler(http.server.SimpleHTTPRequestHandler):
         if content_len > 65536:
             self._send_json({"status": "error", "error": "Payload too large"}, status=413)
             return
+        payload: dict[str, Any] = {}
         if content_len > 0:
-            self.rfile.read(content_len)
-
-        url_path = self.path.split("?", 1)[0].rstrip("/")
-        if url_path == "/api/github/refresh":
-            from github.scanner import scan_all_repositories, triage_repositories
+            raw_body = self.rfile.read(content_len)
             try:
-                repos = scan_all_repositories(force_refresh=True, blocking=False)
+                parsed_body = json.loads(raw_body.decode("utf-8"))
+                if isinstance(parsed_body, dict):
+                    payload = parsed_body
+            except (UnicodeDecodeError, json.JSONDecodeError):
+                payload = {}
+
+        parsed_url = urlparse(self.path)
+        url_path = parsed_url.path.rstrip("/")
+        qs = parse_qs(parsed_url.query)
+
+        if url_path == "/api/github/refresh":
+            from github.scanner import scan_all_repositories, start_background_refresh, triage_repositories
+            is_async = qs.get("async", ["false"])[0].lower() in ("true", "1", "yes") or bool(payload.get("async"))
+            include_local = qs.get("include_local", [str(payload.get("include_local", "true"))])[0].lower() not in ("false", "0", "no")
+            try:
+                if is_async:
+                    job = start_background_refresh(include_local=include_local)
+                    self._send_json(job, status=202)
+                    return
+                repos = scan_all_repositories(force_refresh=True, blocking=False, include_local=include_local)
             except RuntimeError as exc:
                 self._send_json({"status": "busy", "error": str(exc)}, status=409)
                 return
             self._send_json(triage_repositories(repos))
             return
 
+        if url_path == "/api/github/refresh/cancel":
+            from github.scanner import cancel_background_refresh
+            self._send_json(cancel_background_refresh())
+            return
+
+        if url_path == "/api/github/refresh/repo":
+            from github.scanner import refresh_single_repository
+            full_name = str(payload.get("full_name") or qs.get("full_name", [""])[0]).strip()
+            try:
+                res = refresh_single_repository(full_name)
+                self._send_json(res)
+            except ValueError as exc:
+                self._send_json({"status": "error", "error": str(exc)}, status=400)
+            except LookupError as exc:
+                self._send_json({"status": "error", "error": str(exc)}, status=404)
+            except RuntimeError as exc:
+                self._send_json({"status": "busy", "error": str(exc)}, status=409)
+            return
+
+        if url_path == "/api/github/local-sync":
+            from github.scanner import run_local_sync_check
+            self._send_json(run_local_sync_check(persist=True))
+            return
+
+        if url_path == "/api/github/local-roots":
+            from github.local_sync import save_local_roots
+            from github.scanner import run_local_sync_check
+            roots_in = payload.get("roots")
+            if not isinstance(roots_in, list):
+                self._send_json({"status": "error", "error": "Expected JSON array 'roots'"}, status=400)
+                return
+            saved = save_local_roots([str(r) for r in roots_in])
+            report = run_local_sync_check(persist=True)
+            self._send_json({"status": "ok", "roots": saved, "local_sync": report})
+            return
+
         if url_path == "/api/github/export":
             from github.exporter import export_markdown_report
             dest = export_markdown_report(load_github_data())
             self._send_json({"status": "ok", "destination": dest})
+            return
+
+        if url_path == "/api/agent/start":
+            import agent_proxy
+            res = agent_proxy.start_cliproxy_service()
+            self._send_json(res, status=200 if res.get("online") else 503)
+            return
+
+        if url_path in ("/api/agent/github-report", "/api/agent/github-summary"):
+            import agent_proxy
+            from github.cli import inspect_github_doctor
+            from github.scanner import load_sync_state, run_local_sync_check
+            repos = load_github_data()
+            doctor = inspect_github_doctor(repos, include_local=False)
+            sync_state = load_sync_state()
+            local_sync = sync_state.get("local_sync")
+            if not isinstance(local_sync, dict):
+                local_sync = run_local_sync_check(repos=repos, persist=True)
+            model = payload.get("model")
+            if url_path == "/api/agent/github-report":
+                res = agent_proxy.generate_github_ai_report(repos, doctor, local_sync=local_sync, model=model)
+            else:
+                res = agent_proxy.summarize_github_refresh(repos, doctor, local_sync=local_sync, model=model)
+            self._send_json(res, status=200 if res.get("ok") else 503)
+            return
+
+        if url_path == "/api/agent/ask":
+            import agent_proxy
+            question = str(payload.get("question") or "").strip()
+            model = payload.get("model")
+            pc_data = load_pc_data()
+            games = load_games_data()
+            ai_models = load_ai_data().get("models", [])
+            media_items = load_media_data()
+            books = load_book_data().get("books", [])
+            phones = load_phone_data().get("phones", [])
+            gh_items = load_github_data()
+            keywords = [w for w in question.replace("?", " ").split() if len(w) >= 3][:4]
+            matched: dict[str, Any] = {}
+            for kw in keywords:
+                hits = search_databases(kw)
+                for dom_k in ("pc", "gpus", "ai_models", "games", "media", "book", "phone", "github"):
+                    if hits.get(dom_k):
+                        matched.setdefault(dom_k, [])
+                        for item in hits[dom_k][:5]:
+                            if item not in matched[dom_k]:
+                                matched[dom_k].append(item)
+            ctx = {
+                "baseline_pc": pc_data.get("system_baseline", {}),
+                "domain_counts": {
+                    "pc": _count_pc_parts(pc_data),
+                    "games": len(games),
+                    "ai_models": len(ai_models),
+                    "media": len(media_items),
+                    "book": len(books),
+                    "phone": len(phones),
+                    "github": len(gh_items),
+                },
+                "matched_records": matched,
+            }
+            res = agent_proxy.ask_cross_domain_agent(question, ctx, model=model)
+            self._send_json(res, status=200 if res.get("ok") else 503)
             return
 
         self._send_json({"status": "error", "error": "Not Found"}, status=404)

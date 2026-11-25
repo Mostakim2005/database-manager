@@ -266,6 +266,19 @@ def infer_storage_advice(
     return advice, hdd_sp
 
 
+# Canonical progressive GPU ladder for Ryzen 5 5600GT benchmarks (kept synced with data/games/taxonomy.json)
+BENCHMARK_GPU_LADDER: tuple[str, ...] = (
+    "vega-7-igpu",
+    "rx-580-8gb",
+    "gtx-1660-super",
+    "rtx-2060-super",
+    "rx-6600",
+    "rtx-2070",
+    "rtx-3060",
+    "rtx-2070-super",
+)
+
+
 def infer_benchmark_and_upgrades(
     name: str,
     gpu_min: float,
@@ -274,7 +287,7 @@ def infer_benchmark_and_upgrades(
     storage_verdict: str,
     install_gb: float,
 ) -> tuple[dict[str, Any], dict[str, str], str]:
-    """Generate structured Vega 7 benchmark estimates and GTX 1660S / RTX 2060 / RX 6600 expectations."""
+    """Generate structured Vega 7 benchmark estimates and progressive GPU ladder expectations."""
     if gpu_min <= 1.8:
         playable = {"fps": "60+ fps at 1080p High–Max (est.)", "settings": "1080p High/Max preset; trivially light for Vega 7."}
         q30 = {
@@ -328,9 +341,14 @@ def infer_benchmark_and_upgrades(
         return f"1080p Low–Medium 40–55 fps (est.)"
 
     upgrades = {
+        "rx-580-8gb": _card_expect(5.2, "RX 580 8GB"),
         "gtx1660s": _card_expect(6.5, "GTX 1660 Super"),
         "rtx2060": _card_expect(7.0, "RTX 2060"),
+        "rtx-2060-super": _card_expect(7.4, "RTX 2060 Super"),
         "rx6600": _card_expect(7.5, "RX 6600"),
+        "rtx-2070": _card_expect(7.6, "RTX 2070"),
+        "rtx-3060": _card_expect(7.8, "RTX 3060 12GB"),
+        "rtx-2070-super": _card_expect(8.1, "RTX 2070 Super"),
     }
     bench = {"playable": playable, "quality30": q30, "sixty": sixty, "source": []}
     return bench, upgrades, compat_note
@@ -624,9 +642,9 @@ def normalize_game_record(raw: dict[str, Any], default_ownership: str = "wishlis
     rec["bench"] = bench
 
     up = dict(rec.get("upgradeTiers") or {})
-    for k in ("gtx1660s", "rtx2060", "rx6600"):
+    for k, val in def_up.items():
         if not up.get(k):
-            up[k] = def_up[k]
+            up[k] = val
     rec["upgradeTiers"] = up
 
     if not rec.get("compatNote"):
