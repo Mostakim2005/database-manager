@@ -6,11 +6,11 @@
   <title>AI Frontier & Budget Matrix — Live Tri-Source Verified</title>
   <style>
 :root {
-  --bg-primary: #0a0e17;
+  --bg-primary: #0b1120;
   --bg-secondary: #111827;
-  --bg-tertiary: #1e293b;
-  --bg-card: rgba(17, 24, 39, 0.9);
-  --border-color: #334155;
+  --bg-tertiary: #1a2436;
+  --bg-card: rgba(17, 24, 39, 0.94);
+  --border-color: #263349;
   --border-focus: #6366f1;
   --text-main: #f3f4f6;
   --text-muted: #94a3b8;
@@ -577,6 +577,88 @@ dialog.model-dialog::backdrop { background: rgba(2, 6, 23, 0.78); backdrop-filte
   display: none;
   z-index: 2000;
 }
+
+/* Artificial Analysis Polish + Provider Colors & SVG Marks (Charlie 1, 4, 5) */
+.stat-value, .cell-mono, .badge, .mini-bar-row strong, td strong { font-variant-numeric: tabular-nums; }
+.btn:active:not(:disabled), .filter-pill:active, .chart-tab:active { transform: scale(0.97); }
+.prov-icon { width: 14px; height: 14px; flex-shrink: 0; display: inline-block; vertical-align: middle; }
+.prov-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.1rem 0.44rem;
+  border-radius: 999px;
+  font-size: 0.69rem;
+  font-weight: 600;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+.filter-pill { display: inline-flex; align-items: center; gap: 0.32rem; }
+.prov-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+.chart-provider-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.45rem;
+  border-bottom: 1px solid rgba(38, 51, 73, 0.65);
+  align-items: center;
+}
+.legend-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.16rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.71rem;
+  font-weight: 600;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  color: #cbd5e1;
+  cursor: pointer;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+.legend-chip:hover { border-color: #64748b; color: #fff; }
+.legend-chip.active { background: rgba(99, 102, 241, 0.25); border-color: #818cf8; color: #fff; }
+
+.section-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.section-controls { display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; }
+
+tr.provider-group-row td {
+  background: rgba(26, 36, 54, 0.96) !important;
+  border-top: 1px solid rgba(100, 116, 139, 0.35);
+  border-bottom: 1px solid var(--border-color);
+  padding: 0.46rem 0.7rem;
+  cursor: pointer;
+}
+tr.provider-group-row:hover td { background: rgba(36, 50, 74, 0.98) !important; }
+.pgroup-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.pgroup-left { display: flex; align-items: center; gap: 0.5rem; font-weight: 700; font-size: 0.84rem; color: #f8fafc; }
+.pgroup-stats { display: flex; flex-wrap: wrap; gap: 0.45rem; font-size: 0.72rem; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+.pgroup-stat-chip {
+  padding: 0.12rem 0.45rem;
+  border-radius: 6px;
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(51, 65, 85, 0.75);
+  color: #cbd5e1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
   </style>
   <script src="vendor/chart.umd.min.js"></script>
 </head>
@@ -685,6 +767,9 @@ dialog.model-dialog::backdrop { background: rgba(2, 6, 23, 0.78); backdrop-filte
           <button type="button" class="btn btn-active" id="btnToggleDensity" onclick="window.MatrixApp.toggleTableDensity()" title="Switch between Multi-Row stacked narrow columns and Wide single-line columns">
             Density: Multi-Row
           </button>
+          <button type="button" class="btn" id="btnToggleProviderGroup" onclick="window.MatrixApp.toggleProviderGrouping()" title="Group table rows by provider family with collapsible headers">
+            Group: Flat
+          </button>
 
           <div class="col-manager-dropdown">
             <button type="button" class="btn" onclick="window.MatrixApp.toggleColManager()">Columns &amp; Δ% ▾</button>
@@ -787,73 +872,99 @@ dialog.model-dialog::backdrop { background: rgba(2, 6, 23, 0.78); backdrop-filte
     </div>
   </details>
 
-  <!-- Interactive Visualizations with Pareto Smart Direct Labels (Delta 1) -->
-  <section class="chart-container-card">
-    <div class="chart-header">
-      <div class="chart-tabs" id="chartTabsBar">
-        <button type="button" class="chart-tab active" onclick="window.MatrixCharts.switchTab('pareto', window.MatrixApp.getFilteredModels(), this)">Pareto Frontier (Cost vs ELO)</button>
-        <button type="button" class="chart-tab" onclick="window.MatrixCharts.switchTab('intel', window.MatrixApp.getFilteredModels(), this)">Intelligence Index (AA)</button>
-        <button type="button" class="chart-tab" onclick="window.MatrixCharts.switchTab('coding', window.MatrixApp.getFilteredModels(), this)">Coding Power &amp; ELO</button>
-        <button type="button" class="chart-tab" onclick="window.MatrixCharts.switchTab('effort_tradeoff', window.MatrixApp.getFilteredModels(), this)">Effort Trade-off</button>
-        <button type="button" class="chart-tab" onclick="window.MatrixCharts.switchTab('stem', window.MatrixApp.getFilteredModels(), this)">STEM %</button>
-        <button type="button" class="chart-tab" onclick="window.MatrixCharts.switchTab('radar', window.MatrixApp.getFilteredModels(), this)">Top-4 Radar</button>
-        <button type="button" class="chart-tab" onclick="window.MatrixCharts.switchTab('cost_perf', window.MatrixApp.getFilteredModels(), this)">Cost vs ELO Bubble</button>
-        <button type="button" class="chart-tab" onclick="window.MatrixCharts.switchTab('cache_savings', window.MatrixApp.getFilteredModels(), this)">Cache Savings</button>
+  <!-- Interactive Visualizations with Provider Colors & Pareto Smart Labels (Charlie 5) -->
+  <details class="panel-collapse chart-container-card" id="chartsAccordion" open>
+    <summary>
+      <span class="summary-left">
+        <span class="chevron-icon" aria-hidden="true">▾</span>
+        Interactive Benchmarks &amp; Pareto Efficiency Frontier
+        <span class="summary-hint">Color-coded by Provider Family (gold outline = Pareto Optimal)</span>
+      </span>
+      <span class="badge badge-oss" id="chartModelCountPill">48 Active</span>
+    </summary>
+    <div class="panel-body">
+      <div class="chart-header">
+        <div class="chart-tabs" id="chartTabsBar">
+          <button type="button" class="chart-tab active" onclick="window.MatrixCharts.switchTab('pareto', window.MatrixApp.getFilteredModels(), this)">Pareto Frontier (Cost vs ELO)</button>
+          <button type="button" class="chart-tab" onclick="window.MatrixCharts.switchTab('intel', window.MatrixApp.getFilteredModels(), this)">Intelligence Index (AA)</button>
+          <button type="button" class="chart-tab" onclick="window.MatrixCharts.switchTab('coding', window.MatrixApp.getFilteredModels(), this)">Coding Power &amp; ELO</button>
+          <button type="button" class="chart-tab" onclick="window.MatrixCharts.switchTab('effort_tradeoff', window.MatrixApp.getFilteredModels(), this)">Effort Trade-off</button>
+          <button type="button" class="chart-tab" onclick="window.MatrixCharts.switchTab('stem', window.MatrixApp.getFilteredModels(), this)">STEM %</button>
+          <button type="button" class="chart-tab" onclick="window.MatrixCharts.switchTab('radar', window.MatrixApp.getFilteredModels(), this)">Top-4 Radar</button>
+          <button type="button" class="chart-tab" onclick="window.MatrixCharts.switchTab('cost_perf', window.MatrixApp.getFilteredModels(), this)">Cost vs ELO Bubble</button>
+          <button type="button" class="chart-tab" onclick="window.MatrixCharts.switchTab('cache_savings', window.MatrixApp.getFilteredModels(), this)">Cache Savings</button>
+        </div>
+        <div class="chart-view-options">
+          <label for="paretoLabelMode">Point Labels:</label>
+          <select id="paretoLabelMode" class="compact-select" onchange="window.MatrixCharts.setLabelMode(this.value)">
+            <option value="smart" selected>Smart (Non-Overlapping)</option>
+            <option value="all">All Points</option>
+            <option value="hover">Hover Only</option>
+          </select>
+          <label for="chartHeightSelect">Height:</label>
+          <select id="chartHeightSelect" class="compact-select">
+            <option value="320">Compact (320px)</option>
+            <option value="430" selected>Standard (430px)</option>
+            <option value="580">Expanded (580px)</option>
+          </select>
+        </div>
       </div>
-      <div class="chart-view-options">
-        <label for="paretoLabelMode">Point Labels:</label>
-        <select id="paretoLabelMode" class="compact-select" onchange="window.MatrixCharts.setLabelMode(this.value)">
-          <option value="smart" selected>Smart (Non-Overlapping)</option>
-          <option value="all">All Points</option>
-          <option value="hover">Hover Only</option>
-        </select>
-        <label for="chartHeightSelect">Height:</label>
-        <select id="chartHeightSelect" class="compact-select">
-          <option value="320">Compact (320px)</option>
-          <option value="430" selected>Standard (430px)</option>
-          <option value="580">Expanded (580px)</option>
-        </select>
-      </div>
-    </div>
-    <div class="chart-wrapper" id="chartWrapper">
-      <canvas id="mainChart"></canvas>
-    </div>
-  </section>
-
-  <!-- Main Benchmark & Pricing Matrix (Sortable Accessible Table + Dense Multi-Row Default) -->
-  <section class="table-section">
-    <div class="table-header">
-      <div>
-        <h2 class="table-title" id="matrixTableCaption">Multi-Tier Benchmark &amp; Live Pricing Matrix</h2>
-        <div class="table-sub">Click any column button header to sort. Switch Multi-Row vs Wide layout above.</div>
-      </div>
-      <div role="status" class="sr-only" id="tableSortStatus"></div>
-    </div>
-
-    <div class="table-wrapper" tabindex="0" role="region" aria-labelledby="matrixTableCaption">
-      <table id="matrixTable" class="dense-multirow">
-        <thead><tr id="matrixHeadRow"></tr></thead>
-        <tbody id="tableBody"></tbody>
-      </table>
-    </div>
-  </section>
-
-  <!-- 30 Real-World Engineering Tasks Matrix (Updated Dynamically + Multi-Row Dense Default) -->
-  <section class="table-section">
-    <div class="table-header">
-      <div>
-        <h2 class="table-title" id="tasksTableCaption">30 Real-World Engineering Tasks: Token Economics &amp; Live Cost Matrix</h2>
-        <div class="table-sub" id="tasksSubLine">Computed dynamically from active Free, Micro-Budget, and Frontier catalog leaders.</div>
+      <div class="chart-provider-legend" id="chartProviderLegend" aria-label="Filter chart and matrix by provider"></div>
+      <div class="chart-wrapper" id="chartWrapper">
+        <canvas id="mainChart"></canvas>
       </div>
     </div>
+  </details>
 
-    <div class="table-wrapper" tabindex="0" role="region" aria-labelledby="tasksTableCaption">
-      <table id="tasksTable" class="dense-multirow">
-        <thead><tr id="tasksHeadRow"></tr></thead>
-        <tbody id="tasksTableBody"></tbody>
-      </table>
+  <!-- Collapsible Main Benchmark & Pricing Matrix (Charlie 1, 4) -->
+  <details class="panel-collapse table-section" id="matrixAccordion" open>
+    <summary>
+      <span class="summary-left">
+        <span class="chevron-icon" aria-hidden="true">▾</span>
+        <span class="table-title" id="matrixTableCaption">Multi-Tier Benchmark &amp; Live Pricing Matrix</span>
+        <span class="summary-hint" id="matrixSummaryHint">Click any column button to sort · Color-coded by Provider</span>
+      </span>
+      <span class="badge badge-frontier" id="matrixGroupBadgePill">Flat Ranking</span>
+    </summary>
+    <div class="panel-body">
+      <div class="section-toolbar">
+        <div class="table-sub">Click any column button header to sort. Provider icons &amp; color stripes match the chart above.</div>
+        <div class="section-controls">
+          <button type="button" class="btn btn-active" id="btnToggleDensityInline" onclick="window.MatrixApp.toggleTableDensity()">Density: Multi-Row</button>
+          <button type="button" class="btn" id="btnToggleProviderGroupInline" onclick="window.MatrixApp.toggleProviderGrouping()">Group by Provider: OFF</button>
+        </div>
+        <div role="status" class="sr-only" id="tableSortStatus"></div>
+      </div>
+
+      <div class="table-wrapper" tabindex="0" role="region" aria-labelledby="matrixTableCaption">
+        <table id="matrixTable" class="dense-multirow">
+          <thead><tr id="matrixHeadRow"></tr></thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
     </div>
-  </section>
+  </details>
+
+  <!-- Collapsible 30 Real-World Engineering Tasks Matrix (Updated Dynamically) -->
+  <details class="panel-collapse table-section" id="tasksAccordion" open>
+    <summary>
+      <span class="summary-left">
+        <span class="chevron-icon" aria-hidden="true">▾</span>
+        <span class="table-title" id="tasksTableCaption">30 Real-World Engineering Tasks: Token Economics &amp; Live Cost Matrix</span>
+        <span class="summary-hint">Click heading to collapse or expand</span>
+      </span>
+      <span class="badge badge-free" id="tasksSummaryPill">30 Tasks</span>
+    </summary>
+    <div class="panel-body">
+      <div class="table-sub" id="tasksSubLine">Computed dynamically from active Free, Micro-Budget, and Frontier catalog leaders.</div>
+      <div class="table-wrapper" tabindex="0" role="region" aria-labelledby="tasksTableCaption">
+        <table id="tasksTable" class="dense-multirow">
+          <thead><tr id="tasksHeadRow"></tr></thead>
+          <tbody id="tasksTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </details>
 
 </div>
 
@@ -887,7 +998,88 @@ function escapeHtml(val) {
   return String(val ?? '').replace(/[&<>"']/g, ch => ESC_MAP[ch]);
 }
 
-/** Custom Offline Chart.js Canvas Plugin: Collision-Avoiding Direct Point Labels for Pareto & Bubble Charts **/
+/** Provider Family Visual Identity: High-Contrast Colors + Zero-Network Geometric Vector SVGs **/
+const PROVIDER_SVG_BODIES = {
+  openai: '<path fill="none" stroke="currentColor" stroke-width="1.8" d="M12 3.2c2.1-1.2 4.8.1 5.1 2.4 2.1.6 3.2 2.9 2.2 4.9 1.2 1.9.3 4.5-1.9 5-.4 2.2-2.7 3.5-4.9 2.7-1.9 1.3-4.6.5-5.3-1.7-2.2-.5-3.4-2.8-2.4-4.9-1.1-2-.2-4.6 2-5.1C7.3 3.7 9.8 2.1 12 3.2Z"/><circle cx="12" cy="12" r="2.6" fill="currentColor"/>',
+  anthropic: '<path d="M13.8 4h2.4l5.1 16h-2.5l-1.2-3.9h-4.9L11.4 20H9l4.8-16Zm-2.1 4.1-1.8 5.8h3.7l-1.9-5.8ZM4.2 20H1.9L7.6 4h2.5L4.2 20Z"/>',
+  google: '<path d="M12 2.5c.7 4.7 4.8 8.8 9.5 9.5-4.7.7-8.8 4.8-9.5 9.5-.7-4.7-4.8-8.8-9.5-9.5 4.7-.7 8.8-4.8 9.5-9.5Z"/>',
+  meta: '<path fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" d="M3.2 14.5c0-3.7 2.2-7 4.5-7 1.8 0 3.1 2 4.3 4.5 1.2-2.5 2.5-4.5 4.3-4.5 2.3 0 4.5 3.3 4.5 7 0 2.6-1.4 4.2-3.2 4.2-1.9 0-3.3-1.8-5.6-6.2-2.3 4.4-3.7 6.2-5.6 6.2-1.8 0-3.2-1.6-3.2-4.2Z"/>',
+  deepseek: '<path d="M3.5 14.5c2.2-5.5 6.8-8.5 12.2-8.2 1.8.1 3.4-.9 4.3-2.3.4 2.4-.5 5-2.6 6.7 1.5.7 2.8 1.9 3.1 3.6-2.4-.5-4.1-.2-5.9.8-2.3 1.4-4.7 2.2-7.6 1.8-1.5-.2-2.7-.9-3.5-2.4Z"/><circle cx="13.5" cy="9.6" r="1.2" fill="#0b1120"/>',
+  alibaba: '<path d="M12 3a8.8 8.8 0 1 0 5.4 15.7l2.2 2.2 1.8-1.8-2.2-2.2A8.8 8.8 0 0 0 12 3Zm0 3.2a5.6 5.6 0 1 1 0 11.2 5.6 5.6 0 0 1 0-11.2Z"/>',
+  zai: '<path d="M4.5 5.2h15v2.6L8.7 16.2h10.8v2.6h-15v-2.6l10.8-8.4H4.5V5.2Z"/>',
+  nvidia: '<path fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" d="M3.5 12.5C6.2 7.8 9.9 5.5 14 5.5c3.5 0 6 2 6.5 5.1-.5 3.6-3.3 5.9-7 5.9-2.8 0-4.9-1.7-4.9-4.1 0-2 1.5-3.4 3.4-3.4 1.5 0 2.5.9 2.5 2.2"/>',
+  mistral: '<path d="M3 5h3.5v3.5H3V5Zm14.5 0H21v3.5h-3.5V5ZM3 10.2h3.5v3.5H3v-3.5Zm3.6 0h3.6v3.5H6.6v-3.5Zm7.2 0h3.6v3.5h-3.6v-3.5Zm3.7 0H21v3.5h-3.5v-3.5ZM3 15.4h3.5V19H3v-3.6Zm7.2-5.2h3.6v3.5h-3.6v-3.5Zm0 5.2h3.6V19h-3.6v-3.6Zm7.3 0H21V19h-3.5v-3.6Z"/>',
+  xai: '<path d="M4.2 4h3.2l4.7 6.5L17.4 4h2.5l-6.6 8.3L19.8 20h-3.2l-4.9-6.8L6.1 20H3.6l6.9-8.6L4.2 4Z"/>',
+  xiaomi: '<rect x="3" y="4" width="18" height="16" rx="4.5" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M7.2 16V8.5h5.2c1.4 0 2.1.8 2.1 2.2V16h-2v-5.1c0-.5-.2-.8-.8-.8H9.2V16h-2Zm9.2-7.5h1.9V16h-1.9V8.5Z"/>',
+  moonshot: '<path d="M13.8 3.5a8.5 8.5 0 1 0 6.7 13.7 7 7 0 0 1-8.9-8.9 6.9 6.9 0 0 1 2.2-4.8Z"/><circle cx="17.5" cy="7" r="1.8"/>',
+  tencent: '<path d="M4 5.5h16v3h-6.3V19h-3.4V8.5H4v-3Z"/>',
+  inclusion: '<circle cx="8" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="16" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2"/>',
+  minimax: '<path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M3 15V9m4.5 8V7m4.5 9V5m4.5 11V8M21 15V10"/>',
+  stepfun: '<path d="M4 16h5.5v-4H15V8h5v3h-3.2v4h-5.3v4H4v-3Z"/>',
+  baidu: '<circle cx="8" cy="7.5" r="2"/><circle cx="16" cy="7.5" r="2"/><circle cx="5.5" cy="12" r="1.8"/><circle cx="18.5" cy="12" r="1.8"/><path d="M12 11.5c3 0 5 2 5 4.3 0 1.4-1.2 2.2-2.7 2.2-.9 0-1.6-.4-2.3-.4-.7 0-1.4.4-2.3.4-1.5 0-2.7-.8-2.7-2.2 0-2.3 2-4.3 5-4.3Z"/>',
+  thinking: '<rect x="5" y="5" width="14" height="14" rx="3" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M9 12h6M12 9v6" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>',
+  reflection: '<path d="M4 17 11 5v12H4Zm16 0-7-12v12h7Z" opacity=".9"/>',
+  upstage: '<path d="M12 4 4.5 18h15L12 4Zm0 4.5 3.8 7H8.2l3.8-7Z"/>',
+  generic: '<polygon points="12,2.8 20,7.4 20,16.6 12,21.2 4,16.6 4,7.4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="2.6"/>'
+};
+
+const PROVIDER_THEMES = {
+  openai:             { label: 'OpenAI',            color: '#10b981', rgb: '16, 185, 129',  textColor: '#6ee7b7', iconKey: 'openai' },
+  anthropic:          { label: 'Anthropic',         color: '#ea8c55', rgb: '234, 140, 85',  textColor: '#fdba74', iconKey: 'anthropic' },
+  google:             { label: 'Google',            color: '#60a5fa', rgb: '96, 165, 250',  textColor: '#93c5fd', iconKey: 'google' },
+  meta:               { label: 'Meta',              color: '#38bdf8', rgb: '56, 189, 248',  textColor: '#7dd3fc', iconKey: 'meta' },
+  alibaba:            { label: 'Alibaba / Qwen',    color: '#c084fc', rgb: '192, 132, 252', textColor: '#e9d5ff', iconKey: 'alibaba' },
+  qwen:               { label: 'Alibaba / Qwen',    color: '#c084fc', rgb: '192, 132, 252', textColor: '#e9d5ff', iconKey: 'alibaba' },
+  deepseek:           { label: 'DeepSeek',          color: '#818cf8', rgb: '129, 140, 248', textColor: '#c7d2fe', iconKey: 'deepseek' },
+  'z.ai':             { label: 'Z.ai (GLM)',        color: '#22d3ee', rgb: '34, 211, 238',  textColor: '#67e8f9', iconKey: 'zai' },
+  nvidia:             { label: 'NVIDIA',            color: '#84cc16', rgb: '132, 204, 22',  textColor: '#bef264', iconKey: 'nvidia' },
+  mistral:            { label: 'Mistral',           color: '#f97316', rgb: '249, 115, 22',  textColor: '#fdba74', iconKey: 'mistral' },
+  xai:                { label: 'xAI',               color: '#e2e8f0', rgb: '226, 232, 240', textColor: '#f8fafc', iconKey: 'xai' },
+  xiaomi:             { label: 'Xiaomi',            color: '#fb7185', rgb: '251, 113, 133', textColor: '#fda4af', iconKey: 'xiaomi' },
+  moonshot:           { label: 'Moonshot (Kimi)',   color: '#2dd4bf', rgb: '45, 212, 191',  textColor: '#99f6e4', iconKey: 'moonshot' },
+  tencent:            { label: 'Tencent',           color: '#3b82f6', rgb: '59, 130, 246',  textColor: '#93c5fd', iconKey: 'tencent' },
+  inclusionai:        { label: 'InclusionAI',       color: '#f472b6', rgb: '244, 114, 182', textColor: '#fbcfe8', iconKey: 'inclusion' },
+  minimax:            { label: 'MiniMax',           color: '#eab308', rgb: '234, 179, 8',   textColor: '#fde047', iconKey: 'minimax' },
+  stepfun:            { label: 'StepFun',           color: '#a78bfa', rgb: '167, 139, 250', textColor: '#ddd6fe', iconKey: 'stepfun' },
+  baidu:              { label: 'Baidu',             color: '#38bdf8', rgb: '56, 189, 248',  textColor: '#bae6fd', iconKey: 'baidu' },
+  'thinking machines':{ label: 'Thinking Machines', color: '#06b6d4', rgb: '6, 182, 212',   textColor: '#67e8f9', iconKey: 'thinking' },
+  reflection:         { label: 'Reflection',        color: '#a3e635', rgb: '163, 230, 53',  textColor: '#d9f99d', iconKey: 'reflection' },
+  upstage:            { label: 'Upstage',           color: '#e879f9', rgb: '232, 121, 249', textColor: '#f5d0fe', iconKey: 'upstage' }
+};
+
+function getProviderTheme(providerOrModel) {
+  const raw = typeof providerOrModel === 'string'
+    ? providerOrModel
+    : ((providerOrModel && (providerOrModel.provider_family || providerOrModel.provider)) || 'Other');
+  const norm = String(raw || 'Other').trim().toLowerCase();
+  if (PROVIDER_THEMES[norm]) return PROVIDER_THEMES[norm];
+  for (const [k, v] of Object.entries(PROVIDER_THEMES)) {
+    if (norm.includes(k)) return v;
+  }
+  let h = 0;
+  for (let i = 0; i < norm.length; i++) h = ((h * 31) + norm.charCodeAt(i)) % 360;
+  return {
+    label: raw || 'Other',
+    color: `hsl(${h}, 72%, 62%)`,
+    rgb: '148, 163, 184',
+    textColor: '#e2e8f0',
+    iconKey: 'generic'
+  };
+}
+
+function renderProviderIcon(providerOrModel, size = 14) {
+  const th = getProviderTheme(providerOrModel);
+  const body = PROVIDER_SVG_BODIES[th.iconKey] || PROVIDER_SVG_BODIES.generic;
+  return `<svg class="prov-icon" width="${size}" height="${size}" viewBox="0 0 24 24" fill="currentColor" style="color:${th.color};" aria-hidden="true">${body}</svg>`;
+}
+
+function providerChipHtml(providerOrModel, displayText) {
+  const th = getProviderTheme(providerOrModel);
+  const lbl = displayText || (typeof providerOrModel === 'string' ? providerOrModel : (providerOrModel.provider || th.label));
+  return `<span class="prov-chip" style="background:rgba(${th.rgb},0.14); border:1px solid rgba(${th.rgb},0.42); color:${th.textColor};">${renderProviderIcon(providerOrModel, 12)}<span>${escapeHtml(lbl)}</span></span>`;
+}
+
+/** Custom Offline Chart.js Canvas Plugin: Collision-Avoiding Provider-Colored Direct Point Labels **/
 const aiScatterLabelsPlugin = {
   id: 'aiScatterLabels',
   afterDatasetsDraw(chart) {
@@ -912,15 +1104,26 @@ const aiScatterLabelsPlugin = {
         const scores = m.effective_scores || m.scores || {};
         const priority = (isOptimal ? 10000 : 0) + (scores.code_arena_elo || 0) + (scores.intelligence_index || 0) * 5;
         let shortName = String(m.name || '').replace(' (Free)', ' Free').replace('Preview', 'Prev');
-        if (shortName.length > 22) shortName = shortName.slice(0, 21) + '…';
-        candidates.push({ x: pos.x, y: pos.y, text: shortName, isOptimal, priority, isFree: Boolean(m.pricing && m.pricing.is_free) });
+        if (shortName.length > 21) shortName = shortName.slice(0, 20) + '…';
+        const th = getProviderTheme(m);
+        candidates.push({
+          x: pos.x,
+          y: pos.y,
+          text: (isOptimal ? '★ ' : '') + shortName,
+          isOptimal,
+          priority,
+          provColor: th.color,
+          textColor: th.textColor,
+          isFree: Boolean(m.pricing && m.pricing.is_free)
+        });
       });
     });
 
     candidates.sort((a, b) => b.priority - a.priority);
 
     const placedBoxes = [];
-    const pad = 4;
+    const pad = 5;
+    const dotR = 3;
     const offsets = [
       [10, -14], [10, 4], [-10, -14], [10, 16],
       [-10, 16], [0, -22], [0, 22], [18, -22],
@@ -942,12 +1145,11 @@ const aiScatterLabelsPlugin = {
       box.y2 <= chartArea.bottom - 2;
 
     candidates.forEach((cand, idx) => {
-      // In smart mode, place Pareto Optimal + top ~22 highest-priority non-overlapping points
-      if (mode === 'smart' && !cand.isOptimal && idx > 28) return;
+      if (mode === 'smart' && !cand.isOptimal && idx > 30) return;
 
       const textW = ctx.measureText(cand.text).width;
-      const boxW = textW + pad * 2;
-      const boxH = 16;
+      const boxW = textW + pad * 2 + 10;
+      const boxH = 17;
 
       let chosen = null;
       const maxTries = mode === 'all' ? offsets.length : 12;
@@ -964,7 +1166,6 @@ const aiScatterLabelsPlugin = {
         break;
       }
 
-      // Guarantee Pareto vertices always appear even in tight corners by clamping
       if (!chosen && (cand.isOptimal || mode === 'all')) {
         const x1 = Math.max(chartArea.left + 4, Math.min(chartArea.right - boxW - 4, cand.x + 10));
         const y1 = Math.max(chartArea.top + 4, Math.min(chartArea.bottom - boxH - 4, cand.y - 16 - (idx % 3) * 18));
@@ -977,28 +1178,32 @@ const aiScatterLabelsPlugin = {
       const midX = (chosen.x1 + chosen.x2) / 2;
       const midY = (chosen.y1 + chosen.y2) / 2;
 
-      // Connector line if shifted noticeably
       if (Math.hypot(midX - cand.x, midY - cand.y) > 18) {
         ctx.beginPath();
         ctx.moveTo(cand.x, cand.y);
         ctx.lineTo(cand.x < chosen.x1 ? chosen.x1 : (cand.x > chosen.x2 ? chosen.x2 : midX), midY);
-        ctx.strokeStyle = cand.isOptimal ? 'rgba(251, 191, 36, 0.55)' : 'rgba(148, 163, 184, 0.45)';
+        ctx.strokeStyle = cand.isOptimal ? 'rgba(251, 191, 36, 0.6)' : cand.provColor + '88';
         ctx.lineWidth = 1;
         ctx.stroke();
       }
 
-      // Label Pill
-      ctx.fillStyle = cand.isOptimal ? 'rgba(30, 27, 15, 0.92)' : 'rgba(15, 23, 42, 0.88)';
-      ctx.strokeStyle = cand.isOptimal ? '#fbbf24' : (cand.isFree ? '#34d399' : '#38bdf8');
-      ctx.lineWidth = cand.isOptimal ? 1.25 : 0.85;
+      ctx.fillStyle = cand.isOptimal ? 'rgba(24, 22, 14, 0.94)' : 'rgba(11, 17, 32, 0.92)';
+      ctx.strokeStyle = cand.isOptimal ? '#fbbf24' : cand.provColor;
+      ctx.lineWidth = cand.isOptimal ? 1.4 : 1.0;
       ctx.beginPath();
       if (ctx.roundRect) ctx.roundRect(chosen.x1, chosen.y1, boxW, boxH, 4);
       else ctx.rect(chosen.x1, chosen.y1, boxW, boxH);
       ctx.fill();
       ctx.stroke();
 
-      ctx.fillStyle = cand.isOptimal ? '#fde68a' : (cand.isFree ? '#6ee7b7' : '#e0f2fe');
-      ctx.fillText(cand.text, chosen.x1 + pad, midY);
+      /* Provider Color Swatch Dot on Pill Left */
+      ctx.beginPath();
+      ctx.arc(chosen.x1 + pad + dotR, midY, dotR, 0, Math.PI * 2);
+      ctx.fillStyle = cand.provColor;
+      ctx.fill();
+
+      ctx.fillStyle = cand.isOptimal ? '#fde68a' : cand.textColor;
+      ctx.fillText(cand.text, chosen.x1 + pad + dotR * 2 + 4, midY);
     });
     ctx.restore();
   }
@@ -1028,6 +1233,9 @@ window.MatrixCharts = {
   },
 
   render(models) {
+    this.renderProviderLegend(models);
+    const pill = document.getElementById('chartModelCountPill');
+    if (pill) pill.textContent = `${models.length} Plotted`;
     const canvas = document.getElementById('mainChart');
     if (!canvas || typeof Chart === 'undefined') return;
     if (this.instance) { this.instance.destroy(); this.instance = null; }
@@ -1050,6 +1258,29 @@ window.MatrixCharts = {
     }
   },
 
+  renderProviderLegend(models) {
+    const leg = document.getElementById('chartProviderLegend');
+    if (!leg) return;
+    const allCatalog = (window.MatrixApp && window.MatrixApp.catalog) || models || [];
+    const activeFam = window.MatrixApp ? window.MatrixApp.currentFamilyFilter : 'all';
+    const counts = {};
+    allCatalog.forEach(m => {
+      const fam = m.provider_family || m.provider || 'Other';
+      counts[fam] = (counts[fam] || 0) + 1;
+    });
+    const entries = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+    leg.innerHTML = `<span class="filter-label" style="margin-right:0.25rem;">Providers:</span>` +
+      entries.map(([fam, cnt]) => {
+        const th = getProviderTheme(fam);
+        const isActive = activeFam === fam;
+        return `<button type="button" class="legend-chip ${isActive ? 'active' : ''}" onclick="window.MatrixApp.toggleProviderLegendFilter('${escapeHtml(fam)}')" title="Click to isolate ${escapeHtml(fam)}">
+          ${renderProviderIcon(fam, 12)}
+          <span class="prov-dot" style="background:${th.color};"></span>
+          <span>${escapeHtml(fam)} (${cnt})</span>
+        </button>`;
+      }).join('');
+  },
+
   buildBarChart(ctx, models, field, label, color, minY, maxY) {
     const top = [...models].slice(0, 26);
     const vals = top.map(m => ((m.effective_scores || m.scores) || {})[field] || 0);
@@ -1061,7 +1292,9 @@ window.MatrixCharts = {
         datasets: [{
           label,
           data: vals,
-          backgroundColor: top.map(m => (m.pricing && m.pricing.is_free) ? '#10b981' : color),
+          backgroundColor: top.map(m => getProviderTheme(m).color),
+          borderColor: top.map(m => (m.pricing && m.pricing.is_free) ? '#ffffff' : 'transparent'),
+          borderWidth: top.map(m => (m.pricing && m.pricing.is_free) ? 1.5 : 0),
           borderRadius: 5
         }]
       },
@@ -1140,22 +1373,24 @@ window.MatrixCharts = {
           },
           {
             type: 'scatter',
-            label: 'Pareto Optimal Models',
+            label: 'Pareto Optimal (Gold Halo = Optimal, Fill = Provider)',
             data: pareto.map(p => ({ x: p.x, y: p.y, model: p.model })),
-            backgroundColor: '#fbbf24',
-            borderColor: '#ffffff',
-            borderWidth: 1.5,
-            pointRadius: 7,
-            pointHoverRadius: 9,
+            backgroundColor: pareto.map(p => getProviderTheme(p.model).color),
+            borderColor: '#fbbf24',
+            borderWidth: 2.5,
+            pointRadius: 7.5,
+            pointHoverRadius: 9.5,
             order: 2
           },
           {
             type: 'scatter',
-            label: 'Other Active Models (Green = $0 Free)',
+            label: 'Other Active Models (Colored by Provider)',
             data: dominated.map(p => ({ x: p.x, y: p.y, model: p.model })),
-            backgroundColor: dominated.map(p => (p.model.pricing && p.model.pricing.is_free) ? '#10b981' : '#38bdf8'),
-            pointRadius: 5,
-            pointHoverRadius: 7,
+            backgroundColor: dominated.map(p => getProviderTheme(p.model).color),
+            borderColor: '#0b1120',
+            borderWidth: 1,
+            pointRadius: 5.5,
+            pointHoverRadius: 7.5,
             order: 3
           }
         ]
@@ -1202,9 +1437,14 @@ window.MatrixCharts = {
       plugins: [aiScatterLabelsPlugin],
       data: {
         datasets: [{
-          label: 'Models (Bubble Size = AA Intelligence)',
+          label: 'Models (Color = Provider, Size = AA Intelligence)',
           data: pts,
-          backgroundColor: pts.map((p, i) => (p.model.pricing && p.model.pricing.is_free) ? 'rgba(16,185,129,0.75)' : this.palette[i % this.palette.length] + 'aa')
+          backgroundColor: pts.map(p => {
+            const th = getProviderTheme(p.model);
+            return `rgba(${th.rgb}, 0.72)`;
+          }),
+          borderColor: pts.map(p => getProviderTheme(p.model).color),
+          borderWidth: 1.5
         }]
       },
       options: {
@@ -1310,6 +1550,8 @@ window.MatrixTable = {
   sortAscending: false,
   showInlineDelta: false,
   densityMode: 'dense', // 'dense' (multi-row narrow columns) | 'wide' (single-line expanded)
+  groupByProvider: false,
+  collapsedProviders: new Set(),
   collator: new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' }),
 
   wideColumns: [
@@ -1458,6 +1700,111 @@ window.MatrixTable = {
     return '$' + (n < 0.1 ? n.toFixed(3) : n.toFixed(2));
   },
 
+  toggleGroupCollapse(famKey) {
+    if (this.collapsedProviders.has(famKey)) this.collapsedProviders.delete(famKey);
+    else this.collapsedProviders.add(famKey);
+    if (window.MatrixApp) this.render(window.MatrixApp.getFilteredModels());
+  },
+
+  renderModelRow(m, cols, peakIntel, peakPower, peakElo, peakStem) {
+    const sc = m.effective_scores || m.scores || {};
+    const pr = m.pricing || {};
+    const aa = m.aa_metrics || {};
+    const fc = m.fact_check || {};
+    const caps = fc.capabilities || {};
+    const complPrice = (m.effective_pricing && m.effective_pricing.completion_per_m !== undefined) ? m.effective_pricing.completion_per_m : pr.completion_per_m;
+    const activeEffort = (window.MatrixApp && window.MatrixApp.modelEffortOverrides[m.id]) || (window.MatrixApp ? window.MatrixApp.globalEffort : 'medium');
+
+    const clsBadge = m.classification === 'Frontier' ? 'badge-frontier' : (m.classification === 'Open-Source' ? 'badge-oss' : 'badge-free');
+    const tierStr = String(m.frontier_tier || 'Tier 5');
+    const tierClass = tierStr.includes('Tier 1') ? 'badge-tier1' : tierStr.includes('Tier 2') ? 'badge-tier2' : tierStr.includes('Tier 3') ? 'badge-tier3' : tierStr.includes('Tier 4') ? 'badge-tier4' : 'badge-tier5';
+    const tierShort = tierStr.split(' ')[0] + ' ' + (tierStr.split(' ')[1] || '');
+    const eloDecTop = (((sc.code_arena_elo - peakElo) / peakElo) * 100).toFixed(1);
+
+    const dIntel = this.showInlineDelta ? `<span class="score-delta-pill">(${(((sc.intelligence_index - peakIntel) / peakIntel) * 100).toFixed(1)}%)</span>` : '';
+    const dPwr = this.showInlineDelta ? `<span class="score-delta-pill">(${(((sc.coding_power - peakPower) / peakPower) * 100).toFixed(1)}%)</span>` : '';
+    const dElo = this.showInlineDelta ? `<span class="score-delta-pill">(${eloDecTop}%)</span>` : '';
+    const dStem = this.showInlineDelta ? `<span class="score-delta-pill">(${(((sc.stem_accuracy_pct - peakStem) / peakStem) * 100).toFixed(1)}%)</span>` : '';
+
+    const srcShort = (fc.sources || []).map(s => s.startsWith('OpenRouter') ? 'OR' : s.startsWith('Models') ? 'MD' : 'AA').join('+');
+    const fcBadge = `<span class="badge ${fc.sources && fc.sources.length >= 3 ? 'badge-free' : 'badge-oss'}" title="${escapeHtml(fc.status || '')}">✓ ${escapeHtml(srcShort || 'Verified')}</span>`;
+    const freeBadge = pr.is_free ? '<span class="badge badge-free">FREE</span>' : '<span class="badge badge-paid">PAID</span>';
+
+    const effortHtml = `<select class="compact-select" aria-label="Effort for ${escapeHtml(m.name)}" onchange="window.MatrixApp.setModelEffort('${escapeHtml(m.id)}', this.value)">
+      <option value="low" ${activeEffort === 'low' ? 'selected' : ''}>Low</option>
+      <option value="medium" ${activeEffort === 'medium' ? 'selected' : ''}>Med</option>
+      <option value="high" ${activeEffort === 'high' ? 'selected' : ''}>High</option>
+      <option value="ultra_high" ${activeEffort === 'ultra_high' ? 'selected' : ''}>Ultra</option>
+    </select>`;
+
+    const pTheme = getProviderTheme(m);
+    const pChip = providerChipHtml(m, m.provider);
+
+    if (this.densityMode === 'dense') {
+      const denseCells = {
+        col_name: `<th scope="row" class="sticky-col" style="box-shadow: inset 3px 0 0 ${pTheme.color};">
+          <div class="cell-primary">${escapeHtml(m.name)}</div>
+          <div class="cell-sub">
+            ${pChip}
+            <span class="badge ${clsBadge}">${escapeHtml(m.classification)}</span>
+            ${caps.reasoning ? '<span title="Reasoning Model" style="color:#a5b4fc; font-weight:700;">[R]</span>' : ''}
+          </div>
+        </th>`,
+        col_tier: `<td>
+          <div><span class="badge ${tierClass}">${escapeHtml(tierShort)}</span></div>
+          <div class="cell-sub cell-mono">Δ ${m.frontier_delta_pct}% · Top ${eloDecTop}%</div>
+        </td>`,
+        col_intel: `<td>
+          <div class="mini-bar-row">
+            <strong>${sc.intelligence_index}</strong>${dIntel}
+            <div class="mini-bar-track"><div class="mini-bar-fill" style="width:${Math.min(100, (sc.intelligence_index / peakIntel) * 100)}%; background:${pTheme.color};"></div></div>
+          </div>
+          <div class="cell-sub">STEM: <strong style="color:#34d399;">${sc.stem_accuracy_pct}%</strong>${dStem}</div>
+        </td>`,
+        col_elo: `<td>
+          <div><strong style="color:#38bdf8;">${sc.code_arena_elo}</strong>${dElo}</div>
+          <div class="cell-sub">Code Pwr: <strong>${sc.coding_power}</strong>${dPwr}</div>
+        </td>`,
+        col_context: `<td>
+          <div class="cell-mono">${escapeHtml(m.context_window)}</div>
+          <div class="cell-sub">${aa.aa_rank ? `AA #${aa.aa_rank}` : 'Rank —'}${aa.speed_tok_s ? ` · ${aa.speed_tok_s} t/s` : ''}</div>
+        </td>`,
+        col_prompt: `<td>
+          <div class="cell-mono">${this.formatPrice(pr.prompt_per_m)} / ${this.formatPrice(complPrice)}</div>
+          <div class="cell-sub">${freeBadge} <span>Cache ${this.formatPrice(pr.cache_read_per_m)}</span></div>
+        </td>`,
+        col_fact_check: `<td>
+          <div>${fcBadge}</div>
+          <div class="cell-sub">${aa.cost_per_task_usd != null ? `Task ~$${aa.cost_per_task_usd}` : ''}</div>
+        </td>`,
+        col_effort: `<td>${effortHtml}</td>`,
+        col_quota: `<td><div class="wrap-quota">${escapeHtml(m.quota_and_access || 'API')}</div></td>`
+      };
+      return `<tr>${cols.map(c => denseCells[c.key] || '').join('')}</tr>`;
+    }
+
+    const wideCells = {
+      col_name: `<th scope="row" class="sticky-col" style="box-shadow: inset 3px 0 0 ${pTheme.color};"><div class="cell-primary">${escapeHtml(m.name)}</div><div class="cell-sub">${pChip}</div></th>`,
+      col_tier: `<td><span class="badge ${tierClass}">${escapeHtml(tierStr)}</span></td>`,
+      col_delta: `<td class="cell-mono">${m.frontier_delta_pct}%</td>`,
+      col_dec_top: `<td class="cell-mono">${eloDecTop}%</td>`,
+      col_fact_check: `<td>${fcBadge}</td>`,
+      col_class: `<td><span class="badge ${clsBadge}">${escapeHtml(m.classification)}</span></td>`,
+      col_context: `<td class="cell-mono">${escapeHtml(m.context_window)}</td>`,
+      col_intel: `<td><strong>${sc.intelligence_index}</strong>${dIntel}</td>`,
+      col_code_power: `<td><strong>${sc.coding_power}</strong>${dPwr}</td>`,
+      col_elo: `<td><strong style="color:#38bdf8;">${sc.code_arena_elo}</strong>${dElo}</td>`,
+      col_stem: `<td><strong>${sc.stem_accuracy_pct}%</strong>${dStem}</td>`,
+      col_speed: `<td class="cell-mono">${aa.speed_tok_s ? aa.speed_tok_s + ' t/s' : '—'}</td>`,
+      col_effort: `<td>${effortHtml}</td>`,
+      col_prompt: `<td class="cell-mono">${this.formatPrice(pr.prompt_per_m)}</td>`,
+      col_compl: `<td class="cell-mono">${this.formatPrice(complPrice)}</td>`,
+      col_cache: `<td class="cell-mono" style="color:#34d399;">${this.formatPrice(pr.cache_read_per_m)}</td>`,
+      col_quota: `<td style="font-size:0.74rem;">${escapeHtml(m.quota_and_access || 'API')}</td>`
+    };
+    return `<tr>${cols.map(c => wideCells[c.key] || '').join('')}</tr>`;
+  },
+
   render(models) {
     const table = document.getElementById('matrixTable');
     const tbody = document.getElementById('tableBody');
@@ -1473,101 +1820,52 @@ window.MatrixTable = {
     const { peakIntel, peakPower, peakElo, peakStem } = this.getPeakMetrics(window.MatrixApp ? window.MatrixApp.catalog : models);
     const sorted = this.sort(models);
 
-    tbody.innerHTML = sorted.map(m => {
-      const sc = m.effective_scores || m.scores || {};
-      const pr = m.pricing || {};
-      const aa = m.aa_metrics || {};
-      const fc = m.fact_check || {};
-      const caps = fc.capabilities || {};
-      const complPrice = (m.effective_pricing && m.effective_pricing.completion_per_m !== undefined) ? m.effective_pricing.completion_per_m : pr.completion_per_m;
-      const activeEffort = (window.MatrixApp && window.MatrixApp.modelEffortOverrides[m.id]) || (window.MatrixApp ? window.MatrixApp.globalEffort : 'medium');
+    if (!this.groupByProvider) {
+      tbody.innerHTML = sorted.map(m => this.renderModelRow(m, cols, peakIntel, peakPower, peakElo, peakStem)).join('');
+      return;
+    }
 
-      const clsBadge = m.classification === 'Frontier' ? 'badge-frontier' : (m.classification === 'Open-Source' ? 'badge-oss' : 'badge-free');
-      const tierStr = String(m.frontier_tier || 'Tier 5');
-      const tierClass = tierStr.includes('Tier 1') ? 'badge-tier1' : tierStr.includes('Tier 2') ? 'badge-tier2' : tierStr.includes('Tier 3') ? 'badge-tier3' : tierStr.includes('Tier 4') ? 'badge-tier4' : 'badge-tier5';
-      const tierShort = tierStr.split(' ')[0] + ' ' + (tierStr.split(' ')[1] || '');
-      const eloDecTop = (((sc.code_arena_elo - peakElo) / peakElo) * 100).toFixed(1);
+    const groupMap = new Map();
+    sorted.forEach(m => {
+      const fam = m.provider_family || m.provider || 'Other';
+      if (!groupMap.has(fam)) groupMap.set(fam, []);
+      groupMap.get(fam).push(m);
+    });
 
-      const dIntel = this.showInlineDelta ? `<span class="score-delta-pill">(${(((sc.intelligence_index - peakIntel) / peakIntel) * 100).toFixed(1)}%)</span>` : '';
-      const dPwr = this.showInlineDelta ? `<span class="score-delta-pill">(${(((sc.coding_power - peakPower) / peakPower) * 100).toFixed(1)}%)</span>` : '';
-      const dElo = this.showInlineDelta ? `<span class="score-delta-pill">(${eloDecTop}%)</span>` : '';
-      const dStem = this.showInlineDelta ? `<span class="score-delta-pill">(${(((sc.stem_accuracy_pct - peakStem) / peakStem) * 100).toFixed(1)}%)</span>` : '';
+    const htmlParts = [];
+    groupMap.forEach((groupModels, famKey) => {
+      const th = getProviderTheme(famKey);
+      const isCollapsed = this.collapsedProviders.has(famKey);
+      const bestElo = Math.max(...groupModels.map(x => ((x.effective_scores || x.scores) || {}).code_arena_elo || 0));
+      const bestIntel = Math.max(...groupModels.map(x => ((x.effective_scores || x.scores) || {}).intelligence_index || 0));
+      const minCost = Math.min(...groupModels.map(x => (x.pricing && x.pricing.prompt_per_m != null) ? Number(x.pricing.prompt_per_m) : 999));
+      const costStr = minCost === 0 ? 'Free tier avail.' : `From $${minCost.toFixed(2)}/M`;
 
-      const srcShort = (fc.sources || []).map(s => s.startsWith('OpenRouter') ? 'OR' : s.startsWith('Models') ? 'MD' : 'AA').join('+');
-      const fcBadge = `<span class="badge ${fc.sources && fc.sources.length >= 3 ? 'badge-free' : 'badge-oss'}" title="${escapeHtml(fc.status || '')}">✓ ${escapeHtml(srcShort || 'Verified')}</span>`;
-      const freeBadge = pr.is_free ? '<span class="badge badge-free">FREE</span>' : '<span class="badge badge-paid">PAID</span>';
-
-      const effortHtml = `<select class="compact-select" aria-label="Effort for ${escapeHtml(m.name)}" onchange="window.MatrixApp.setModelEffort('${escapeHtml(m.id)}', this.value)">
-        <option value="low" ${activeEffort === 'low' ? 'selected' : ''}>Low</option>
-        <option value="medium" ${activeEffort === 'medium' ? 'selected' : ''}>Med</option>
-        <option value="high" ${activeEffort === 'high' ? 'selected' : ''}>High</option>
-        <option value="ultra_high" ${activeEffort === 'ultra_high' ? 'selected' : ''}>Ultra</option>
-      </select>`;
-
-      if (this.densityMode === 'dense') {
-        const denseCells = {
-          col_name: `<th scope="row" class="sticky-col">
-            <div class="cell-primary">${escapeHtml(m.name)}</div>
-            <div class="cell-sub">
-              <span>${escapeHtml(m.provider)}</span>
-              <span class="badge ${clsBadge}">${escapeHtml(m.classification)}</span>
-              ${caps.reasoning ? '<span title="Reasoning Model" style="color:#a5b4fc;">[R]</span>' : ''}
+      htmlParts.push(`<tr class="provider-group-row" onclick="window.MatrixTable.toggleGroupCollapse('${escapeHtml(famKey)}')">
+        <td colspan="${cols.length}" style="border-left: 4px solid ${th.color};">
+          <div class="pgroup-inner">
+            <div class="pgroup-left">
+              <span style="color:${th.color}; font-size:0.8rem;">${isCollapsed ? '▸' : '▾'}</span>
+              ${renderProviderIcon(famKey, 16)}
+              <span style="color:${th.textColor};">${escapeHtml(famKey)}</span>
+              <span class="badge" style="background:rgba(${th.rgb},0.16); border-color:rgba(${th.rgb},0.4); color:${th.textColor};">${groupModels.length} models</span>
             </div>
-          </th>`,
-          col_tier: `<td>
-            <div><span class="badge ${tierClass}">${escapeHtml(tierShort)}</span></div>
-            <div class="cell-sub cell-mono">Δ ${m.frontier_delta_pct}% · Top ${eloDecTop}%</div>
-          </td>`,
-          col_intel: `<td>
-            <div class="mini-bar-row">
-              <strong>${sc.intelligence_index}</strong>${dIntel}
-              <div class="mini-bar-track"><div class="mini-bar-fill fill-purple" style="width:${Math.min(100, (sc.intelligence_index / peakIntel) * 100)}%"></div></div>
+            <div class="pgroup-stats">
+              <span class="pgroup-stat-chip">Peak ELO: <strong>${bestElo}</strong></span>
+              <span class="pgroup-stat-chip">Peak AA Intel: <strong>${bestIntel}</strong></span>
+              <span class="pgroup-stat-chip">${escapeHtml(costStr)}</span>
             </div>
-            <div class="cell-sub">STEM: <strong style="color:#34d399;">${sc.stem_accuracy_pct}%</strong>${dStem}</div>
-          </td>`,
-          col_elo: `<td>
-            <div><strong style="color:#38bdf8;">${sc.code_arena_elo}</strong>${dElo}</div>
-            <div class="cell-sub">Code Pwr: <strong>${sc.coding_power}</strong>${dPwr}</div>
-          </td>`,
-          col_context: `<td>
-            <div class="cell-mono">${escapeHtml(m.context_window)}</div>
-            <div class="cell-sub">${aa.aa_rank ? `AA #${aa.aa_rank}` : 'Rank —'}${aa.speed_tok_s ? ` · ${aa.speed_tok_s} t/s` : ''}</div>
-          </td>`,
-          col_prompt: `<td>
-            <div class="cell-mono">${this.formatPrice(pr.prompt_per_m)} / ${this.formatPrice(complPrice)}</div>
-            <div class="cell-sub">${freeBadge} <span>Cache ${this.formatPrice(pr.cache_read_per_m)}</span></div>
-          </td>`,
-          col_fact_check: `<td>
-            <div>${fcBadge}</div>
-            <div class="cell-sub">${aa.cost_per_task_usd != null ? `Task ~$${aa.cost_per_task_usd}` : ''}</div>
-          </td>`,
-          col_effort: `<td>${effortHtml}</td>`,
-          col_quota: `<td><div class="wrap-quota">${escapeHtml(m.quota_and_access || 'API')}</div></td>`
-        };
-        return `<tr>${cols.map(c => denseCells[c.key] || '').join('')}</tr>`;
+          </div>
+        </td>
+      </tr>`);
+
+      if (!isCollapsed) {
+        groupModels.forEach(m => {
+          htmlParts.push(this.renderModelRow(m, cols, peakIntel, peakPower, peakElo, peakStem));
+        });
       }
-
-      const wideCells = {
-        col_name: `<th scope="row" class="sticky-col"><div class="cell-primary">${escapeHtml(m.name)}</div><div class="cell-sub">${escapeHtml(m.provider)}</div></th>`,
-        col_tier: `<td><span class="badge ${tierClass}">${escapeHtml(tierStr)}</span></td>`,
-        col_delta: `<td class="cell-mono">${m.frontier_delta_pct}%</td>`,
-        col_dec_top: `<td class="cell-mono">${eloDecTop}%</td>`,
-        col_fact_check: `<td>${fcBadge}</td>`,
-        col_class: `<td><span class="badge ${clsBadge}">${escapeHtml(m.classification)}</span></td>`,
-        col_context: `<td class="cell-mono">${escapeHtml(m.context_window)}</td>`,
-        col_intel: `<td><strong>${sc.intelligence_index}</strong>${dIntel}</td>`,
-        col_code_power: `<td><strong>${sc.coding_power}</strong>${dPwr}</td>`,
-        col_elo: `<td><strong style="color:#38bdf8;">${sc.code_arena_elo}</strong>${dElo}</td>`,
-        col_stem: `<td><strong>${sc.stem_accuracy_pct}%</strong>${dStem}</td>`,
-        col_speed: `<td class="cell-mono">${aa.speed_tok_s ? aa.speed_tok_s + ' t/s' : '—'}</td>`,
-        col_effort: `<td>${effortHtml}</td>`,
-        col_prompt: `<td class="cell-mono">${this.formatPrice(pr.prompt_per_m)}</td>`,
-        col_compl: `<td class="cell-mono">${this.formatPrice(complPrice)}</td>`,
-        col_cache: `<td class="cell-mono" style="color:#34d399;">${this.formatPrice(pr.cache_read_per_m)}</td>`,
-        col_quota: `<td style="font-size:0.74rem;">${escapeHtml(m.quota_and_access || 'API')}</td>`
-      };
-      return `<tr>${cols.map(c => wideCells[c.key] || '').join('')}</tr>`;
-    }).join('');
+    });
+    tbody.innerHTML = htmlParts.join('');
   }
 };
 
@@ -1680,7 +1978,7 @@ window.MatrixApp = {
 
     const lName = document.getElementById('statLeaderName');
     const lSub = document.getElementById('statLeaderSub');
-    if (lName && topPaid) lName.textContent = `${topPaid.name} (#1)`;
+    if (lName && topPaid) lName.innerHTML = `<span style="display:inline-flex;align-items:center;gap:0.35rem;">${renderProviderIcon(topPaid, 16)}<span>${escapeHtml(topPaid.name)} (#1)</span></span>`;
     if (lSub && topPaid) {
       const freeTxt = topFree ? `Free #1: ${topFree.name} (${topFree.scores.code_arena_elo})` : 'Zero-cost via :free';
       lSub.textContent = `AA ${topPaid.scores.intelligence_index} · ELO ${topPaid.scores.code_arena_elo} | ${freeTxt}`;
@@ -1707,9 +2005,10 @@ window.MatrixApp = {
     if (main) {
       main.innerHTML = `<span class="filter-label">Family:</span>` +
         `<button type="button" class="filter-pill filter-pill-family ${this.currentFamilyFilter === 'all' ? 'active' : ''}" onclick="window.MatrixApp.setFamilyFilter('all', this)">All Families</button>` +
-        sorted.map(([fam, cnt]) =>
-          `<button type="button" class="filter-pill filter-pill-family ${this.currentFamilyFilter === fam ? 'active' : ''}" onclick="window.MatrixApp.setFamilyFilter('${escapeHtml(fam)}', this)">${escapeHtml(fam)} (${cnt})</button>`
-        ).join('');
+        sorted.map(([fam, cnt]) => {
+          const th = getProviderTheme(fam);
+          return `<button type="button" class="filter-pill filter-pill-family ${this.currentFamilyFilter === fam ? 'active' : ''}" style="border-color:rgba(${th.rgb},0.42);" onclick="window.MatrixApp.setFamilyFilter('${escapeHtml(fam)}', this)">${renderProviderIcon(fam, 12)}<span>${escapeHtml(fam)} (${cnt})</span></button>`;
+        }).join('');
     }
 
     const mod = document.getElementById('modalFamilyFilters');
@@ -1717,7 +2016,7 @@ window.MatrixApp = {
       mod.innerHTML = `<span class="filter-label">Family:</span>` +
         `<button type="button" class="filter-pill modal-family-pill ${this.modalFamilyFilter === 'all' ? 'active' : ''}" onclick="window.MatrixApp.setModalFamilyFilter('all', this)">All</button>` +
         sorted.map(([fam]) =>
-          `<button type="button" class="filter-pill modal-family-pill ${this.modalFamilyFilter === fam ? 'active' : ''}" onclick="window.MatrixApp.setModalFamilyFilter('${escapeHtml(fam)}', this)">${escapeHtml(fam)}</button>`
+          `<button type="button" class="filter-pill modal-family-pill ${this.modalFamilyFilter === fam ? 'active' : ''}" onclick="window.MatrixApp.setModalFamilyFilter('${escapeHtml(fam)}', this)">${renderProviderIcon(fam, 12)}<span>${escapeHtml(fam)}</span></button>`
         ).join('');
     }
   },
@@ -1784,13 +2083,35 @@ window.MatrixApp = {
   toggleTableDensity() {
     window.MatrixTable.densityMode = window.MatrixTable.densityMode === 'dense' ? 'wide' : 'dense';
     const isDense = window.MatrixTable.densityMode === 'dense';
-    document.getElementById('btnToggleDensity').textContent = isDense ? 'Density: Multi-Row' : 'Density: Wide';
-    document.getElementById('btnToggleDensity').classList.toggle('btn-active', isDense);
+    const lbl = isDense ? 'Density: Multi-Row' : 'Density: Wide';
+    ['btnToggleDensity', 'btnToggleDensityInline'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) { el.textContent = lbl; el.classList.toggle('btn-active', isDense); }
+    });
     document.getElementById('densityBadgePill').textContent = isDense ? 'Multi-Row Dense ON' : 'Wide Single-Row';
     window.MatrixTable.renderHeaders();
     this.renderTasksHeaders();
     this.applyFiltersAndRender();
     this.renderTasksTable();
+  },
+
+  toggleProviderGrouping() {
+    window.MatrixTable.groupByProvider = !window.MatrixTable.groupByProvider;
+    const on = window.MatrixTable.groupByProvider;
+    const b1 = document.getElementById('btnToggleProviderGroup');
+    if (b1) { b1.textContent = on ? 'Group: By Provider' : 'Group: Flat'; b1.classList.toggle('btn-active', on); }
+    const b2 = document.getElementById('btnToggleProviderGroupInline');
+    if (b2) { b2.textContent = on ? 'Group by Provider: ON' : 'Group by Provider: OFF'; b2.classList.toggle('btn-active', on); }
+    const badge = document.getElementById('matrixGroupBadgePill');
+    if (badge) { badge.textContent = on ? 'Grouped by Provider' : 'Flat Ranking'; }
+    this.applyFiltersAndRender();
+  },
+
+  toggleProviderLegendFilter(fam) {
+    const next = this.currentFamilyFilter === fam ? 'all' : fam;
+    this.currentFamilyFilter = next;
+    this.renderFamilyPills();
+    this.applyFiltersAndRender();
   },
 
   bindEvents() {
@@ -2047,9 +2368,9 @@ window.MatrixApp = {
     const freePick = freePool[0] || this.catalog[this.catalog.length - 1];
 
     const sc = primary.effective_scores || primary.scores;
-    document.getElementById('advisorPickTitle').textContent = `${primary.name} ($${primary.pricing.prompt_per_m}/M)`;
+    document.getElementById('advisorPickTitle').innerHTML = `<span style="display:inline-flex;align-items:center;gap:0.4rem;">${renderProviderIcon(primary, 16)}<span>${escapeHtml(primary.name)} ($${primary.pricing.prompt_per_m}/M)</span></span>`;
     document.getElementById('advisorPickReason').textContent = `AA Intel ${sc.intelligence_index} | Code ELO ${sc.code_arena_elo} | STEM ${sc.stem_accuracy_pct}% (${primary.frontier_tier}).`;
-    document.getElementById('advisorFreeTitle').textContent = freePick.name;
+    document.getElementById('advisorFreeTitle').innerHTML = `<span style="display:inline-flex;align-items:center;gap:0.4rem;">${renderProviderIcon(freePick, 16)}<span>${escapeHtml(freePick.name)}</span></span>`;
     document.getElementById('advisorFreeReason').textContent = `AA Intel ${freePick.scores.intelligence_index} | Code ELO ${freePick.scores.code_arena_elo} — ${freePick.quota_and_access}.`;
     document.getElementById('advisorSummaryInline').textContent = `Primary: ${primary.name} ($${primary.pricing.prompt_per_m}/M) · Free: ${freePick.name}`;
     this.currentAdvisorRecommendation = { primary, free: freePick };
@@ -2118,6 +2439,9 @@ window.MatrixApp = {
       const frontRaw = ((t.promptTok * fp.prompt_per_m + t.complTok * fp.completion_per_m) / 1e6).toFixed(3);
       const frontCached = ((((t.promptTok - t.cachedTok) * fp.prompt_per_m) + (t.cachedTok * (fp.cache_read_per_m || fp.prompt_per_m * 0.1)) + (t.complTok * fp.completion_per_m)) / 1e6).toFixed(3);
 
+      const thRec = getProviderTheme(rec);
+      const recChip = `<span class="prov-chip" style="background:rgba(${thRec.rgb},0.16); border:1px solid rgba(${thRec.rgb},0.45); color:${thRec.textColor};">${renderProviderIcon(rec, 12)}<span>${escapeHtml(rec.name)}</span></span>`;
+
       if (isDense) {
         return `<tr>
           <td><span class="task-tier-badge ${tierClass}">${escapeHtml(t.tier)}</span></td>
@@ -2125,7 +2449,7 @@ window.MatrixApp = {
           <td><div class="cell-mono">${t.promptTok.toLocaleString()} / ${t.complTok.toLocaleString()}</div><div class="cell-sub cell-mono" style="color:#34d399;">Cache: ${t.cachedTok.toLocaleString()}</div></td>
           <td><div style="font-weight:700; color:#10b981;">$0.00 (${escapeHtml(freePick.name)})</div><div class="cell-sub cell-mono" style="color:#38bdf8;">Budget: $${budgetCost}</div></td>
           <td><div class="cell-mono" style="color:#fbbf24;">$${frontCached}</div><div class="cell-sub cell-mono" style="text-decoration:line-through;">$${frontRaw} uncached</div></td>
-          <td><span class="badge badge-frontier">${escapeHtml(rec.name)}</span></td>
+          <td>${recChip}</td>
         </tr>`;
       }
       return `<tr>
@@ -2137,7 +2461,7 @@ window.MatrixApp = {
         <td style="color:#10b981; font-weight:700;">$0.00 (${escapeHtml(freePick.name)})</td>
         <td class="cell-mono" style="color:#38bdf8;">$${budgetCost}</td>
         <td class="cell-mono" style="color:#fbbf24;">$${frontCached} <span style="color:#94a3b8; text-decoration:line-through;">$${frontRaw}</span></td>
-        <td><span class="badge badge-frontier">${escapeHtml(rec.name)}</span></td>
+        <td>${recChip}</td>
       </tr>`;
     }).join('');
   },

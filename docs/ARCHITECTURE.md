@@ -38,13 +38,13 @@ flowchart TB
     end
 
     subgraph WebDashboards["Grouped Safe-DOM Web Views (web/)"]
-        Portal -->|Group: PC & Gaming| PCView[PC & PSU Guard]:::outputNode
+        Portal -->|Group: PC & Gaming| PCView[PC Hardware & PSU Guard]:::outputNode
         Portal -->|Group: PC & Gaming| GameView[GameRank + PC GPU Link]:::outputNode
-        Portal -->|Group: AI Models| AIView[AI Pricing & Matrix]:::outputNode
+        Portal -->|Group: AI Models| AIView[LLM Pricing & Matrix]:::outputNode
         Portal -->|Group: Media & Books| MediaView[Media & Adaptations]:::outputNode
         Portal -->|Group: Media & Books| BookView[Book Collection]:::outputNode
         Portal -->|Group: Mobile| PhoneView[Phone & Apps Matrix]:::outputNode
-        Portal -->|Group: DevOps| GitHubView[GitHub Repos & CI]:::outputNode
+        Portal -->|Group: DevOps| GitHubView[GitHub Primer & CI]:::outputNode
     end
 
     Registry -->|Drives tabs, aliases & stats| Server
@@ -100,7 +100,7 @@ flowchart LR
     A1[Live Sources: OpenRouter + Models.dev + Artificial Analysis]:::startNode -->|multi_site_ai.py tri-source merge| A2[Strict Current-Gen Normalizer & Effort Builder]:::processNode
     A2 -->|Writes & Compiles| A3[(data/ai/models_master.json + ai.sqlite)]:::dataNode
     A3 -->|GET /api/ai & POST /api/ai/refresh| A4[web/ai/index.html Live UI]:::processNode
-    A4 -->|Renders| A5[Dense Multi-Row Matrix + Pareto Labels]:::startNode
+    A4 -->|Renders| A5[Provider-Grouped Matrix + Collapsible Sections + Pareto Labels]:::startNode
 
     subgraph Legend["Legend"]
         L1[Blue = External / UI]:::startNode

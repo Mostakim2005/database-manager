@@ -28,6 +28,7 @@ DATA_DIR = ROOT_DIR / "data"
 WEB_DIR = ROOT_DIR / "web"
 
 PORT = 8770
+SERVER_BUILD_ID = "2026.11.25-r3"
 
 PC_CATEGORIES = (
     "cpus",
@@ -305,6 +306,13 @@ class DatabaseHandler(http.server.SimpleHTTPRequestHandler):
                 {
                     "status": "online",
                     "version": "2.0.0",
+                    "server_build": SERVER_BUILD_ID,
+                    "capabilities": {
+                        "github_async_refresh": True,
+                        "github_single_repo_refresh": True,
+                        "ai_async_refresh": True,
+                        "agent_proxy": True,
+                    },
                     "repo": "Mostakim2005/database-manager",
                     "counts": counts,
                     "registry": {

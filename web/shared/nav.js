@@ -7,9 +7,9 @@
   if (window.self !== window.top) return;
 
   var FALLBACK_DOMAINS = [
-    { domain: "pc", short_label: "PC & PSU", display_name: "PC Parts & PSU Guard", web_path: "pc/index.html" },
+    { domain: "pc", short_label: "PC", display_name: "PC Parts & PSU Guard", web_path: "pc/index.html" },
     { domain: "games", short_label: "Games", display_name: "Games & Benchmarks", web_path: "games/index.html" },
-    { domain: "ai", short_label: "AI Matrix", display_name: "AI Models & Pricing", web_path: "ai/index.html" },
+    { domain: "ai", short_label: "LLM", display_name: "LLM Models & Pricing", web_path: "ai/index.html" },
     { domain: "media", short_label: "Media", display_name: "Media & Adaptations", web_path: "media/index.html" },
     { domain: "book", short_label: "Book", display_name: "Book Collection", web_path: "book/index.html" },
     { domain: "phone", short_label: "Phone", display_name: "Phone & Mobile", web_path: "phone/index.html" },

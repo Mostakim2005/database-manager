@@ -122,6 +122,10 @@ class TestServerCliAndHttp(unittest.TestCase):
                 self.assertGreaterEqual(data["counts"]["book"], 4)
                 self.assertGreaterEqual(data["counts"]["phone"], 4)
                 self.assertIn("groups", data["registry"])
+                self.assertTrue(data.get("capabilities", {}).get("github_async_refresh"))
+                labels = {d["domain"]: d.get("short_label") for d in data.get("domains", [])}
+                self.assertEqual(labels.get("pc"), "PC")
+                self.assertEqual(labels.get("ai"), "LLM")
 
             # 2. /api/pc with untrusted Origin must not reflect CORS
             req_evil = urllib.request.Request(f"{base}/api/pc", headers={"Origin": "https://evil.example"})
@@ -160,6 +164,12 @@ class TestServerCliAndHttp(unittest.TestCase):
             with urllib.request.urlopen(f"{base}/index.html", timeout=5) as resp:
                 idx_html = resp.read().decode("utf-8")
                 self.assertIn("home-overview", idx_html)
+            with urllib.request.urlopen(f"{base}/ai/index.html", timeout=5) as resp:
+                ai_html = resp.read().decode("utf-8")
+                self.assertIn("PROVIDER_THEMES", ai_html)
+                self.assertIn("groupByProvider", ai_html)
+                self.assertIn("matrixAccordion", ai_html)
+                self.assertIn("tasksAccordion", ai_html)
         finally:
             httpd.shutdown()
             httpd.server_close()

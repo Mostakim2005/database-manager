@@ -283,3 +283,9 @@ flowchart LR
 * **Where It Lurks:** `web/ai/index.html`, `src/server.py` -> `DatabaseHandler.guess_type`, legacy `src/update_models.ps1`
 * **What Goes Wrong:** CSS `-webkit-text-fill-color: transparent` inherits to descendant `<span>` elements unless applied strictly to a text child (`span.hero-gradient`), turning status pills into blank green boxes; meanwhile missing `; charset=utf-8` MIME headers or legacy Windows-1252 writes corrupt symbols into garbled ASCII sequences.
 * **The Permanent Fix:** Apply gradient text fills only on an inline text wrapper sibling to any badge, enforce `; charset=utf-8` on `.html`/`.js`/`.css` in `DatabaseHandler.guess_type()`, and emit strictly UTF-8 (no BOM) files without PowerShell string-bundle round-trips.
+
+### [TRAP: Stale-Server-Process-Masking-New-Async-Endpoints] | Aliases: port 8770 404 refresh, server_build capabilities, stale server.py
+> **1-Line Summary:** Updated static HTML (`web/github/index.html`) calling new async endpoints (`/api/github/refresh/status`, `/api/agent/status`) against an older already-running `server.py` on port `8770` hits HTTP 404 and appears stuck.
+* **Where It Lurks:** Background `src/server.py` instances across edits, `web/github/index.html` -> `checkServerCapabilities`
+* **What Goes Wrong:** Static files reload immediately on F5, whereas the in-memory Python `HTTPServer` process keeps serving old route handlers until restarted, causing new async refresh clicks to fail with 404.
+* **The Permanent Fix:** Expose `server_build` and `capabilities` on `/api/status`, immediately render `#refresh-progress-card` before awaiting `fetch()`, display an explicit stale-server Primer flash alert on 404 or missing capabilities, and restart the local `server.py` listener after backend route edits.

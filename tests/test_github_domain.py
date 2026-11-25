@@ -203,6 +203,9 @@ class TestGitHubDomain(unittest.TestCase):
                 html_body = resp.read().decode("utf-8")
                 self.assertEqual(resp.status, 200)
                 self.assertNotIn("innerHTML", html_body)
+                self.assertIn("stale-server-banner", html_body)
+                self.assertIn("renderPrimerList", html_body)
+                self.assertIn("handleQuickResync", html_body)
 
             # Reject cross-origin POST (CSRF defense)
             for bad_origin in ("https://evil.example", "null"):

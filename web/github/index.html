@@ -5,111 +5,198 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GitHub Repositories &amp; CI Health — Database Manager</title>
   <style>
+    /* GitHub Primer Dark Design Tokens */
     :root {
-      --bg: #0d1117;
-      --surface: #161b22;
-      --surface-hover: #21262d;
-      --border: #30363d;
-      --text: #e6edf3;
-      --text-muted: #8b949e;
-      --accent: #58a6ff;
-      --green: #3fb950;
-      --amber: #d29922;
-      --red: #f85149;
-      --purple: #bc8cff;
-      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --bgColor-default: #0d1117;
+      --bgColor-muted: #161b22;
+      --bgColor-subtle: #1c2128;
+      --bgColor-emphasis: #21262d;
+      --bgColor-accent-muted: rgba(56, 139, 253, 0.14);
+      --bgColor-success-emphasis: #238636;
+      --bgColor-success-emphasis-hover: #2ea043;
+      --bgColor-success-muted: rgba(46, 160, 67, 0.15);
+      --bgColor-danger-muted: rgba(248, 81, 73, 0.15);
+      --bgColor-attention-muted: rgba(210, 153, 34, 0.16);
+      --bgColor-done-muted: rgba(163, 113, 247, 0.15);
+
+      --borderColor-default: #30363d;
+      --borderColor-muted: #21262d;
+      --borderColor-accent: #58a6ff;
+      --borderColor-success: rgba(63, 185, 80, 0.4);
+      --borderColor-danger: rgba(248, 81, 73, 0.4);
+      --borderColor-attention: rgba(210, 153, 34, 0.45);
+      --borderColor-done: rgba(163, 113, 247, 0.45);
+
+      --fgColor-default: #e6edf3;
+      --fgColor-muted: #8b949e;
+      --fgColor-accent: #58a6ff;
+      --fgColor-success: #3fb950;
+      --fgColor-danger: #f85149;
+      --fgColor-attention: #d29922;
+      --fgColor-done: #bc8cff;
+      --underlineNav-border: #f78166;
+
+      --fontStack-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+      --fontStack-mono: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, monospace;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
-      background-color: var(--bg);
-      color: var(--text);
-      font-family: var(--font-family);
+      background-color: var(--bgColor-default);
+      color: var(--fgColor-default);
+      font-family: var(--fontStack-sans);
+      font-size: 14px;
       line-height: 1.5;
-      padding: 20px 24px 48px;
+      padding: 20px 24px 56px;
     }
 
-    header {
+    .page-shell {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* Primer Header */
+    .gh-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 12px;
-      border-bottom: 1px solid var(--border);
+      gap: 12px 18px;
       padding-bottom: 14px;
-      margin-bottom: 14px;
+      border-bottom: 1px solid var(--borderColor-default);
     }
-    .header-left { display: flex; align-items: center; gap: 12px; }
-    .logo-badge {
-      background: linear-gradient(135deg, #238636, #2ea043);
-      color: #fff;
-      font-weight: 800;
-      font-size: 15px;
-      padding: 6px 10px;
-      border-radius: 8px;
-      letter-spacing: 0.4px;
+    .header-left { display: flex; align-items: flex-start; gap: 12px; }
+    .octocat-mark {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--bgColor-muted);
+      border: 1px solid var(--borderColor-default);
+      color: var(--fgColor-default);
+      flex-shrink: 0;
+      margin-top: 2px;
     }
-    h1 { font-size: 21px; font-weight: 600; }
-    .subtitle { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+    h1 {
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      line-height: 1.25;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .header-owner { color: var(--fgColor-muted); font-weight: 400; }
+    .subtitle { font-size: 13px; color: var(--fgColor-muted); margin-top: 2px; max-width: 72ch; }
     .freshness-row {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       gap: 8px;
-      margin-top: 6px;
+      margin-top: 8px;
       font-size: 12px;
     }
 
     .actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+
+    /* Primer Buttons */
     .btn {
-      background: var(--surface-hover);
-      color: var(--text);
-      border: 1px solid var(--border);
+      background: var(--bgColor-emphasis);
+      color: var(--fgColor-default);
+      border: 1px solid rgba(240, 246, 252, 0.12);
       border-radius: 6px;
-      padding: 7px 12px;
-      font-size: 12px;
-      font-weight: 600;
+      padding: 6px 12px;
+      min-height: 32px;
+      font-size: 12.5px;
+      font-weight: 500;
+      font-family: inherit;
       cursor: pointer;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 6px;
-      transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
+      white-space: nowrap;
+      transition: background-color 0.12s ease, border-color 0.12s ease, transform 0.12s ease;
     }
-    .btn:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
-    .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .btn:hover:not(:disabled) { background: #30363d; border-color: #8b949e; }
+    .btn:active:not(:disabled) { transform: scale(0.97); }
+    .btn:disabled { opacity: 0.58; cursor: not-allowed; }
     .btn-primary {
-      background: #238636;
-      border-color: #2ea043;
-      color: #fff;
+      background: var(--bgColor-success-emphasis);
+      border-color: rgba(240, 246, 252, 0.15);
+      color: #ffffff;
+      font-weight: 600;
     }
-    .btn-primary:hover:not(:disabled) { background: #2ea043; border-color: #3fb950; color: #fff; }
+    .btn-primary:hover:not(:disabled) {
+      background: var(--bgColor-success-emphasis-hover);
+      border-color: rgba(240, 246, 252, 0.25);
+    }
     .btn-accent {
-      background: rgba(88, 166, 255, 0.14);
-      border-color: var(--accent);
-      color: var(--accent);
+      background: var(--bgColor-accent-muted);
+      border-color: rgba(88, 166, 255, 0.45);
+      color: var(--fgColor-accent);
     }
+    .btn-accent:hover:not(:disabled) { background: rgba(56, 139, 253, 0.24); border-color: var(--fgColor-accent); }
     .btn-danger {
-      background: rgba(248, 81, 73, 0.14);
-      border-color: rgba(248, 81, 73, 0.55);
-      color: var(--red);
+      background: var(--bgColor-danger-muted);
+      border-color: var(--borderColor-danger);
+      color: var(--fgColor-danger);
     }
     .btn-purple {
-      background: rgba(188, 140, 255, 0.14);
-      border-color: rgba(188, 140, 255, 0.55);
-      color: var(--purple);
+      background: var(--bgColor-done-muted);
+      border-color: var(--borderColor-done);
+      color: var(--fgColor-done);
+    }
+    .btn-sm { padding: 4px 10px; min-height: 28px; font-size: 12px; }
+    .btn-icon { width: 28px; min-height: 28px; padding: 0; }
+    .spin-svg { animation: gh-spin 0.9s linear infinite; }
+    @keyframes gh-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+    /* Outdated Server / Flash Alert (Bravo 3) */
+    .flash-banner {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding: 10px 14px;
+      border-radius: 6px;
+      background: var(--bgColor-attention-muted);
+      border: 1px solid var(--borderColor-attention);
+      color: #f0c969;
+      font-size: 13px;
+    }
+    .flash-banner.open { display: flex; }
+    .flash-left { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 240px; }
+    .flash-banner code {
+      background: rgba(13, 17, 23, 0.65);
+      border: 1px solid rgba(210, 153, 34, 0.35);
+      border-radius: 4px;
+      padding: 1px 6px;
+      font-family: var(--fontStack-mono);
+      font-size: 12px;
     }
 
     /* Live Refresh Progress Strip */
     .progress-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
+      background: var(--bgColor-muted);
+      border: 1px solid var(--borderColor-accent);
+      border-radius: 6px;
       padding: 12px 16px;
-      margin-bottom: 14px;
       display: none;
+      box-shadow: 0 0 0 1px rgba(88, 166, 255, 0.15);
     }
     .progress-card.open { display: block; }
+    .progress-card.is-error { border-color: var(--borderColor-danger); box-shadow: 0 0 0 1px rgba(248, 81, 73, 0.18); }
+    .progress-card.is-done { border-color: var(--borderColor-success); box-shadow: 0 0 0 1px rgba(63, 185, 80, 0.15); }
     .progress-top {
       display: flex;
       justify-content: space-between;
@@ -121,125 +208,203 @@
     }
     .progress-track {
       width: 100%;
-      height: 10px;
-      background: var(--bg);
-      border: 1px solid var(--border);
+      height: 8px;
+      background: var(--bgColor-default);
+      border: 1px solid var(--borderColor-default);
       border-radius: 999px;
       overflow: hidden;
+      position: relative;
     }
     .progress-fill {
       height: 100%;
       width: 0%;
       background: linear-gradient(90deg, #238636, #58a6ff);
-      transition: width 0.25s ease;
+      transition: width 0.22s ease;
     }
     .progress-fill.indeterminate {
-      width: 35%;
-      animation: slide-bar 1.2s infinite ease-in-out;
+      width: 34%;
+      animation: slide-bar 1.1s infinite ease-in-out;
     }
     @keyframes slide-bar {
       0% { margin-left: 0%; }
-      50% { margin-left: 65%; }
+      50% { margin-left: 66%; }
       100% { margin-left: 0%; }
     }
     .progress-meta {
       display: flex;
       justify-content: space-between;
       font-size: 12px;
-      color: var(--text-muted);
+      color: var(--fgColor-muted);
       margin-top: 6px;
       gap: 12px;
       flex-wrap: wrap;
+      font-variant-numeric: tabular-nums;
     }
 
-    /* CLIProxyAPI & Google Accounts Strip */
+    /* CLIProxyAPI & Connected Google Accounts Bar */
     .agent-bar {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 10px 14px;
-      margin-bottom: 14px;
+      background: var(--bgColor-muted);
+      border: 1px solid var(--borderColor-default);
+      border-radius: 6px;
+      padding: 8px 14px;
       display: flex;
-      justify-content: space-between;
+      flex-wrap: wrap;
       align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 12.5px;
+    }
+    .agent-left, .agent-right { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--fgColor-muted); display: inline-block; }
+    .status-dot.online { background: var(--fgColor-success); box-shadow: 0 0 6px var(--fgColor-success); }
+    .status-dot.offline { background: var(--fgColor-attention); }
+
+    /* Primer Counter Strip KPIs */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+      gap: 10px;
+    }
+    .kpi-card {
+      background: var(--bgColor-muted);
+      border: 1px solid var(--borderColor-default);
+      border-radius: 6px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .kpi-label { font-size: 12px; font-weight: 500; color: var(--fgColor-muted); }
+    .kpi-value {
+      font-size: 22px;
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+      line-height: 1.2;
+      margin-top: 2px;
+    }
+    .kpi-sub { font-size: 11.5px; color: var(--fgColor-muted); font-variant-numeric: tabular-nums; }
+
+    /* Filter Toolbar */
+    .controls {
+      background: var(--bgColor-muted);
+      border: 1px solid var(--borderColor-default);
+      border-radius: 6px;
+      padding: 10px 14px;
+      display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      font-size: 12px;
+      align-items: flex-end;
+      justify-content: space-between;
     }
-    .agent-left, .agent-right {
+    .control-row { display: flex; flex-wrap: wrap; gap: 10px; flex: 1; align-items: flex-end; }
+    .control-group { display: flex; flex-direction: column; gap: 4px; min-width: 155px; flex: 1; }
+    label {
+      font-size: 11.5px;
+      color: var(--fgColor-muted);
+      font-weight: 600;
+    }
+    input, select {
+      background: var(--bgColor-default);
+      color: var(--fgColor-default);
+      border: 1px solid var(--borderColor-default);
+      border-radius: 6px;
+      padding: 6px 10px;
+      min-height: 32px;
+      font-size: 13px;
+      font-family: inherit;
+    }
+    input:focus, select:focus { border-color: var(--fgColor-accent); }
+
+    /* Primer UnderlineNav Subtabs */
+    .subtabs-bar {
       display: flex;
+      justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
       gap: 8px;
+      border-bottom: 1px solid var(--borderColor-default);
     }
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--amber);
-      display: inline-block;
-    }
-    .status-dot.online { background: var(--green); }
-    .status-dot.offline { background: var(--red); }
-
-    .kpi-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-    .kpi-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 14px 16px;
-    }
-    .kpi-label {
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
-      color: var(--text-muted);
-    }
-    .kpi-value { font-size: 24px; font-weight: 700; margin-top: 4px; }
-    .kpi-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
-
-    .controls {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 14px 16px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      align-items: flex-end;
-      justify-content: space-between;
-      margin-bottom: 16px;
-    }
-    .control-row { display: flex; flex-wrap: wrap; gap: 12px; flex: 1; align-items: flex-end; }
-    .control-group { display: flex; flex-direction: column; gap: 4px; min-width: 170px; flex: 1; }
-    label {
-      font-size: 11px;
-      color: var(--text-muted);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
-    }
-    input, select {
-      background: var(--bg);
-      color: var(--text);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 7px 10px;
+    .subtabs { display: flex; flex-wrap: wrap; gap: 2px; }
+    .subtab-btn {
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: var(--fgColor-muted);
+      padding: 9px 12px;
       font-size: 13px;
+      font-weight: 500;
+      font-family: inherit;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: -1px;
+      border-radius: 6px 6px 0 0;
+    }
+    .subtab-btn:hover { background: rgba(177, 186, 196, 0.08); color: var(--fgColor-default); }
+    .subtab-btn.active {
+      color: var(--fgColor-default);
+      font-weight: 600;
+      border-bottom-color: var(--underlineNav-border);
+    }
+    .tab-badge {
+      background: rgba(110, 118, 129, 0.25);
+      border-radius: 999px;
+      padding: 1px 7px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--fgColor-default);
+      font-variant-numeric: tabular-nums;
     }
 
+    .view-toggle {
+      display: inline-flex;
+      border: 1px solid var(--borderColor-default);
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 6px;
+    }
+    .view-toggle button {
+      background: var(--bgColor-muted);
+      color: var(--fgColor-muted);
+      border: none;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: 500;
+      font-family: inherit;
+      cursor: pointer;
+    }
+    .view-toggle button + button { border-left: 1px solid var(--borderColor-default); }
+    .view-toggle button.active { background: var(--bgColor-emphasis); color: var(--fgColor-default); font-weight: 600; }
+
+    /* Primer Labels & Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 1px 8px;
+      border-radius: 999px;
+      font-size: 11.5px;
+      font-weight: 500;
+      border: 1px solid var(--borderColor-default);
+      background: var(--bgColor-default);
+      color: var(--fgColor-muted);
+      white-space: nowrap;
+      line-height: 18px;
+      font-variant-numeric: tabular-nums;
+    }
+    .badge-success { background: var(--bgColor-success-muted); color: var(--fgColor-success); border-color: var(--borderColor-success); }
+    .badge-danger { background: var(--bgColor-danger-muted); color: var(--fgColor-danger); border-color: var(--borderColor-danger); }
+    .badge-warning { background: var(--bgColor-attention-muted); color: #e3b341; border-color: var(--borderColor-attention); }
+    .badge-info { background: var(--bgColor-accent-muted); color: var(--fgColor-accent); border-color: rgba(88, 166, 255, 0.4); }
+    .badge-purple { background: var(--bgColor-done-muted); color: var(--fgColor-done); border-color: var(--borderColor-done); }
+
+    /* Primer Box Panels (Doctor / AI / Local Roots) */
     .panel {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
+      background: var(--bgColor-muted);
+      border: 1px solid var(--borderColor-default);
+      border-radius: 6px;
       padding: 14px 16px;
-      margin-bottom: 16px;
       display: none;
     }
     .panel.open { display: block; }
@@ -255,95 +420,178 @@
     }
     .panel-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(225px, 1fr));
       gap: 10px;
     }
     .mini-box {
-      background: var(--bg);
-      border: 1px solid var(--border);
+      background: var(--bgColor-default);
+      border: 1px solid var(--borderColor-default);
       border-radius: 6px;
-      padding: 10px;
+      padding: 10px 12px;
       font-size: 12px;
-      color: var(--text);
     }
-    .mini-line { margin-top: 4px; color: var(--text-muted); word-break: break-word; }
+    .mini-line { margin-top: 4px; color: var(--fgColor-muted); word-break: break-word; }
 
     .ai-output {
-      background: var(--bg);
-      border: 1px solid var(--border);
+      background: var(--bgColor-default);
+      border: 1px solid var(--borderColor-default);
       border-radius: 6px;
       padding: 12px 14px;
-      font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+      font-family: var(--fontStack-mono);
       font-size: 12.5px;
       white-space: pre-wrap;
       line-height: 1.55;
       max-height: 420px;
       overflow-y: auto;
-      color: var(--text);
+      color: var(--fgColor-default);
     }
 
-    .subtabs {
+    .local-toolbar {
+      background: var(--bgColor-muted);
+      border: 1px solid var(--borderColor-default);
+      border-radius: 6px;
+      padding: 12px 14px;
+      display: none;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+    .local-toolbar.open { display: flex; }
+
+    .result-bar {
+      font-size: 12.5px;
+      color: var(--fgColor-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* Authentic GitHub.com Primer Repository List (Bravo 1) */
+    .repo-box {
+      background: var(--bgColor-default);
+      border: 1px solid var(--borderColor-default);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .repo-box-header {
+      background: var(--bgColor-muted);
+      border-bottom: 1px solid var(--borderColor-default);
+      padding: 10px 16px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--fgColor-default);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .repo-list { list-style: none; }
+    .repo-row {
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--borderColor-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      transition: background-color 0.12s ease;
+    }
+    .repo-row:last-child { border-bottom: none; }
+    .repo-row:hover { background: rgba(22, 27, 34, 0.72); }
+    .repo-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+    .repo-title-line {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .repo-link {
+      color: var(--fgColor-accent);
+      font-weight: 600;
+      font-size: 16px;
+      text-decoration: none;
+      word-break: break-word;
+    }
+    .repo-link:hover { text-decoration: underline; }
+    .repo-visibility-pill {
+      border: 1px solid var(--borderColor-default);
+      border-radius: 999px;
+      padding: 0 7px;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--fgColor-muted);
+      line-height: 18px;
+    }
+    .repo-sub-fork { font-size: 12px; color: var(--fgColor-muted); }
+    .repo-desc-full {
+      font-size: 13px;
+      color: var(--fgColor-muted);
+      max-width: 78ch;
+      line-height: 1.45;
+    }
+    .repo-topics { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
+    .topic-tag {
+      background: rgba(56, 139, 253, 0.12);
+      color: #79c0ff;
+      border-radius: 999px;
+      padding: 1px 8px;
+      font-size: 11px;
+      font-weight: 500;
+    }
+    .repo-meta-strip {
       display: flex;
       flex-wrap: wrap;
-      gap: 4px;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 14px;
-    }
-    .subtab-btn {
-      background: transparent;
-      border: none;
-      border-bottom: 2px solid transparent;
-      color: var(--text-muted);
-      padding: 10px 14px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 10px 16px;
+      margin-top: 4px;
+      font-size: 12px;
+      color: var(--fgColor-muted);
+      font-variant-numeric: tabular-nums;
     }
-    .subtab-btn:hover { color: var(--text); }
-    .subtab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
-    .tab-badge {
-      background: var(--surface-hover);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1px 7px;
-      font-size: 11px;
-      color: var(--text);
+    .meta-stat { display: inline-flex; align-items: center; gap: 5px; }
+    .lang-dot { width: 11px; height: 11px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+    .repo-actions-col {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+      flex-shrink: 0;
     }
+    .repo-action-btns { display: inline-flex; gap: 6px; align-items: center; }
 
-    .result-bar { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
-
+    /* Compact Table Mode & Local Sync Table */
     .table-wrap {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
+      background: var(--bgColor-default);
+      border: 1px solid var(--borderColor-default);
+      border-radius: 6px;
       overflow: auto;
+      display: none;
     }
+    .table-wrap.active { display: block; }
     table { width: 100%; border-collapse: collapse; font-size: 13px; }
     th, td {
       text-align: left;
-      padding: 11px 14px;
-      border-bottom: 1px solid var(--border);
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--borderColor-muted);
       vertical-align: middle;
     }
     th {
-      background: #1c2128;
-      color: var(--text-muted);
+      background: var(--bgColor-muted);
+      color: var(--fgColor-muted);
       font-size: 12px;
       font-weight: 600;
       position: sticky;
       top: 0;
       z-index: 2;
       white-space: nowrap;
+      border-bottom: 1px solid var(--borderColor-default);
     }
-    tr:hover td { background: rgba(88, 166, 255, 0.04); }
-
-    .repo-link { color: var(--accent); font-weight: 600; text-decoration: none; font-size: 14px; }
-    .repo-link:hover { text-decoration: underline; }
+    tr:hover td { background: rgba(56, 139, 253, 0.05); }
     .repo-desc {
-      color: var(--text-muted);
+      color: var(--fgColor-muted);
       font-size: 12px;
       margin-top: 2px;
       max-width: 380px;
@@ -351,31 +599,14 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
+    .drift-note { font-size: 11.5px; color: #e3b341; }
+    .muted { color: var(--fgColor-muted); }
 
-    .badge {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 10px;
-      font-size: 11px;
-      font-weight: 600;
-      border: 1px solid var(--border);
-      background: var(--bg);
-      color: var(--text-muted);
-      white-space: nowrap;
-    }
-    .badge-success { background: rgba(63, 185, 80, 0.14); color: var(--green); border-color: rgba(63, 185, 80, 0.4); }
-    .badge-danger { background: rgba(248, 81, 73, 0.14); color: var(--red); border-color: rgba(248, 81, 73, 0.4); }
-    .badge-warning { background: rgba(210, 153, 34, 0.14); color: var(--amber); border-color: rgba(210, 153, 34, 0.4); }
-    .badge-info { background: rgba(88, 166, 255, 0.14); color: var(--accent); border-color: rgba(88, 166, 255, 0.4); }
-    .badge-purple { background: rgba(188, 140, 255, 0.14); color: var(--purple); border-color: rgba(188, 140, 255, 0.4); }
-
-    .drift-note { font-size: 11px; color: var(--amber); margin-top: 2px; }
-    .muted { color: var(--text-muted); }
-
+    /* Primer Dialog */
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.75);
+      background: rgba(1, 4, 9, 0.78);
       display: none;
       justify-content: center;
       align-items: center;
@@ -384,33 +615,34 @@
     }
     .modal-overlay.open { display: flex; }
     .modal {
-      background: var(--surface);
-      border: 1px solid var(--border);
+      background: var(--bgColor-muted);
+      border: 1px solid var(--borderColor-default);
       border-radius: 10px;
       width: 100%;
-      max-width: 760px;
-      max-height: 85vh;
+      max-width: 780px;
+      max-height: 86vh;
       display: flex;
       flex-direction: column;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
     }
     .modal-header {
       padding: 14px 18px;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid var(--borderColor-default);
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 8px;
     }
-    .modal-title { font-size: 16px; font-weight: 700; }
-    .modal-body { padding: 18px; overflow-y: auto; font-size: 13px; }
-    .meta-line { margin-bottom: 6px; color: var(--text); }
-    .meta-line a { color: var(--accent); text-decoration: none; }
+    .modal-title { font-size: 15px; font-weight: 600; }
+    .modal-body { padding: 18px; overflow-y: auto; font-size: 13px; background: var(--bgColor-default); border-radius: 0 0 10px 10px; }
+    .meta-line { margin-bottom: 7px; color: var(--fgColor-default); }
+    .meta-line a { color: var(--fgColor-accent); text-decoration: none; }
     .meta-line a:hover { text-decoration: underline; }
     .commit-item {
-      padding: 8px 12px;
+      padding: 9px 12px;
       border-radius: 6px;
-      background: var(--bg);
-      border: 1px solid var(--border);
+      background: var(--bgColor-muted);
+      border: 1px solid var(--borderColor-default);
       margin-bottom: 8px;
     }
     .commit-header {
@@ -420,244 +652,274 @@
       margin-bottom: 3px;
       gap: 8px;
     }
-    .commit-sha { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; color: var(--accent); }
-    .commit-date { color: var(--text-muted); }
-    .commit-msg { color: var(--text); font-weight: 500; word-break: break-word; }
-
-    .local-toolbar {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 12px 14px;
-      margin-bottom: 12px;
-      display: none;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: flex-end;
-      justify-content: space-between;
-    }
-    .local-toolbar.open { display: flex; }
+    .commit-sha { font-family: var(--fontStack-mono); color: var(--fgColor-accent); }
+    .commit-date { color: var(--fgColor-muted); font-variant-numeric: tabular-nums; }
+    .commit-msg { color: var(--fgColor-default); font-weight: 500; word-break: break-word; }
 
     .toast {
       position: fixed;
       bottom: 20px;
       right: 20px;
       background: #238636;
-      color: #fff;
+      color: #ffffff;
       padding: 10px 16px;
       border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
       font-size: 13px;
       font-weight: 600;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
       display: none;
       z-index: 1100;
       max-width: 440px;
     }
-    .toast.error { background: #b91c1c; }
+    .toast.error { background: #da3633; }
     .toast.show { display: block; }
 
-    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    @media (max-width: 720px) {
+      .repo-row { flex-direction: column; }
+      .repo-actions-col { align-items: flex-start; }
+    }
+    :focus-visible { outline: 2px solid var(--fgColor-accent); outline-offset: 2px; }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { transition: none !important; animation: none !important; }
     }
   </style>
 </head>
 <body>
-  <header>
-    <div class="header-left">
-      <div class="logo-badge">GH</div>
-      <div>
-        <h1>GitHub Repositories &amp; CI Health</h1>
-        <p id="header-subtitle" class="subtitle">Repository activity triage, GitHub Actions CI health, local workspace drift, and CLIProxyAPI triage</p>
-        <div class="freshness-row">
-          <span id="freshness-source-badge" class="badge">Source: loading...</span>
-          <span id="freshness-age-badge" class="badge">Last Refreshed: checking...</span>
+  <div class="page-shell">
+    <header class="gh-header">
+      <div class="header-left">
+        <div class="octocat-mark" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+            <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/>
+          </svg>
+        </div>
+        <div>
+          <h1><span class="header-owner">Mostakim2005 /</span> Repositories &amp; CI Health</h1>
+          <p id="header-subtitle" class="subtitle">Live GitHub Actions status, fork drift tracking, local workspace sync, and CLIProxyAPI repository analysis</p>
+          <div class="freshness-row">
+            <span id="freshness-source-badge" class="badge">Source: loading...</span>
+            <span id="freshness-age-badge" class="badge">Last Refreshed: checking...</span>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="actions">
-      <button id="btn-local-sync" type="button" class="btn btn-accent">Check Local Sync</button>
-      <button id="btn-doctor" type="button" class="btn btn-accent">Repo Doctor</button>
-      <button id="btn-export" type="button" class="btn">Export Markdown Report</button>
-      <button id="btn-refresh" type="button" class="btn btn-primary">Refresh Live Data</button>
-      <a href="/api/github/triage" target="_blank" rel="noopener noreferrer" class="btn">JSON API</a>
-    </div>
-  </header>
-
-  <section id="refresh-progress-card" class="progress-card" aria-live="polite">
-    <div class="progress-top">
-      <div>
-        <strong id="progress-stage-label">Refreshing GitHub Repositories...</strong>
-        <span id="progress-counter-label" class="muted" style="margin-left:8px;">0 / 0</span>
+      <div class="actions">
+        <button id="btn-local-sync" type="button" class="btn btn-accent">Check Local Sync</button>
+        <button id="btn-doctor" type="button" class="btn">Repo Doctor</button>
+        <button id="btn-export" type="button" class="btn">Export Markdown</button>
+        <button id="btn-refresh" type="button" class="btn btn-primary">Refresh Live Data</button>
+        <a href="/api/github/triage" target="_blank" rel="noopener noreferrer" class="btn">JSON API</a>
       </div>
-      <div style="display:flex; gap:8px; align-items:center;">
-        <span id="progress-pct-label" class="badge badge-info">0%</span>
-        <button id="btn-cancel-refresh" type="button" class="btn btn-danger" style="padding:4px 10px;">Cancel Scan</button>
+    </header>
+
+    <!-- Stale Server Process Alert (Bravo 3) -->
+    <section id="stale-server-banner" class="flash-banner" role="alert">
+      <div class="flash-left">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+          <path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"/>
+        </svg>
+        <span id="stale-server-msg">An older server.py process is still running on port 8770. Restart <code>start-server.bat</code> (or relaunch <code>python src/server.py</code>) so async progress &amp; quick resync work properly.</span>
       </div>
-    </div>
-    <div class="progress-track">
-      <div id="progress-fill" class="progress-fill"></div>
-    </div>
-    <div class="progress-meta">
-      <span id="progress-message">Initializing live scan...</span>
-      <span id="progress-elapsed">Elapsed: 0.0s</span>
-    </div>
-  </section>
+      <button id="btn-dismiss-stale" type="button" class="btn btn-sm">Dismiss</button>
+    </section>
 
-  <section id="agent-bar" class="agent-bar" aria-label="CLIProxyAPI and Connected Google Accounts">
-    <div class="agent-left">
-      <span id="proxy-dot" class="status-dot"></span>
-      <strong id="proxy-status-label">CLIProxyAPI: Checking 127.0.0.1:8317...</strong>
-      <span id="google-accounts-badge" class="badge badge-purple">Google Accounts: checking...</span>
-      <button id="btn-start-proxy" type="button" class="btn" style="padding:4px 10px; display:none;">Start CLIProxyAPI</button>
-    </div>
-    <div class="agent-right">
-      <label for="agent-model-select" style="margin:0;">Model</label>
-      <select id="agent-model-select" style="padding:4px 8px; font-size:12px; min-width:190px;">
-        <option value="">Default Auto Model</option>
-      </select>
-      <button id="btn-ai-summary" type="button" class="btn btn-purple" style="padding:5px 10px;">AI Refresh Summary</button>
-      <button id="btn-ai-report" type="button" class="btn btn-purple" style="padding:5px 10px;">AI Executive Report</button>
-    </div>
-  </section>
-
-  <section class="kpi-grid" aria-label="GitHub Repository Metrics">
-    <div class="kpi-card">
-      <div class="kpi-label">Total Repositories</div>
-      <div id="kpi-total" class="kpi-value">--</div>
-      <div id="kpi-forks" class="kpi-sub">Loading inventory...</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Section 1 (0–4 Days)</div>
-      <div id="kpi-sec1" class="kpi-value" style="color:var(--green);">--</div>
-      <div class="kpi-sub">Recent commits or tags</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Section 2 (4–8 Days)</div>
-      <div id="kpi-sec2" class="kpi-value" style="color:var(--amber);">--</div>
-      <div class="kpi-sub">Mid-range updates</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Section 3 (2+ Weeks)</div>
-      <div id="kpi-sec3" class="kpi-value" style="color:var(--purple);">--</div>
-      <div class="kpi-sub">Dormant or commit-stale</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">CI Build Health</div>
-      <div id="kpi-ci" class="kpi-value">--</div>
-      <div id="kpi-ci-sub" class="kpi-sub">0 failing / 0 no CI</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Local vs. Web Sync</div>
-      <div id="kpi-local" class="kpi-value">--</div>
-      <div id="kpi-local-sub" class="kpi-sub">Click Check Local Sync</div>
-    </div>
-  </section>
-
-  <section class="controls" aria-label="Filter Repositories">
-    <div class="control-row">
-      <div class="control-group" style="flex:2;">
-        <label for="search-input">Search Name, Description, Local Path, or Upstream Parent</label>
-        <input id="search-input" type="search" placeholder="e.g. database-manager, gaussboard, dataview...">
+    <!-- Live Refresh Progress Strip (Opens IMMEDIATELY on click) -->
+    <section id="refresh-progress-card" class="progress-card" aria-live="polite">
+      <div class="progress-top">
+        <div>
+          <strong id="progress-stage-label">Refreshing GitHub Repositories...</strong>
+          <span id="progress-counter-label" class="muted" style="margin-left:8px;">0 / 0</span>
+        </div>
+        <div style="display:flex; gap:8px; align-items:center;">
+          <span id="progress-pct-label" class="badge badge-info">0%</span>
+          <button id="btn-cancel-refresh" type="button" class="btn btn-danger btn-sm">Cancel Scan</button>
+          <button id="btn-close-progress" type="button" class="btn btn-sm" style="display:none;">Hide</button>
+        </div>
       </div>
-      <div class="control-group">
-        <label for="type-filter">Repository Type</label>
-        <select id="type-filter">
-          <option value="all">All Types (Owned &amp; Forks)</option>
-          <option value="owned">Owned Public Projects</option>
-          <option value="fork">Upstream Forks Only</option>
-          <option value="private">Private Repos Only</option>
+      <div class="progress-track">
+        <div id="progress-fill" class="progress-fill"></div>
+      </div>
+      <div class="progress-meta">
+        <span id="progress-message">Connecting to Database Manager backend...</span>
+        <span id="progress-elapsed">Elapsed: 0.0s</span>
+      </div>
+    </section>
+
+    <!-- CLIProxyAPI & Google Accounts Strip -->
+    <section id="agent-bar" class="agent-bar" aria-label="CLIProxyAPI and Connected Google Accounts">
+      <div class="agent-left">
+        <span id="proxy-dot" class="status-dot"></span>
+        <strong id="proxy-status-label">CLIProxyAPI: Checking 127.0.0.1:8317...</strong>
+        <span id="google-accounts-badge" class="badge badge-purple">Google Accounts: checking...</span>
+        <button id="btn-start-proxy" type="button" class="btn btn-sm" style="display:none;">Start CLIProxyAPI</button>
+      </div>
+      <div class="agent-right">
+        <label for="agent-model-select" style="margin:0;">Agent Model</label>
+        <select id="agent-model-select" style="min-height:28px; padding:3px 8px; font-size:12px; min-width:190px;">
+          <option value="">Default Auto Model</option>
         </select>
+        <button id="btn-ai-summary" type="button" class="btn btn-purple btn-sm">AI Refresh Summary</button>
+        <button id="btn-ai-report" type="button" class="btn btn-purple btn-sm">AI Executive Report</button>
       </div>
-      <div class="control-group">
-        <label for="ci-filter">Latest CI Status</label>
-        <select id="ci-filter">
-          <option value="all">All CI Statuses</option>
-          <option value="success">CI Passed</option>
-          <option value="failure">CI Failed / Cancelled</option>
-          <option value="running">In Progress / Queued</option>
-          <option value="none">No CI Configured</option>
+    </section>
+
+    <section class="kpi-grid" aria-label="GitHub Repository Metrics">
+      <div class="kpi-card">
+        <div class="kpi-label">Total Repositories</div>
+        <div id="kpi-total" class="kpi-value">--</div>
+        <div id="kpi-forks" class="kpi-sub">Loading inventory...</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Active (0–4 Days)</div>
+        <div id="kpi-sec1" class="kpi-value" style="color:var(--fgColor-success);">--</div>
+        <div class="kpi-sub">Recent commits or tags</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Recent (4–8 Days)</div>
+        <div id="kpi-sec2" class="kpi-value" style="color:var(--fgColor-attention);">--</div>
+        <div class="kpi-sub">Mid-range updates</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Dormant (2+ Weeks)</div>
+        <div id="kpi-sec3" class="kpi-value" style="color:var(--fgColor-done);">--</div>
+        <div class="kpi-sub">Dormant or commit-stale</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">CI Build Health</div>
+        <div id="kpi-ci" class="kpi-value">--</div>
+        <div id="kpi-ci-sub" class="kpi-sub">0 failing / 0 no CI</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Local vs. Web Sync</div>
+        <div id="kpi-local" class="kpi-value">--</div>
+        <div id="kpi-local-sub" class="kpi-sub">Click Check Local Sync</div>
+      </div>
+    </section>
+
+    <section class="controls" aria-label="Filter Repositories">
+      <div class="control-row">
+        <div class="control-group" style="flex:2;">
+          <label for="search-input">Find a repository (name, description, local path, upstream)</label>
+          <input id="search-input" type="search" placeholder="Find a repository...">
+        </div>
+        <div class="control-group">
+          <label for="type-filter">Type</label>
+          <select id="type-filter">
+            <option value="all">All Types</option>
+            <option value="owned">Public Sources</option>
+            <option value="fork">Forks</option>
+            <option value="private">Private</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label for="ci-filter">Actions / CI</label>
+          <select id="ci-filter">
+            <option value="all">All CI Statuses</option>
+            <option value="success">Passed</option>
+            <option value="failure">Failed / Cancelled</option>
+            <option value="running">In Progress / Queued</option>
+            <option value="none">No CI Configured</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <section id="diag-panel" class="panel" aria-live="polite">
+      <div class="panel-header">
+        <span id="diag-title">Repository Doctor</span>
+        <button id="diag-close" type="button" class="btn btn-sm">Close</button>
+      </div>
+      <div id="diag-body"></div>
+    </section>
+
+    <section id="ai-panel" class="panel" aria-live="polite">
+      <div class="panel-header">
+        <span id="ai-panel-title">AI Agent Analysis</span>
+        <button id="ai-panel-close" type="button" class="btn btn-sm">Close</button>
+      </div>
+      <div id="ai-panel-meta" class="muted" style="font-size:12px; margin-bottom:8px;"></div>
+      <pre id="ai-panel-body" class="ai-output"></pre>
+    </section>
+
+    <div class="subtabs-bar">
+      <div class="subtabs" role="tablist" aria-label="Activity Sections">
+        <button type="button" class="subtab-btn active" data-subtab="all" role="tab" aria-selected="true">
+          Repositories <span id="badge-all" class="tab-badge">0</span>
+        </button>
+        <button type="button" class="subtab-btn" data-subtab="sec1" role="tab" aria-selected="false">
+          Active 0–4d <span id="badge-sec1" class="tab-badge">0</span>
+        </button>
+        <button type="button" class="subtab-btn" data-subtab="sec2" role="tab" aria-selected="false">
+          Recent 4–8d <span id="badge-sec2" class="tab-badge">0</span>
+        </button>
+        <button type="button" class="subtab-btn" data-subtab="sec3" role="tab" aria-selected="false">
+          Dormant <span id="badge-sec3" class="tab-badge">0</span>
+        </button>
+        <button type="button" class="subtab-btn" data-subtab="forks" role="tab" aria-selected="false">
+          Forks <span id="badge-forks" class="tab-badge">0</span>
+        </button>
+        <button type="button" class="subtab-btn" data-subtab="local" role="tab" aria-selected="false">
+          Local Sync <span id="badge-local" class="tab-badge">0</span>
+        </button>
+      </div>
+
+      <div id="view-mode-toggle" class="view-toggle" role="group" aria-label="Repository layout view">
+        <button type="button" id="btn-view-list" class="active">Primer List</button>
+        <button type="button" id="btn-view-table">Compact Table</button>
+      </div>
+    </div>
+
+    <section id="local-toolbar" class="local-toolbar" aria-label="Local Sync Roots">
+      <div class="control-group" style="flex:2; min-width:260px;">
+        <label for="local-roots-input">Local Workspace Roots (comma or semicolon separated)</label>
+        <input id="local-roots-input" type="text" placeholder="C:\Users\kazir\Documents\Agentic Harness">
+      </div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <select id="local-filter-select" aria-label="Filter local sync state">
+          <option value="all">Show All Local &amp; Web Differences</option>
+          <option value="issues">Action Needed (Dirty / Ahead / Local-Only / Deleted)</option>
+          <option value="local_only">Local-Only / Deleted on Web</option>
+          <option value="web_only">Web-Only / Deleted Locally</option>
+          <option value="matched">Matched Local &amp; Web Clones</option>
         </select>
+        <button id="btn-save-roots" type="button" class="btn">Save Roots &amp; Re-Scan</button>
       </div>
+    </section>
+
+    <div id="result-bar" class="result-bar">Loading repositories...</div>
+
+    <!-- Primer Repository List View (Default, Bravo 1 + Bravo 4) -->
+    <div id="repo-box" class="repo-box">
+      <div class="repo-box-header">
+        <span id="repo-box-title">Repositories</span>
+        <span id="repo-box-hint" class="muted" style="font-weight:400;">Click Quick Resync on any row to refresh commits &amp; CI immediately</span>
+      </div>
+      <ul id="repo-list" class="repo-list">
+        <li class="repo-row"><span class="muted">Loading repository data...</span></li>
+      </ul>
     </div>
-  </section>
 
-  <section id="diag-panel" class="panel" aria-live="polite">
-    <div class="panel-header">
-      <span id="diag-title">Repository Doctor</span>
-      <button id="diag-close" type="button" class="btn">Close</button>
+    <!-- Compact Table & Local Sync Table View -->
+    <div id="table-wrap" class="table-wrap">
+      <table>
+        <thead id="table-head">
+          <tr>
+            <th>Repository</th>
+            <th>Type</th>
+            <th>Last Pushed</th>
+            <th>Latest CI Status</th>
+            <th>Latest Release</th>
+            <th>Unbuilt</th>
+            <th>Unreleased</th>
+            <th>Upstream Drift</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="repo-table-body">
+          <tr><td colspan="9" class="muted" style="text-align:center; padding:28px;">Loading repository data...</td></tr>
+        </tbody>
+      </table>
     </div>
-    <div id="diag-body"></div>
-  </section>
-
-  <section id="ai-panel" class="panel" aria-live="polite">
-    <div class="panel-header">
-      <span id="ai-panel-title">AI Agent Analysis</span>
-      <button id="ai-panel-close" type="button" class="btn">Close</button>
-    </div>
-    <div id="ai-panel-meta" class="muted" style="font-size:12px; margin-bottom:8px;"></div>
-    <pre id="ai-panel-body" class="ai-output"></pre>
-  </section>
-
-  <div class="subtabs" role="tablist" aria-label="Activity Sections">
-    <button type="button" class="subtab-btn active" data-subtab="all" role="tab" aria-selected="true">
-      All Repositories <span id="badge-all" class="tab-badge">0</span>
-    </button>
-    <button type="button" class="subtab-btn" data-subtab="sec1" role="tab" aria-selected="false">
-      Section 1 (0–4 Days) <span id="badge-sec1" class="tab-badge">0</span>
-    </button>
-    <button type="button" class="subtab-btn" data-subtab="sec2" role="tab" aria-selected="false">
-      Section 2 (4–8 Days) <span id="badge-sec2" class="tab-badge">0</span>
-    </button>
-    <button type="button" class="subtab-btn" data-subtab="sec3" role="tab" aria-selected="false">
-      Section 3 (Dormant) <span id="badge-sec3" class="tab-badge">0</span>
-    </button>
-    <button type="button" class="subtab-btn" data-subtab="forks" role="tab" aria-selected="false">
-      Upstream Forks &amp; Drift <span id="badge-forks" class="tab-badge">0</span>
-    </button>
-    <button type="button" class="subtab-btn" data-subtab="local" role="tab" aria-selected="false">
-      Local vs. Web Sync <span id="badge-local" class="tab-badge">0</span>
-    </button>
-  </div>
-
-  <section id="local-toolbar" class="local-toolbar" aria-label="Local Sync Roots">
-    <div class="control-group" style="flex:2; min-width:260px;">
-      <label for="local-roots-input">Local Workspace Roots (comma or semicolon separated)</label>
-      <input id="local-roots-input" type="text" placeholder="C:\Users\kazir\Documents\Agentic Harness">
-    </div>
-    <div style="display:flex; gap:8px; flex-wrap:wrap;">
-      <select id="local-filter-select" aria-label="Filter local sync state">
-        <option value="all">Show All Local &amp; Web Differences</option>
-        <option value="issues">Action Needed (Dirty / Ahead / Local-Only / Deleted)</option>
-        <option value="local_only">Local-Only / Deleted on Web</option>
-        <option value="web_only">Web-Only / Deleted Locally</option>
-        <option value="matched">Matched Local &amp; Web Clones</option>
-      </select>
-      <button id="btn-save-roots" type="button" class="btn">Save Roots &amp; Re-Scan</button>
-    </div>
-  </section>
-
-  <div id="result-bar" class="result-bar">Loading repositories...</div>
-
-  <div class="table-wrap">
-    <table>
-      <thead id="table-head">
-        <tr>
-          <th>Repository</th>
-          <th>Type</th>
-          <th>Last Pushed</th>
-          <th>Latest CI Status</th>
-          <th>Latest Release</th>
-          <th>Unbuilt</th>
-          <th>Unreleased</th>
-          <th>Upstream Drift</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody id="repo-table-body">
-        <tr><td colspan="9" class="muted" style="text-align:center; padding:28px;">Loading repository data...</td></tr>
-      </tbody>
-    </table>
   </div>
 
   <div id="detail-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
@@ -665,8 +927,8 @@
       <div class="modal-header">
         <div id="modal-title" class="modal-title">Repository Details</div>
         <div style="display:flex; gap:8px; align-items:center;">
-          <button id="modal-refresh-repo" type="button" class="btn btn-primary" style="padding:5px 10px;">Refresh This Repo</button>
-          <button id="modal-close" type="button" class="btn">Close</button>
+          <button id="modal-refresh-repo" type="button" class="btn btn-primary btn-sm">Refresh This Repo</button>
+          <button id="modal-close" type="button" class="btn btn-sm">Close</button>
         </div>
       </div>
       <div id="modal-body" class="modal-body"></div>
@@ -680,8 +942,55 @@
     let triagedData = null;
     let localSyncData = null;
     let currentSubtab = "all";
+    let viewMode = "list";
     let activeModalRepo = null;
     let refreshPollTimer = null;
+    let refreshTickTimer = null;
+    let refreshClickTs = 0;
+
+    const LANG_COLORS = {
+      "Python": "#3572A5",
+      "JavaScript": "#f1e05a",
+      "TypeScript": "#3178c6",
+      "HTML": "#e34c26",
+      "CSS": "#563d7c",
+      "PowerShell": "#012456",
+      "Shell": "#89e051",
+      "C++": "#f34b7d",
+      "C": "#555555",
+      "C#": "#178600",
+      "Rust": "#dea584",
+      "Go": "#00ADD8",
+      "Java": "#b07219",
+      "Jupyter Notebook": "#DA5B0B",
+      "Markdown": "#083fa1"
+    };
+
+    const SVG_PATHS = {
+      repo: "M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1 0-1.5h1.75v-2h-8a1 1 0 0 0-.714 1.7.75.75 0 1 1-1.072 1.05A2.495 2.495 0 0 1 2 11.5Zm10.5-1h-8a1 1 0 0 0-1 1v6.708A2.486 2.486 0 0 1 4.5 9h8ZM5 12.25a.25.25 0 0 1 .25-.25h3.5a.25.25 0 0 1 .25.25v3.25a.25.25 0 0 1-.4.2l-1.45-1.087a.249.249 0 0 0-.3 0L5.4 15.7a.25.25 0 0 1-.4-.2Z",
+      fork: "M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z",
+      lock: "M4 4a4 4 0 0 1 8 0v2h.25c.966 0 1.75.784 1.75 1.75v5.5A1.75 1.75 0 0 1 12.25 15h-8.5A1.75 1.75 0 0 1 2 13.25v-5.5C2 6.784 2.784 6 3.75 6H4Zm8.25 3.5h-8.5a.25.25 0 0 0-.25.25v5.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-5.5a.25.25 0 0 0-.25-.25ZM10.5 6V4a2.5 2.5 0 1 0-5 0v2Z",
+      star: "M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z",
+      sync: "M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z",
+      check: "M8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16Zm3.78-9.72a.751.751 0 0 0-.018-1.042.751.751 0 0 0-1.042-.018L6.75 9.19 5.28 7.72a.751.751 0 0 0-1.042.018.751.751 0 0 0-.018 1.042l2 2a.75.75 0 0 0 1.06 0Z",
+      x: "M2.343 13.657A8 8 0 1 1 13.658 2.343 8 8 0 0 1 2.343 13.657ZM6.03 4.97a.751.751 0 0 0-1.042.018.751.751 0 0 0-.018 1.042L6.94 8 4.97 9.97a.749.749 0 0 0 .326 1.275.749.749 0 0 0 .734-.215L8 9.06l1.97 1.97a.749.749 0 0 0 1.275-.326.749.749 0 0 0-.215-.734L9.06 8l1.97-1.97a.749.749 0 0 0-.326-1.275.749.749 0 0 0-.734.215L8 6.94Z",
+      dot: "M8 4a4 4 0 1 1 0 8 4 4 0 0 1 0-8Z",
+      tag: "M1 7.775V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 0 1 0 2.474l-5.026 5.026a1.75 1.75 0 0 1-2.474 0l-6.25-6.25A1.752 1.752 0 0 1 1 7.775Zm1.5 0c0 .066.026.13.073.177l6.25 6.25a.25.25 0 0 0 .354 0l5.025-5.025a.25.25 0 0 0 0-.354l-6.25-6.25a.25.25 0 0 0-.177-.073H2.75a.25.25 0 0 0-.25.25ZM6 5a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"
+    };
+
+    function createOcticon(kind, size = 16, extraClass = "") {
+      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      svg.setAttribute("width", String(size));
+      svg.setAttribute("height", String(size));
+      svg.setAttribute("viewBox", "0 0 16 16");
+      svg.setAttribute("fill", "currentColor");
+      svg.setAttribute("aria-hidden", "true");
+      if (extraClass) svg.setAttribute("class", extraClass);
+      const p = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      p.setAttribute("d", SVG_PATHS[kind] || SVG_PATHS.repo);
+      svg.appendChild(p);
+      return svg;
+    }
 
     function safeHttpUrl(rawUrl) {
       if (!rawUrl) return null;
@@ -696,10 +1005,11 @@
       return null;
     }
 
-    function createBadge(text, variantClass) {
+    function createBadge(text, variantClass, iconKind = null) {
       const span = document.createElement("span");
       span.className = "badge" + (variantClass ? " " + variantClass : "");
-      span.textContent = text;
+      if (iconKind) span.appendChild(createOcticon(iconKind, 12));
+      span.appendChild(document.createTextNode(text));
       return span;
     }
 
@@ -771,7 +1081,7 @@
       if (!lc) return;
       const issues = Number(lc.dirty_or_ahead || 0) + Number(lc.local_only || 0) + Number(lc.deleted_on_web_since_last || 0) + Number(lc.deleted_locally_since_last || 0);
       document.getElementById("kpi-local").textContent = (lc.synced ?? 0) + " / " + (lc.local_total ?? 0);
-      document.getElementById("kpi-local").style.color = issues > 0 ? "var(--amber)" : "var(--green)";
+      document.getElementById("kpi-local").style.color = issues > 0 ? "var(--fgColor-attention)" : "var(--fgColor-success)";
       document.getElementById("kpi-local-sub").textContent =
         (lc.dirty_or_ahead ?? 0) + " dirty/ahead · " + (lc.local_only ?? 0) + " local-only · " + (lc.web_only ?? 0) + " web-only";
       document.getElementById("badge-local").textContent = String(issues);
@@ -780,18 +1090,18 @@
     function buildTypeBadge(r) {
       if (r.is_fork) return createBadge("Fork", "badge-purple");
       if (r.is_private) return createBadge("Private", "badge-warning");
-      return createBadge("Owned", "badge-info");
+      return createBadge("Public", "badge-info");
     }
 
     function buildCiBadge(r) {
       const run = r.latest_run;
       if (!run) return createBadge("No CI", "");
       const conc = run.conclusion;
-      if (conc === "success") return createBadge("Passed", "badge-success");
-      if (conc === "failure" || conc === "cancelled" || conc === "timed_out") {
-        return createBadge(conc === "cancelled" ? "Cancelled" : "Failed", "badge-danger");
+      if (conc === "success") return createBadge("Passed", "badge-success", "check");
+      if (conc === "failure" || conc === "cancelled" || conc === "timed_out" || conc === "action_required") {
+        return createBadge(conc === "cancelled" ? "Cancelled" : "Failed", "badge-danger", "x");
       }
-      return createBadge(String(run.status || "Running"), "badge-warning");
+      return createBadge(String(run.status || "Running"), "badge-warning", "dot");
     }
 
     function setTableHeaders(mode) {
@@ -810,14 +1120,19 @@
 
     function applyFilters() {
       const localTb = document.getElementById("local-toolbar");
+      const repoBox = document.getElementById("repo-box");
+      const tableWrap = document.getElementById("table-wrap");
+
       if (currentSubtab === "local") {
         localTb.classList.add("open");
+        repoBox.style.display = "none";
+        tableWrap.classList.add("active");
         setTableHeaders("local");
         renderLocalSyncTable();
         return;
       }
+
       localTb.classList.remove("open");
-      setTableHeaders("repos");
       if (!triagedData) return;
 
       const q = document.getElementById("search-input").value.trim().toLowerCase();
@@ -839,7 +1154,7 @@
 
       const filtered = pool.filter(r => {
         if (q) {
-          const hay = [r.name, r.full_name, r.description, r.parent && r.parent.full_name].join(" ").toLowerCase();
+          const hay = [r.name, r.full_name, r.description, r.language, r.parent && r.parent.full_name].join(" ").toLowerCase();
           if (!hay.includes(q)) return false;
         }
         if (typeF === "owned" && (r.is_fork || r.is_private)) return false;
@@ -855,7 +1170,220 @@
         return true;
       });
 
-      renderTable(filtered, pool.length);
+      document.getElementById("result-bar").textContent = "Showing " + filtered.length + " of " + pool.length + " repositories";
+      document.getElementById("repo-box-title").textContent = "Repositories (" + filtered.length + ")";
+
+      if (viewMode === "list") {
+        repoBox.style.display = "block";
+        tableWrap.classList.remove("active");
+        renderPrimerList(filtered);
+      } else {
+        repoBox.style.display = "none";
+        tableWrap.classList.add("active");
+        setTableHeaders("repos");
+        renderTable(filtered, pool.length);
+      }
+    }
+
+    async function handleQuickResync(repo, btnEl) {
+      if (!repo || !repo.full_name) return;
+      btnEl.disabled = true;
+      const oldIcon = btnEl.querySelector("svg");
+      if (oldIcon) oldIcon.classList.add("spin-svg");
+      try {
+        const res = await fetch("/api/github/refresh/repo", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ full_name: repo.full_name })
+        });
+        if (res.status === 404) {
+          showStaleServerBanner("Port 8770 is running an older server.py without /api/github/refresh/repo. Restart start-server.bat to enable Quick Resync.");
+          throw new Error("HTTP 404 — server.py restart needed");
+        }
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || ("HTTP " + res.status));
+        triagedData = data.triage;
+        updateMetrics(triagedData);
+        applyFilters();
+        showToast("Resynced " + repo.full_name + "!");
+      } catch (err) {
+        showToast("Quick Resync failed: " + err.message, true);
+      } finally {
+        btnEl.disabled = false;
+        if (oldIcon) oldIcon.classList.remove("spin-svg");
+      }
+    }
+
+    function renderPrimerList(repos) {
+      const ul = document.getElementById("repo-list");
+      ul.replaceChildren();
+      if (repos.length === 0) {
+        const li = document.createElement("li");
+        li.className = "repo-row";
+        const msg = document.createElement("div");
+        msg.className = "muted";
+        msg.style.padding = "18px 0";
+        msg.textContent = "No repositories match your current filters.";
+        li.appendChild(msg);
+        ul.appendChild(li);
+        return;
+      }
+
+      repos.forEach(r => {
+        const li = document.createElement("li");
+        li.className = "repo-row";
+
+        const main = document.createElement("div");
+        main.className = "repo-main";
+
+        /* Title Row */
+        const titleLine = document.createElement("div");
+        titleLine.className = "repo-title-line";
+        const iconKind = r.is_private ? "lock" : (r.is_fork ? "fork" : "repo");
+        const iconEl = createOcticon(iconKind, 16);
+        iconEl.style.color = "var(--fgColor-muted)";
+        titleLine.appendChild(iconEl);
+
+        const repoUrl = r.full_name ? "https://github.com/" + encodeURI(r.full_name) : null;
+        titleLine.appendChild(createExternalLink(repoUrl, r.name || "unknown", "repo-link"));
+
+        const vis = document.createElement("span");
+        vis.className = "repo-visibility-pill";
+        vis.textContent = r.is_private ? "Private" : (r.is_fork ? "Public fork" : "Public");
+        titleLine.appendChild(vis);
+
+        titleLine.appendChild(buildCiBadge(r));
+        main.appendChild(titleLine);
+
+        /* Upstream Parent & Drift Line */
+        if (r.is_fork && (r.parent || r.upstream_comparison)) {
+          const sub = document.createElement("div");
+          sub.className = "repo-sub-fork";
+          const parentName = (r.parent && r.parent.full_name) ? ("Forked from " + r.parent.full_name) : "Upstream fork";
+          sub.appendChild(document.createTextNode(parentName + " "));
+          if (r.upstream_comparison) {
+            const u = r.upstream_comparison;
+            const behind = Number(u.behind_by || 0);
+            const ahead = Number(u.ahead_by || 0);
+            sub.appendChild(createBadge(
+              behind > 0 ? ("-" + behind + " behind · +" + ahead + " ahead") : ("Synced (+" + ahead + ")"),
+              behind > 0 ? "badge-danger" : "badge-success"
+            ));
+          }
+          main.appendChild(sub);
+        }
+
+        /* Description */
+        const desc = document.createElement("p");
+        desc.className = "repo-desc-full";
+        desc.textContent = r.description || "No description provided.";
+        main.appendChild(desc);
+
+        /* Topics */
+        if (Array.isArray(r.topics) && r.topics.length > 0) {
+          const topicsRow = document.createElement("div");
+          topicsRow.className = "repo-topics";
+          r.topics.forEach(tp => {
+            const tag = document.createElement("span");
+            tag.className = "topic-tag";
+            tag.textContent = tp;
+            topicsRow.appendChild(tag);
+          });
+          main.appendChild(topicsRow);
+        }
+
+        /* Bottom Primer Metadata Strip */
+        const metaStrip = document.createElement("div");
+        metaStrip.className = "repo-meta-strip";
+
+        if (r.language) {
+          const langSpan = document.createElement("span");
+          langSpan.className = "meta-stat";
+          const dot = document.createElement("span");
+          dot.className = "lang-dot";
+          dot.style.backgroundColor = LANG_COLORS[r.language] || "#8b949e";
+          langSpan.appendChild(dot);
+          langSpan.appendChild(document.createTextNode(r.language));
+          metaStrip.appendChild(langSpan);
+        }
+
+        if (Number(r.stargazers_count || 0) > 0) {
+          const starSpan = document.createElement("span");
+          starSpan.className = "meta-stat";
+          starSpan.appendChild(createOcticon("star", 14));
+          starSpan.appendChild(document.createTextNode(String(r.stargazers_count)));
+          metaStrip.appendChild(starSpan);
+        }
+
+        if (Number(r.forks_count || 0) > 0) {
+          const forkSpan = document.createElement("span");
+          forkSpan.className = "meta-stat";
+          forkSpan.appendChild(createOcticon("fork", 14));
+          forkSpan.appendChild(document.createTextNode(String(r.forks_count)));
+          metaStrip.appendChild(forkSpan);
+        }
+
+        const relTag = (r.latest_release && r.latest_release.tag_name) || (r.latest_tag && r.latest_tag.name);
+        if (relTag) {
+          const relSpan = document.createElement("span");
+          relSpan.className = "meta-stat";
+          relSpan.appendChild(createOcticon("tag", 13));
+          const code = document.createElement("code");
+          code.style.fontFamily = "var(--fontStack-mono)";
+          code.style.color = "var(--fgColor-accent)";
+          code.textContent = relTag;
+          relSpan.appendChild(code);
+          metaStrip.appendChild(relSpan);
+        }
+
+        const unbuilt = Number(r.unbuilt_commits_count || 0);
+        const unrel = Number(r.unreleased_commits_count || 0);
+        if (unbuilt > 0) metaStrip.appendChild(createBadge(unbuilt + " unbuilt", "badge-warning"));
+        if (unrel > 0) metaStrip.appendChild(createBadge(unrel + " unreleased", "badge-info"));
+
+        const pushDate = r.pushed_at ? String(r.pushed_at).slice(0, 10) : "—";
+        const updSpan = document.createElement("span");
+        updSpan.textContent = "Pushed " + pushDate + " (" + (r.days_pushed ?? "?") + "d ago)";
+        metaStrip.appendChild(updSpan);
+
+        if (r.stale_push_anomaly && r.days_since_commit !== undefined) {
+          const drift = document.createElement("span");
+          drift.className = "drift-note";
+          drift.textContent = "Code untouched " + r.days_since_commit + "d";
+          metaStrip.appendChild(drift);
+        }
+
+        main.appendChild(metaStrip);
+
+        /* Right Action Column (Quick Resync + Inspect, Bravo 4) */
+        const actCol = document.createElement("div");
+        actCol.className = "repo-actions-col";
+        const btns = document.createElement("div");
+        btns.className = "repo-action-btns";
+
+        const btnResync = document.createElement("button");
+        btnResync.type = "button";
+        btnResync.className = "btn btn-sm";
+        btnResync.title = "Quick-resync " + (r.full_name || r.name) + " via gh api";
+        btnResync.setAttribute("aria-label", "Quick resync " + (r.name || "repository"));
+        btnResync.appendChild(createOcticon("sync", 13));
+        btnResync.appendChild(document.createTextNode("Resync"));
+        btnResync.addEventListener("click", () => handleQuickResync(r, btnResync));
+
+        const btnInspect = document.createElement("button");
+        btnInspect.type = "button";
+        btnInspect.className = "btn btn-sm btn-accent";
+        btnInspect.textContent = "Inspect";
+        btnInspect.addEventListener("click", () => inspectRepo(r));
+
+        btns.appendChild(btnResync);
+        btns.appendChild(btnInspect);
+        actCol.appendChild(btns);
+
+        li.appendChild(main);
+        li.appendChild(actCol);
+        ul.appendChild(li);
+      });
     }
 
     function renderTable(repos, poolSize) {
@@ -912,7 +1440,8 @@
         const relTag = (r.latest_release && r.latest_release.tag_name) || (r.latest_tag && r.latest_tag.name);
         if (relTag) {
           const code = document.createElement("code");
-          code.style.color = "var(--accent)";
+          code.style.color = "var(--fgColor-accent)";
+          code.style.fontFamily = "var(--fontStack-mono)";
           code.textContent = relTag;
           tdRel.appendChild(code);
         } else {
@@ -948,13 +1477,26 @@
         tr.appendChild(tdDrift);
 
         const tdAct = document.createElement("td");
+        const actWrap = document.createElement("div");
+        actWrap.className = "repo-action-btns";
+
+        const btnResync = document.createElement("button");
+        btnResync.type = "button";
+        btnResync.className = "btn btn-sm btn-icon";
+        btnResync.title = "Quick resync " + (r.full_name || r.name);
+        btnResync.setAttribute("aria-label", "Quick resync " + (r.name || "repository"));
+        btnResync.appendChild(createOcticon("sync", 13));
+        btnResync.addEventListener("click", () => handleQuickResync(r, btnResync));
+
         const btn = document.createElement("button");
         btn.type = "button";
-        btn.className = "btn";
-        btn.style.padding = "4px 10px";
+        btn.className = "btn btn-sm";
         btn.textContent = "Inspect";
         btn.addEventListener("click", () => inspectRepo(r));
-        tdAct.appendChild(btn);
+
+        actWrap.appendChild(btnResync);
+        actWrap.appendChild(btn);
+        tdAct.appendChild(actWrap);
         tr.appendChild(tdAct);
 
         tbody.appendChild(tr);
@@ -1128,6 +1670,7 @@
       metaBox.style.marginBottom = "16px";
       const repoUrl = r.full_name ? "https://github.com/" + encodeURI(r.full_name) : null;
       appendMetaLine(metaBox, "Repository", "", repoUrl, r.full_name || r.name);
+      appendMetaLine(metaBox, "Language / Stars / Forks", (r.language || "N/A") + " · ★ " + (r.stargazers_count || 0) + " · Forks " + (r.forks_count || 0));
       appendMetaLine(metaBox, "Default Branch", (r.default_branch || "main") + " | Pushed: " + (r.pushed_at || "N/A"));
       if (r.stale_push_anomaly && r.days_since_commit !== undefined) {
         appendMetaLine(metaBox, "Push-Commit Drift", "Latest commit is " + r.days_since_commit + "d old (metadata push bump detected)");
@@ -1219,64 +1762,108 @@
       panel.classList.add("open");
     }
 
+    function showStaleServerBanner(customText) {
+      const banner = document.getElementById("stale-server-banner");
+      if (customText) {
+        const msg = document.getElementById("stale-server-msg");
+        msg.textContent = customText;
+      }
+      banner.classList.add("open");
+    }
+
+    function stopProgressTimers() {
+      clearInterval(refreshPollTimer);
+      refreshPollTimer = null;
+      clearInterval(refreshTickTimer);
+      refreshTickTimer = null;
+    }
+
     function renderRefreshProgress(status) {
       const card = document.getElementById("refresh-progress-card");
       const btnRefresh = document.getElementById("btn-refresh");
       const btnCancel = document.getElementById("btn-cancel-refresh");
+      const btnClose = document.getElementById("btn-close-progress");
       const fill = document.getElementById("progress-fill");
 
       if (!status || status.stage === "idle") {
-        card.classList.remove("open");
+        card.classList.remove("open", "is-error", "is-done");
         btnRefresh.disabled = false;
+        stopProgressTimers();
         return;
       }
 
       card.classList.add("open");
+      card.classList.toggle("is-error", status.stage === "error" || status.stage === "cancelled");
+      card.classList.toggle("is-done", status.stage === "completed");
+
       const isRunning = Boolean(status.running);
       btnRefresh.disabled = isRunning;
       btnCancel.style.display = isRunning ? "inline-flex" : "none";
+      btnClose.style.display = isRunning ? "none" : "inline-flex";
       btnCancel.disabled = Boolean(status.cancel_requested);
 
       const stageTitles = {
-        listing: "Querying GitHub Repository List...",
-        scanning_repos: "Scanning Live Repositories via gh api...",
-        saving: "Saving Live Cache & Checking Local Workspaces...",
+        connecting: "Connecting to Local GitHub Scanner...",
+        listing: "Discovering Repositories via gh api...",
+        scanning_repos: "Scanning Commits, Releases & CI Runs...",
+        saving: "Writing Live Cache & Reconciling Local Clones...",
         completed: "Live Refresh Completed",
         cancelled: "Live Refresh Cancelled",
-        error: "Live Refresh Issue"
+        error: "Live Refresh Failed"
       };
       document.getElementById("progress-stage-label").textContent = stageTitles[status.stage] || "Refreshing...";
       const total = Number(status.total || 0);
       const cur = Number(status.current || 0);
-      document.getElementById("progress-counter-label").textContent = total > 0 ? (cur + " / " + total + " repos") : "Preparing...";
+      document.getElementById("progress-counter-label").textContent =
+        total > 0 ? (cur + " / " + total + " repos") : (isRunning ? "Fetching repo list..." : "Done");
       const pct = Number(status.percent || 0);
-      document.getElementById("progress-pct-label").textContent = Math.round(pct) + "%";
+      document.getElementById("progress-pct-label").textContent = isRunning && total === 0 ? "LIVE" : (Math.round(pct) + "%");
       document.getElementById("progress-message").textContent = status.message || "";
-      document.getElementById("progress-elapsed").textContent = "Elapsed: " + (status.elapsed_seconds ?? 0) + "s";
+
+      const elapsed = status.elapsed_seconds !== undefined
+        ? status.elapsed_seconds
+        : (refreshClickTs ? ((Date.now() - refreshClickTs) / 1000).toFixed(1) : "0.0");
+      document.getElementById("progress-elapsed").textContent = "Elapsed: " + elapsed + "s";
 
       if (isRunning && total === 0) {
         fill.classList.add("indeterminate");
-        fill.style.width = "35%";
+        fill.style.width = "34%";
       } else {
         fill.classList.remove("indeterminate");
-        fill.style.width = Math.max(0, Math.min(100, pct)) + "%";
+        fill.style.width = Math.max(0, Math.min(100, status.stage === "completed" ? 100 : pct)) + "%";
       }
-      fill.style.background = status.stage === "error" || status.stage === "cancelled"
-        ? "var(--amber)"
+      fill.style.background = (status.stage === "error" || status.stage === "cancelled")
+        ? "var(--fgColor-danger)"
         : "linear-gradient(90deg, #238636, #58a6ff)";
     }
 
     function startPollingRefreshStatus() {
-      clearInterval(refreshPollTimer);
+      stopProgressTimers();
+      refreshTickTimer = setInterval(() => {
+        if (!refreshClickTs) return;
+        const el = document.getElementById("progress-elapsed");
+        if (el) el.textContent = "Elapsed: " + ((Date.now() - refreshClickTs) / 1000).toFixed(1) + "s";
+      }, 200);
+
       refreshPollTimer = setInterval(async () => {
         try {
           const res = await fetch("/api/github/refresh/status", { cache: "no-store" });
+          if (res.status === 404) {
+            stopProgressTimers();
+            renderRefreshProgress({
+              running: false,
+              stage: "error",
+              percent: 0,
+              message: "Outdated server.py on port 8770 returned 404 for /api/github/refresh/status. Restart start-server.bat and try again."
+            });
+            showStaleServerBanner();
+            return;
+          }
           if (!res.ok) return;
           const st = await res.json();
           renderRefreshProgress(st);
           if (!st.running) {
-            clearInterval(refreshPollTimer);
-            refreshPollTimer = null;
+            stopProgressTimers();
             if (st.stage === "completed") {
               await loadTriage();
               await loadLocalSync(false);
@@ -1287,11 +1874,28 @@
               showToast(st.message || "Refresh encountered an issue.", true);
             }
           }
-        } catch (_) {
-          clearInterval(refreshPollTimer);
-          refreshPollTimer = null;
+        } catch (err) {
+          stopProgressTimers();
+          renderRefreshProgress({
+            running: false,
+            stage: "error",
+            percent: 0,
+            message: "Lost connection to server while tracking refresh (" + err.message + ")."
+          });
         }
       }, 450);
+    }
+
+    async function checkServerCapabilities() {
+      try {
+        const res = await fetch("/api/status", { cache: "no-store" });
+        if (!res.ok) return;
+        const st = await res.json();
+        const caps = st.capabilities || {};
+        if (!caps.github_async_refresh) {
+          showStaleServerBanner();
+        }
+      } catch (_) {}
     }
 
     async function loadTriage() {
@@ -1309,8 +1913,7 @@
 
     async function loadLocalSync(forceRefresh = false) {
       try {
-        const url = forceRefresh ? "/api/github/local-sync" : "/api/github/local-sync";
-        const res = await fetch(url, forceRefresh ? { method: "POST" } : { cache: "no-store" });
+        const res = await fetch("/api/github/local-sync", forceRefresh ? { method: "POST" } : { cache: "no-store" });
         if (!res.ok) throw new Error("HTTP " + res.status);
         localSyncData = await res.json();
         updateLocalKpiFromCounts(localSyncData.counts);
@@ -1331,6 +1934,14 @@
       const modelSel = document.getElementById("agent-model-select");
       try {
         const res = await fetch("/api/agent/status", { cache: "no-store" });
+        if (res.status === 404) {
+          dot.className = "status-dot offline";
+          label.textContent = "CLIProxyAPI endpoint unavailable (restart server.py)";
+          accBadge.textContent = "Restart Required";
+          accBadge.className = "badge badge-warning";
+          showStaleServerBanner();
+          return;
+        }
         const st = await res.json();
         dot.className = "status-dot " + (st.online ? "online" : "offline");
         label.textContent = st.online
@@ -1407,6 +2018,19 @@
       });
     });
 
+    document.getElementById("btn-view-list").addEventListener("click", () => {
+      viewMode = "list";
+      document.getElementById("btn-view-list").classList.add("active");
+      document.getElementById("btn-view-table").classList.remove("active");
+      applyFilters();
+    });
+    document.getElementById("btn-view-table").addEventListener("click", () => {
+      viewMode = "table";
+      document.getElementById("btn-view-table").classList.add("active");
+      document.getElementById("btn-view-list").classList.remove("active");
+      applyFilters();
+    });
+
     document.getElementById("search-input").addEventListener("input", applyFilters);
     document.getElementById("type-filter").addEventListener("change", applyFilters);
     document.getElementById("ci-filter").addEventListener("change", applyFilters);
@@ -1416,6 +2040,12 @@
     });
     document.getElementById("ai-panel-close").addEventListener("click", () => {
       document.getElementById("ai-panel").classList.remove("open");
+    });
+    document.getElementById("btn-dismiss-stale").addEventListener("click", () => {
+      document.getElementById("stale-server-banner").classList.remove("open");
+    });
+    document.getElementById("btn-close-progress").addEventListener("click", () => {
+      document.getElementById("refresh-progress-card").classList.remove("open");
     });
     document.getElementById("modal-close").addEventListener("click", closeModal);
     document.getElementById("detail-modal").addEventListener("click", (e) => {
@@ -1521,11 +2151,38 @@
     });
 
     document.getElementById("btn-refresh").addEventListener("click", async () => {
-      const btn = document.getElementById("btn-refresh");
-      btn.disabled = true;
+      refreshClickTs = Date.now();
+      renderRefreshProgress({
+        running: true,
+        stage: "connecting",
+        current: 0,
+        total: 0,
+        percent: 0,
+        elapsed_seconds: 0.0,
+        message: "Sending refresh request to /api/github/refresh (gh api + local sync)..."
+      });
+      document.getElementById("refresh-progress-card").scrollIntoView({ behavior: "smooth", block: "nearest" });
+
       try {
         const res = await fetch("/api/github/refresh?async=1&include_local=1", { method: "POST" });
-        const data = await res.json();
+        if (res.status === 404) {
+          showStaleServerBanner();
+          renderRefreshProgress({
+            running: false,
+            stage: "error",
+            percent: 0,
+            message: "Server returned 404 — port 8770 is still running an older server.py. Close that terminal and run start-server.bat."
+          });
+          showToast("Server restart needed (404 on /api/github/refresh).", true);
+          return;
+        }
+        const rawText = await res.text();
+        let data = {};
+        try {
+          data = JSON.parse(rawText);
+        } catch (_) {
+          throw new Error("Non-JSON response (HTTP " + res.status + ") — restart server.py");
+        }
         if (res.status === 409) {
           showToast("Scan already in progress — tracking live progress.", true);
           startPollingRefreshStatus();
@@ -1535,7 +2192,12 @@
         renderRefreshProgress(data);
         startPollingRefreshStatus();
       } catch (err) {
-        btn.disabled = false;
+        renderRefreshProgress({
+          running: false,
+          stage: "error",
+          percent: 0,
+          message: "Refresh failed: " + err.message
+        });
         showToast("Refresh failed: " + err.message, true);
       }
     });
@@ -1577,14 +2239,19 @@
     });
 
     window.addEventListener("DOMContentLoaded", async () => {
-      await loadTriage();
+      await Promise.all([loadTriage(), checkServerCapabilities()]);
       loadLocalSync(false);
       loadAgentProxyStatus();
       try {
         const res = await fetch("/api/github/refresh/status", { cache: "no-store" });
+        if (res.status === 404) {
+          showStaleServerBanner();
+          return;
+        }
         if (res.ok) {
           const st = await res.json();
           if (st.running) {
+            refreshClickTs = Date.now() - ((Number(st.elapsed_seconds) || 0) * 1000);
             renderRefreshProgress(st);
             startPollingRefreshStatus();
           }

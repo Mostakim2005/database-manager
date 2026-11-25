@@ -251,6 +251,11 @@ def _scan_single_repo_details(r: dict[str, Any]) -> dict[str, Any]:
         "pushed_at": r.get("pushed_at"),
         "updated_at": r.get("updated_at"),
         "description": r.get("description") or "",
+        "language": r.get("language") or "",
+        "stargazers_count": int(r.get("stargazers_count") or 0),
+        "forks_count": int(r.get("forks_count") or 0),
+        "open_issues_count": int(r.get("open_issues_count") or 0),
+        "topics": [str(topic) for topic in (r.get("topics") or [])[:6]],
         "parent": None,
         "upstream_comparison": None,
         "latest_release": None,
@@ -361,7 +366,9 @@ def _scan_single_repo_details(r: dict[str, Any]) -> dict[str, Any]:
     return repo_data
 
 
-def _fetch_all_owner_repos() -> list[dict[str, Any]]:
+def _fetch_all_owner_repos(
+    progress_cb: Callable[[str, int, int, str, str], None] | None = None,
+) -> list[dict[str, Any]]:
     """Fetch owned & forked repositories across pages via `gh api`."""
     collected: list[dict[str, Any]] = []
     for page in range(1, 6):
@@ -371,6 +378,8 @@ def _fetch_all_owner_repos() -> list[dict[str, Any]]:
                 return []
             break
         collected.extend(batch)
+        if progress_cb:
+            progress_cb("listing", 0, len(collected), "", f"Discovered {len(collected)} repositories (page {page})...")
         if len(batch) < 100:
             break
     return collected
@@ -418,7 +427,7 @@ def _scan_repositories_unlocked(
 ) -> list[dict[str, Any]]:
     if progress_cb:
         progress_cb("listing", 0, 0, "", "Querying GitHub repository list via gh api...")
-    repos = _fetch_all_owner_repos()
+    repos = _fetch_all_owner_repos(progress_cb=progress_cb)
     if not repos:
         cached = get_cached_repos(live_cache_path=live_cache_path, public_cache_path=public_cache_path)
         if progress_cb:

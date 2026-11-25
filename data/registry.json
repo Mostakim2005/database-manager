@@ -25,7 +25,7 @@
   "domains": {
     "pc": {
       "display_name": "PC Parts & PSU Guard",
-      "short_label": "PC & PSU",
+      "short_label": "PC",
       "unit_label": "parts",
       "aliases": [
         "hardware",
@@ -80,8 +80,8 @@
       ]
     },
     "ai": {
-      "display_name": "AI Models & Pricing",
-      "short_label": "AI Matrix",
+      "display_name": "LLM Models & Pricing",
+      "short_label": "LLM",
       "unit_label": "models",
       "aliases": [
         "models",
