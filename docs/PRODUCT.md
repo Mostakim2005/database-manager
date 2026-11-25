@@ -50,22 +50,23 @@
   * `web/media/index.html` -> franchise relation chips, watchlist badges & safe-DOM table renderer
 
 ### [FEATURE: Book-Collection-And-Reading-Tracker] | Aliases: book domain, books, learning, reading
-> **1-Line Summary:** Personal library catalog (`books.json` / `book.sqlite`) tracking 13 books (4 owned/core + 9 PC/Steam-franchise source & tie-in novels tagged `wishlist` / `queued` / unread) with title, author, subject, format, ownership, reading status, ratings, and notes with alias readiness (`learning`, `reading`).
-* **User Intention (Non-Negotiable):** Track owned vs wishlist vs active reading books (explicitly marking unread game-source books as `wishlist` + `queued`) while keeping labels and aliases in `data/registry.json` flexible enough to rename the domain (e.g. `Book` -> `Learning`) without code rewrites.
-* **Visual / UI Behavior:** Safe-DOM card view in `web/book/index.html` with KPI summary strip, ownership/reading/format filters, live alias chips, and `/api/book` + `/api/domain/learning` alias routing.
+> **1-Line Summary:** Personal library catalog (`books.json` / `book.sqlite`) tracking 3,618 books (13 curated books with Open Library covers + 3,605 sanitized `E:\Books` Alexandria Library volumes across 26 subjects, paired with gitignored `local_library.json` for EPUB cover extraction and direct file launching).
+* **User Intention (Non-Negotiable):** Track owned vs wishlist vs active reading books alongside the entire 3,605-volume `E:\Books` Alexandria catalog without committing local machine paths or utility shortcuts to GitHub, while keeping labels and aliases in `data/registry.json` flexible enough to rename the domain (e.g. `Book` -> `Learning`) without code rewrites.
+* **Visual / UI Behavior:** Safe-DOM paginated card view (`zero innerHTML`) in `web/book/index.html` with 2:3 book covers (extracted EPUB cover artwork via `/api/book/cover?id=...`, Open Library ISBN/cover ID art, and subject-colored hardcover SVG fallbacks), KPI summary strip, subject/source/ownership/reading/format filters, **Sync E:\Books Library** trigger, detail modal with **Open Local File**, and `/api/book` + `/api/domain/learning` alias routing.
 * **Code Anchors (Grep Targets):**
-  * `data/book/schema.json` -> book field contracts and enums
+  * `data/book/schema.json` -> book field contracts, cover/ISBN fields, and enums
+  * `src/book_sync.py` -> `sync_alexandria_library`, `load_merged_book_payload`, `get_book_cover_bytes`, `open_local_book_file`
   * `src/db_export.py` -> `create_book_schema`, `export_books`
-  * `web/book/index.html` -> `applyFilters`, `renderKPIs`
+  * `web/book/index.html` -> `createCoverElement`, `openBookModal`, `renderCurrentPage`, `applyFilters`
 
 ### [FEATURE: Phone-Specs-And-App-Support-Catalog] | Aliases: phone domain, phones, mobile, smartphones
-> **1-Line Summary:** Mobile device specifications catalog (`phones.json` / `phone.sqlite`) tracking SoC, GPU, RAM, display refresh rate, battery/charging, BD/USD pricing, and verified `supported_games` (including mobile editions of Steam titles) / `supported_apps` compatibility lists.
-* **User Intention (Non-Negotiable):** Compare smartphones both on hardware capability (Snapdragon/Exynos SoC, RAM, LTPO/AMOLED display, charging wattage) and on real-world app/game compatibility profiles.
-* **Visual / UI Behavior:** Safe-DOM dashboard in `web/phone/index.html` with SoC/RAM/brand filters, dual supported games & supported apps badges (`locked`, `smooth`, `playable`, `supported`), and `/api/phone`.
+> **1-Line Summary:** Mobile device specifications catalog (`phones.json` / `phone.sqlite`) tracking SoC, GPU, RAM, display refresh rate, battery/charging, BD/USD pricing, device thumbnails, and verified `supported_games` (including mobile editions of Steam titles) / `supported_apps` compatibility lists.
+* **User Intention (Non-Negotiable):** Compare smartphones visually and technically on hardware capability (Snapdragon/Exynos SoC, RAM, LTPO/AMOLED display, charging wattage) and real-world app/game compatibility profiles.
+* **Visual / UI Behavior:** Safe-DOM dashboard (`zero innerHTML`) in `web/phone/index.html` with verified device hardware thumbnails + bespoke vector silhouette fallbacks, SoC/RAM/brand filters, dual supported games & supported apps badges (`locked`, `smooth`, `playable`, `supported`), and `/api/phone`.
 * **Code Anchors (Grep Targets):**
-  * `data/phone/schema.json` -> device spec ranges and required fields
+  * `data/phone/schema.json` -> device spec ranges, `image_url`, and required fields
   * `src/db_export.py` -> `create_phone_schema`, `export_phones`
-  * `web/phone/index.html` -> `applyFilters`, `makeSupportBlock`
+  * `web/phone/index.html` -> `createPhoneCoverBox`, `applyFilters`, `makeSupportBlock`
 
 ### [FEATURE: GitHub-Repositories-And-CI-Hub] | Aliases: github manager, repo triage, ci health, upstream fork drift, local sync, cliproxyapi
 > **1-Line Summary:** DevOps domain (`github`) tracking repository activity timelines (0–4d, 4–8d, dormant), live async refresh progress bar + cancel + single-repo refresh, local-vs-web git drift/deletion reconciliation, CLIProxyAPI AI assistant with authenticated Google accounts, and Markdown audit exports.

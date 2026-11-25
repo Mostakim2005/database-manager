@@ -31,7 +31,7 @@ jobs:
       - name: 1. Python Syntax Check
         run: |
           set -o pipefail
-          python -m py_compile src/server.py src/agent_proxy.py src/db_export.py src/db_hub.py src/db_verify.py src/scrapers/base.py src/scrapers/adapters.py src/scrapers/test_stack.py src/scrapers/bd_hardware.py src/scrapers/benchmark_ingest.py src/scrapers/multi_site_components.py src/scrapers/multi_site_games.py src/scrapers/multi_site_ai.py src/compatibility_engine.py src/catalog_classifier.py src/media/__init__.py src/media/fetch_helper.py src/media/crawler.py src/media/indexer.py src/media/matcher.py src/media/adaptation_refresh.py src/media/link_health.py src/media/cli.py src/github/__init__.py src/github/local_sync.py src/github/scanner.py src/github/exporter.py src/github/cli.py 2>&1 | tee .ci-logs/01-syntax.log
+          python -m py_compile src/server.py src/agent_proxy.py src/book_sync.py src/db_export.py src/db_hub.py src/db_verify.py src/scrapers/base.py src/scrapers/adapters.py src/scrapers/test_stack.py src/scrapers/bd_hardware.py src/scrapers/benchmark_ingest.py src/scrapers/multi_site_components.py src/scrapers/multi_site_games.py src/scrapers/multi_site_ai.py src/compatibility_engine.py src/catalog_classifier.py src/media/__init__.py src/media/fetch_helper.py src/media/crawler.py src/media/indexer.py src/media/matcher.py src/media/adaptation_refresh.py src/media/link_health.py src/media/cli.py src/github/__init__.py src/github/local_sync.py src/github/scanner.py src/github/exporter.py src/github/cli.py 2>&1 | tee .ci-logs/01-syntax.log
 
       - name: 2. JSON Schema Validation
         run: |

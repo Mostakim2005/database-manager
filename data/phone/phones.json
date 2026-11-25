@@ -17,6 +17,7 @@
       "os": "Android 14 (HyperOS)",
       "price_bdt": 42500,
       "price_usd": 379,
+      "image_url": "https://fdn2.gsmarena.com/vv/bigpic/xiaomi-poco-f6.jpg",
       "supported_games": [
         {
           "name": "Genshin Impact",
@@ -118,6 +119,7 @@
       "os": "Android 14 (One UI 6.1)",
       "price_bdt": 43000,
       "price_usd": 399,
+      "image_url": "https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-a55.jpg",
       "supported_games": [
         {
           "name": "PUBG Mobile",
@@ -194,6 +196,7 @@
       "os": "Android 14 (OxygenOS 14)",
       "price_bdt": 56500,
       "price_usd": 499,
+      "image_url": "https://fdn2.gsmarena.com/vv/bigpic/oneplus-12r.jpg",
       "supported_games": [
         {
           "name": "Genshin Impact",
@@ -280,6 +283,7 @@
       "os": "Android 14 (HyperOS)",
       "price_bdt": 33500,
       "price_usd": 299,
+      "image_url": "https://fdn2.gsmarena.com/vv/bigpic/xiaomi-redmi-note-13-pro-5g.jpg",
       "supported_games": [
         {
           "name": "PUBG Mobile",

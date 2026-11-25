@@ -21,7 +21,10 @@
     "ownership_status": "str",
     "reading_status": "str",
     "rating": "number",
-    "notes": "str"
+    "notes": "str",
+    "cover_url": "str",
+    "isbn": "str",
+    "source": "str"
   },
   "enums": {
     "format": [

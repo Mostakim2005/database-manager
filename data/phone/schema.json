@@ -30,6 +30,7 @@
     "os": "str",
     "price_bdt": "number",
     "price_usd": "number",
+    "image_url": "str",
     "notes": "str"
   },
   "enums": {},

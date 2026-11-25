@@ -28,7 +28,7 @@ DATA_DIR = ROOT_DIR / "data"
 WEB_DIR = ROOT_DIR / "web"
 
 PORT = 8770
-SERVER_BUILD_ID = "2026.11.25-r3"
+SERVER_BUILD_ID = "2026.11.25-r4"
 
 PC_CATEGORIES = (
     "cpus",
@@ -132,7 +132,12 @@ def load_media_data() -> list[dict[str, Any]]:
 
 
 def load_book_data() -> dict[str, Any]:
-    """Load Book collection & reading tracker data from JSON."""
+    """Load Book collection & reading tracker data merged with gitignored local library covers."""
+    try:
+        import book_sync
+        return book_sync.load_merged_book_payload()
+    except Exception as e:
+        sys.stderr.write(f"[ERROR] Failed merged book load, using books.json fallback: {e}\n")
     book_json = DATA_DIR / "book" / "books.json"
     if book_json.exists():
         try:
@@ -312,6 +317,7 @@ class DatabaseHandler(http.server.SimpleHTTPRequestHandler):
                         "github_single_repo_refresh": True,
                         "ai_async_refresh": True,
                         "agent_proxy": True,
+                        "book_local_sync": True,
                     },
                     "repo": "Mostakim2005/database-manager",
                     "counts": counts,
@@ -471,6 +477,18 @@ class DatabaseHandler(http.server.SimpleHTTPRequestHandler):
             return
 
         # --- Book Collection Domain ---
+        if url_path == "/api/book/cover":
+            import book_sync
+            qs = parse_qs(urlparse(self.path).query)
+            book_id = qs.get("id", [""])[0].strip()
+            res = book_sync.get_book_cover_bytes(book_id) if book_id else None
+            if not res:
+                self._send_json({"status": "error", "error": "Book cover not found"}, status=404)
+                return
+            blob, ctype = res
+            self._send_bytes(blob, ctype, max_age=86400)
+            return
+
         if url_path == "/api/book":
             qs = parse_qs(urlparse(self.path).query)
             q = qs.get("q", [""])[0].strip().lower()
@@ -756,6 +774,25 @@ class DatabaseHandler(http.server.SimpleHTTPRequestHandler):
             self._send_json({"status": "ok", "roots": saved, "local_sync": report})
             return
 
+        if url_path == "/api/book/sync":
+            import book_sync
+            self._send_json(book_sync.sync_alexandria_library())
+            return
+
+        if url_path == "/api/book/open":
+            import book_sync
+            book_id = str(payload.get("id") or qs.get("id", [""])[0]).strip()
+            if not book_id:
+                self._send_json({"status": "error", "error": "Book id is required"}, status=400)
+                return
+            try:
+                self._send_json(book_sync.open_local_book_file(book_id))
+            except LookupError as exc:
+                self._send_json({"status": "error", "error": str(exc)}, status=404)
+            except (FileNotFoundError, ValueError, OSError) as exc:
+                self._send_json({"status": "error", "error": str(exc)}, status=400)
+            return
+
         if url_path == "/api/github/export":
             from github.exporter import export_markdown_report
             dest = export_markdown_report(load_github_data())
@@ -825,6 +862,16 @@ class DatabaseHandler(http.server.SimpleHTTPRequestHandler):
             return
 
         self._send_json({"status": "error", "error": "Not Found"}, status=404)
+
+    def _send_bytes(self, body: bytes, content_type: str, status: int = 200, max_age: int = 0) -> None:
+        """Helper to send raw image or binary asset bytes safely."""
+        self.send_response(status)
+        self.send_header("Content-Type", content_type)
+        self.send_header("Content-Length", str(len(body)))
+        if max_age > 0:
+            self.send_header("Cache-Control", f"public, max-age={max_age}")
+        self.end_headers()
+        self.wfile.write(body)
 
     def _send_json(self, data: Any, status: int = 200) -> None:
         """Helper to send JSON response with loopback-only CORS."""

@@ -37,3 +37,7 @@ data/github/local_roots.json
 
 # AI Manager live raw API/scrape cache (multi-MB transient dumps; keep models_master.* committed)
 data/ai/live_cache/
+
+# Book Domain local Alexandria index & extracted cover cache (contains local Windows paths)
+data/book/local_library.json
+data/book/cover_cache/

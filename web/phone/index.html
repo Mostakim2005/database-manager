@@ -71,7 +71,7 @@
       padding: 14px 16px;
     }
     .kpi-label { font-size: 12px; color: var(--text-muted); }
-    .kpi-value { font-size: 24px; font-weight: 700; margin-top: 4px; }
+    .kpi-value { font-size: 24px; font-weight: 700; margin-top: 4px; font-variant-numeric: tabular-nums; }
 
     .controls {
       display: flex;
@@ -91,7 +91,7 @@
 
     .phone-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
       gap: 16px;
     }
     .phone-card {
@@ -103,23 +103,65 @@
       flex-direction: column;
       gap: 12px;
     }
-    .phone-top {
+
+    /* Device Cover Showcase + Studio Background + Bespoke Vector Phone Fallback */
+    .phone-hero {
       display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 10px;
+      gap: 14px;
+      align-items: center;
     }
-    .phone-name { font-size: 16px; font-weight: 600; }
+    .phone-thumb-frame {
+      position: relative;
+      width: 92px;
+      height: 122px;
+      border-radius: 10px;
+      background: linear-gradient(155deg, #f8fafc, #e2e8f0);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.36);
+      padding: 6px;
+      overflow: hidden;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .phone-fallback-wrap {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(155deg, #161d29, #0e131d);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px;
+    }
+    .phone-thumb-img {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+    .phone-top {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-items: flex-start;
+    }
+    .phone-name { font-size: 16px; font-weight: 600; line-height: 1.28; }
     .phone-brand { font-size: 12px; color: var(--accent); font-weight: 600; }
     .price-pill {
       background: rgba(63, 185, 80, 0.14);
       color: var(--green);
       border: 1px solid rgba(63, 185, 80, 0.35);
       border-radius: 8px;
-      padding: 4px 10px;
+      padding: 3px 9px;
       font-size: 12px;
       font-weight: 700;
       white-space: nowrap;
+      font-variant-numeric: tabular-nums;
     }
 
     .spec-grid {
@@ -131,6 +173,7 @@
       border-radius: 8px;
       padding: 10px;
       font-size: 12px;
+      font-variant-numeric: tabular-nums;
     }
     .spec-label { color: var(--text-muted); font-size: 11px; }
     .spec-val { color: var(--text); font-weight: 600; }
@@ -207,6 +250,82 @@
   <script>
     "use strict";
     let allPhones = [];
+
+    function createPhoneSilhouette(phone) {
+      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      svg.setAttribute("width", "60");
+      svg.setAttribute("height", "96");
+      svg.setAttribute("viewBox", "0 0 60 96");
+      svg.setAttribute("aria-hidden", "true");
+
+      const body = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+      body.setAttribute("x", "8");
+      body.setAttribute("y", "4");
+      body.setAttribute("width", "44");
+      body.setAttribute("height", "88");
+      body.setAttribute("rx", "7");
+      body.setAttribute("fill", "#1f2937");
+      body.setAttribute("stroke", "#58a6ff");
+      body.setAttribute("stroke-width", "1.5");
+      svg.appendChild(body);
+
+      const id = String(phone.id || "").toLowerCase();
+      if (id.includes("oneplus")) {
+        const ring = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        ring.setAttribute("cx", "23");
+        ring.setAttribute("cy", "23");
+        ring.setAttribute("r", "10");
+        ring.setAttribute("fill", "#0b1120");
+        ring.setAttribute("stroke", "#94a3b8");
+        ring.setAttribute("stroke-width", "1.2");
+        svg.appendChild(ring);
+      } else {
+        const l1 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        l1.setAttribute("cx", "19");
+        l1.setAttribute("cy", "16");
+        l1.setAttribute("r", "4.5");
+        l1.setAttribute("fill", "#0b1120");
+        l1.setAttribute("stroke", "#94a3b8");
+        svg.appendChild(l1);
+
+        const l2 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        l2.setAttribute("cx", "19");
+        l2.setAttribute("cy", "28");
+        l2.setAttribute("r", "4.5");
+        l2.setAttribute("fill", "#0b1120");
+        l2.setAttribute("stroke", "#94a3b8");
+        svg.appendChild(l2);
+      }
+      return svg;
+    }
+
+    function createPhoneCoverBox(phone) {
+      const frame = document.createElement("div");
+      frame.className = "phone-thumb-frame";
+
+      const fallback = document.createElement("div");
+      fallback.className = "phone-fallback-wrap";
+      fallback.appendChild(createPhoneSilhouette(phone));
+      frame.appendChild(fallback);
+
+      if (phone.image_url) {
+        const img = document.createElement("img");
+        img.className = "phone-thumb-img";
+        img.alt = phone.name || "Smartphone photo";
+        img.loading = "lazy";
+        img.decoding = "async";
+        img.referrerPolicy = "no-referrer";
+        img.src = phone.image_url;
+        img.addEventListener("error", () => {
+          img.style.display = "none";
+          frame.style.background = "#101622";
+        });
+        frame.appendChild(img);
+      } else {
+        frame.style.background = "#101622";
+      }
+      return frame;
+    }
 
     function makeSpecItem(label, val) {
       const box = document.createElement("div");
@@ -298,17 +417,18 @@
         const card = document.createElement("article");
         card.className = "phone-card";
 
+        const hero = document.createElement("div");
+        hero.className = "phone-hero";
+        hero.appendChild(createPhoneCoverBox(p));
+
         const top = document.createElement("div");
         top.className = "phone-top";
-        const titleBox = document.createElement("div");
         const brandEl = document.createElement("div");
         brandEl.className = "phone-brand";
         brandEl.textContent = p.brand || "Mobile";
         const nameEl = document.createElement("div");
         nameEl.className = "phone-name";
         nameEl.textContent = p.name || p.id;
-        titleBox.appendChild(brandEl);
-        titleBox.appendChild(nameEl);
 
         const price = document.createElement("div");
         price.className = "price-pill";
@@ -316,9 +436,11 @@
         const usd = p.price_usd ? ("$" + p.price_usd) : "";
         price.textContent = [bdt, usd].filter(Boolean).join(" / ") || "Price N/A";
 
-        top.appendChild(titleBox);
+        top.appendChild(brandEl);
+        top.appendChild(nameEl);
         top.appendChild(price);
-        card.appendChild(top);
+        hero.appendChild(top);
+        card.appendChild(hero);
 
         const specs = document.createElement("div");
         specs.className = "spec-grid";

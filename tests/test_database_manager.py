@@ -176,9 +176,33 @@ class TestServerCliAndHttp(unittest.TestCase):
                 self.assertIn("resolveGameStores", games_js)
                 self.assertIn("compactFpsSummary", games_js)
                 self.assertIn("store-btn", games_js)
+            with urllib.request.urlopen(f"{base}/book/index.html", timeout=5) as resp:
+                book_html = resp.read().decode("utf-8")
+                self.assertNotIn("innerHTML", book_html)
+                self.assertIn("createCoverElement", book_html)
+                self.assertIn("/api/book/sync", book_html)
+            with urllib.request.urlopen(f"{base}/phone/index.html", timeout=5) as resp:
+                phone_html = resp.read().decode("utf-8")
+                self.assertNotIn("innerHTML", phone_html)
+                self.assertIn("createPhoneCoverBox", phone_html)
         finally:
             httpd.shutdown()
             httpd.server_close()
+
+    def test_books_public_catalog_privacy_and_phone_images(self) -> None:
+        raw_books_text = (ROOT_DIR / "data" / "book" / "books.json").read_text(encoding="utf-8")
+        self.assertNotRegex(raw_books_text.lower(), r"(file:///|e:\\\\|mega\.nz)")
+        books = json.loads(raw_books_text)["books"]
+        self.assertGreaterEqual(len(books), 3600)
+        curated = [b for b in books if b.get("source") == "curated"]
+        self.assertEqual(len(curated), 13)
+        for b in curated:
+            self.assertTrue(str(b.get("cover_url") or "").startswith("https://"))
+
+        phones = json.loads((ROOT_DIR / "data" / "phone" / "phones.json").read_text(encoding="utf-8"))["phones"]
+        self.assertGreaterEqual(len(phones), 4)
+        for p in phones:
+            self.assertTrue(str(p.get("image_url") or "").startswith("https://"))
 
 
 if __name__ == "__main__":

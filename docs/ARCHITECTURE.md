@@ -325,27 +325,30 @@ flowchart LR
     end
 ```
 
-### [SUBSYSTEM: Book-And-Phone-Catalog-Domains] | Aliases: book domain, phone domain, learning alias, mobile games matrix
-> **1-Line Summary:** Table-isolated storage, schema contracts, REST APIs, and safe-DOM UIs for personal book tracking (`book`) and smartphone specs/supported apps (`phone`).
+### [SUBSYSTEM: Book-And-Phone-Catalog-Domains] | Aliases: book domain, phone domain, learning alias, mobile games matrix, alexandria sync
+> **1-Line Summary:** Hybrid privacy-safe Alexandria sync (`book_sync.py`), embedded EPUB & device cover resolution, schema contracts, REST APIs, and safe-DOM UIs for books (`book`) and smartphones (`phone`).
 
-* **Plain-English Overview:** `db_export.py` compiles `data/book/books.json` into isolated `data/book/book.sqlite` (`books` + `_meta`) and `data/phone/phones.json` into `data/phone/phone.sqlite` (`phones` + `_meta`). Both domains support alias lookup via `/api/domain/<alias>` (e.g. `learning` -> `book`) and render via safe-DOM dashboards in `web/book/index.html` and `web/phone/index.html`.
+* **Plain-English Overview:** `src/book_sync.py` merges curated highlights (`books.json`) with the sanitized `E:\Books` Alexandria catalog (`3,618` total public entries without Windows paths) while keeping full local file paths and pre-indexed EPUB cover zip offsets in gitignored `data/book/local_library.json`. `server.py` serves merged cover URLs (`/api/book/cover?id=...`, Open Library covers, and GSMArena phone device photos) alongside `/api/book/sync` and `/api/book/open`, while `db_export.py` compiles isolated `book.sqlite` and `phone.sqlite` databases.
 
 ```mermaid
 flowchart LR
     %% Color Definitions
+    classDef startNode fill:#1d4ed8,stroke:#1e3a8a,color:#ffffff
     classDef processNode fill:#0f766e,stroke:#115e59,color:#ffffff
     classDef dataNode fill:#15803d,stroke:#14532d,color:#ffffff
     classDef outNode fill:#6b21a8,stroke:#581c87,color:#ffffff
 
-    B1[(data/book/books.json)]:::dataNode -->|export_books| B2[(data/book/book.sqlite)]:::dataNode
-    P1[(data/phone/phones.json)]:::dataNode -->|export_phones| P2[(data/phone/phone.sqlite)]:::dataNode
-    B2 -->|GET /api/book or /api/domain/learning| BUI[web/book/index.html]:::outNode
-    P2 -->|GET /api/phone| PUI[web/phone/index.html]:::outNode
+    E1[E:\\Books catalog_index.json & EPUBs]:::startNode -->|src/book_sync.py| B1[(data/book/books.json sanitized + local_library.json gitignored)]:::dataNode
+    B1 -->|export_books| B2[(data/book/book.sqlite)]:::dataNode
+    P1[(data/phone/phones.json + image_url)]:::dataNode -->|export_phones| P2[(data/phone/phone.sqlite)]:::dataNode
+    B1 -->|GET /api/book & /api/book/cover| BUI[web/book/index.html Safe-DOM Cover Grid]:::outNode
+    P1 -->|GET /api/phone| PUI[web/phone/index.html Safe-DOM Device Cards]:::outNode
 
     subgraph Legend["Legend"]
-        L1[(Green = JSON Catalog & Isolated SQLite)]:::dataNode
-        L2[Purple = Safe-DOM Dashboards]:::outNode
-        L3[Teal = Schema Exporter]:::processNode
+        L1[Blue = Local Library Archive]:::startNode
+        L2[Teal = Privacy-Safe Sync & Cover Extractor]:::processNode
+        L3[(Green = Sanitized JSON, Gitignored Map & SQLite)]:::dataNode
+        L4[Purple = Safe-DOM Cover Dashboards]:::outNode
     end
 ```
 
