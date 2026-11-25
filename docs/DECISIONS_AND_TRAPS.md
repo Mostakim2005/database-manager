@@ -181,7 +181,7 @@ flowchart LR
 
 ### [TRAP: Effort-Simulation-Key-Mismatch] | Aliases: nan scores, ultra vs ultra_high, coding elo nan
 > **1-Line Summary:** Discrepancy between `update_models.ps1` (`ultra`) and `app.js` (`ultra_high`) caused effort simulation scores to calculate as `NaN` across all models.
-* **Where It Lurks:** `web/ai/model_matrix/app.js` -> `normalizeEffortKey`
+* **Where It Lurks:** `web/ai/index.html` -> `normalizeEffortKey`
 * **What Goes Wrong:** When simulating reasoning effort, `app.js` looked for `sim.multipliers.ultra_high`, while the data catalog only defined `ultra`. This produced `NaN` across ~130 cells in the matrix table.
 * **The Permanent Fix:** `app.js` implements `normalizeEffortKey()` and fallback delta clamps, ensuring both `ultra` and `ultra_high` resolve identically.
 
@@ -269,3 +269,17 @@ flowchart LR
   2. Kept local filesystem paths, dirty tree status, and web/local deletion tracking strictly inside gitignored `data/github/sync_state.json` (and `live_cache.json`) via `src/github/local_sync.py` rather than polluting public `repos_public.json` or breaking its JSON list schema.
   3. Proxied all CLIProxyAPI (`127.0.0.1:8317/v1`) model queries and Google/Antigravity account status checks through `src/agent_proxy.py` on the loopback backend instead of calling port `8317` directly from browser JS.
 * **Why:** Preserves public repository privacy, zero-dependency Python stdlib deployment, safe-DOM XSS resistance (`zero innerHTML` in `github` and `shared/nav.js`), and consistent hardware scaling across every game entry.
+
+### [DECISION: Live-TriSource-Strict-CurrentGen-AI-Sync] | Aliases: ai refresh, prune legacy llms, remove model_matrix, dense ai matrix, pareto labels
+> **1-Line Summary:** `[DECIDED BY: HUMAN]` Replaced frozen v1.3.1 inline AI snapshots and duplicate `web/ai/model_matrix/` assets with a live tri-source AI pipeline (`OpenRouter` + `Models.dev` + `Artificial Analysis`), pruned legacy 2024/early-2025 LLMs in favor of 48 strict current-gen models, and added an async refresh progress bar, dense multi-row tables, and non-overlapping Pareto chart labels.
+* **What Changed:**
+  1. Rewrote `src/scrapers/multi_site_ai.py` to scrape OpenRouter pricing/context, Models.dev capabilities/benchmarks, and Artificial Analysis leaderboard HTML (`selectolax.lexbor.LexborHTMLParser`), removing superseded generations (`Claude 3.5/4.5/4.6`, `GPT-4o`, `Gemini 2.0/3.5`, `Qwen 2.5`, `DeepSeek V3/R1`, `GLM-4`, `Llama 3.x`) and fixing prefix/case mismatches and negative sentinel pricing (`$-1000000`).
+  2. Added CSRF-guarded `POST /api/ai/refresh`, `POST /api/ai/refresh/cancel`, and `GET /api/ai/refresh/status` in `src/server.py`, delegating `src/update_models.ps1` cleanly to `multi_site_ai.py --live --apply`.
+  3. Removed duplicate `web/ai/model_matrix/` (retaining `web/ai/vendor/chart.umd.min.js`) and rebuilt `web/ai/index.html` to hydrate live from `/api/ai`, default to compact multi-row narrow tables + collapsible Filter/Advisor `<details>`, compute dynamic 30-Task costs, and render collision-avoiding scatter labels (`aiScatterLabelsPlugin`).
+* **Why:** Eliminates UI/backend count divergence (26 vs 52 vs live), keeps latest releases (`Claude Fable 5.2`, `GPT-6.2 Astra`, `Gemini 4 Neon/Carbon/Hydrogen`, `Qwen4 Max`) one click away without manual patching, and makes dense tables and Pareto points readable without scrolling or hovering.
+
+### [TRAP: Gradient-Heading-Fill-Inheritance-And-HTML-Mojibake] | Aliases: transparent badge text, utf8 mojibake, webkit-text-fill-color, charset utf-8
+> **1-Line Summary:** Nesting a colored status `<span>` inside an `<h1>` with `-webkit-text-fill-color: transparent` makes the badge text completely invisible, and PowerShell text re-encoding leaves double-encoded UTF-8 mojibake (`ðŸ`, `â€”`) in HTML bundles.
+* **Where It Lurks:** `web/ai/index.html`, `src/server.py` -> `DatabaseHandler.guess_type`, legacy `src/update_models.ps1`
+* **What Goes Wrong:** CSS `-webkit-text-fill-color: transparent` inherits to descendant `<span>` elements unless applied strictly to a text child (`span.hero-gradient`), turning status pills into blank green boxes; meanwhile missing `; charset=utf-8` MIME headers or legacy Windows-1252 writes corrupt symbols into garbled ASCII sequences.
+* **The Permanent Fix:** Apply gradient text fills only on an inline text wrapper sibling to any badge, enforce `; charset=utf-8` on `.html`/`.js`/`.css` in `DatabaseHandler.guess_type()`, and emit strictly UTF-8 (no BOM) files without PowerShell string-bundle round-trips.

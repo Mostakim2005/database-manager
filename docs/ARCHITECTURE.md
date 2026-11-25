@@ -87,8 +87,8 @@ flowchart TB
 
 ## 3. Core Subsystems & Visual Feature Flows
 
-### [SUBSYSTEM: AI-Model-Matrix-Pipeline] | Aliases: ai pipeline, models dev, openrouter sync
-> **1-Line Summary:** Data ingestion and normalized scoring flow for 26+ frontier AI models.
+### [SUBSYSTEM: AI-Model-Matrix-Pipeline] | Aliases: ai pipeline, models dev, openrouter sync, artificial analysis
+> **1-Line Summary:** Live tri-source scraping (`OpenRouter` + `Models.dev` + `Artificial Analysis`) and async UI hydration flow for 48 current-gen AI models.
 
 ```mermaid
 flowchart LR
@@ -97,10 +97,10 @@ flowchart LR
     classDef processNode fill:#0f766e,stroke:#115e59,color:#ffffff
     classDef dataNode fill:#15803d,stroke:#14532d,color:#ffffff
 
-    A1[Upstream APIs: models.dev & OpenRouter]:::startNode -->|update_models.ps1| A2[JSON Schema Normalizer]:::processNode
-    A2 -->|Writes| A3[(data/ai/models_master.json)]:::dataNode
-    A3 -->|Loads into| A4[web/ai/model_matrix/app.js]:::processNode
-    A4 -->|Renders| A5[Interactive Filter & Matrix View]:::startNode
+    A1[Live Sources: OpenRouter + Models.dev + Artificial Analysis]:::startNode -->|multi_site_ai.py tri-source merge| A2[Strict Current-Gen Normalizer & Effort Builder]:::processNode
+    A2 -->|Writes & Compiles| A3[(data/ai/models_master.json + ai.sqlite)]:::dataNode
+    A3 -->|GET /api/ai & POST /api/ai/refresh| A4[web/ai/index.html Live UI]:::processNode
+    A4 -->|Renders| A5[Dense Multi-Row Matrix + Pareto Labels]:::startNode
 
     subgraph Legend["Legend"]
         L1[Blue = External / UI]:::startNode

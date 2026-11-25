@@ -22,7 +22,10 @@
     "baidu",
     "ernie",
     "tencent",
-    "hunyuan"
+    "hunyuan",
+    "hy4",
+    "inclusionai",
+    "ling"
   ],
   "origin_buckets": {
     "chinese_oss": "Chinese Open-Weights / Open-Source Frontier & Near-Frontier Models",

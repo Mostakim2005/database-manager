@@ -29,13 +29,15 @@
   * `src/db_hub.py` -> `query_games_by_gpu`, `query_game_benchmarks_with_pc`, `query_games_storage_summary`
 
 ### [FEATURE: AI-Model-Benchmark-And-Pricing-Matrix] | Aliases: ai matrix, frontier models, coding elo, token pricing, chinese oss
-> **1-Line Summary:** Standalone 52-model AI pricing, benchmark, geopolitical origin, and tier matrix (`frontier`, `near_frontier`, `mid_tier`, `specialized`) completely decoupled from local GPU VRAM constraints.
-* **User Intention (Non-Negotiable):** Evaluate API cost-to-intelligence tradeoffs across Western/Chinese and open/closed models for cloud usage without meaningless local-VRAM mapping rules.
-* **Visual / UI Behavior:** Lives in `web/ai/index.html` featuring sortable columns, effort normalization, and multi-axis classification via `/api/ai` and `/api/ai/classified`.
+> **1-Line Summary:** Live tri-source verified 48-model strict current-gen AI pricing, Artificial Analysis v5 intelligence/speed/ELO, and origin tier matrix (`frontier`, `near_frontier`, `mid_tier`, `specialized`) decoupled from local VRAM.
+* **User Intention (Non-Negotiable):** Track active 2026 frontier and top free/open-weights models directly from live **OpenRouter API**, **Models.dev**, and **Artificial Analysis** (pruning legacy 2024/early-2025 clutter and duplicate `model_matrix/` UI bundles), with dense multi-row readability, non-overlapping Pareto chart labels, and zero UTF-8 mojibake.
+* **Visual / UI Behavior:** Lives in `web/ai/index.html` fetching live `/api/ai`, supporting async **Refresh Live AI** (`POST /api/ai/refresh?async=true`) with progress bar/cancel, dense Multi-Row & Wide Single-Row table toggle across both benchmark and 30-Task tables, collapsible Filters & Advisor accordions, and Smart/All/Hover Pareto scatter labels (`aiScatterLabelsPlugin`).
 * **Code Anchors (Grep Targets):**
+  * `src/scrapers/multi_site_ai.py` -> `sync_multi_site_ai`, `parse_aa_leaderboard`, `start_background_ai_refresh`
+  * `src/server.py` -> `/api/ai`, `/api/ai/refresh`, `/api/ai/refresh/status`
   * `src/catalog_classifier.py` -> `classify_ai_model`, `classify_ai_catalog`
-  * `data/ai/taxonomy.json` -> `model_tiers`
   * `data/ai/models_master.json` -> `models`
+  * `web/ai/index.html` -> `aiScatterLabelsPlugin`, `MatrixTable`, `MatrixApp`
 
 ### [FEATURE: Media-Catalog-And-Adaptation-Hub] | Aliases: media domain, manga, manhua, light novel, anime, donghua, movie, tv_series
 > **1-Line Summary:** Interconnected 124-entry media catalog uniting `comic`, `light_novel`, `anime`, `donghua`, `movie`, and `tv_series` via `franchise_id`/`relations` (including Steam/PC-game-linked adaptations tagged `plan_to_watch` / `plan_to_read`), canonical `comix.to` sitemap lookup, adaptation probes, and link health audits without external Obsidian markdown sync.

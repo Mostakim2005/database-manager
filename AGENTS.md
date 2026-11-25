@@ -28,7 +28,7 @@
   * `data/pc/` - Unified PC hardware catalog (82 parts across 12 categories: CPUs, 15 GPUs incl. Steam Ref GTX 1060 / RX 580 + RTX 2060 Super / 2070 / 2070 Super, motherboards, RAM, SSDs incl. 2TB/4TB NVMe, HDDs, PSUs, displays, peripherals) + `psu` transient excursion rules (`pc.json`, `schema.json`).
   * `data/games/` - Unified PC & strategy games database (`195` titles: `105` owned Steam + `90` wishlist), `488` measured/projected benchmark rows across the canonical 8-GPU progressive ladder (`benchmarks.csv`), GPU/storage compatibility links, and taxonomy (`games.json`, `games.js`, `taxonomy.json`, `schema.json`).
     * **Mandatory Game Benchmark Update Rule:** Whenever adding new games or updating game benchmarks in the future, always populate/update benchmark telemetry for the user's PC (`AMD Ryzen 5 5600GT` + `vega-7-igpu`) AND all 7 progressive upgrade GPUs (`rx-580-8gb`, `gtx-1660-super`, `rtx-2060-super`, `rx-6600`, `rtx-2070`, `rtx-3060`, `rtx-2070-super`) defined in `data/games/taxonomy.json -> benchmark_gpu_ladder`.
-  * `data/ai/` - AI model pricing, benchmarks, tiers, and origin taxonomy (`models_master.*`, `taxonomy.json`, `raw_api_dumps/`). Decoupled from local VRAM hardware.
+  * `data/ai/` - Live tri-source verified AI model pricing, Artificial Analysis v5 scores, capabilities, and origin taxonomy (`48` strict current-gen 2026 models in `models_master.*`, `taxonomy.json`, gitignored `live_cache/`). Decoupled from local VRAM hardware.
   * `data/media/` - Interconnected Media & Adaptations catalog (`media_catalog.json`, `schema.json`, gitignored `sitemaps/*.xml`) covering comics, light novels, anime, donghua, movies, and TV series.
   * `data/book/` - Book collection & reading tracker (`books.json`, `schema.json`), rename-ready with `learning`/`reading` aliases.
   * `data/phone/` - Mobile phone specifications & supported games/apps matrix (`phones.json`, `schema.json`).
@@ -39,7 +39,7 @@
   * `web/shared/nav.js` - Safe-DOM sticky global domain switcher bar injected on standalone domain pages (hidden inside portal iframes).
   * `web/pc/` - Unified PC Parts, CPUs, GPUs & PSU Transient Guard + compatibility build checker.
   * `web/games/` - GameRank cards & table simulator using canonical `pc` GPU keys.
-  * `web/ai/` - Interactive AI Model Matrix visualizer (pricing, intelligence, coding ELO).
+  * `web/ai/` - Interactive live `/api/ai` Model Matrix (`index.html`, local `vendor/chart.umd.min.js`) with async tri-source refresh + progress bar, multi-row dense & wide table views, collapsible filters/advisor, and Pareto non-overlapping scatter labels.
   * `web/media/` - Media & Adaptations explorer, franchise relation chips, doctor, and link audit view.
   * `web/book/` - Book & Reading tracker UI (safe DOM only).
   * `web/phone/` - Phone Specs & Supported Games/Apps UI (safe DOM only).
@@ -81,3 +81,4 @@
 * **TRAP 18:** Compare `recent_commits` HEAD date against `pushed_at` to avoid false-active triage on metadata bumps like `dataview-fork` — see `docs/DECISIONS_AND_TRAPS.md` -> `[TRAP: Dataview-Fork-Push-Timestamp-Anomaly]`.
 * **TRAP 19:** `db_verify.py` unpacks `ranges` entries as `[min, max]` arrays rather than `{min, max}` objects — see `docs/DECISIONS_AND_TRAPS.md` -> `[TRAP: Schema-Json-Range-Bounds-Must-Be-Arrays]`.
 * **TRAP 20:** Steam `storesearch` ranks sequels ahead of exact matches and delisted/bundled apps omit `price_overview` — see `docs/DECISIONS_AND_TRAPS.md` -> `[TRAP: Steam-Storesearch-Sequel-Ranking-And-Bundle-Prices]`.
+* **TRAP 21:** Placing badges inside `-webkit-text-fill-color: transparent` headings hides badge text and PowerShell HTML bundling injects UTF-8 mojibake — see `docs/DECISIONS_AND_TRAPS.md` -> `[TRAP: Gradient-Heading-Fill-Inheritance-And-HTML-Mojibake]`.

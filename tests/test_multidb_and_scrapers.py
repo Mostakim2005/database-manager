@@ -113,6 +113,16 @@ class TestMultiDomainHubAndVerify(unittest.TestCase):
                 data = json.loads(resp.read().decode("utf-8"))
                 self.assertGreater(data["total"], 0)
                 self.assertIn("chinese_oss", data["bucket_counts"])
+            with urllib.request.urlopen(f"{base}/api/ai/refresh/status", timeout=5) as resp:
+                st = json.loads(resp.read().decode("utf-8"))
+                self.assertIn("running", st)
+                self.assertIn("pct", st)
+            with urllib.request.urlopen(f"{base}/ai/index.html", timeout=5) as resp:
+                self.assertIn("charset=utf-8", (resp.headers.get("Content-Type") or "").lower())
+                ai_html = resp.read().decode("utf-8")
+                self.assertIn("aiScatterLabelsPlugin", ai_html)
+                self.assertNotIn("ðŸ", ai_html)
+                self.assertNotIn("â€”", ai_html)
             with urllib.request.urlopen(f"{base}/api/games/classified", timeout=5) as resp:
                 data = json.loads(resp.read().decode("utf-8"))
                 self.assertGreaterEqual(data["total"], 51)
@@ -237,19 +247,29 @@ class TestMultiSiteCatalogExpansion(unittest.TestCase):
             self.assertIn(m["watchlist_status"], ("plan_to_watch", "plan_to_read"))
 
     def test_multi_source_ai_reconciliation(self) -> None:
+        from scrapers.multi_site_ai import LEGACY_DROPPED_IDS, parse_aa_leaderboard
+
         data, stats = sync_multi_site_ai(offline=True)
         self.assertGreaterEqual(stats["total"], 45)
+        self.assertEqual(stats.get("removed_legacy", 0), 0)
         models = data.get("models", [])
         providers = {m["provider"] for m in models}
         self.assertIn("DeepSeek", providers)
         self.assertIn("Alibaba", providers)
         self.assertIn("Meta", providers)
+        self.assertFalse((ROOT_DIR / "web" / "ai" / "model_matrix").exists())
         for m in models:
             self.assertIn("id", m)
+            self.assertNotIn(m["id"], LEGACY_DROPPED_IDS)
             self.assertIn("scores", m)
             if "fact_check" in m and isinstance(m["fact_check"], dict):
                 self.assertIn("capabilities", m["fact_check"])
                 self.assertIn("sources", m["fact_check"])
+
+        sample_aa = '<table><tbody><tr><td><a href="/models/gpt-6-2-astra">GPT-6.2 Astra</a></td><td>62</td><td>$4.00</td><td>14.2</td><td>161.42</td><td>1M</td></tr></tbody></table>'
+        parsed_aa = parse_aa_leaderboard(sample_aa)
+        self.assertIn("gpt-6-2-astra", parsed_aa)
+        self.assertEqual(parsed_aa["gpt-6-2-astra"]["intelligence_index"], 62.0)
 
     def test_all_seven_domains_record_counts(self) -> None:
         health = db_hub.query_domain_health()

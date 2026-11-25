@@ -34,3 +34,6 @@ data/media/sitemaps/*.xml
 data/github/live_cache.json
 data/github/sync_state.json
 data/github/local_roots.json
+
+# AI Manager live raw API/scrape cache (multi-MB transient dumps; keep models_master.* committed)
+data/ai/live_cache/

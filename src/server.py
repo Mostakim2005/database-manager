@@ -256,6 +256,13 @@ class DatabaseHandler(http.server.SimpleHTTPRequestHandler):
         self.send_error(403, "Directory listing is disabled")
         return None
 
+    def guess_type(self, path: str | os.PathLike[str]) -> str:  # type: ignore[override]
+        """Ensure UTF-8 charset header on text/HTML/JS/CSS assets across OSes."""
+        ctype = super().guess_type(path)
+        if ctype in ("text/html", "text/css", "text/javascript", "application/javascript"):
+            return f"{ctype}; charset=utf-8"
+        return ctype
+
     def do_GET(self) -> None:
         """Handle GET requests with strict v2.0.0 domain routing."""
         url_path = self.path.split("?", 1)[0].rstrip("/") or "/"
@@ -391,6 +398,11 @@ class DatabaseHandler(http.server.SimpleHTTPRequestHandler):
             qs = parse_qs(urlparse(self.path).query)
             only_chinese_oss = qs.get("chinese_oss", ["false"])[0].lower() in ("true", "1", "yes")
             self._send_json(classify_ai_catalog(only_chinese_oss=only_chinese_oss))
+            return
+
+        if url_path == "/api/ai/refresh/status":
+            from scrapers.multi_site_ai import get_ai_refresh_status
+            self._send_json(get_ai_refresh_status())
             return
 
         # --- Media & Adaptations Domain ---
@@ -682,6 +694,27 @@ class DatabaseHandler(http.server.SimpleHTTPRequestHandler):
         if url_path == "/api/github/refresh/cancel":
             from github.scanner import cancel_background_refresh
             self._send_json(cancel_background_refresh())
+            return
+
+        if url_path == "/api/ai/refresh":
+            from scrapers.multi_site_ai import apply_ai_update, start_background_ai_refresh, sync_multi_site_ai
+            is_async = qs.get("async", ["false"])[0].lower() in ("true", "1", "yes") or bool(payload.get("async"))
+            try:
+                if is_async:
+                    job = start_background_ai_refresh()
+                    self._send_json(job, status=202)
+                    return
+                ai_data, stats = sync_multi_site_ai(offline=False)
+                apply_ai_update(ai_data)
+            except RuntimeError as exc:
+                self._send_json({"status": "busy", "error": str(exc)}, status=409)
+                return
+            self._send_json({"status": "ok", "stats": stats, "metadata": ai_data.get("metadata", {})})
+            return
+
+        if url_path == "/api/ai/refresh/cancel":
+            from scrapers.multi_site_ai import cancel_background_ai_refresh
+            self._send_json(cancel_background_ai_refresh())
             return
 
         if url_path == "/api/github/refresh/repo":
