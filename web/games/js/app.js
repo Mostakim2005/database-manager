@@ -113,6 +113,7 @@ function hydrateLiveBenchmarks() {
         grouped[row.game_id].push(row);
       });
       window.GAME_BENCHMARKS_BY_ID = grouped;
+      update();
     })
     .catch(function () {});
 }

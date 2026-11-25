@@ -92,15 +92,107 @@ function bar(val) {
   return '<span class="bar"><span class="bar-fill" style="width:' + pct + '%"></span></span>';
 }
 
+var EXT_LINK_SVG = '<svg width="11" height="11" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2Zm6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1Z"/></svg>';
+
+/* Fallback gradient themes & non-Steam artwork hints for cover banners */
+var NON_STEAM_ART_IDS = { "rocket-league": 252950 };
+var GENRE_GRADIENTS = {
+  "classic-rts": "linear-gradient(135deg, #1b2a4a, #0e1726)",
+  "4x-grand": "linear-gradient(135deg, #2b1d42, #121324)",
+  "hybrid-td": "linear-gradient(135deg, #3b2416, #16141d)",
+  "army-sim": "linear-gradient(135deg, #14362e, #0d181e)",
+  "tactical-rpg": "linear-gradient(135deg, #301f44, #141320)",
+  "fps-shooter": "linear-gradient(135deg, #42181f, #13131b)",
+  "action-adventure": "linear-gradient(135deg, #3d2415, #14151e)",
+  "rpg": "linear-gradient(135deg, #2d1e46, #131420)",
+  "racing-sim": "linear-gradient(135deg, #12333b, #0e1620)",
+  "puzzle-platformer": "linear-gradient(135deg, #18362a, #101820)",
+  "fighting-arcade": "linear-gradient(135deg, #421c18, #16131c)",
+  "vr-utility": "linear-gradient(135deg, #183044, #0f1622)"
+};
+
+function getGameCoverUrl(game) {
+  var appId = game.steamAppId || NON_STEAM_ART_IDS[game.id];
+  if (!appId) {
+    var stores = game.stores || [];
+    for (var i = 0; i < stores.length; i++) {
+      var m = /store\.steampowered\.com\/app\/(\d+)/i.exec(stores[i].url || "");
+      if (m) { appId = m[1]; break; }
+    }
+  }
+  return appId ? ("https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/" + appId + "/header.jpg") : "";
+}
+
+function shortenStoreName(name, isPrimary) {
+  var s = String(name || "Store");
+  if (/steam/i.test(s)) return isPrimary ? "Open Steam" : "Steam";
+  if (/battle\.net/i.test(s)) return "Battle.net";
+  if (/riot/i.test(s)) return "Riot Client";
+  if (/epic/i.test(s)) return "Epic Games";
+  if (/microsoft|xbox/i.test(s)) return "Xbox / MS";
+  if (/gog/i.test(s)) return "GOG";
+  if (/official/i.test(s)) return "Official Site";
+  return s.replace(/\s*\([^)]*\)/g, "").trim() || s;
+}
+
+function resolveGameStores(game) {
+  var stores = Array.isArray(game.stores) ? game.stores.filter(function (s) { return s && s.url; }) : [];
+  if (!stores.length) return { primary: null, secondary: [] };
+  var steamIdx = -1;
+  for (var i = 0; i < stores.length; i++) {
+    if (/store\.steampowered\.com/i.test(stores[i].url) || /steam/i.test(stores[i].name || "")) {
+      steamIdx = i;
+      break;
+    }
+  }
+  var primary = steamIdx >= 0 ? stores[steamIdx] : stores[0];
+  var secondary = stores.filter(function (s) { return s !== primary; });
+  return { primary: primary, secondary: secondary };
+}
+
+function storeCtaHtml(store, isPrimary, compact) {
+  if (!store || !store.url) return "";
+  var isSteam = /store\.steampowered\.com/i.test(store.url) || /steam/i.test(store.name || "");
+  var cls = "store-btn" + (isSteam ? "" : " store-alt") + (compact ? " store-sm" : "");
+  var label = compact ? shortenStoreName(store.name, false) : shortenStoreName(store.name, isPrimary);
+  return '<a class="' + cls + '" href="' + esc(store.url) + '" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" title="' + esc(store.name) + '">' +
+    '<span>' + esc(label) + '</span>' + EXT_LINK_SVG + '</a>';
+}
+
+function compactFpsSummary(game, preset) {
+  var activeGpuKey = (typeof state !== "undefined" && state.gpu && state.gpu !== "none") ? state.gpu : "vega-7-igpu";
+  var rows = (window.GAME_BENCHMARKS_BY_ID && window.GAME_BENCHMARKS_BY_ID[game.id]) || [];
+  var match = rows.find(function (r) { return r.gpu_id === activeGpuKey; });
+  var gpuTag = activeGpuKey === "vega-7-igpu"
+    ? "Vega 7"
+    : ((window.UPGRADE_GPUS && window.UPGRADE_GPUS[activeGpuKey] && window.UPGRADE_GPUS[activeGpuKey].short) || activeGpuKey);
+  if (match && match.avg_fps) {
+    var presetShort = String(match.preset || "1080p").replace(/^1080p\s*/i, "");
+    return gpuTag + ": ~" + Math.round(Number(match.avg_fps)) + " fps (" + (match.resolution || "1080p") + (presetShort ? " " + presetShort : "") + ")";
+  }
+  var raw = String(presetLine(game, preset) || "\u2014");
+  var fpsM = /(\d+(?:\s*[\u2013\-]\s*\d+)?\s*(?:\+)?\s*fps)/i.exec(raw);
+  if (fpsM) {
+    var clean = fpsM[1].replace(/\s+/g, " ");
+    if (activeGpuKey !== "vega-7-igpu" && game.upCompat) {
+      return gpuTag + " (" + game.upCompat.score + "/100)";
+    }
+    return gpuTag + ": " + clean;
+  }
+  return raw.length > 32 ? raw.slice(0, 31) + "\u2026" : raw;
+}
+
 /* ---- small badge (cls + text; optional href makes it a link) ---- */
 function badge(cls, text, href) {
   var inner = esc(text);
-  if (href) inner = '<a href="' + esc(href) + '" target="_blank" rel="noopener noreferrer">' + inner + "</a>";
+  if (href) inner = '<a href="' + esc(href) + '" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">' + inner + "</a>";
   return '<span class="badge ' + cls + '">' + inner + "</span>";
 }
 function storeBadges(game, max) {
-  return (game.stores || []).slice(0, max || 2).map(function (s) {
-    return badge("g-store", s.name, s.url);
+  var res = resolveGameStores(game);
+  var ordered = res.primary ? [res.primary].concat(res.secondary) : [];
+  return ordered.slice(0, max || 3).map(function (s, idx) {
+    return storeCtaHtml(s, idx === 0, false);
   }).join(" ");
 }
 function ownershipBadge(game) {
@@ -260,10 +352,16 @@ function showDetail(game, triggerEl) {
   var sz = game.size || {};
   var specs = game.specs || { min: {}, rec: {} };
 
+  var coverUrl = getGameCoverUrl(game);
+  var coverHtml = coverUrl
+    ? '<img class="modal-hero-banner" src="' + esc(coverUrl) + '" alt="' + esc(game.name) + ' cover art" loading="lazy" onerror="this.style.display=\'none\'">'
+    : "";
+
   el.innerHTML =
     '<div class="modal" role="dialog" aria-modal="true">' +
       '<div class="modal-inner">' +
         '<button class="modal-close" id="detailClose" type="button" aria-label="Close game details">\u00D7</button>' +
+        coverHtml +
         "<h2>" + esc(game.name) + "</h2>" +
         '<div class="badges-row">' +
           ownershipBadge(game) +
@@ -347,9 +445,9 @@ function renderTable(games) {
   if (!games || games.length === 0) return renderEmptyState();
   var preset = (typeof state !== "undefined" && state.preset) || "playable";
   var head = "<thead><tr>" +
-    "<th>Game</th><th>Status</th><th>Price</th><th>Genre</th><th>Setting</th><th>Campaign</th>" +
-    "<th>Campaign \u2605</th><th>AI \u2605</th><th>Graphics \u2605</th><th>Players</th>" +
-    "<th>Install</th><th>" + esc(PRESET_LABEL[preset] || "1080p \u00B7 Vega 7") + "</th><th>SP on HDD</th><th>My PC</th></tr></thead>";
+    "<th>Game</th><th>Status</th><th>Price</th><th>Genre</th><th>Campaign</th>" +
+    "<th>AI / GFX</th><th>Players</th><th>Install</th><th>" +
+    esc(PRESET_LABEL[preset] || "1080p \u00B7 Vega 7") + "</th><th>SP Disk</th><th>My PC</th><th>Store</th></tr></thead>";
   var rows = games.map(function (g) {
     var diskVerdict = safeStorageVerdict(g);
     var hddSp = safeHddSp(g);
@@ -358,22 +456,22 @@ function renderTable(games) {
     var gfx = g.graphics || {};
     var pl = g.players || {};
     var sz = g.size || {};
+    var coverUrl = getGameCoverUrl(g);
+    var thumbHtml = coverUrl ? '<img class="tbl-thumb" src="' + esc(coverUrl) + '" alt="" loading="lazy" decoding="async" onerror="this.style.display=\'none\'">' : "";
+    var primaryStore = resolveGameStores(g).primary;
     return "<tr class='row' tabindex='0' role='button' data-id='" + esc(g.id) + "' title='Click or press Enter for details'>" +
-      "<td class='strong'>" + esc(g.name) + "</td>" +
+      "<td class='strong'><div class='tbl-game-cell'>" + thumbHtml + "<span>" + esc(g.name) + "</span></div></td>" +
       "<td>" + ownershipBadge(g) + "</td>" +
       "<td>" + (g.priceModel === "f2p" ? badge("g-free", "F2P") : "$" + esc(g.priceUsd)) + "</td>" +
       "<td>" + esc(GENRE_LABEL[g.genre] || g.genre) + "</td>" +
-      "<td>" + esc(SETTING_LABEL[g.setting] || g.setting) + "</td>" +
-      "<td>" + (camp.exists ? esc(formatCampaignLabel(camp.freeOrPaid)) : "None") + "</td>" +
-      "<td>" + (camp.quality || 0) + bar(camp.quality || 0) + "</td>" +
-      "<td>" + (ai.score || 0) + bar(ai.score || 0) + "</td>" +
-      "<td>" + (gfx.score || 0) + bar(gfx.score || 0) + "</td>" +
+      "<td>" + (camp.exists ? esc(formatCampaignLabel(camp.freeOrPaid)) + " (" + (camp.quality || 0) + "/10)" : "None") + "</td>" +
+      "<td class='fps-cell'>AI " + (ai.score || 0) + " \u00B7 GFX " + (gfx.score || 0) + "</td>" +
       "<td>" + esc(PLAYER_LABEL[pl.status] || pl.status || "Active") + "</td>" +
       "<td>" + esc(sz.install || (g.installGB + " GB")) + " " + badge("disk-" + diskVerdict, DISK_LABEL[diskVerdict]) + "</td>" +
-      "<td class='fps-cell'>" + esc(presetLine(g, preset)) + "</td>" +
-      "<td class='fps-cell'>" + esc((window.HDDSP_LABEL[hddSp.verdict] || "").replace("SP on HDD: ", "")) +
-        (hddSp.stutter !== "none" ? " \u00B7 " + esc(hddSp.stutter) + " stutter" : "") + "</td>" +
+      "<td class='fps-cell'>" + esc(compactFpsSummary(g, preset)) + "</td>" +
+      "<td class='fps-cell'>" + esc((window.HDDSP_LABEL[hddSp.verdict] || "").replace("SP on HDD: ", "")) + "</td>" +
       "<td>" + compatBadge(g) + "</td>" +
+      "<td>" + (primaryStore ? storeCtaHtml(primaryStore, true, true) : "\u2014") + "</td>" +
     "</tr>";
   }).join("");
   return "<div class='table-scroll'><table class='games-table'>" + head + "<tbody>" + rows + "</tbody></table></div>";
@@ -392,28 +490,59 @@ function renderCards(games) {
     var gfx = g.graphics || {};
     var pl = g.players || {};
     var sz = g.size || {};
+    var coverUrl = getGameCoverUrl(g);
+    var grad = GENRE_GRADIENTS[g.genre] || "linear-gradient(135deg, #1b2838, #101722)";
+    var stores = resolveGameStores(g);
+    var fpsText = compactFpsSummary(g, preset);
+    var installTxt = esc(sz.install || (g.installGB + " GB")).replace(/^~/, "");
+    var diskShort = DISK_LABEL[diskVerdict] || "HDD OK";
+    var diskCls = diskVerdict === "ssd-strongly-advised" ? " ssd-strong" : (diskVerdict === "ssd-helps" ? " ssd-warn" : "");
+    var campTxt = camp.exists ? (formatCampaignLabel(camp.freeOrPaid).split(" ")[0] + " \u00B7 " + (camp.quality || 0) + "/10") : "No Campaign";
+    var spTxt = (window.HDDSP_LABEL[hddSp.verdict] || "Fine").replace("SP on HDD: ", "");
+    spTxt = spTxt.charAt(0).toUpperCase() + spTxt.slice(1);
+    var priceBadge = g.priceModel === "f2p"
+      ? badge("g-free", "Free to Play")
+      : badge("g-norm", g.priceUsd ? ("$" + g.priceUsd) : "Included");
+
     return "<div class='card compat-border-" + c.tier + " row' tabindex='0' role='button' data-id='" + esc(g.id) + "'>" +
-      "<div class='card-h'>" +
-        "<h3>" + esc(g.name) + "</h3>" +
-        compatBadge(g) +
+      "<div class='card-cover'>" +
+        "<div class='card-cover-fallback' style='background:" + grad + "'>" +
+          "<span class='cf-tag'>" + esc(GENRE_LABEL[g.genre] || g.genre) + "</span>" +
+          "<span class='cf-title'>" + esc(g.name) + "</span>" +
+        "</div>" +
+        (coverUrl ? "<img class='card-cover-img' src='" + esc(coverUrl) + "' alt='' loading='lazy' decoding='async' onerror='this.style.display=\"none\"'>" : "") +
+        "<div class='cover-scrim-top'></div><div class='cover-scrim-bot'></div>" +
+        "<div class='cover-pill-tl'>" + ownershipBadge(g) + "</div>" +
+        "<div class='cover-pill-tr'>" + compatBadge(g) + "</div>" +
+        "<div class='cover-pill-br'>" + priceBadge + "</div>" +
       "</div>" +
-      "<div class='badges-row'>" +
-        ownershipBadge(g) +
-        badge("g-" + g.genre, GENRE_LABEL[g.genre] || g.genre) +
-        badge("g-norm", SETTING_LABEL[g.setting] || g.setting) +
-        badge(g.priceModel === "f2p" ? "g-free" : "g-norm", g.priceModel === "f2p" ? "F2P" : (g.priceUsd ? "$" + g.priceUsd : "Included")) +
-        badge("disk-" + diskVerdict, DISK_LABEL[diskVerdict]) +
-        (hddSp.stutter !== "none" ? badge("g-warn", window.STUTTER_LABEL[hddSp.stutter] || hddSp.stutter) : "") +
-        (Array.isArray(g.companions) && g.companions.length ? badge("g-norm", "+" + g.companions.length + " Test/Pass") : "") +
-      "</div>" +
-      "<div class='card-meta'>" +
-        "<div><span>Campaign</span>" + (camp.exists ? esc(formatCampaignLabel(camp.freeOrPaid)) + " \u2014 " + (camp.quality || 0) + "/10" : "None") + "</div>" +
-        "<div><span>AI</span>" + (ai.score || 0) + "/10 &nbsp;<span>Graphics</span>" + (gfx.score || 0) + "/10</div>" +
-        "<div><span>" + esc(PRESET_LABEL[preset] || "1080p") + "</span>" + esc(presetLine(g, preset)) + "</div>" +
-        "<div><span>SP on HDD</span>" + esc((window.HDDSP_LABEL[hddSp.verdict] || "").replace("SP on HDD: ", "")) + "</div>" +
-        "<div><span>Players</span>" + esc(PLAYER_LABEL[pl.status] || pl.status || "Active") + "</div>" +
-        "<div><span>Install</span>" + esc(sz.install || (g.installGB + " GB")) + "</div>" +
-        "<div class='stores-row'>" + storeBadges(g) + "</div>" +
+      "<div class='card-body'>" +
+        "<div class='card-h'>" +
+          "<h3>" + esc(g.name) + "</h3>" +
+          "<div class='card-subtags'>" +
+            "<span>" + esc(GENRE_LABEL[g.genre] || g.genre) + "</span>" +
+            "<span class='dot-sep'>\u00B7</span>" +
+            "<span>" + esc(SETTING_LABEL[g.setting] || g.setting) + "</span>" +
+            (Array.isArray(g.companions) && g.companions.length ? "<span class='dot-sep'>\u00B7</span><span>+" + g.companions.length + " Pass/Test</span>" : "") +
+          "</div>" +
+        "</div>" +
+        "<div class='hero-metrics-bar'>" +
+          "<span class='hero-fps' title='" + esc(presetLine(g, preset)) + "'>" + esc(fpsText) + "</span>" +
+          "<span class='hero-disk" + diskCls + "'>" + installTxt + " \u00B7 " + esc(diskShort) + "</span>" +
+        "</div>" +
+        "<div class='card-stats-grid'>" +
+          "<div class='cs-cell'><span class='cs-k'>Campaign</span><span class='cs-v'>" + esc(campTxt) + "</span></div>" +
+          "<div class='cs-cell'><span class='cs-k'>AI / GFX</span><span class='cs-v'>" + (ai.score || 0) + "/10 \u00B7 " + (gfx.score || 0) + "/10</span></div>" +
+          "<div class='cs-cell'><span class='cs-k'>SP Disk</span><span class='cs-v'>" + esc(spTxt) + "</span></div>" +
+          "<div class='cs-cell'><span class='cs-k'>Players</span><span class='cs-v'>" + esc(PLAYER_LABEL[pl.status] || pl.status || "Active") + "</span></div>" +
+        "</div>" +
+        "<div class='card-actions'>" +
+          "<div class='store-btn-group'>" +
+            (stores.primary ? storeCtaHtml(stores.primary, true, false) : "") +
+            stores.secondary.slice(0, 1).map(function (s) { return storeCtaHtml(s, false, true); }).join("") +
+          "</div>" +
+          "<span class='specs-hint'>Full specs \u203A</span>" +
+        "</div>" +
       "</div>" +
     "</div>";
   }).join("") + "</div>";

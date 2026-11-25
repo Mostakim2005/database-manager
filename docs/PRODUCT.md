@@ -19,13 +19,13 @@
 ### [FEATURE: GameRank-Compatibility-And-PC-Link] | Aliases: game rank, vega 7 rts, fps preset, upgrade simulator, game benchmarks, steam library
 > **1-Line Summary:** Unified 195-title PC & strategy catalog (`105` owned Steam titles + `90` researched wishlist titles) across 12 genres evaluated against Ryzen 5 5600GT (Vega 7), 488 FPS benchmark rows (`benchmarks.csv`) across the canonical 8-GPU progressive ladder, live Disk Footprint & Storage Advisor, and canonical `pc` GPU/SSD cross-links.
 * **User Intention (Non-Negotiable):** Keep owned Steam games and researched wishlist titles in one unified schema v4.0.0 structure (`ownership`, `steamAppId`, `companions`, `specs`, `hddSp`, `storageAdvice`), automatically populating progressive benchmarks across the user's Ryzen 5 5600GT + 8-GPU ladder (`vega-7-igpu`, `rx-580-8gb`, `gtx-1660-super`, `rtx-2060-super`, `rx-6600`, `rtx-2070`, `rtx-3060`, `rtx-2070-super`) on every new game addition or benchmark update.
-* **Visual / UI Behavior:** Lives in `web/games/index.html` with `All / Owned / Wishlist` filter, 12 genre filters across Steam PC and RTS categories, live Disk Footprint & SSD/HDD Advisor bar, canonical `pc`-keyed GPU simulator dropdown, live **Progressive GPU FPS Scaling Table** inside the detail modal (with 550W PSU status), companion/test-server modal badges, and card/table views.
+* **Visual / UI Behavior:** Lives in `web/games/index.html` with `All / Owned / Wishlist` filter, 12 genre filters across Steam PC and RTS categories, live Disk Footprint & SSD/HDD Advisor bar, canonical `pc`-keyed GPU simulator dropdown, `460:215` Steam CDN cover thumbnails with genre-themed SVG fallbacks, compact 2×2 telemetry cards surfacing active-GPU FPS + install GB prominently, direct 1-click Store CTAs (`Open Steam` or the game's default store/launcher) in both Card and Table views, live **Progressive GPU FPS Scaling Table** inside the detail modal, and companion/test-server modal badges.
 * **Code Anchors (Grep Targets):**
   * `src/scrapers/multi_site_games.py` -> `BENCHMARK_GPU_LADDER`, `normalize_game_record`, `fetch_steam_metadata`, `build_record_from_steam`, `apply_games_update`
   * `data/games/taxonomy.json` -> `benchmark_gpu_ladder`
   * `web/games/js/rank.js` -> `UPGRADE_GPUS`, `resolveUpgradeGpuKey`, `compatScoreFor`, `computeUpgradedCompat`
   * `web/games/js/app.js` -> `hydrateLivePcGpus`, `hydrateLivePcStorage`, `hydrateLiveBenchmarks`, `renderStorageAdvisor`
-  * `web/games/js/render.js` -> `showDetail` (Progressive GPU FPS Scaling table)
+  * `web/games/js/render.js` -> `getGameCoverUrl`, `resolveGameStores`, `compactFpsSummary`, `renderCards`, `renderTable`, `showDetail`
   * `src/db_hub.py` -> `query_games_by_gpu`, `query_game_benchmarks_with_pc`, `query_games_storage_summary`
 
 ### [FEATURE: AI-Model-Benchmark-And-Pricing-Matrix] | Aliases: ai matrix, frontier models, coding elo, token pricing, chinese oss

@@ -124,7 +124,7 @@ flowchart LR
     G1 -->|Loads 195 records: 105 owned + 90 wishlist| G2[js/rank.js & Disk Footprint Advisor]:::processNode
     G3[User filters Ownership / Genre / GPU / Preset]:::startNode -->|Inputs filter + GPU tier| G2
     G2 -->|Applies GPU margin + CPU/HDD penalties| G4[Calculates 0-100 Score & SSD Recommendation]:::processNode
-    G4 -->|Assigns Great / OK / Struggle + Storage Match| G5[js/render.js Card, Table & Progressive GPU Modal]:::startNode
+    G4 -->|Assigns Great / OK / Struggle + Storage Match| G5[js/render.js Cover Cards, Table & Default Store CTAs]:::startNode
 
     subgraph Legend["Legend"]
         L1[(Green = Unified Game & Benchmark Data)]:::dataNode

@@ -170,6 +170,12 @@ class TestServerCliAndHttp(unittest.TestCase):
                 self.assertIn("groupByProvider", ai_html)
                 self.assertIn("matrixAccordion", ai_html)
                 self.assertIn("tasksAccordion", ai_html)
+            with urllib.request.urlopen(f"{base}/games/js/render.js", timeout=5) as resp:
+                games_js = resp.read().decode("utf-8")
+                self.assertIn("getGameCoverUrl", games_js)
+                self.assertIn("resolveGameStores", games_js)
+                self.assertIn("compactFpsSummary", games_js)
+                self.assertIn("store-btn", games_js)
         finally:
             httpd.shutdown()
             httpd.server_close()
