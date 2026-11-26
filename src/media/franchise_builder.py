@@ -636,6 +636,762 @@ def _parse_obsidian_new_franchises(md_path: Path | None = None) -> list[dict[str
     return raw_defs
 
 
+def _parse_donghua_curated_franchises() -> list[dict[str, Any]]:
+    """Build multi-tier records for the curated Donghua & adaptation batch."""
+    return [
+        {
+            "franchise_id": "ling-cage",
+            "title": "Ling Cage",
+            "alt": "Ling Long: Incarnation · 灵笼",
+            "origin": "Original Donghua",
+            "nsfw": False,
+            "description": "Industrial-grade 3D post-apocalyptic sci-fi/cyberpunk donghua by YHKT Entertainment. Season 2 broke 100M views (8.9 Douban), consulting real scientists to ground its dystopian ecosystem around Mark and Bai Yuekui.",
+            "novel": None,
+            "comic": None,
+            "motion": [
+                {
+                    "id": "ling-cage-3d-donghua",
+                    "name": "Ling Cage (3D Donghua S1–S2)",
+                    "media_type": "donghua",
+                    "sub_format": "3D Donghua",
+                    "release_year": 2019,
+                    "link": "https://anilist.co/anime/110459",
+                    "description": "Industrial-grade 3D sci-fi/cyberpunk action and intensely raw, emotional voice acting. Season 2 broke 100M views (8.9 Douban), blending brutal survival stakes, tragic character deaths, and deep philosophy around Mark and Bai Yuekui.",
+                    "links": [
+                        {"label": "AniList", "url": "https://anilist.co/anime/110459", "kind": "tracker"},
+                        {"label": "IMDb", "url": "https://www.imdb.com/title/tt10827146/", "kind": "tracker"},
+                        {"label": "Bilibili Search", "url": "https://www.bilibili.tv/en/search-result?q=Ling%20Cage", "kind": "official"},
+                    ],
+                },
+            ],
+        },
+        {
+            "franchise_id": "lord-of-mysteries",
+            "title": "Lord of Mysteries",
+            "alt": "Guimi Zhi Zhu · Lord of the Mysteries · 诡秘之主",
+            "origin": "Chinese Manhua & Web Novel",
+            "nsfw": False,
+            "description": "Victorian Lovecraftian steampunk mystery following Klein Moretti through secret-society Tarot Club politics, Beyonder pathways, and cosmic horror.",
+            "novel": {
+                "name": "Lord of Mysteries (Web Novel)",
+                "sub_format": "Chinese Web Novel",
+                "release_year": 2018,
+                "link": "https://www.webnovel.com/book/lord-of-mysteries_11022733006234505",
+                "links": [
+                    {"label": "WebNovel — Official Novel", "url": "https://www.webnovel.com/book/lord-of-mysteries_11022733006234505", "kind": "official"},
+                ],
+            },
+            "comic": {
+                "id": "lord-of-mysteries",
+                "name": "Lord of Mysteries",
+                "sub_format": "Chinese Manhua",
+                "release_year": 2025,
+                "link": "https://anilist.co/manga/188249",
+                "links": [
+                    {"label": "AniList (Manhua)", "url": "https://anilist.co/manga/188249", "kind": "tracker"},
+                    {"label": "MangaUpdates", "url": "https://www.mangaupdates.com/series/uarp82h/lord-of-the-mysteries", "kind": "tracker"},
+                    {"label": "comix.to Search", "url": "https://comix.to/browse?q=Lord%20of%20Mysteries&sort=relevance%3Adesc", "kind": "unofficial"},
+                ],
+            },
+            "motion": [
+                {
+                    "id": "lord-of-mysteries-donghua",
+                    "name": "Lord of Mysteries (2D/3D Hybrid Donghua)",
+                    "media_type": "donghua",
+                    "sub_format": "2D/3D Hybrid Donghua",
+                    "release_year": 2025,
+                    "link": "https://anilist.co/anime/137667",
+                    "description": "B.CMAY Pictures' 2025 breakout hit (8.77 MAL) with Ufotable-tier visuals and atmospheric VA work. Delivers dense Victorian mystery, Tarot Club politics, cosmic horror, and heavy emotional stakes, with Season 2 expanding runtime.",
+                    "links": [
+                        {"label": "AniList", "url": "https://anilist.co/anime/137667", "kind": "tracker"},
+                        {"label": "IMDb", "url": "https://www.imdb.com/title/tt28618556/", "kind": "tracker"},
+                        {"label": "WeTV Search", "url": "https://wetv.vip/en/search?q=Lord%20of%20Mysteries", "kind": "official"},
+                    ],
+                },
+            ],
+        },
+        {
+            "franchise_id": "painting-rivers-and-lakes",
+            "title": "Painting Rivers and Lakes",
+            "alt": "Hua Jianghu: Buliang Ren · Bu Liang Ren · 画江湖之不良人",
+            "origin": "Original Donghua",
+            "nsfw": False,
+            "description": "Ruthless Tang-collapse historical wuxia political thriller spanning Seasons 1–7 with sharp faction schemes and Empress Nv Di.",
+            "novel": None,
+            "comic": None,
+            "motion": [
+                {
+                    "id": "painting-rivers-and-lakes-donghua",
+                    "name": "Painting Rivers and Lakes: Bu Liang Ren (3D Donghua S1–S7)",
+                    "media_type": "donghua",
+                    "sub_format": "3D Donghua",
+                    "release_year": 2014,
+                    "link": "https://anilist.co/anime/102561",
+                    "description": "S4–S7 feature gorgeous wuxia 3D and razor-sharp theatrical VAs (S1–S3 CGI is dated). Season 6 sits near the very top of Douban's all-time chart as a Tang-collapse political thriller with unmatched dialogue and Empress Nv Di.",
+                    "links": [
+                        {"label": "AniList (S1)", "url": "https://anilist.co/anime/102561", "kind": "tracker"},
+                        {"label": "AniList (S7)", "url": "https://anilist.co/anime/168133", "kind": "tracker"},
+                    ],
+                },
+            ],
+        },
+        {
+            "franchise_id": "sword-of-coming",
+            "title": "Sword of Coming",
+            "alt": "Jian Lai · 剑来",
+            "origin": "Chinese Web Novel",
+            "nsfw": False,
+            "description": "Deeply philosophical literary xianxia following Chen Ping'an from an impoverished small town through earned morality and human dignity.",
+            "novel": {
+                "name": "Sword of Coming (Web Novel)",
+                "sub_format": "Chinese Web Novel",
+                "release_year": 2017,
+                "link": "https://www.novelupdates.com/?s=Sword%20of%20Coming",
+                "links": [
+                    {"label": "NovelUpdates (Search)", "url": "https://www.novelupdates.com/?s=Sword%20of%20Coming", "kind": "tracker"},
+                ],
+            },
+            "comic": None,
+            "motion": [
+                {
+                    "id": "sword-of-coming-3d-donghua",
+                    "name": "Sword of Coming (3D Donghua)",
+                    "media_type": "donghua",
+                    "sub_format": "3D Donghua",
+                    "release_year": 2024,
+                    "link": "https://anilist.co/anime/137672",
+                    "description": "Painterly, ink-wash-inspired 3D art direction paired with deeply poetic, grounded voice performances (8.9 Douban). A rare slow-burn character study about poverty, earned morality, and human dignity.",
+                    "links": [
+                        {"label": "AniList", "url": "https://anilist.co/anime/137672", "kind": "tracker"},
+                        {"label": "WeTV Search", "url": "https://wetv.vip/en/search?q=Sword%20of%20Coming", "kind": "official"},
+                    ],
+                },
+            ],
+        },
+        {
+            "franchise_id": "tales-of-herding-gods",
+            "title": "Tales of Herding Gods",
+            "alt": "Mu Shen Ji · 牧神记",
+            "origin": "Chinese Manhua & Web Novel",
+            "nsfw": False,
+            "description": "Raised in the cursed Great Ruins by nine eccentric, crippled grandmasters, Qin Mu ventures into a mythic world of fallen gods and imperial reform.",
+            "novel": {
+                "name": "Tales of Herding Gods (Web Novel)",
+                "sub_format": "Chinese Web Novel",
+                "release_year": 2017,
+                "link": "https://www.mangaupdates.com/series/64pbbwg/tales-of-herding-gods-novel",
+                "links": [
+                    {"label": "MangaUpdates (Novel)", "url": "https://www.mangaupdates.com/series/64pbbwg/tales-of-herding-gods-novel", "kind": "tracker"},
+                ],
+            },
+            "comic": {
+                "id": "tales-of-herding-gods",
+                "name": "Tales of Herding Gods",
+                "sub_format": "Chinese Manhua",
+                "release_year": 2019,
+                "link": "https://anilist.co/manga/133520",
+                "links": [
+                    {"label": "AniList (Manhua)", "url": "https://anilist.co/manga/133520", "kind": "tracker"},
+                    {"label": "comix.to Search", "url": "https://comix.to/browse?q=Tales%20of%20Herding%20Gods&sort=relevance%3Adesc", "kind": "unofficial"},
+                ],
+            },
+            "motion": [
+                {
+                    "id": "tales-of-herding-gods-3d-donghua",
+                    "name": "Tales of Herding Gods (3D Donghua)",
+                    "media_type": "donghua",
+                    "sub_format": "3D Donghua",
+                    "release_year": 2024,
+                    "link": "https://anilist.co/anime/185721",
+                    "description": "Sparkly Key's jaw-dropping mythic xuanhuan 3D showcase (8.9 Douban) with expressive facial animation and lively VAs. Protagonist Qin Mu is clever, cheeky, and proactive in a world of fallen gods.",
+                    "links": [
+                        {"label": "AniList", "url": "https://anilist.co/anime/185721", "kind": "tracker"},
+                        {"label": "Bilibili Search", "url": "https://www.bilibili.tv/en/search-result?q=Tales%20of%20Herding%20Gods", "kind": "official"},
+                    ],
+                },
+            ],
+        },
+        {
+            "franchise_id": "renegade-immortal",
+            "title": "Renegade Immortal",
+            "alt": "Xian Ni · 仙逆",
+            "origin": "Chinese Manhua & Web Novel",
+            "nsfw": False,
+            "description": "Er Gen's dark xianxia classic charting Wang Lin's brutal transformation from naive village youth to ruthless, trauma-forged avenger.",
+            "novel": {
+                "name": "Renegade Immortal (Web Novel)",
+                "sub_format": "Chinese Web Novel",
+                "release_year": 2009,
+                "link": "https://www.wuxiaworld.com/novel/renegade-immortal",
+                "links": [
+                    {"label": "Wuxiaworld — Official Novel", "url": "https://www.wuxiaworld.com/novel/renegade-immortal", "kind": "official"},
+                ],
+            },
+            "comic": {
+                "id": "renegade-immortal",
+                "name": "Renegade Immortal",
+                "sub_format": "Chinese Manhua",
+                "release_year": 2014,
+                "link": "https://anilist.co/manga/85986",
+                "links": [
+                    {"label": "AniList (Manhua)", "url": "https://anilist.co/manga/85986", "kind": "tracker"},
+                    {"label": "MangaUpdates", "url": "https://www.mangaupdates.com/series/6rcmyj2/xian-ni", "kind": "tracker"},
+                    {"label": "comix.to Search", "url": "https://comix.to/browse?q=Renegade%20Immortal&sort=relevance%3Adesc", "kind": "unofficial"},
+                ],
+            },
+            "motion": [
+                {
+                    "id": "renegade-immortal-3d-donghua",
+                    "name": "Renegade Immortal (3D Donghua)",
+                    "media_type": "donghua",
+                    "sub_format": "3D Donghua",
+                    "release_year": 2023,
+                    "link": "https://anilist.co/anime/137653",
+                    "description": "Crisp, dark-toned 3D choreography and ferocious, emotionally heavy voice acting (8.9 Douban). Wang Lin is one of cultivation's best trauma-forged, ruthless protagonists, paced faster than RMJI.",
+                    "links": [
+                        {"label": "AniList", "url": "https://anilist.co/anime/137653", "kind": "tracker"},
+                        {"label": "WeTV Search", "url": "https://wetv.vip/en/search?q=Renegade%20Immortal", "kind": "official"},
+                    ],
+                },
+            ],
+        },
+        {
+            "franchise_id": "swallowed-star",
+            "title": "Swallowed Star",
+            "alt": "Tunshi Xingkong · 吞噬星空",
+            "origin": "Chinese Manhua & Web Novel",
+            "nsfw": False,
+            "description": "A virus mutates Earth's wildlife into giant monsters, forcing humanity behind walled cities as Luo Feng rises from poor teenager to elite Warrior, wealthy tycoon, and galactic conqueror.",
+            "novel": {
+                "name": "Swallowed Star (Web Novel)",
+                "sub_format": "Chinese Web Novel",
+                "release_year": 2010,
+                "link": "https://www.novelupdates.com/?s=Swallowed%20Star",
+                "links": [
+                    {"label": "NovelUpdates (Search)", "url": "https://www.novelupdates.com/?s=Swallowed%20Star", "kind": "tracker"},
+                ],
+            },
+            "comic": {
+                "id": "swallowed-star",
+                "name": "Swallowed Star",
+                "sub_format": "Chinese Manhua",
+                "release_year": 2020,
+                "link": "https://anilist.co/manga/130624",
+                "links": [
+                    {"label": "AniList (Manhua)", "url": "https://anilist.co/manga/130624", "kind": "tracker"},
+                    {"label": "MangaUpdates", "url": "https://www.mangaupdates.com/series/28cc0o7/swallowed-star", "kind": "tracker"},
+                    {"label": "comix.to Search", "url": "https://comix.to/browse?q=Swallowed%20Star&sort=relevance%3Adesc", "kind": "unofficial"},
+                ],
+            },
+            "motion": [
+                {
+                    "id": "swallowed-star-3d-donghua",
+                    "name": "Swallowed Star (3D Donghua)",
+                    "media_type": "donghua",
+                    "sub_format": "3D Donghua",
+                    "release_year": 2020,
+                    "link": "https://anilist.co/anime/117012",
+                    "description": "Sparkly Key's slick futuristic 3D sci-fi cultivation flagship and crisp voice cast. Starts as tight post-apocalyptic monster-hunting survival drama before scaling cleanly into galactic empire politics around Luo Feng.",
+                    "links": [
+                        {"label": "AniList", "url": "https://anilist.co/anime/117012", "kind": "tracker"},
+                        {"label": "IMDb", "url": "https://www.imdb.com/title/tt17050076/", "kind": "tracker"},
+                        {"label": "WeTV Search", "url": "https://wetv.vip/en/search?q=Swallowed%20Star", "kind": "official"},
+                    ],
+                },
+            ],
+        },
+        {
+            "franchise_id": "to-be-hero-x",
+            "title": "To Be Hero X",
+            "alt": "Tu Bian Yingxiong X · 凸变英雄X",
+            "origin": "Original Donghua",
+            "nsfw": False,
+            "description": "One of 2025's biggest visual showstoppers (8.52 MAL), seamlessly blending stylized 2D and 3D in a superhero thriller where public trust value grants and warps superpowers.",
+            "novel": None,
+            "comic": None,
+            "motion": [
+                {
+                    "id": "to-be-hero-x-donghua",
+                    "name": "To Be Hero X (2D/3D Hybrid Donghua)",
+                    "media_type": "donghua",
+                    "sub_format": "2D/3D Hybrid Donghua",
+                    "release_year": 2025,
+                    "link": "https://anilist.co/anime/156092",
+                    "description": "2025 visual showstopper (8.52 MAL) blending stylized 2D and 3D. Brilliant superhero thriller premise where public 'trust value' grants and warps superpowers across an anthology cast.",
+                    "links": [
+                        {"label": "AniList", "url": "https://anilist.co/anime/156092", "kind": "tracker"},
+                        {"label": "Bangumi", "url": "https://bgm.tv/subject/405212", "kind": "tracker"},
+                        {"label": "IMDb", "url": "https://www.imdb.com/title/tt23139038/", "kind": "tracker"},
+                        {"label": "Crunchyroll Search", "url": "https://www.crunchyroll.com/search?q=To%20Be%20Hero%20X", "kind": "official"},
+                    ],
+                },
+            ],
+        },
+        {
+            "franchise_id": "fog-hill-of-five-elements",
+            "title": "Fog Hill of Five Elements",
+            "alt": "Wu Shan Wu Xing · 雾山五行",
+            "origin": "Original Donghua",
+            "nsfw": False,
+            "description": "Arguably the peak of modern hand-drawn ink-wash martial arts (9.2 Douban for S2) with raw VA energy and untouchable fight choreography.",
+            "novel": None,
+            "comic": None,
+            "motion": [
+                {
+                    "id": "fog-hill-of-five-elements-donghua",
+                    "name": "Fog Hill of Five Elements (2D Donghua)",
+                    "media_type": "donghua",
+                    "sub_format": "2D Donghua",
+                    "release_year": 2020,
+                    "link": "https://anilist.co/anime/127099",
+                    "description": "Peak modern hand-drawn ink-wash martial arts (9.2 Douban for S2) with raw VA energy and untouchable fight choreography, held back from S-Tier only by its short episode count.",
+                    "links": [
+                        {"label": "AniList", "url": "https://anilist.co/anime/127099", "kind": "tracker"},
+                        {"label": "Bilibili Search", "url": "https://www.bilibili.tv/en/search-result?q=Fog%20Hill%20of%20Five%20Elements", "kind": "official"},
+                    ],
+                },
+            ],
+        },
+        {
+            "franchise_id": "blades-of-the-guardians",
+            "title": "Blades of the Guardians",
+            "alt": "Biaoren · Biao Ren · 镖人",
+            "origin": "Chinese Manhua",
+            "nsfw": False,
+            "description": "Gritty late Sui Dynasty desert escort politics and cynical anti-heroes led by Dao Ma, often compared to Blade of the Immortal.",
+            "novel": None,
+            "comic": {
+                "id": "blades-of-the-guardians",
+                "name": "Blades of the Guardians",
+                "sub_format": "Chinese Manhua",
+                "release_year": 2016,
+                "link": "https://anilist.co/manga/102796",
+                "links": [
+                    {"label": "AniList (Manhua)", "url": "https://anilist.co/manga/102796", "kind": "tracker"},
+                    {"label": "MangaUpdates", "url": "https://www.mangaupdates.com/series/mmhi4t2/blades-of-the-guardians", "kind": "tracker"},
+                    {"label": "comix.to Search", "url": "https://comix.to/browse?q=Blades%20of%20the%20Guardians&sort=relevance%3Adesc", "kind": "unofficial"},
+                ],
+            },
+            "motion": [
+                {
+                    "id": "blades-of-the-guardians-2d-donghua",
+                    "name": "Blades of the Guardians (2D Donghua S1–S2)",
+                    "media_type": "donghua",
+                    "sub_format": "2D Donghua",
+                    "release_year": 2023,
+                    "link": "https://anilist.co/anime/122508",
+                    "description": "Raw, cinematic, blood-soaked 2D swordplay and gruff, mature voice acting (8.4 Douban). Captures brutal late Sui Dynasty desert politics and cynical anti-heroes.",
+                    "links": [
+                        {"label": "AniList (S1)", "url": "https://anilist.co/anime/122508", "kind": "tracker"},
+                        {"label": "AniList (S2)", "url": "https://anilist.co/anime/168179", "kind": "tracker"},
+                        {"label": "IMDb", "url": "https://www.imdb.com/title/tt28259824/", "kind": "tracker"},
+                    ],
+                },
+            ],
+        },
+        {
+            "franchise_id": "scissor-seven",
+            "title": "Scissor Seven",
+            "alt": "Wu Liuqi · Killer Seven · 伍六七",
+            "origin": "Original Donghua",
+            "nsfw": False,
+            "description": "Fluid, hyper-expressive 2D action-comedy disguising a deeply emotional assassin conspiracy and richly realized cast.",
+            "novel": None,
+            "comic": None,
+            "motion": [
+                {
+                    "id": "scissor-seven-2d-donghua",
+                    "name": "Scissor Seven (2D Donghua)",
+                    "media_type": "donghua",
+                    "sub_format": "2D Donghua",
+                    "release_year": 2018,
+                    "link": "https://anilist.co/anime/107912",
+                    "description": "Fluid, hyper-expressive 2D action with iconic comedic-to-dramatic voice acting. Disguises itself as absurd slapstick comedy before steadily peeling back an emotional assassin conspiracy.",
+                    "links": [
+                        {"label": "Netflix", "url": "https://www.netflix.com/title/81156880", "kind": "official"},
+                        {"label": "AniList", "url": "https://anilist.co/anime/107912", "kind": "tracker"},
+                        {"label": "IMDb", "url": "https://www.imdb.com/title/tt10384610/", "kind": "tracker"},
+                    ],
+                },
+            ],
+        },
+        {
+            "franchise_id": "beyond-times-gaze",
+            "title": "Beyond Time's Gaze",
+            "alt": "Guangyin Zhi Wai · Beyond the Timescape · 光阴之外",
+            "origin": "Chinese Web Novel",
+            "nsfw": False,
+            "description": "Adapted from Er Gen's hit novel: a broken god's gaze pollutes the world into a deadly wasteland where Xu Qing ruthlessly hunts and evolves to survive.",
+            "novel": {
+                "name": "Beyond Time's Gaze (Web Novel)",
+                "sub_format": "Chinese Web Novel",
+                "release_year": 2022,
+                "link": "https://www.wuxiaworld.com/novel/beyond-the-timescape",
+                "links": [
+                    {"label": "Wuxiaworld — Official Novel", "url": "https://www.wuxiaworld.com/novel/beyond-the-timescape", "kind": "official"},
+                ],
+            },
+            "comic": None,
+            "motion": [
+                {
+                    "id": "beyond-times-gaze-3d-donghua",
+                    "name": "Beyond Time's Gaze (3D Donghua S1–S2)",
+                    "media_type": "donghua",
+                    "sub_format": "3D Donghua",
+                    "release_year": 2025,
+                    "link": "https://anilist.co/anime/205905",
+                    "description": "Youku Animation post-apocalyptic dark power fantasy (S1 Dec 2025, S2 ongoing 2026; 25-min eps). Elite 2026 visuals and gritty voice acting following Xu Qing's ruthless survival and evolution.",
+                    "links": [
+                        {"label": "AniList (S1)", "url": "https://anilist.co/anime/205905", "kind": "tracker"},
+                        {"label": "AniList (S2)", "url": "https://anilist.co/anime/213356", "kind": "tracker"},
+                        {"label": "Youku", "url": "https://www.youku.tv/", "kind": "official"},
+                    ],
+                },
+            ],
+        },
+        {
+            "franchise_id": "the-richest-man-in-game",
+            "title": "The Richest Man in GAME",
+            "alt": "Losing Money to Be a Tycoon · Kui Cheng Shoufu Cong Youxi Kaishi · 亏成首富从游戏开始",
+            "origin": "Chinese Manhua & Web Novel",
+            "nsfw": False,
+            "description": "Office worker Pei Qian gets a Wealth Conversion System where company losses go into his personal pocket—so he tries to make terrible video games and overpay staff, only for every project to become a mega-hit.",
+            "novel": {
+                "name": "Losing Money to Be a Tycoon (Web Novel)",
+                "sub_format": "Chinese Web Novel",
+                "release_year": 2019,
+                "link": "https://www.novelupdates.com/?s=Losing%20Money%20to%20Be%20a%20Tycoon",
+                "links": [
+                    {"label": "NovelUpdates (Search)", "url": "https://www.novelupdates.com/?s=Losing%20Money%20to%20Be%20a%20Tycoon", "kind": "tracker"},
+                ],
+            },
+            "comic": {
+                "id": "the-richest-man-in-game",
+                "name": "Losing Money to Be a Tycoon",
+                "sub_format": "Chinese Manhua",
+                "release_year": 2022,
+                "link": "https://anilist.co/manga/154769",
+                "links": [
+                    {"label": "AniList (Manhua)", "url": "https://anilist.co/manga/154769", "kind": "tracker"},
+                    {"label": "MangaUpdates", "url": "https://www.mangaupdates.com/series/cqiosyg/losing-money-to-be-a-tycoon", "kind": "tracker"},
+                    {"label": "comix.to Search", "url": "https://comix.to/browse?q=Losing%20Money%20to%20Be%20a%20Tycoon&sort=relevance%3Adesc", "kind": "unofficial"},
+                ],
+            },
+            "motion": [
+                {
+                    "id": "the-richest-man-in-game-donghua",
+                    "name": "The Richest Man in GAME (2D Donghua)",
+                    "media_type": "donghua",
+                    "sub_format": "2D Donghua",
+                    "release_year": 2024,
+                    "link": "https://anilist.co/anime/156112",
+                    "description": "2D Foch Film / Bilibili rich-system business comedy (16 eps, 9.2 Bilibili score; 2025 Japanese dub). Pei Qian's desperate attempts to lose money accidentally turn him into a worshipped billionaire genius.",
+                    "links": [
+                        {"label": "AniList", "url": "https://anilist.co/anime/156112", "kind": "tracker"},
+                        {"label": "Bilibili Search", "url": "https://www.bilibili.tv/en/search-result?q=The%20Richest%20Man%20in%20GAME", "kind": "official"},
+                    ],
+                },
+            ],
+        },
+        {
+            "franchise_id": "my-senior-brother-is-too-steady",
+            "title": "My Senior Brother Is Too Steady",
+            "alt": "Big Brother · Wo Shixiong Shizai Tai Wenjian Le · 师兄啊师兄",
+            "origin": "Chinese Web Novel",
+            "nsfw": False,
+            "description": "A modern guy transmigrates into ancient mythology before a divine war, hiding 99% of his OP power while hoarding poison pills and escape clones from the shadows.",
+            "novel": {
+                "name": "My Senior Brother Is Too Steady (Web Novel)",
+                "sub_format": "Chinese Web Novel",
+                "release_year": 2019,
+                "link": "https://www.mangaupdates.com/series/2jvjtfi/my-senior-brother-is-too-steady-novel",
+                "links": [
+                    {"label": "MangaUpdates (Novel)", "url": "https://www.mangaupdates.com/series/2jvjtfi/my-senior-brother-is-too-steady-novel", "kind": "tracker"},
+                ],
+            },
+            "comic": None,
+            "motion": [
+                {
+                    "id": "my-senior-brother-is-too-steady-donghua",
+                    "name": "My Senior Brother Is Too Steady / Big Brother (3D Donghua)",
+                    "media_type": "donghua",
+                    "sub_format": "3D Donghua",
+                    "release_year": 2023,
+                    "link": "https://anilist.co/anime/129238",
+                    "description": "Youku high-end 3D transmigration/OP schemer comedy with top-notch comedic VA. Li Changshou hides 99% of his power, hoards poison pills and escape clones, and accidentally draws beauties and enemies alike.",
+                    "links": [
+                        {"label": "AniList", "url": "https://anilist.co/anime/129238", "kind": "tracker"},
+                        {"label": "IMDb", "url": "https://www.imdb.com/title/tt27834263/", "kind": "tracker"},
+                        {"label": "Youku", "url": "https://www.youku.tv/", "kind": "official"},
+                    ],
+                },
+                {
+                    "id": "my-senior-brother-is-too-steady-cdrama",
+                    "name": "Pull Strings / My Senior Brother Is Too Steady (2026 Live-Action C-Drama)",
+                    "media_type": "tv_series",
+                    "sub_format": "Live-Action C-Drama",
+                    "release_year": 2026,
+                    "link": "https://www.youku.tv/",
+                    "description": "2026 Youku & iQIYI 30-episode live-action xianxia comedy adaptation starring Ao Ruipeng as Li Changshou.",
+                    "links": [
+                        {"label": "Youku", "url": "https://www.youku.tv/", "kind": "official"},
+                        {"label": "iQIYI", "url": "https://www.iq.com/", "kind": "official"},
+                    ],
+                },
+            ],
+        },
+        {
+            "franchise_id": "the-daily-life-of-the-immortal-king",
+            "title": "The Daily Life of the Immortal King",
+            "alt": "Xian Wang de Richang Shenghuo · 仙王的日常生活",
+            "origin": "Chinese Manhua & Web Novel",
+            "nsfw": False,
+            "description": "Modern high schooler Wang Ling is casually strong enough to shatter planets and just wants to eat crispy noodles quietly while obliterating annoying demons and rival sects.",
+            "novel": {
+                "name": "The Daily Life of the Immortal King (Web Novel)",
+                "sub_format": "Chinese Web Novel",
+                "release_year": 2017,
+                "link": "https://www.novelupdates.com/?s=The%20Daily%20Life%20of%20the%20Immortal%20King",
+                "links": [
+                    {"label": "NovelUpdates (Search)", "url": "https://www.novelupdates.com/?s=The%20Daily%20Life%20of%20the%20Immortal%20King", "kind": "tracker"},
+                ],
+            },
+            "comic": {
+                "id": "the-daily-life-of-the-immortal-king",
+                "name": "The Daily Life of the Immortal King",
+                "sub_format": "Chinese Manhua",
+                "release_year": 2020,
+                "link": "https://anilist.co/manga/141151",
+                "links": [
+                    {"label": "AniList (Manhua)", "url": "https://anilist.co/manga/141151", "kind": "tracker"},
+                    {"label": "MangaUpdates", "url": "https://www.mangaupdates.com/series/q7acqb8/the-daily-life-of-immortal-king", "kind": "tracker"},
+                    {"label": "comix.to Search", "url": "https://comix.to/browse?q=The%20Daily%20Life%20of%20the%20Immortal%20King&sort=relevance%3Adesc", "kind": "unofficial"},
+                ],
+            },
+            "motion": [
+                {
+                    "id": "the-daily-life-of-the-immortal-king-donghua",
+                    "name": "The Daily Life of the Immortal King (2D Donghua)",
+                    "media_type": "donghua",
+                    "sub_format": "2D Donghua",
+                    "release_year": 2020,
+                    "link": "https://anilist.co/anime/114121",
+                    "description": "Haoliners / Bilibili multi-season urban OP MC power fantasy with snappy 2D action and deadpan VA around Wang Ling's quest for crispy noodles and peace.",
+                    "links": [
+                        {"label": "AniList", "url": "https://anilist.co/anime/114121", "kind": "tracker"},
+                        {"label": "Crunchyroll Search", "url": "https://www.crunchyroll.com/search?q=The%20Daily%20Life%20of%20the%20Immortal%20King", "kind": "official"},
+                    ],
+                },
+            ],
+        },
+        {
+            "franchise_id": "how-dare-you",
+            "title": "How Dare You?!",
+            "alt": "Cheng He Titong · I Woke Up in the Wrong Story · 成何体统",
+            "origin": "Chinese Manhua & Web Novel",
+            "nsfw": False,
+            "description": "An office worker transmigrates into a palace-intrigue novel as the doomed villainess—only to discover the ruthless 'tyrant emperor' is also a modern transmigrator when she tests him with English.",
+            "novel": {
+                "name": "How Dare You?! (Web Novel)",
+                "sub_format": "Chinese Web Novel",
+                "release_year": 2021,
+                "link": "https://www.novelupdates.com/?s=How%20Dare%20You",
+                "links": [
+                    {"label": "NovelUpdates (Search)", "url": "https://www.novelupdates.com/?s=How%20Dare%20You", "kind": "tracker"},
+                ],
+            },
+            "comic": {
+                "id": "how-dare-you",
+                "name": "How Dare You?! (I Woke Up in the Wrong Story)",
+                "sub_format": "Chinese Manhua",
+                "release_year": 2025,
+                "link": "https://anilist.co/manga/194938",
+                "links": [
+                    {"label": "AniList (Manhua)", "url": "https://anilist.co/manga/194938", "kind": "tracker"},
+                    {"label": "comix.to Search", "url": "https://comix.to/browse?q=How%20Dare%20You&sort=relevance%3Adesc", "kind": "unofficial"},
+                ],
+            },
+            "motion": [
+                {
+                    "id": "how-dare-you-donghua",
+                    "name": "How Dare You?! (3D Donghua)",
+                    "media_type": "donghua",
+                    "sub_format": "3D Donghua",
+                    "release_year": 2024,
+                    "link": "https://anilist.co/anime/135511",
+                    "description": "iQIYI expressive 3D palace-scheming transmigration comedy with hilarious VA as two modern office workers team up to rewrite the original tragic novel plot.",
+                    "links": [
+                        {"label": "AniList", "url": "https://anilist.co/anime/135511", "kind": "tracker"},
+                        {"label": "iQIYI", "url": "https://www.iq.com/", "kind": "official"},
+                    ],
+                },
+                {
+                    "id": "how-dare-you-cdrama",
+                    "name": "How Dare You?! (2026 Live-Action C-Drama)",
+                    "media_type": "tv_series",
+                    "sub_format": "Live-Action C-Drama",
+                    "release_year": 2026,
+                    "link": "https://www.imdb.com/title/tt35231547/",
+                    "description": "February 2026 iQIYI live-action palace comedy drama adaptation starring Wang Churan and Cheng Lei.",
+                    "links": [
+                        {"label": "IMDb", "url": "https://www.imdb.com/title/tt35231547/", "kind": "tracker"},
+                        {"label": "iQIYI", "url": "https://www.iq.com/", "kind": "official"},
+                    ],
+                },
+            ],
+        },
+        {
+            "franchise_id": "the-super-cube",
+            "title": "The Super Cube",
+            "alt": "Chao Neng Lifang · 超能立方",
+            "origin": "Chinese Manhua",
+            "nsfw": False,
+            "description": "An ordinary guy accidentally merges with a mysterious cube that grants insane superpowers, launching him into nonstop urban supernatural battles.",
+            "novel": None,
+            "comic": {
+                "id": "the-super-cube",
+                "name": "The Super Cube",
+                "sub_format": "Chinese Manhua",
+                "release_year": 2017,
+                "link": "https://anilist.co/manga/120313",
+                "links": [
+                    {"label": "AniList (Manhua)", "url": "https://anilist.co/manga/120313", "kind": "tracker"},
+                    {"label": "MangaUpdates", "url": "https://www.mangaupdates.com/series/pibq932/super-cube", "kind": "tracker"},
+                    {"label": "comix.to Search", "url": "https://comix.to/browse?q=The%20Super%20Cube&sort=relevance%3Adesc", "kind": "unofficial"},
+                ],
+            },
+            "motion": [
+                {
+                    "id": "the-super-cube-2d-donghua",
+                    "name": "The Super Cube (2D Donghua)",
+                    "media_type": "donghua",
+                    "sub_format": "2D Donghua",
+                    "release_year": 2025,
+                    "link": "https://anilist.co/anime/166442",
+                    "description": "2025 breakout urban superpower fantasy praised for flashy 2D sakuga fights and eye-candy action animation.",
+                    "links": [
+                        {"label": "AniList", "url": "https://anilist.co/anime/166442", "kind": "tracker"},
+                        {"label": "iQIYI", "url": "https://www.iq.com/", "kind": "official"},
+                    ],
+                },
+            ],
+        },
+        {
+            "franchise_id": "over-the-divine-realms",
+            "title": "Over the Divine Realms",
+            "alt": "Shenguo Zhi Shang · Above the Kingdom of God · 神国之上",
+            "origin": "Chinese Web Novel",
+            "nsfw": False,
+            "description": "A reincarnated Sword Supreme casually fights realms above his level while showing genuine romance and affection with his wives in a producer-confirmed faithful true harem.",
+            "novel": {
+                "name": "Over the Divine Realms (Web Novel)",
+                "sub_format": "Chinese Web Novel",
+                "release_year": 2020,
+                "link": "https://www.novelupdates.com/?s=Over%20the%20Divine%20Realms",
+                "links": [
+                    {"label": "NovelUpdates (Search)", "url": "https://www.novelupdates.com/?s=Over%20the%20Divine%20Realms", "kind": "tracker"},
+                ],
+            },
+            "comic": None,
+            "motion": [
+                {
+                    "id": "over-the-divine-realms-3d-donghua",
+                    "name": "Over the Divine Realms (3D Donghua)",
+                    "media_type": "donghua",
+                    "sub_format": "3D Donghua",
+                    "release_year": 2025,
+                    "link": "https://anilist.co/anime/195883",
+                    "description": "Full 18+ min episodes with strong modern 3D visuals on iQIYI (CG Year; S2 expected 2026–2027). One of the best-looking full-length true-harem donghua.",
+                    "links": [
+                        {"label": "AniList (S1)", "url": "https://anilist.co/anime/195883", "kind": "tracker"},
+                        {"label": "AniList (S2)", "url": "https://anilist.co/anime/199088", "kind": "tracker"},
+                        {"label": "iQIYI", "url": "https://www.iq.com/", "kind": "official"},
+                    ],
+                },
+            ],
+        },
+        {
+            "franchise_id": "the-first-order",
+            "title": "The First Order",
+            "alt": "Di Yi Xu Lie · 第一序列",
+            "origin": "Chinese Manhua & Web Novel",
+            "nsfw": False,
+            "description": "In a harsh post-apocalyptic world of walled strongholds and mutants, sharp-witted scavenger Ren Xiaosu awakens a mysterious system that lets him copy abilities and outsmart factions.",
+            "novel": {
+                "name": "The First Order (Web Novel)",
+                "sub_format": "Chinese Web Novel",
+                "release_year": 2019,
+                "link": "https://www.novelupdates.com/?s=The%20First%20Order",
+                "links": [
+                    {"label": "NovelUpdates (Search)", "url": "https://www.novelupdates.com/?s=The%20First%20Order", "kind": "tracker"},
+                ],
+            },
+            "comic": {
+                "id": "the-first-order",
+                "name": "The First Order",
+                "sub_format": "Chinese Manhua",
+                "release_year": 2021,
+                "link": "https://anilist.co/manga/140154",
+                "links": [
+                    {"label": "AniList (Manhua)", "url": "https://anilist.co/manga/140154", "kind": "tracker"},
+                    {"label": "MangaUpdates", "url": "https://www.mangaupdates.com/series/fea7f3b/the-first-order", "kind": "tracker"},
+                    {"label": "comix.to Search", "url": "https://comix.to/browse?q=The%20First%20Order&sort=relevance%3Adesc", "kind": "unofficial"},
+                ],
+            },
+            "motion": [
+                {
+                    "id": "the-first-order-3d-donghua",
+                    "name": "The First Order (3D Donghua)",
+                    "media_type": "donghua",
+                    "sub_format": "3D Donghua",
+                    "release_year": 2023,
+                    "link": "https://anilist.co/anime/141857",
+                    "description": "Gritty wasteland 3D post-apocalypse + system donghua with solid survival atmosphere around sharp-witted scavenger Ren Xiaosu.",
+                    "links": [
+                        {"label": "AniList", "url": "https://anilist.co/anime/141857", "kind": "tracker"},
+                        {"label": "WeTV Search", "url": "https://wetv.vip/en/search?q=The%20First%20Order", "kind": "official"},
+                    ],
+                },
+            ],
+        },
+        {
+            "franchise_id": "the-laid-off-demon",
+            "title": "The Laid Off Demon",
+            "alt": "Shiye Mowang · Wo Bei Yao Wang Jie Gu Le · 失业魔王",
+            "origin": "Chinese Manhua",
+            "nsfw": False,
+            "description": "A lighthearted 2025 workplace comedy where an absurdly overqualified former Demon King desperately takes entry-level adventuring jobs just to pay the bills.",
+            "novel": None,
+            "comic": {
+                "id": "the-laid-off-demon",
+                "name": "The Laid Off Demon King",
+                "sub_format": "Chinese Manhua",
+                "release_year": 2019,
+                "link": "https://anilist.co/manga/113485",
+                "links": [
+                    {"label": "AniList (Manhua)", "url": "https://anilist.co/manga/113485", "kind": "tracker"},
+                    {"label": "comix.to Search", "url": "https://comix.to/browse?q=The%20Laid%20Off%20Demon&sort=relevance%3Adesc", "kind": "unofficial"},
+                ],
+            },
+            "motion": [
+                {
+                    "id": "the-laid-off-demon-2d-donghua",
+                    "name": "The Laid Off Demon (2D Donghua)",
+                    "media_type": "donghua",
+                    "sub_format": "2D Donghua",
+                    "release_year": 2025,
+                    "link": "https://anilist.co/anime/168244",
+                    "description": "Skyloong / Tencent 2025 2D workplace comedy turning fantasy tropes on their head as an OP former Demon King works entry-level jobs for cash.",
+                    "links": [
+                        {"label": "AniList", "url": "https://anilist.co/anime/168244", "kind": "tracker"},
+                        {"label": "WeTV Search", "url": "https://wetv.vip/en/search?q=The%20Laid%20Off%20Demon", "kind": "official"},
+                    ],
+                },
+            ],
+        },
+    ]
+
+
 def build_multi_tier_catalog(
     existing_catalog: list[dict[str, Any]],
     include_obsidian_batch: bool = True,
@@ -652,9 +1408,9 @@ def build_multi_tier_catalog(
 
     stats = {"imported_franchises": 0, "added_subentries": 0, "normalized_existing": 0}
 
-    # 1. Import & deduplicate the 11 new Obsidian franchises if not already present
+    # 1. Import & deduplicate curated multi-tier batches (Obsidian + Donghua batches) if not already present
     if include_obsidian_batch:
-        for fdef in _parse_obsidian_new_franchises():
+        for fdef in _parse_obsidian_new_franchises() + _parse_donghua_curated_franchises():
             fid = fdef["franchise_id"]
             if fid in by_franchise or fdef["title"].lower() in used_names:
                 continue
@@ -690,45 +1446,52 @@ def build_multi_tier_catalog(
                     "links": nov["links"],
                     "relations": [],
                 }
+                if nov.get("release_year") is not None:
+                    novel_rec["release_year"] = int(nov["release_year"])
                 created.append(novel_rec)
                 stats["added_subentries"] += 1
 
-            com = fdef["comic"]
-            comic_id = _unique_id(com["id"], used_ids)
-            anime_summary = "**None**"
-            live_summary = "**None**"
-            motion_only = [m for m in fdef["motion"] if m["media_type"] in ("anime", "donghua", "movie")]
-            live_only = [m for m in fdef["motion"] if m["media_type"] in ("tv_series",)]
-            if motion_only:
-                anime_summary = " · ".join(f"[{m['name']}]({m['link']})" for m in motion_only)
-            if live_only:
-                live_summary = " · ".join(f"[{m['name']}]({m['link']})" for m in live_only)
+            comic_id = ""
+            comic_rec: dict[str, Any] | None = None
+            com = fdef.get("comic")
+            if com:
+                comic_id = _unique_id(com["id"], used_ids)
+                anime_summary = "**None**"
+                live_summary = "**None**"
+                motion_only = [m for m in fdef["motion"] if m["media_type"] in ("anime", "donghua", "movie")]
+                live_only = [m for m in fdef["motion"] if m["media_type"] in ("tv_series",)]
+                if motion_only:
+                    anime_summary = " · ".join(f"[{m['name']}]({m['link']})" for m in motion_only)
+                if live_only:
+                    live_summary = " · ".join(f"[{m['name']}]({m['link']})" for m in live_only)
 
-            comic_rec = {
-                "id": comic_id,
-                "name": _unique_name(com["name"], used_names, "Comic"),
-                "alt": fdef["alt"],
-                "media_type": "comic",
-                "tier": "visual",
-                "sub_format": com["sub_format"],
-                "source_is_text": has_text,
-                "nsfw": nsfw,
-                "link": com["link"],
-                "origin": fdef["origin"],
-                "anime": anime_summary,
-                "live_action": live_summary,
-                "description": fdef["description"],
-                "poster_url": "",
-                "poster_cached_file": "",
-                "watchlist_status": "",
-                "franchise_id": fid,
-                "franchise_title": fdef["title"],
-                "parent_id": novel_id,
-                "links": com["links"],
-                "relations": [],
-            }
-            created.append(comic_rec)
-            stats["added_subentries"] += 1
+                comic_rec = {
+                    "id": comic_id,
+                    "name": _unique_name(com["name"], used_names, "Comic"),
+                    "alt": fdef["alt"],
+                    "media_type": "comic",
+                    "tier": "visual",
+                    "sub_format": com["sub_format"],
+                    "source_is_text": has_text,
+                    "nsfw": nsfw,
+                    "link": com["link"],
+                    "origin": fdef["origin"],
+                    "anime": anime_summary,
+                    "live_action": live_summary,
+                    "description": fdef["description"],
+                    "poster_url": "",
+                    "poster_cached_file": "",
+                    "watchlist_status": "",
+                    "franchise_id": fid,
+                    "franchise_title": fdef["title"],
+                    "parent_id": novel_id,
+                    "links": com["links"],
+                    "relations": [],
+                }
+                if com.get("release_year") is not None:
+                    comic_rec["release_year"] = int(com["release_year"])
+                created.append(comic_rec)
+                stats["added_subentries"] += 1
 
             for mot in fdef["motion"]:
                 mot_id = _unique_id(mot["id"], used_ids)
@@ -755,11 +1518,15 @@ def build_multi_tier_catalog(
                     "links": mot["links"],
                     "relations": [],
                 }
+                if mot.get("release_year") is not None:
+                    mot_rec["release_year"] = int(mot["release_year"])
                 created.append(mot_rec)
                 stats["added_subentries"] += 1
 
-            for su in fdef.get("shared_universe", []):
-                comic_rec["relations"].append({"relation": "shared_universe", "target_id": su, "target_type": "comic", "title": su.replace("-", " ").title()})
+            rel_anchor = comic_rec or (created[0] if created else None)
+            if rel_anchor is not None:
+                for su in fdef.get("shared_universe", []):
+                    rel_anchor["relations"].append({"relation": "shared_universe", "target_id": su, "target_type": "comic", "title": su.replace("-", " ").title()})
 
             items.extend(created)
             by_franchise[fid] = created
