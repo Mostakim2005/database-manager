@@ -14,6 +14,7 @@ if str(SRC_DIR) not in sys.path:
 from media import load_catalog  # noqa: E402
 from media.adaptation_refresh import run_adaptation_refresh  # noqa: E402
 from media.crawler import fetch_sitemaps  # noqa: E402
+from media.franchise_builder import rebuild_and_save_catalog  # noqa: E402
 from media.indexer import build_index  # noqa: E402
 from media.link_health import audit_catalog_links_offline, check_catalog_links_live  # noqa: E402
 
@@ -25,6 +26,8 @@ def main() -> None:
     parser.add_argument("--doctor", action="store_true", help="Run offline catalog consistency & coverage audit")
     parser.add_argument("--propose", action="store_true", help="Propose canonical comix.to link upgrades from sitemaps")
     parser.add_argument("--update", action="store_true", help="Probe public sources / refresh catalog proposals")
+    parser.add_argument("--rebuild", action="store_true", help="Deduplicate, import Obsidian batch, and split multi-tier franchises")
+    parser.add_argument("--enrich", action="store_true", help="Fetch public synopses, NSFW flags, and download local poster cache")
     parser.add_argument("--add", action="store_true", help="Propose (or --apply) adding a new media entry")
     parser.add_argument("--all", action="store_true", help="Run doctor + propose + probe workflow")
     parser.add_argument("--check-links", action="store_true", help="Audit reading & streaming link health")
@@ -37,6 +40,11 @@ def main() -> None:
     parser.add_argument("--apply", action="store_true", help="Persist proposed changes to media_catalog.json")
     parser.add_argument("--json", action="store_true", help="Emit JSON output")
     args = parser.parse_args()
+
+    if args.rebuild or args.enrich:
+        res = rebuild_and_save_catalog(enrich=args.enrich, download_posters=args.enrich)
+        print(json.dumps(res, indent=2, ensure_ascii=False))
+        return
 
     if args.crawl:
         count = fetch_sitemaps()

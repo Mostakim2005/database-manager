@@ -1,6 +1,6 @@
 {
   "domain": "media",
-  "schema_version": "2.0.0",
+  "schema_version": "2.1.0",
   "records_key": null,
   "unique_key": "id",
   "required_fields": [
@@ -17,11 +17,21 @@
     "name": "str",
     "alt": "str",
     "media_type": "str",
+    "tier": "str",
+    "sub_format": "str",
+    "source_is_text": "bool",
+    "nsfw": "bool",
     "link": "str",
     "origin": "str",
     "anime": "str",
     "live_action": "str",
-    "franchise_id": "str"
+    "description": "str",
+    "poster_url": "str",
+    "poster_cached_file": "str",
+    "watchlist_status": "str",
+    "franchise_id": "str",
+    "franchise_title": "str",
+    "parent_id": "str"
   },
   "enums": {
     "media_type": [
@@ -31,6 +41,21 @@
       "donghua",
       "movie",
       "tv_series"
+    ],
+    "tier": [
+      "source",
+      "visual",
+      "motion"
+    ],
+    "watchlist_status": [
+      "",
+      "plan_to_read",
+      "reading",
+      "plan_to_watch",
+      "watching",
+      "completed",
+      "paused",
+      "dropped"
     ]
   },
   "ranges": {}

@@ -29,6 +29,7 @@ Thumbs.db
 # Media Sitemap XML Cache (large regenerated crawl dumps; keep catalog JSON committed)
 data/media/sitemaps/*.xml
 !data/media/sitemaps/.gitkeep
+data/media/poster_cache/
 
 # GitHub Manager live full cache (contains private repo metadata; keep repos_public.json committed)
 data/github/live_cache.json

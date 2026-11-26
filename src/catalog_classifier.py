@@ -180,12 +180,19 @@ def classify_media_entry(entry: dict[str, Any]) -> dict[str, Any]:
         tags.append("interlinked_franchise")
     if entry.get("watchlist_status"):
         tags.append(str(entry["watchlist_status"]))
+    if entry.get("nsfw"):
+        tags.append("nsfw_18_plus")
+    if entry.get("tier"):
+        tags.append(f"tier_{entry['tier']}")
 
     return {
         "id": entry.get("id", ""),
         "name": entry.get("name", ""),
         "alt": entry.get("alt", ""),
         "media_type": media_type,
+        "tier": entry.get("tier", ""),
+        "sub_format": entry.get("sub_format", ""),
+        "nsfw": bool(entry.get("nsfw")),
         "origin": origin_raw,
         "origin_family": origin_family,
         "franchise_id": entry.get("franchise_id", ""),

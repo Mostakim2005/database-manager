@@ -406,12 +406,57 @@ class TestMediaDomainIntegration(unittest.TestCase):
             with urllib.request.urlopen(f"{base}/api/media/classified", timeout=5) as resp:
                 cls = json.loads(resp.read().decode("utf-8"))
                 self.assertGreaterEqual(cls["total"], 110)
+            with urllib.request.urlopen(f"{base}/api/media/refresh/status", timeout=5) as resp:
+                rst = json.loads(resp.read().decode("utf-8"))
+                self.assertIn("running", rst)
         finally:
             fetch_helper.HAVE_CURL_CFFI = orig_cf
             probe_srv.shutdown()
             probe_srv.server_close()
             api_srv.shutdown()
             api_srv.server_close()
+
+    def test_media_multi_tier_nsfw_and_local_poster_cache(self) -> None:
+        import media
+        from media import adaptation_refresh, franchise_builder, poster_cache
+
+        catalog = media.load_catalog()
+        self.assertGreaterEqual(len(catalog), 300)
+        # Ensure zero private mega.nz links leaked and 11 Obsidian franchises were deduplicated
+        self.assertFalse(any("mega.nz" in json.dumps(item).lower() for item in catalog))
+        btth = [item for item in catalog if item.get("franchise_id") == "battle-through-the-heavens"]
+        self.assertGreaterEqual(len(btth), 4)
+        self.assertTrue(any(item.get("media_type") == "light_novel" for item in btth))
+        self.assertTrue(any(item.get("media_type") == "donghua" for item in btth))
+        self.assertTrue(any(item.get("media_type") == "movie" for item in btth))
+        self.assertTrue(any(item.get("media_type") == "tv_series" for item in btth))
+
+        secret = [item for item in catalog if item.get("franchise_id") == "secret-class"]
+        self.assertEqual(len(secret), 1)
+        self.assertTrue(secret[0].get("nsfw"))
+
+        # Test temporary status persistence & local poster cache isolation
+        with tempfile.TemporaryDirectory() as td:
+            td_path = Path(td)
+            tmp_cat = td_path / "media_catalog.json"
+            tmp_cat.write_text(json.dumps(btth[:2]), encoding="utf-8")
+            res = adaptation_refresh.update_media_entry_status(btth[0]["id"], "reading", catalog_path=tmp_cat)
+            self.assertEqual(res["watchlist_status"], "reading")
+            reloaded = json.loads(tmp_cat.read_text(encoding="utf-8"))
+            self.assertEqual(reloaded[0]["watchlist_status"], "reading")
+
+            cache_dir = td_path / "poster_cache"
+            cache_dir.mkdir()
+            jpg_bytes = b"\xff\xd8\xff\xe0" + b"0" * 300
+            (cache_dir / "sample-item.jpg").write_bytes(jpg_bytes)
+            got = poster_cache.get_cached_poster_bytes("sample-item", cache_dir=cache_dir)
+            self.assertIsNotNone(got)
+            self.assertEqual(got[1], "image/jpeg")
+
+            # Verify idempotent re-run creates zero duplicates
+            expanded_again, stats_again = franchise_builder.build_multi_tier_catalog(catalog, include_obsidian_batch=True)
+            self.assertEqual(stats_again["imported_franchises"], 0)
+            self.assertEqual(len(expanded_again), len(catalog))
 
 
 if __name__ == "__main__":

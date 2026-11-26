@@ -16,14 +16,18 @@ _URL_RE = re.compile(r"https?://[^\s\)\]>\"']+")
 
 
 def extract_catalog_links(catalog: list[dict[str, Any]]) -> list[dict[str, str]]:
-    """Extract normalized link records across link, anime, and live_action fields."""
+    """Extract normalized link records across link, links, anime, and live_action fields."""
     extracted: list[dict[str, str]] = []
     for item in catalog:
         title = str(item.get("name", "Unknown"))
+        seen_item_urls: set[str] = set()
         for field in ("link", "anime", "live_action"):
             text = str(item.get(field, ""))
             for raw_url in _URL_RE.findall(text):
                 url = raw_url.rstrip(".,;:")
+                if url in seen_item_urls:
+                    continue
+                seen_item_urls.add(url)
                 parsed = urlparse(url)
                 kind = "browse_search" if "browse?q=" in url or "search_query=" in url or "/search?" in url else "direct"
                 extracted.append(
@@ -35,6 +39,24 @@ def extract_catalog_links(catalog: list[dict[str, Any]]) -> list[dict[str, str]]
                         "kind": kind,
                     }
                 )
+        for lk in item.get("links") or []:
+            if not isinstance(lk, dict):
+                continue
+            url = str(lk.get("url") or "").strip().rstrip(".,;:")
+            if not url or url in seen_item_urls:
+                continue
+            seen_item_urls.add(url)
+            parsed = urlparse(url)
+            kind = "browse_search" if "browse?q=" in url or "search_query=" in url or "/search?" in url else "direct"
+            extracted.append(
+                {
+                    "title": title,
+                    "field": "links",
+                    "url": url,
+                    "host": parsed.netloc.lower(),
+                    "kind": kind,
+                }
+            )
     return extracted
 
 

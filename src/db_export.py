@@ -208,20 +208,31 @@ def create_media_schema(conn: sqlite3.Connection) -> None:
             name TEXT NOT NULL,
             alt TEXT,
             media_type TEXT NOT NULL,
+            tier TEXT,
+            sub_format TEXT,
+            nsfw INTEGER,
+            watchlist_status TEXT,
+            parent_id TEXT,
             franchise_id TEXT,
+            franchise_title TEXT,
             link TEXT,
             origin TEXT,
             anime TEXT,
             live_action TEXT,
+            poster_url TEXT,
+            description TEXT,
             has_direct_link INTEGER,
             has_anime INTEGER,
             has_live_action INTEGER,
+            has_poster INTEGER,
             relations_json TEXT,
             raw_json TEXT
         );
         """
     )
     cursor.execute("CREATE INDEX IF NOT EXISTS idx_media_type ON media_catalog(media_type);")
+    cursor.execute("CREATE INDEX IF NOT EXISTS idx_media_tier ON media_catalog(tier);")
+    cursor.execute("CREATE INDEX IF NOT EXISTS idx_media_nsfw ON media_catalog(nsfw);")
     cursor.execute("CREATE INDEX IF NOT EXISTS idx_media_franchise ON media_catalog(franchise_id);")
     cursor.execute("CREATE INDEX IF NOT EXISTS idx_media_origin ON media_catalog(origin);")
     cursor.execute("CREATE INDEX IF NOT EXISTS idx_media_name ON media_catalog(name);")
@@ -724,26 +735,38 @@ def export_media(conn: sqlite3.Connection, data_root: Path = DATA_DIR) -> int:
         anime = str(item.get("anime") or "**None**")
         live_action = str(item.get("live_action") or "**None**")
         relations = item.get("relations") if isinstance(item.get("relations"), list) else []
+        poster_url = str(item.get("poster_url") or "")
         cursor.execute(
             """
             INSERT OR REPLACE INTO media_catalog (
-                id, name, alt, media_type, franchise_id, link, origin, anime, live_action,
-                has_direct_link, has_anime, has_live_action, relations_json, raw_json
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                id, name, alt, media_type, tier, sub_format, nsfw, watchlist_status,
+                parent_id, franchise_id, franchise_title, link, origin, anime, live_action,
+                poster_url, description, has_direct_link, has_anime, has_live_action, has_poster,
+                relations_json, raw_json
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 slug,
                 name,
                 str(item.get("alt", "")),
                 media_type,
+                str(item.get("tier") or ""),
+                str(item.get("sub_format") or ""),
+                1 if item.get("nsfw") else 0,
+                str(item.get("watchlist_status") or ""),
+                str(item.get("parent_id") or ""),
                 franchise_id,
+                str(item.get("franchise_title") or ""),
                 link,
                 str(item.get("origin", "")),
                 anime,
                 live_action,
+                poster_url,
+                str(item.get("description") or ""),
                 1 if ("comix.to/title/" in link or (link.startswith("https://") and not link.startswith("https://comix.to/browser"))) else 0,
                 0 if anime.startswith("**None**") else 1,
                 0 if live_action.startswith("**None**") else 1,
+                1 if poster_url else 0,
                 json.dumps(relations, ensure_ascii=False),
                 json.dumps(item, ensure_ascii=False),
             ),

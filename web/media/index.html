@@ -3,111 +3,281 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
   <title>Media &amp; Adaptations — Database Manager</title>
   <style>
     :root {
-      --bg: #0d1117;
-      --surface: #161b22;
-      --surface-hover: #21262d;
-      --border: #30363d;
-      --text: #e6edf3;
-      --text-muted: #8b949e;
-      --accent: #58a6ff;
-      --green: #3fb950;
-      --amber: #d29922;
-      --red: #f85149;
-      --purple: #bc8cff;
-      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color-scheme: light dark;
+      scroll-padding-block-start: 60px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+
+      --bg-light: #f6f8fa;
+      --surface-light: #ffffff;
+      --surface-alt-light: #f0f3f6;
+      --border-light: #d0d7de;
+      --text-light: #1f2328;
+      --muted-light: #57606a;
+      --accent-light: #0969da;
+      --green-light: #1a7f37;
+      --amber-light: #9a6700;
+      --red-light: #cf222e;
+      --purple-light: #8250df;
+      --img-outline-light: oklch(0 0 0 / 0.1);
+
+      --bg-dark: #0d1117;
+      --surface-dark: #161b22;
+      --surface-alt-dark: #1c2128;
+      --border-dark: #30363d;
+      --text-dark: #e6edf3;
+      --muted-dark: #8b949e;
+      --accent-dark: #58a6ff;
+      --green-dark: #3fb950;
+      --amber-dark: #d29922;
+      --red-dark: #f85149;
+      --purple-dark: #bc8cff;
+      --img-outline-dark: oklch(1 0 0 / 0.1);
+
+      --bg: var(--bg-dark);
+      --surface: var(--surface-dark);
+      --surface-alt: var(--surface-alt-dark);
+      --border: var(--border-dark);
+      --text: var(--text-dark);
+      --muted: var(--muted-dark);
+      --accent: var(--accent-dark);
+      --green: var(--green-dark);
+      --amber: var(--amber-dark);
+      --red: var(--red-dark);
+      --purple: var(--purple-dark);
+      --img-outline: var(--img-outline-dark);
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root:not([data-theme="dark"]) {
+        --bg: var(--bg-light);
+        --surface: var(--surface-light);
+        --surface-alt: var(--surface-alt-light);
+        --border: var(--border-light);
+        --text: var(--text-light);
+        --muted: var(--muted-light);
+        --accent: var(--accent-light);
+        --green: var(--green-light);
+        --amber: var(--amber-light);
+        --red: var(--red-light);
+        --purple: var(--purple-light);
+        --img-outline: var(--img-outline-light);
+      }
+    }
+
+    @supports (color: light-dark(white, black)) {
+      :root {
+        --bg: light-dark(var(--bg-light), var(--bg-dark));
+        --surface: light-dark(var(--surface-light), var(--surface-dark));
+        --surface-alt: light-dark(var(--surface-alt-light), var(--surface-alt-dark));
+        --border: light-dark(var(--border-light), var(--border-dark));
+        --text: light-dark(var(--text-light), var(--text-dark));
+        --muted: light-dark(var(--muted-light), var(--muted-dark));
+        --accent: light-dark(var(--accent-light), var(--accent-dark));
+        --green: light-dark(var(--green-light), var(--green-dark));
+        --amber: light-dark(var(--amber-light), var(--amber-dark));
+        --red: light-dark(var(--red-light), var(--red-dark));
+        --purple: light-dark(var(--purple-light), var(--purple-dark));
+        --img-outline: light-dark(var(--img-outline-light), var(--img-outline-dark));
+      }
+    }
+
+    html[data-theme="dark"] { color-scheme: dark; }
+    html[data-theme="light"] { color-scheme: light; }
+    html.theme-switching *, html.theme-switching *::before, html.theme-switching *::after {
+      transition: none !important;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       background-color: var(--bg);
       color: var(--text);
-      font-family: var(--font-family);
+      font-family: var(--font-sans);
+      font-size: 0.9375rem;
       line-height: 1.5;
-      padding: 20px 24px 40px;
+      padding: 20px 24px 48px;
+      accent-color: var(--accent);
     }
 
-    header {
+    header.page-header {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-start;
       flex-wrap: wrap;
       gap: 12px;
       border-bottom: 1px solid var(--border);
       padding-bottom: 16px;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
-    h1 { font-size: 22px; font-weight: 600; }
-    .subtitle { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+    h1 {
+      font-size: 1.375rem;
+      font-weight: 700;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+    }
+    .subtitle {
+      font-size: 0.8125rem;
+      color: var(--muted);
+      margin-top: 3px;
+      line-height: 1.4;
+    }
 
-    .actions { display: flex; flex-wrap: wrap; gap: 8px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
     .btn {
-      background: var(--surface-hover);
+      background: var(--surface);
       color: var(--text);
       border: 1px solid var(--border);
       border-radius: 6px;
       padding: 7px 12px;
-      font-size: 12px;
-      font-weight: 500;
+      min-height: 32px;
+      font-size: 0.75rem;
+      font-weight: 600;
       cursor: pointer;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      -webkit-tap-highlight-color: transparent;
+      transition-property: background-color, border-color, color, transform;
+      transition-duration: 150ms;
+      transition-timing-function: ease-out;
     }
-    .btn:hover { border-color: var(--accent); color: var(--accent); }
     .btn-primary {
-      background: rgba(88, 166, 255, 0.14);
+      background: color-mix(in oklab, var(--accent) 16%, var(--surface));
       border-color: var(--accent);
       color: var(--accent);
     }
+    .btn[aria-pressed="true"] {
+      background: color-mix(in oklab, var(--accent) 20%, var(--surface));
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .btn:disabled { opacity: 0.55; cursor: not-allowed; }
+    @media (hover: hover) {
+      .btn:not(:disabled):hover { border-color: var(--accent); color: var(--accent); }
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .btn:not(:disabled):active { transform: scale(0.96); }
+    }
 
+    :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+    /* KPI Grid */
     .kpi-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
       gap: 12px;
       margin-bottom: 18px;
     }
     .kpi-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 14px 16px;
+      border-radius: 10px;
+      padding: 13px 16px;
     }
-    .kpi-label { font-size: 12px; color: var(--text-muted); }
-    .kpi-value { font-size: 22px; font-weight: 700; margin-top: 4px; }
-    .kpi-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+    .kpi-label { font-size: 0.75rem; font-weight: 600; color: var(--muted); }
+    .kpi-value {
+      font-size: 1.375rem;
+      font-weight: 700;
+      margin-top: 3px;
+      line-height: 1.2;
+      font-variant-numeric: tabular-nums;
+    }
+    .kpi-sub { font-size: 0.75rem; color: var(--muted); margin-top: 3px; font-variant-numeric: tabular-nums; }
 
-    .controls {
+    /* Controls & QoL Toolbar */
+    .controls-shell {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 8px;
+      border-radius: 10px;
       padding: 14px 16px;
+      margin-bottom: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .controls-row {
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
       align-items: flex-end;
-      margin-bottom: 16px;
     }
-    .control-group { display: flex; flex-direction: column; gap: 4px; min-width: 160px; flex: 1; }
-    label { font-size: 11px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; }
-    input, select {
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 155px;
+      flex: 1;
+    }
+    .control-group label {
+      font-size: 0.6875rem;
+      color: var(--muted);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    input[type="search"], select {
       background: var(--bg);
       color: var(--text);
       border: 1px solid var(--border);
       border-radius: 6px;
       padding: 7px 10px;
-      font-size: 13px;
+      font-size: 0.875rem;
+      min-height: 36px;
+      width: 100%;
+    }
+    @media (max-width: 640px) {
+      input[type="search"], select { font-size: 1rem; }
     }
 
+    .qol-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+    }
+    .qol-group { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+
+    .switch-card {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 12px;
+      min-height: 34px;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .switch-card:has(input:checked) {
+      border-color: var(--red);
+      background: color-mix(in oklab, var(--red) 10%, var(--bg));
+    }
+    input[type="checkbox"][switch] {
+      width: 17px;
+      height: 17px;
+      accent-color: var(--red);
+      margin: 0;
+      cursor: pointer;
+    }
+
+    /* Progress & Diagnostic Panels */
     .panel {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 8px;
+      border-radius: 10px;
       padding: 14px 16px;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
       display: none;
     }
     .panel.open { display: block; }
@@ -115,174 +285,708 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 8px;
       margin-bottom: 10px;
-      font-size: 14px;
-      font-weight: 600;
+      font-size: 0.875rem;
+      font-weight: 700;
     }
     .panel-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 10px;
-      margin-top: 8px;
     }
     .mini-box {
       background: var(--bg);
       border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 10px;
-      font-size: 12px;
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 0.75rem;
       color: var(--text);
     }
 
-    .table-wrap {
+    .progress-box {
+      display: none;
+      background: var(--surface);
+      border: 1px solid var(--accent);
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 14px;
+      font-size: 0.8125rem;
+    }
+    .progress-box.active { display: block; }
+    .progress-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .progress-track {
+      height: 7px;
+      background: var(--surface-alt);
+      border-radius: 99px;
+      overflow: hidden;
+      margin-top: 8px;
+      border: 1px solid var(--border);
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--accent);
+      transition-property: width;
+      transition-duration: 220ms;
+      transition-timing-function: ease-out;
+    }
+
+    .nsfw-notice {
+      background: color-mix(in oklab, var(--amber) 12%, var(--surface));
+      border: 1px solid var(--amber);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 0.8125rem;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .nsfw-notice[hidden] { display: none; }
+
+    .result-bar {
+      font-size: 0.8125rem;
+      color: var(--muted);
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Multi-Tier Franchise Matrix (Uniform Column Start Baseline!) */
+    .matrix-shell {
+      container-type: inline-size;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .tier-column-legend {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      position: sticky;
+      top: 48px;
+      z-index: 4;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+    }
+    @container (width < 880px) {
+      .tier-column-legend { display: none; }
+    }
+
+    .franchise-block {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      overflow: auto;
+      border-radius: 14px;
+      overflow: hidden;
     }
-    table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    th, td {
-      text-align: left;
-      padding: 11px 14px;
+    .franchise-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 12px 16px;
+      background: var(--surface-alt);
       border-bottom: 1px solid var(--border);
-      vertical-align: top;
     }
-    th {
-      background: #1c2128;
-      color: var(--text-muted);
-      font-size: 12px;
-      font-weight: 600;
-      position: sticky;
-      top: 0;
-      z-index: 2;
+    .franchise-block.is-collapsed .franchise-header { border-bottom: none; }
+    .franchise-title-wrap { min-width: 0; flex: 1; }
+    .franchise-title-line {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
     }
-    tr:hover td { background: rgba(88, 166, 255, 0.04); }
+    .franchise-title {
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--text);
+    }
+    .alt-text {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 2px;
+      overflow-wrap: break-word;
+    }
+    .franchise-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 7px;
+      align-items: center;
+    }
 
-    .title-link { color: var(--accent); font-weight: 600; text-decoration: none; font-size: 14px; }
-    .title-link:hover { text-decoration: underline; }
-    .alt-text { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
-    .badge {
-      display: inline-block;
-      padding: 2px 7px;
-      border-radius: 10px;
-      font-size: 11px;
-      font-weight: 600;
-      margin-top: 5px;
-      margin-right: 4px;
-      border: 1px solid var(--border);
-      background: var(--bg);
-      color: var(--text-muted);
+    /* All 3 tiers sit in one horizontal grid directly below the full-width header -> uniform Y baseline */
+    .tiers-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0;
     }
-    .badge-direct { border-color: rgba(63, 185, 80, 0.45); color: var(--green); }
-    .badge-browse { border-color: rgba(210, 153, 34, 0.45); color: var(--amber); }
-    .badge-origin { border-color: rgba(188, 140, 255, 0.4); color: var(--purple); }
-    .badge-type { border-color: rgba(88, 166, 255, 0.45); color: var(--accent); }
-    .rel-chip {
-      display: inline-block;
-      margin-top: 5px;
-      margin-right: 4px;
-      padding: 2px 8px;
-      border-radius: 10px;
-      font-size: 11px;
-      background: rgba(88, 166, 255, 0.12);
-      border: 1px solid rgba(88, 166, 255, 0.4);
-      color: var(--accent);
+    .tier-col {
+      padding: 12px;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-width: 0;
+    }
+    .tier-col:last-child { border-right: none; }
+    .tier-mobile-label {
+      display: none;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+    }
+    @container (width < 880px) {
+      .tiers-grid { grid-template-columns: 1fr; }
+      .tier-col {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+      .tier-col:last-child { border-bottom: none; }
+      .tier-mobile-label { display: block; }
+    }
+
+    /* Sub-Entry Card (Concentric Radius: inner 6px + padding 10px ~= 12px card) */
+    .sub-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-width: 0;
+    }
+    .sub-card.empty-card {
+      border-style: dashed;
+      color: var(--muted);
+      font-size: 0.75rem;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      min-height: 76px;
+    }
+    .sub-top {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      min-width: 0;
+    }
+    .poster-btn {
+      position: relative;
+      flex: 0 0 56px;
+      width: 56px;
+      height: 82px;
+      padding: 0;
+      border: none;
+      border-radius: 6px;
+      overflow: hidden;
+      background: var(--surface-alt);
+      cursor: zoom-in;
+      outline: 1px solid var(--img-outline);
+      outline-offset: -1px;
+    }
+    .poster-btn img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .poster-btn svg { width: 100%; height: 100%; display: block; }
+    .poster-zoom-hint {
+      position: absolute;
+      inset-inline: 2px;
+      inset-block-end: 2px;
+      background: rgba(13, 17, 23, 0.78);
+      color: #ffffff;
+      font-size: 0.625rem;
+      font-weight: 700;
+      text-align: center;
+      border-radius: 4px;
+      padding: 1px 3px;
+      opacity: 0;
+      pointer-events: none;
+      transition-property: opacity;
+      transition-duration: 150ms;
+    }
+    @media (hover: hover) {
+      .poster-btn:hover .poster-zoom-hint { opacity: 1; }
+    }
+    .poster-btn:focus-visible .poster-zoom-hint { opacity: 1; }
+
+    .sub-header-col { flex: 1; min-width: 0; }
+    .sub-title-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 6px;
+    }
+    .sub-title {
+      font-size: 0.875rem;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--text);
+      overflow-wrap: break-word;
+    }
+    .collapse-btn {
+      flex: 0 0 auto;
+      min-width: 26px;
+      min-height: 26px;
+      padding: 2px 7px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--muted);
       cursor: pointer;
     }
-    .rel-chip:hover { background: rgba(88, 166, 255, 0.24); }
+    @media (hover: hover) {
+      .collapse-btn:hover { border-color: var(--accent); color: var(--accent); }
+    }
 
-    .cell-rich a { color: var(--accent); text-decoration: none; }
-    .cell-rich a:hover { text-decoration: underline; }
-    .muted-none { color: var(--text-muted); font-style: italic; }
-    .result-bar { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; }
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 5px;
+      align-items: center;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 7px;
+      border-radius: 99px;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .badge-novel { border-color: var(--purple); color: var(--purple); }
+    .badge-comic { border-color: var(--green); color: var(--green); }
+    .badge-motion { border-color: var(--accent); color: var(--accent); }
+    .badge-live { border-color: var(--amber); color: var(--amber); }
+    .badge-nsfw {
+      border-color: var(--red);
+      color: var(--red);
+      background: color-mix(in oklab, var(--red) 10%, var(--surface));
+    }
+    .badge-cache { border-color: var(--green); color: var(--green); }
 
-    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; } }
+    .status-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 6px;
+      flex-wrap: wrap;
+    }
+    .status-select {
+      width: auto;
+      min-width: 145px;
+      min-height: 28px;
+      padding: 3px 8px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border-radius: 99px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      cursor: pointer;
+    }
+    .status-select[data-state="reading"],
+    .status-select[data-state="watching"] {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .status-select[data-state="completed"] {
+      border-color: var(--green);
+      color: var(--green);
+    }
+    .status-select[data-state="plan_to_read"],
+    .status-select[data-state="plan_to_watch"] {
+      border-color: var(--amber);
+      color: var(--amber);
+    }
+    .save-hint { font-size: 0.6875rem; color: var(--green); font-weight: 600; }
+
+    .sub-details-inner {
+      border-top: 1px solid var(--border);
+      padding-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+    .synopsis {
+      font-size: 0.78125rem;
+      line-height: 1.5;
+      color: var(--text);
+      text-wrap: pretty;
+      overflow-wrap: break-word;
+    }
+    .link-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--accent);
+    }
+    .pill.unofficial { border-style: dashed; color: var(--amber); }
+    .pill.tracker { color: var(--purple); }
+    @media (hover: hover) {
+      .pill:hover { border-color: var(--accent); text-decoration: underline; }
+    }
+
+    .rel-chip {
+      border: 1px solid var(--accent);
+      background: color-mix(in oklab, var(--accent) 10%, var(--surface));
+      color: var(--accent);
+      border-radius: 99px;
+      padding: 2px 8px;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* Reddit-Style Collapsible Nested Thread Tree View */
+    .thread-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .thread-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+    }
+    .thread-node { position: relative; }
+    .thread-head {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 4px 0;
+    }
+    .thread-toggle-btn {
+      flex: 0 0 auto;
+      min-width: 24px;
+      min-height: 24px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--muted);
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .thread-children-wrap {
+      display: grid;
+      grid-template-columns: 20px minmax(0, 1fr);
+      margin-top: 4px;
+    }
+    .thread-gutter {
+      background: transparent;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      position: relative;
+      min-height: 24px;
+    }
+    .thread-gutter::before {
+      content: "";
+      width: 2px;
+      height: 100%;
+      background: var(--border);
+      border-radius: 2px;
+      transition-property: background-color, width;
+      transition-duration: 150ms;
+    }
+    @media (hover: hover) {
+      .thread-gutter:hover::before {
+        background: var(--accent);
+        width: 3px;
+      }
+      .thread-toggle-btn:hover { border-color: var(--accent); color: var(--accent); }
+    }
+    .thread-children {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding-left: 4px;
+      min-width: 0;
+    }
+    .thread-reply-box {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 10px;
+      min-width: 0;
+    }
+    .thread-collapsed-bar {
+      margin-top: 6px;
+      margin-left: 34px;
+      padding: 5px 10px;
+      border-radius: 6px;
+      border: 1px dashed var(--border);
+      background: var(--surface-alt);
+      color: var(--muted);
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .tiny-poster {
+      flex: 0 0 38px;
+      width: 38px;
+      height: 54px;
+      border-radius: 4px;
+      overflow: hidden;
+      border: none;
+      padding: 0;
+      cursor: zoom-in;
+      outline: 1px solid var(--img-outline);
+      outline-offset: -1px;
+      background: var(--surface-alt);
+    }
+    .tiny-poster img, .tiny-poster svg { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* Native Lightbox Modal Dialog */
+    dialog#poster-dialog {
+      margin: auto;
+      max-width: min(720px, 94vw);
+      max-height: 90vh;
+      width: 100%;
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 0;
+      overflow: hidden;
+    }
+    dialog#poster-dialog[open] { display: flex; flex-direction: column; }
+    dialog#poster-dialog:modal { overscroll-behavior: contain; }
+    dialog#poster-dialog::backdrop {
+      background: rgba(0, 0, 0, 0.72);
+      backdrop-filter: blur(3px);
+      overflow: hidden;
+      overscroll-behavior: contain;
+    }
+    .dlg-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 18px;
+      background: var(--surface-alt);
+      border-bottom: 1px solid var(--border);
+    }
+    .dlg-header h1 { font-size: 1.0625rem; }
+    .dlg-body {
+      padding: 18px;
+      overflow-y: auto;
+      display: grid;
+      grid-template-columns: 200px minmax(0, 1fr);
+      gap: 18px;
+      align-items: start;
+    }
+    @media (max-width: 600px) {
+      .dlg-body { grid-template-columns: 1fr; }
+    }
+    .dlg-poster-wrap {
+      width: 100%;
+      aspect-ratio: 2 / 3;
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--bg);
+      outline: 1px solid var(--img-outline);
+      outline-offset: -1px;
+    }
+    .dlg-poster-wrap img, .dlg-poster-wrap svg {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .dlg-info { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+
+    @media (forced-colors: active) {
+      .badge, .pill, .sub-card, .franchise-block, .switch-card, .btn { border: 1px solid ButtonText; }
+    }
   </style>
 </head>
 <body>
-  <header>
+  <header class="page-header">
     <div>
       <h1>Media &amp; Adaptation Graph</h1>
-      <p class="subtitle">Interconnected comics, light novels, anime/donghua, movies, and TV series (Outlander watchlist imported; Obsidian sync retired)</p>
+      <p id="header-subtitle" class="subtitle">Multi-tier Source Novels → Visual Comics → Anime / Donghua / Movies &amp; Live-Action (with local PC poster cache &amp; NSFW filter)</p>
     </div>
     <div class="actions">
-      <button id="btn-doctor" type="button" class="btn btn-primary">Catalog Doctor</button>
-      <button id="btn-links-offline" type="button" class="btn">Link Audit (Offline)</button>
-      <button id="btn-links-live" type="button" class="btn">Probe 5 Links Live</button>
+      <button id="btn-refresh-live" type="button" class="btn btn-primary">Refresh &amp; Cache Posters</button>
+      <button id="btn-doctor" type="button" class="btn">Catalog Doctor</button>
+      <button id="btn-links-offline" type="button" class="btn">Link Audit</button>
+      <button id="btn-links-live" type="button" class="btn">Probe 5 Links</button>
+      <button id="btn-theme" type="button" class="btn">Theme</button>
       <a href="/api/media" target="_blank" rel="noopener noreferrer" class="btn">JSON API</a>
     </div>
   </header>
 
   <section class="kpi-grid" aria-label="Catalog Metrics">
     <div class="kpi-card">
-      <div class="kpi-label">Total Media Entries</div>
-      <div id="kpi-total" class="kpi-value">--</div>
-      <div id="kpi-subdomains" class="kpi-sub">Loading catalog...</div>
+      <div class="kpi-label">Franchises</div>
+      <div id="kpi-franchises" class="kpi-value">--</div>
+      <div id="kpi-total" class="kpi-sub">-- total sub-entries</div>
     </div>
     <div class="kpi-card">
-      <div class="kpi-label">Direct comix.to Links</div>
+      <div class="kpi-label">Direct Reading Links</div>
       <div id="kpi-direct" class="kpi-value" style="color:var(--green);">--</div>
       <div id="kpi-fallback" class="kpi-sub">-- browse fallbacks</div>
     </div>
     <div class="kpi-card">
-      <div class="kpi-label">Anime / Donghua / Motion</div>
-      <div id="kpi-anime" class="kpi-value" style="color:var(--accent);">--</div>
-      <div class="kpi-sub">Official, teaser, or fan motion</div>
+      <div class="kpi-label">Motion &amp; Screen</div>
+      <div id="kpi-motion" class="kpi-value" style="color:var(--accent);">--</div>
+      <div id="kpi-motion-sub" class="kpi-sub">Anime, donghua, films &amp; dramas</div>
     </div>
     <div class="kpi-card">
-      <div class="kpi-label">Live-Action / TV / Film</div>
-      <div id="kpi-live" class="kpi-value" style="color:var(--purple);">--</div>
-      <div class="kpi-sub">C-Drama, K-Drama, TV &amp; Movies</div>
+      <div class="kpi-label">Posters &amp; Synopses</div>
+      <div id="kpi-posters" class="kpi-value" style="color:var(--purple);">--</div>
+      <div id="kpi-posters-sub" class="kpi-sub">Loading cache info…</div>
     </div>
     <div class="kpi-card">
-      <div class="kpi-label">Interlinked Franchise Nodes</div>
-      <div id="kpi-linked" class="kpi-value" style="color:var(--amber);">--</div>
-      <div class="kpi-sub">Cross-medium adaptation chains</div>
+      <div class="kpi-label">Watch / Read Tracker</div>
+      <div id="kpi-tracked" class="kpi-value" style="color:var(--amber);">--</div>
+      <div id="kpi-tracked-sub" class="kpi-sub">Active &amp; planned items</div>
     </div>
   </section>
 
-  <section class="controls" aria-label="Filter Media Catalog">
-    <div class="control-group" style="flex:2;">
-      <label for="search-input">Search Title, Alt Name, Franchise, Studio or Platform</label>
-      <input id="search-input" type="search" placeholder="e.g. Joy of Life, Outlander, Eminence, Lookism...">
+  <section class="controls-shell" aria-label="Filter and Layout Controls">
+    <div class="controls-row">
+      <div class="control-group" style="flex:2;">
+        <label for="search-input">Search Title, Alt Name, Synopsis, Studio, or Platform</label>
+        <input id="search-input" type="search" placeholder="e.g. Battle Through the Heavens, Doona, Outlander, Stepmother…">
+      </div>
+      <div class="control-group">
+        <label for="type-select">Subdomain / Format</label>
+        <select id="type-select">
+          <option value="all">All Subdomains</option>
+          <option value="light_novel">Books / Web &amp; Light Novels</option>
+          <option value="comic">Comics (Manga / Manhwa / Manhua)</option>
+          <option value="anime">Anime</option>
+          <option value="donghua">Donghua</option>
+          <option value="fan_motion">Fan Motion / Teasers</option>
+          <option value="movie">Movies</option>
+          <option value="tv_series">Live-Action TV / Stage</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label for="origin-select">Origin Medium</label>
+        <select id="origin-select">
+          <option value="all">All Origins</option>
+          <option value="manhua">Manhua (Chinese)</option>
+          <option value="manhwa">Manhwa (Korean)</option>
+          <option value="manga">Manga (Japanese)</option>
+          <option value="novel">Light / Web Novel</option>
+          <option value="western">Western / TV / Game IP</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label for="adapt-select">Tier &amp; Adaptation Filter</label>
+        <select id="adapt-select">
+          <option value="all">All Franchises</option>
+          <option value="has_text">Has Text Source (Novel)</option>
+          <option value="visual_orig">Visual Original (No Novel)</option>
+          <option value="multi_motion">Multiple Screen Adaptations (2+)</option>
+          <option value="has_motion">Has Anime / Donghua / Motion</option>
+          <option value="has_live">Has Live-Action / Film</option>
+          <option value="production">In Production</option>
+          <option value="no_motion">No Screen Adaptation Yet</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label for="status-select">Watch / Read Status</label>
+        <select id="status-select">
+          <option value="all">All Statuses</option>
+          <option value="active">Currently Doing (Reading / Watching)</option>
+          <option value="planned">Plan to Read / Watch</option>
+          <option value="completed">Completed</option>
+          <option value="paused">Paused / Dropped</option>
+          <option value="unset">Unset Only</option>
+        </select>
+      </div>
     </div>
-    <div class="control-group">
-      <label for="type-select">Media Subdomain</label>
-      <select id="type-select">
-        <option value="all">All Subdomains</option>
-        <option value="comic">Comics (Manga / Manhwa / Manhua)</option>
-        <option value="light_novel">Light / Web Novels</option>
-        <option value="anime">Anime</option>
-        <option value="donghua">Donghua</option>
-        <option value="movie">Movies</option>
-        <option value="tv_series">TV Series</option>
-      </select>
-    </div>
-    <div class="control-group">
-      <label for="origin-select">Origin Medium</label>
-      <select id="origin-select">
-        <option value="all">All Origins</option>
-        <option value="manhua">Manhua (Chinese)</option>
-        <option value="manhwa">Manhwa (Korean)</option>
-        <option value="manga">Manga (Japanese)</option>
-        <option value="novel">Light / Web Novel</option>
-      </select>
-    </div>
-    <div class="control-group">
-      <label for="adapt-select">Adaptation / Link Filter</label>
-      <select id="adapt-select">
-        <option value="all">All Entries</option>
-        <option value="linked">Has Franchise Relations</option>
-        <option value="anime">Has Anime / Donghua / Motion</option>
-        <option value="live">Has Live-Action / TV</option>
-        <option value="production">In Production (News)</option>
-        <option value="plan">Plan to Watch / Read (Wishlist)</option>
-        <option value="direct">Direct comix.to Link Only</option>
-        <option value="browse">Browse Fallback Only</option>
-      </select>
+
+    <div class="qol-bar">
+      <div class="qol-group">
+        <button id="btn-view-matrix" type="button" class="btn" aria-pressed="true">Multi-Tier Matrix</button>
+        <button id="btn-view-tree" type="button" class="btn" aria-pressed="false">Compact Reddit Tree</button>
+        <button id="btn-toggle-all-groups" type="button" class="btn">Collapse All Franchises</button>
+        <button id="btn-toggle-all-cards" type="button" class="btn">Collapse Card Details</button>
+        <button id="btn-reset-filters" type="button" class="btn" hidden>Reset Filters</button>
+      </div>
+      <div class="qol-group">
+        <label class="switch-card" for="nsfw-toggle">
+          <input id="nsfw-toggle" type="checkbox" switch>
+          <span>Show NSFW / 18+</span>
+        </label>
+      </div>
     </div>
   </section>
+
+  <div id="refresh-progress" class="progress-box" aria-live="polite">
+    <div class="progress-head">
+      <span id="refresh-msg">Probing public sources and caching posters locally…</span>
+      <button id="btn-refresh-cancel" type="button" class="btn">Cancel</button>
+    </div>
+    <div class="progress-track"><div id="refresh-fill" class="progress-fill"></div></div>
+  </div>
+
+  <div id="nsfw-notice" class="nsfw-notice" hidden>
+    <span id="nsfw-notice-text"></span>
+    <button id="btn-reveal-nsfw" type="button" class="btn">Show 18+ Entries</button>
+  </div>
 
   <section id="diag-panel" class="panel" aria-live="polite">
     <div class="panel-header">
@@ -293,288 +997,1284 @@
   </section>
 
   <div class="result-bar">
-    <span id="result-bar">Loading catalog...</span>
-    <button id="btn-clear-franchise" type="button" class="btn" style="display:none; padding:3px 9px;">Clear Franchise Filter</button>
+    <span id="result-bar">Loading catalog…</span>
+    <button id="btn-clear-franchise" type="button" class="btn" hidden>Clear Franchise Filter</button>
   </div>
 
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th style="width:30%;">Title, Subdomain &amp; Relations</th>
-          <th style="width:38%;">Anime / Donghua / Fan Motion</th>
-          <th style="width:32%;">Live-Action / TV / Film</th>
-        </tr>
-      </thead>
-      <tbody id="catalog-body"></tbody>
-    </table>
-  </div>
+  <main id="catalog-root"></main>
+
+  <dialog id="poster-dialog" closedby="any" aria-labelledby="dlg-title">
+    <div class="dlg-header">
+      <h1 id="dlg-title">Poster Preview</h1>
+      <form method="dialog">
+        <button type="submit" class="btn" autofocus>Close</button>
+      </form>
+    </div>
+    <div class="dlg-body">
+      <div id="dlg-poster-wrap" class="dlg-poster-wrap"></div>
+      <div class="dlg-info">
+        <div id="dlg-badges" class="badge-row"></div>
+        <div id="dlg-status-wrap" class="status-row"></div>
+        <p id="dlg-desc" class="synopsis"></p>
+        <div id="dlg-cache-note" class="alt-text"></div>
+        <div id="dlg-links" class="link-pills"></div>
+      </div>
+    </div>
+  </dialog>
 
   <script>
-    let ALL_ITEMS = [];
-    let ACTIVE_FRANCHISE = '';
+    "use strict";
 
-    function appendSafeFormattedText(container, rawText) {
-      const text = String(rawText || '');
-      if (text.trim() === '**None**') {
-        const span = document.createElement('span');
-        span.className = 'muted-none';
-        span.textContent = 'None';
-        container.appendChild(span);
-        return;
+    let ALL_ITEMS = [];
+    let VIEW_MODE = localStorage.getItem("dbm_media_view") === "tree" ? "tree" : "matrix";
+    let ALL_CARDS_EXPANDED = localStorage.getItem("dbm_media_cards_open") !== "false";
+    let ALL_GROUPS_COLLAPSED = false;
+    let ACTIVE_FRANCHISE = "";
+    const COLLAPSED_GROUPS = new Set();
+    const COLLAPSED_NODES = new Set();
+    const CARD_OPEN_OVERRIDES = new Map();
+    let REFRESH_POLL_TIMER = null;
+
+    const STATUS_LABELS = [
+      { value: "", label: "Status: Unset" },
+      { value: "plan_to_read", label: "Plan to Read" },
+      { value: "reading", label: "Currently Reading" },
+      { value: "plan_to_watch", label: "Plan to Watch" },
+      { value: "watching", label: "Currently Watching" },
+      { value: "completed", label: "Completed" },
+      { value: "paused", label: "Paused" },
+      { value: "dropped", label: "Dropped" }
+    ];
+
+    const PALETTE_BY_TYPE = {
+      light_novel: ["#4c1d95", "#7c3aed", "NOVEL"],
+      comic: ["#065f46", "#10b981", "COMIC"],
+      anime: ["#1e3a8a", "#3b82f6", "ANIME"],
+      donghua: ["#1d4ed8", "#06b6d4", "DONGHUA"],
+      movie: ["#9a3412", "#f97316", "MOVIE"],
+      tv_series: ["#92400e", "#f59e0b", "SERIES"]
+    };
+
+    function isBeforeMatchSupported() {
+      return "onbeforematch" in HTMLElement.prototype;
+    }
+
+    function createPosterSvg(item) {
+      const svgNS = "http://www.w3.org/2000/svg";
+      const [c1, c2, lbl] = PALETTE_BY_TYPE[item.media_type] || ["#334155", "#64748b", "MEDIA"];
+      const badgeTxt = (item.sub_format || lbl).slice(0, 10).toUpperCase();
+      const initials = String(item.franchise_title || item.name || "MD").replace(/[^A-Za-z0-9]/g, "").slice(0, 2).toUpperCase() || "MD";
+
+      const svg = document.createElementNS(svgNS, "svg");
+      svg.setAttribute("viewBox", "0 0 64 92");
+      svg.setAttribute("aria-hidden", "true");
+
+      const defs = document.createElementNS(svgNS, "defs");
+      const grad = document.createElementNS(svgNS, "linearGradient");
+      const gid = "g-" + String(item.id || "x").replace(/[^a-zA-Z0-9]/g, "") + "-" + Math.random().toString(36).slice(2, 6);
+      grad.setAttribute("id", gid);
+      grad.setAttribute("x1", "0");
+      grad.setAttribute("y1", "0");
+      grad.setAttribute("x2", "1");
+      grad.setAttribute("y2", "1");
+      const s1 = document.createElementNS(svgNS, "stop");
+      s1.setAttribute("offset", "0%");
+      s1.setAttribute("stop-color", c1);
+      const s2 = document.createElementNS(svgNS, "stop");
+      s2.setAttribute("offset", "100%");
+      s2.setAttribute("stop-color", c2);
+      grad.appendChild(s1);
+      grad.appendChild(s2);
+      defs.appendChild(grad);
+      svg.appendChild(defs);
+
+      const rect = document.createElementNS(svgNS, "rect");
+      rect.setAttribute("width", "64");
+      rect.setAttribute("height", "92");
+      rect.setAttribute("fill", "url(#" + gid + ")");
+      svg.appendChild(rect);
+
+      const tagRect = document.createElementNS(svgNS, "rect");
+      tagRect.setAttribute("x", "5");
+      tagRect.setAttribute("y", "8");
+      tagRect.setAttribute("width", "54");
+      tagRect.setAttribute("height", "14");
+      tagRect.setAttribute("rx", "3");
+      tagRect.setAttribute("fill", "rgba(0,0,0,0.45)");
+      svg.appendChild(tagRect);
+
+      const t1 = document.createElementNS(svgNS, "text");
+      t1.setAttribute("x", "32");
+      t1.setAttribute("y", "18");
+      t1.setAttribute("text-anchor", "middle");
+      t1.setAttribute("fill", "#ffffff");
+      t1.setAttribute("font-size", "6.8");
+      t1.setAttribute("font-weight", "700");
+      t1.setAttribute("font-family", "sans-serif");
+      t1.textContent = badgeTxt;
+      svg.appendChild(t1);
+
+      const t2 = document.createElementNS(svgNS, "text");
+      t2.setAttribute("x", "32");
+      t2.setAttribute("y", "56");
+      t2.setAttribute("text-anchor", "middle");
+      t2.setAttribute("fill", "rgba(255,255,255,0.92)");
+      t2.setAttribute("font-size", "18");
+      t2.setAttribute("font-weight", "800");
+      t2.setAttribute("font-family", "sans-serif");
+      t2.textContent = initials;
+      svg.appendChild(t2);
+
+      return svg;
+    }
+
+    function createPosterVisual(item, large) {
+      const wrap = document.createDocumentFragment();
+      const hasPoster = Boolean(item.poster_cached_file || item.poster_url);
+      if (!hasPoster) {
+        wrap.appendChild(createPosterSvg(item));
+        return wrap;
       }
 
-      const lines = text.split(/<br\s*\/?>/i);
-      lines.forEach((line, lineIdx) => {
-        if (lineIdx > 0) container.appendChild(document.createElement('br'));
-        const tokenRe = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)|\*\*([^*]+)\*\*/g;
-        let lastIndex = 0;
-        let match;
-        while ((match = tokenRe.exec(line)) !== null) {
-          if (match.index > lastIndex) {
-            container.appendChild(document.createTextNode(line.slice(lastIndex, match.index)));
-          }
-          if (match[1] && match[2]) {
-            const a = document.createElement('a');
-            a.href = match[2];
-            a.target = '_blank';
-            a.rel = 'noopener noreferrer';
-            a.textContent = match[1];
-            container.appendChild(a);
-          } else if (match[3]) {
-            const strong = document.createElement('strong');
-            strong.textContent = match[3];
-            container.appendChild(strong);
-          }
-          lastIndex = tokenRe.lastIndex;
+      const img = document.createElement("img");
+      img.alt = "Poster for " + (item.name || "media entry");
+      img.loading = large ? "eager" : "lazy";
+      img.decoding = "async";
+      img.referrerPolicy = "no-referrer";
+
+      const localUrl = "/api/media/poster?id=" + encodeURIComponent(item.id);
+      let triedRemote = false;
+      img.src = item.poster_cached_file ? localUrl : (item.poster_url || localUrl);
+      img.addEventListener("error", () => {
+        if (!triedRemote && item.poster_url && img.src !== item.poster_url) {
+          triedRemote = true;
+          img.src = item.poster_url;
+          return;
         }
-        if (lastIndex < line.length) {
-          container.appendChild(document.createTextNode(line.slice(lastIndex)));
+        const parent = img.parentElement;
+        if (parent) {
+          img.remove();
+          if (!parent.querySelector("svg")) {
+            parent.insertBefore(createPosterSvg(item), parent.firstChild);
+          }
         }
       });
+      wrap.appendChild(img);
+      return wrap;
+    }
+
+    function getItemLinks(item) {
+      if (Array.isArray(item.links) && item.links.length > 0) {
+        return item.links;
+      }
+      const out = [];
+      if (item.link) {
+        out.push({
+          label: String(item.link).includes("comix.to") ? "comix.to" : "Primary Link",
+          url: item.link,
+          kind: String(item.link).includes("comix.to") ? "unofficial" : "official"
+        });
+      }
+      return out;
+    }
+
+    function createLinkPills(item) {
+      const links = getItemLinks(item);
+      if (!links.length) return null;
+      const pills = document.createElement("div");
+      pills.className = "link-pills";
+      links.forEach(lk => {
+        if (!lk || !lk.url) return;
+        const a = document.createElement("a");
+        const kind = lk.kind || "unofficial";
+        a.className = "pill" + (kind === "unofficial" ? " unofficial" : (kind === "tracker" ? " tracker" : ""));
+        a.href = lk.url;
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+        const icon = kind === "official" ? "✓ " : (kind === "tracker" ? "◈ " : "↗ ");
+        a.textContent = icon + (lk.label || "Link");
+        pills.appendChild(a);
+      });
+      return pills;
+    }
+
+    async function persistWatchStatus(item, newStatus, hintEl) {
+      const prev = item.watchlist_status || "";
+      item.watchlist_status = newStatus;
+      try {
+        const res = await fetch("/api/media/status", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: item.id, watchlist_status: newStatus })
+        });
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        if (hintEl) {
+          hintEl.textContent = "Saved";
+          setTimeout(() => { hintEl.textContent = ""; }, 1400);
+        }
+        updateKPIs(ALL_ITEMS);
+      } catch (err) {
+        item.watchlist_status = prev;
+        if (hintEl) hintEl.textContent = "Save failed";
+      }
+    }
+
+    function createStatusControl(item) {
+      const row = document.createElement("div");
+      row.className = "status-row";
+
+      const sel = document.createElement("select");
+      sel.className = "status-select";
+      sel.setAttribute("aria-label", "Watch or reading status for " + (item.name || item.id));
+      const currentVal = String(item.watchlist_status || "").toLowerCase();
+      sel.dataset.state = currentVal;
+
+      const isMotion = ["anime", "donghua", "movie", "tv_series"].includes(item.media_type);
+      STATUS_LABELS.forEach(optDef => {
+        const opt = document.createElement("option");
+        opt.value = optDef.value;
+        opt.textContent = optDef.label;
+        if (optDef.value === currentVal) opt.selected = true;
+        if (!currentVal && isMotion && optDef.value === "plan_to_watch") {
+          opt.textContent = "Plan to Watch";
+        }
+        sel.appendChild(opt);
+      });
+
+      const hint = document.createElement("span");
+      hint.className = "save-hint";
+      hint.setAttribute("aria-live", "polite");
+
+      sel.addEventListener("change", () => {
+        sel.dataset.state = sel.value;
+        persistWatchStatus(item, sel.value, hint);
+      });
+
+      row.appendChild(sel);
+      row.appendChild(hint);
+      return row;
+    }
+
+    function getMediumBadgeClass(item) {
+      if (item.media_type === "light_novel") return "badge-novel";
+      if (item.media_type === "comic") return "badge-comic";
+      if (item.media_type === "movie" || item.media_type === "tv_series") return "badge-live";
+      return "badge-motion";
+    }
+
+    function openPosterModal(item) {
+      const dlg = document.getElementById("poster-dialog");
+      document.getElementById("dlg-title").textContent = item.name || "Untitled";
+
+      const pWrap = document.getElementById("dlg-poster-wrap");
+      pWrap.textContent = "";
+      pWrap.appendChild(createPosterVisual(item, true));
+
+      const badges = document.getElementById("dlg-badges");
+      badges.textContent = "";
+      const b1 = document.createElement("span");
+      b1.className = "badge " + getMediumBadgeClass(item);
+      b1.textContent = item.sub_format || (item.media_type || "comic").replace("_", " ").toUpperCase();
+      badges.appendChild(b1);
+
+      if (item.origin) {
+        const b2 = document.createElement("span");
+        b2.className = "badge";
+        b2.textContent = item.origin;
+        badges.appendChild(b2);
+      }
+      if (item.nsfw) {
+        const b3 = document.createElement("span");
+        b3.className = "badge badge-nsfw";
+        b3.textContent = "⚠ 18+ NSFW";
+        badges.appendChild(b3);
+      }
+
+      const stWrap = document.getElementById("dlg-status-wrap");
+      stWrap.textContent = "";
+      stWrap.appendChild(createStatusControl(item));
+
+      document.getElementById("dlg-desc").textContent =
+        item.description || "No plot synopsis fetched yet — click 'Refresh & Cache Posters' to query IMDb, AniList, and MangaUpdates.";
+
+      document.getElementById("dlg-cache-note").textContent = item.poster_cached_file
+        ? ("Local PC poster cache: data/media/poster_cache/" + item.poster_cached_file)
+        : (item.poster_url ? "Remote poster URL (click Refresh to cache locally)" : "Generated badge poster (no external image cached yet)");
+
+      const linksBox = document.getElementById("dlg-links");
+      linksBox.textContent = "";
+      const pills = createLinkPills(item);
+      if (pills) linksBox.appendChild(pills);
+
+      dlg.showModal();
+    }
+
+    function getSubCardDescription(item) {
+      if (item.description && item.description.trim()) return item.description.trim();
+      const parts = [];
+      if (item.anime && !String(item.anime).startsWith("**None**") && !String(item.anime).startsWith("**See")) {
+        parts.push(String(item.anime).replace(/<br\s*\/?>/gi, " · ").replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").replace(/\*\*/g, ""));
+      }
+      if (item.live_action && !String(item.live_action).startsWith("**None**")) {
+        parts.push(String(item.live_action).replace(/<br\s*\/?>/gi, " · ").replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").replace(/\*\*/g, ""));
+      }
+      return parts.join(" · ") || "Click Refresh & Cache Posters to pull IMDb / AniList / MangaUpdates synopsis.";
+    }
+
+    function isCardOpen(itemId) {
+      if (CARD_OPEN_OVERRIDES.has(itemId)) return CARD_OPEN_OVERRIDES.get(itemId);
+      return ALL_CARDS_EXPANDED;
+    }
+
+    function createSubCard(item) {
+      const card = document.createElement("article");
+      card.className = "sub-card";
+
+      const top = document.createElement("div");
+      top.className = "sub-top";
+
+      const posterBtn = document.createElement("button");
+      posterBtn.type = "button";
+      posterBtn.className = "poster-btn";
+      posterBtn.setAttribute("aria-label", "Enlarge poster and details for " + (item.name || item.id));
+      posterBtn.appendChild(createPosterVisual(item, false));
+      const zoomHint = document.createElement("span");
+      zoomHint.className = "poster-zoom-hint";
+      zoomHint.setAttribute("aria-hidden", "true");
+      zoomHint.textContent = "Zoom";
+      posterBtn.appendChild(zoomHint);
+      posterBtn.addEventListener("click", () => openPosterModal(item));
+      top.appendChild(posterBtn);
+
+      const headCol = document.createElement("div");
+      headCol.className = "sub-header-col";
+
+      const titleLine = document.createElement("div");
+      titleLine.className = "sub-title-line";
+      const titleEl = document.createElement("h4");
+      titleEl.className = "sub-title";
+      titleEl.textContent = item.name || "Untitled";
+      titleLine.appendChild(titleEl);
+
+      const openNow = isCardOpen(item.id);
+      const toggleBtn = document.createElement("button");
+      toggleBtn.type = "button";
+      toggleBtn.className = "collapse-btn";
+      toggleBtn.setAttribute("aria-expanded", openNow ? "true" : "false");
+      toggleBtn.setAttribute("aria-label", (openNow ? "Collapse details for " : "Expand details for ") + (item.name || item.id));
+      toggleBtn.textContent = openNow ? "−" : "+";
+      titleLine.appendChild(toggleBtn);
+      headCol.appendChild(titleLine);
+
+      const badgeRow = document.createElement("div");
+      badgeRow.className = "badge-row";
+
+      const medBadge = document.createElement("span");
+      medBadge.className = "badge " + getMediumBadgeClass(item);
+      medBadge.textContent = item.sub_format || (item.media_type || "comic").replace("_", " ").toUpperCase();
+      badgeRow.appendChild(medBadge);
+
+      if (item.poster_cached_file) {
+        const cb = document.createElement("span");
+        cb.className = "badge badge-cache";
+        cb.title = "Cached locally in data/media/poster_cache/" + item.poster_cached_file;
+        cb.textContent = "● Cached";
+        badgeRow.appendChild(cb);
+      }
+
+      if (item.nsfw) {
+        const nb = document.createElement("span");
+        nb.className = "badge badge-nsfw";
+        nb.textContent = "⚠ 18+";
+        badgeRow.appendChild(nb);
+      }
+      headCol.appendChild(badgeRow);
+      headCol.appendChild(createStatusControl(item));
+      top.appendChild(headCol);
+      card.appendChild(top);
+
+      const detailsWrap = document.createElement("div");
+      detailsWrap.className = "sub-details-wrap";
+      if (!openNow) {
+        if (isBeforeMatchSupported()) {
+          detailsWrap.setAttribute("hidden", "until-found");
+        } else {
+          detailsWrap.hidden = true;
+        }
+      }
+
+      const detailsInner = document.createElement("div");
+      detailsInner.className = "sub-details-inner";
+
+      const desc = document.createElement("p");
+      desc.className = "synopsis";
+      desc.textContent = getSubCardDescription(item);
+      detailsInner.appendChild(desc);
+
+      const pills = createLinkPills(item);
+      if (pills) detailsInner.appendChild(pills);
+      detailsWrap.appendChild(detailsInner);
+
+      detailsWrap.addEventListener("beforematch", () => {
+        CARD_OPEN_OVERRIDES.set(item.id, true);
+        toggleBtn.setAttribute("aria-expanded", "true");
+        toggleBtn.textContent = "−";
+      });
+
+      toggleBtn.addEventListener("click", () => {
+        const currentlyOpen = toggleBtn.getAttribute("aria-expanded") === "true";
+        const nextOpen = !currentlyOpen;
+        CARD_OPEN_OVERRIDES.set(item.id, nextOpen);
+        toggleBtn.setAttribute("aria-expanded", nextOpen ? "true" : "false");
+        toggleBtn.textContent = nextOpen ? "−" : "+";
+        if (nextOpen) {
+          detailsWrap.removeAttribute("hidden");
+        } else if (isBeforeMatchSupported()) {
+          detailsWrap.setAttribute("hidden", "until-found");
+        } else {
+          detailsWrap.hidden = true;
+        }
+      });
+
+      card.appendChild(detailsWrap);
+      return card;
+    }
+
+    function groupByFranchise(items) {
+      const map = new Map();
+      items.forEach(item => {
+        const fid = String(item.franchise_id || item.id || "misc");
+        if (!map.has(fid)) {
+          map.set(fid, {
+            franchise_id: fid,
+            title: item.franchise_title || item.name || fid,
+            alt: item.alt || "",
+            origin: item.origin || "",
+            nsfw: Boolean(item.nsfw),
+            hasTextSource: Boolean(item.source_is_text),
+            items: [],
+            sharedUniverses: []
+          });
+        }
+        const grp = map.get(fid);
+        grp.items.push(item);
+        if (item.nsfw) grp.nsfw = true;
+        if (item.source_is_text || item.media_type === "light_novel") grp.hasTextSource = true;
+        if (item.media_type === "comic" && item.franchise_title) grp.title = item.franchise_title;
+        if (item.alt && !grp.alt) grp.alt = item.alt;
+        if (Array.isArray(item.relations)) {
+          item.relations.forEach(r => {
+            if (r && r.relation === "shared_universe" && !grp.sharedUniverses.some(x => x.target_id === r.target_id)) {
+              grp.sharedUniverses.push(r);
+            }
+          });
+        }
+      });
+      return Array.from(map.values());
+    }
+
+    function matchesFilters(grp) {
+      const q = document.getElementById("search-input").value.trim().toLowerCase();
+      const typeF = document.getElementById("type-select").value;
+      const originF = document.getElementById("origin-select").value;
+      const adaptF = document.getElementById("adapt-select").value;
+      const statusF = document.getElementById("status-select").value;
+
+      if (ACTIVE_FRANCHISE) {
+        const linked = grp.franchise_id === ACTIVE_FRANCHISE || grp.sharedUniverses.some(u => u.target_id === ACTIVE_FRANCHISE);
+        if (!linked) return false;
+      }
+
+      if (q) {
+        const hay = [
+          grp.title, grp.alt, grp.origin, grp.franchise_id,
+          ...grp.items.map(i => [i.name, i.sub_format, i.description, i.anime, i.live_action].join(" "))
+        ].join(" ").toLowerCase();
+        if (!hay.includes(q)) return false;
+      }
+
+      if (typeF !== "all") {
+        if (typeF === "fan_motion") {
+          const hasFan = grp.items.some(i => /fan|teaser/i.test(String(i.sub_format || i.anime || "")));
+          if (!hasFan) return false;
+        } else if (!grp.items.some(i => i.media_type === typeF)) {
+          return false;
+        }
+      }
+
+      if (originF !== "all") {
+        const originTxt = (grp.origin + " " + grp.items.map(i => i.origin || "").join(" ")).toLowerCase();
+        if (originF === "western") {
+          if (!/(western|polish|russian|netflix|starz|fox|lionsgate|paramount|dc universe|fx)/i.test(originTxt)) return false;
+        } else if (!originTxt.includes(originF)) {
+          return false;
+        }
+      }
+
+      const motionItems = grp.items.filter(i => ["anime", "donghua", "movie", "tv_series"].includes(i.media_type));
+      if (adaptF === "has_text" && !grp.hasTextSource) return false;
+      if (adaptF === "visual_orig" && grp.hasTextSource) return false;
+      if (adaptF === "multi_motion" && motionItems.length < 2) return false;
+      if (adaptF === "has_motion" && motionItems.length === 0) return false;
+      if (adaptF === "has_live" && !grp.items.some(i => i.media_type === "tv_series" || i.media_type === "movie")) return false;
+      if (adaptF === "production" && !grp.items.some(i => /in production/i.test(String(i.sub_format || "") + " " + String(i.anime || "") + " " + String(i.live_action || "")))) return false;
+      if (adaptF === "no_motion" && motionItems.length > 0) return false;
+
+      if (statusF !== "all") {
+        const statuses = grp.items.map(i => String(i.watchlist_status || "").toLowerCase());
+        if (statusF === "active" && !statuses.some(s => s === "reading" || s === "watching")) return false;
+        if (statusF === "planned" && !statuses.some(s => s === "plan_to_read" || s === "plan_to_watch")) return false;
+        if (statusF === "completed" && !statuses.some(s => s === "completed")) return false;
+        if (statusF === "paused" && !statuses.some(s => s === "paused" || s === "dropped")) return false;
+        if (statusF === "unset" && statuses.some(s => Boolean(s))) return false;
+      }
+
+      return true;
     }
 
     function updateKPIs(items) {
-      const direct = items.filter(i => String(i.link || '').includes('comix.to/title/')).length;
-      const anime = items.filter(i => !String(i.anime || '').startsWith('**None**')).length;
-      const live = items.filter(i => !String(i.live_action || '').startsWith('**None**') || i.media_type === 'tv_series' || i.media_type === 'movie').length;
-      const linked = items.filter(i => Array.isArray(i.relations) && i.relations.length > 0).length;
-      const browse = items.filter(i => String(i.link || '').includes('browse?q=')).length;
+      const groups = groupByFranchise(items);
+      const direct = items.filter(i => String(i.link || "").includes("comix.to/title/")).length;
+      const browse = items.filter(i => String(i.link || "").includes("browse?q=")).length;
+      const motion = items.filter(i => ["anime", "donghua", "movie", "tv_series"].includes(i.media_type)).length;
+      const cached = items.filter(i => Boolean(i.poster_cached_file)).length;
+      const withUrl = items.filter(i => Boolean(i.poster_url)).length;
+      const withDesc = items.filter(i => Boolean(i.description && i.description.trim().length > 20)).length;
+      const activeCnt = items.filter(i => ["reading", "watching"].includes(String(i.watchlist_status || ""))).length;
+      const planCnt = items.filter(i => ["plan_to_read", "plan_to_watch"].includes(String(i.watchlist_status || ""))).length;
+      const doneCnt = items.filter(i => i.watchlist_status === "completed").length;
 
-      document.getElementById('kpi-total').textContent = String(items.length);
-      document.getElementById('kpi-direct').textContent = String(direct);
-      document.getElementById('kpi-fallback').textContent = browse + ' browse fallbacks';
-      document.getElementById('kpi-anime').textContent = String(anime);
-      document.getElementById('kpi-live').textContent = String(live);
-      document.getElementById('kpi-linked').textContent = String(linked);
-
-      const typeCounts = {};
-      items.forEach(i => { typeCounts[i.media_type || 'comic'] = (typeCounts[i.media_type || 'comic'] || 0) + 1; });
-      document.getElementById('kpi-subdomains').textContent = Object.entries(typeCounts).map(([k, v]) => k + ': ' + v).join(' · ');
+      document.getElementById("kpi-franchises").textContent = String(groups.length);
+      document.getElementById("kpi-total").textContent = items.length + " sub-entries across 3 tiers";
+      document.getElementById("kpi-direct").textContent = String(direct);
+      document.getElementById("kpi-fallback").textContent = browse + " browse fallbacks";
+      document.getElementById("kpi-motion").textContent = String(motion);
+      document.getElementById("kpi-posters").textContent = cached + " / " + items.length;
+      document.getElementById("kpi-posters-sub").textContent = withUrl + " remote URLs · " + withDesc + " synopses";
+      document.getElementById("kpi-tracked").textContent = String(activeCnt + planCnt + doneCnt);
+      document.getElementById("kpi-tracked-sub").textContent = activeCnt + " active · " + planCnt + " planned · " + doneCnt + " done";
     }
 
-    function renderTable() {
-      const q = document.getElementById('search-input').value.trim().toLowerCase();
-      const typeF = document.getElementById('type-select').value;
-      const originF = document.getElementById('origin-select').value;
-      const adaptF = document.getElementById('adapt-select').value;
+    function buildTierEmptyCard(text, franchiseId, showProbe) {
+      const box = document.createElement("div");
+      box.className = "sub-card empty-card";
+      const span = document.createElement("span");
+      span.textContent = text;
+      box.appendChild(span);
+      if (showProbe) {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "btn";
+        btn.textContent = "Check Now";
+        btn.addEventListener("click", () => startAsyncMediaRefresh(franchiseId));
+        box.appendChild(btn);
+      }
+      return box;
+    }
 
-      const clearBtn = document.getElementById('btn-clear-franchise');
-      clearBtn.style.display = ACTIVE_FRANCHISE ? 'inline-flex' : 'none';
+    function renderFranchiseHeader(grp, isCollapsed, onToggle) {
+      const header = document.createElement("header");
+      header.className = "franchise-header";
 
-      const filtered = ALL_ITEMS.filter(item => {
-        if (ACTIVE_FRANCHISE && item.franchise_id !== ACTIVE_FRANCHISE) return false;
-        const hay = [item.name, item.alt, item.origin, item.media_type, item.franchise_id, item.anime, item.live_action].join(' ').toLowerCase();
-        if (q && !hay.includes(q)) return false;
-        if (typeF !== 'all' && (item.media_type || 'comic') !== typeF) return false;
-        if (originF !== 'all' && !String(item.origin || '').toLowerCase().includes(originF)) return false;
-        if (adaptF === 'linked' && !(Array.isArray(item.relations) && item.relations.length > 0)) return false;
-        if (adaptF === 'anime' && String(item.anime || '').startsWith('**None**')) return false;
-        if (adaptF === 'live' && String(item.live_action || '').startsWith('**None**')) return false;
-        if (adaptF === 'production' && !(String(item.anime || '') + ' ' + String(item.live_action || '')).toLowerCase().includes('in production')) return false;
-        if (adaptF === 'plan' && !item.watchlist_status) return false;
-        if (adaptF === 'direct' && !String(item.link || '').includes('comix.to/title/')) return false;
-        if (adaptF === 'browse' && !String(item.link || '').includes('browse?q=')) return false;
-        return true;
+      const left = document.createElement("div");
+      left.className = "franchise-title-wrap";
+
+      const tLine = document.createElement("div");
+      tLine.className = "franchise-title-line";
+
+      const cBtn = document.createElement("button");
+      cBtn.type = "button";
+      cBtn.className = "collapse-btn";
+      cBtn.setAttribute("aria-expanded", isCollapsed ? "false" : "true");
+      cBtn.setAttribute("aria-label", (isCollapsed ? "Expand " : "Collapse ") + grp.title);
+      cBtn.textContent = isCollapsed ? "+" : "−";
+      cBtn.addEventListener("click", onToggle);
+      tLine.appendChild(cBtn);
+
+      const h3 = document.createElement("h3");
+      h3.className = "franchise-title";
+      h3.textContent = grp.title;
+      tLine.appendChild(h3);
+
+      const srcBadge = document.createElement("span");
+      srcBadge.className = "badge " + (grp.hasTextSource ? "badge-novel" : "");
+      srcBadge.textContent = grp.hasTextSource ? "Source: Text (Novel)" : "Source: Visual / Screen Original";
+      tLine.appendChild(srcBadge);
+
+      if (grp.nsfw) {
+        const nsfwBadge = document.createElement("span");
+        nsfwBadge.className = "badge badge-nsfw";
+        nsfwBadge.textContent = "⚠ 18+ NSFW";
+        tLine.appendChild(nsfwBadge);
+      }
+
+      left.appendChild(tLine);
+
+      if (grp.alt) {
+        const alt = document.createElement("div");
+        alt.className = "alt-text";
+        alt.textContent = grp.alt + (grp.origin ? " · " + grp.origin : "");
+        left.appendChild(alt);
+      }
+
+      const meta = document.createElement("div");
+      meta.className = "franchise-meta";
+      const t1 = grp.items.filter(i => i.media_type === "light_novel").length;
+      const t2 = grp.items.filter(i => i.media_type === "comic").length;
+      const t3 = grp.items.filter(i => ["anime", "donghua", "movie", "tv_series"].includes(i.media_type)).length;
+      const sumBadge = document.createElement("span");
+      sumBadge.className = "badge";
+      sumBadge.textContent = t1 + " Novel · " + t2 + " Comic · " + t3 + " Screen";
+      meta.appendChild(sumBadge);
+
+      grp.sharedUniverses.forEach(su => {
+        const chip = document.createElement("button");
+        chip.type = "button";
+        chip.className = "rel-chip";
+        chip.textContent = "Shared Universe: " + (su.title || su.target_id);
+        chip.addEventListener("click", () => {
+          ACTIVE_FRANCHISE = su.target_id;
+          renderCatalog();
+        });
+        meta.appendChild(chip);
+      });
+      left.appendChild(meta);
+
+      const right = document.createElement("div");
+      right.className = "actions";
+      const probeBtn = document.createElement("button");
+      probeBtn.type = "button";
+      probeBtn.className = "btn";
+      probeBtn.textContent = "Refresh Franchise";
+      probeBtn.addEventListener("click", () => startAsyncMediaRefresh(grp.franchise_id));
+      right.appendChild(probeBtn);
+
+      header.appendChild(left);
+      header.appendChild(right);
+      return header;
+    }
+
+    function renderMatrixView(root, groups) {
+      const shell = document.createElement("div");
+      shell.className = "matrix-shell";
+
+      const legend = document.createElement("div");
+      legend.className = "tier-column-legend";
+      [
+        "Tier 1 · Text Source (Novel / Light / Web Novel)",
+        "Tier 2 · Visual Adaptation (Manga / Manhua / Manhwa)",
+        "Tier 3 · Motion & Screen (Anime / Donghua / Movie / TV)"
+      ].forEach(txt => {
+        const d = document.createElement("div");
+        d.textContent = txt;
+        legend.appendChild(d);
+      });
+      shell.appendChild(legend);
+
+      groups.forEach(grp => {
+        const isCollapsed = COLLAPSED_GROUPS.has(grp.franchise_id);
+        const block = document.createElement("article");
+        block.className = "franchise-block" + (isCollapsed ? " is-collapsed" : "");
+
+        block.appendChild(renderFranchiseHeader(grp, isCollapsed, () => {
+          if (COLLAPSED_GROUPS.has(grp.franchise_id)) COLLAPSED_GROUPS.delete(grp.franchise_id);
+          else COLLAPSED_GROUPS.add(grp.franchise_id);
+          renderCatalog();
+        }));
+
+        if (!isCollapsed) {
+          const grid = document.createElement("div");
+          grid.className = "tiers-grid";
+
+          const tier1Items = grp.items.filter(i => i.media_type === "light_novel");
+          const tier2Items = grp.items.filter(i => i.media_type === "comic");
+          const tier3Items = grp.items.filter(i => ["anime", "donghua", "movie", "tv_series"].includes(i.media_type));
+
+          const col1 = document.createElement("div");
+          col1.className = "tier-col";
+          const m1 = document.createElement("div");
+          m1.className = "tier-mobile-label";
+          m1.textContent = "Tier 1 · Text Source";
+          col1.appendChild(m1);
+          if (tier1Items.length) tier1Items.forEach(it => col1.appendChild(createSubCard(it)));
+          else col1.appendChild(buildTierEmptyCard("Visual / Screen Original (No prior text novel)", grp.franchise_id, false));
+
+          const col2 = document.createElement("div");
+          col2.className = "tier-col";
+          const m2 = document.createElement("div");
+          m2.className = "tier-mobile-label";
+          m2.textContent = "Tier 2 · Visual / Comic";
+          col2.appendChild(m2);
+          if (tier2Items.length) tier2Items.forEach(it => col2.appendChild(createSubCard(it)));
+          else col2.appendChild(buildTierEmptyCard("No comic / manga adaptation tracked", grp.franchise_id, false));
+
+          const col3 = document.createElement("div");
+          col3.className = "tier-col";
+          const m3 = document.createElement("div");
+          m3.className = "tier-mobile-label";
+          m3.textContent = "Tier 3 · Motion & Screen";
+          col3.appendChild(m3);
+          if (tier3Items.length) tier3Items.forEach(it => col3.appendChild(createSubCard(it)));
+          else col3.appendChild(buildTierEmptyCard("No official anime, donghua, or live-action yet.", grp.franchise_id, true));
+
+          grid.appendChild(col1);
+          grid.appendChild(col2);
+          grid.appendChild(col3);
+          block.appendChild(grid);
+        }
+
+        shell.appendChild(block);
       });
 
-      const prefix = ACTIVE_FRANCHISE ? ('Franchise "' + ACTIVE_FRANCHISE + '" · ') : '';
-      document.getElementById('result-bar').textContent = prefix + 'Showing ' + filtered.length + ' of ' + ALL_ITEMS.length + ' media entries';
-      const tbody = document.getElementById('catalog-body');
-      tbody.textContent = '';
+      root.appendChild(shell);
+    }
 
-      filtered.forEach(item => {
-        const tr = document.createElement('tr');
+    function buildRedditTreeNodes(grp) {
+      const byId = new Map(grp.items.map(i => [i.id, { item: i, children: [] }]));
+      const roots = [];
+      grp.items.forEach(i => {
+        const node = byId.get(i.id);
+        const pid = i.parent_id;
+        if (pid && pid !== i.id && byId.has(pid)) {
+          byId.get(pid).children.push(node);
+        } else {
+          roots.push(node);
+        }
+      });
+      const tierRank = { light_novel: 1, comic: 2, anime: 3, donghua: 3, movie: 4, tv_series: 4 };
+      const sortFn = (a, b) => (tierRank[a.item.media_type] || 9) - (tierRank[b.item.media_type] || 9);
+      roots.sort(sortFn);
+      byId.forEach(n => n.children.sort(sortFn));
+      return roots;
+    }
 
-        const tdName = document.createElement('td');
-        const link = document.createElement('a');
-        link.className = 'title-link';
-        link.href = item.link || '#';
-        link.target = '_blank';
-        link.rel = 'noopener noreferrer';
-        link.textContent = item.name || 'Untitled';
-        tdName.appendChild(link);
+    function countDescendants(node) {
+      return node.children.reduce((acc, ch) => acc + 1 + countDescendants(ch), 0);
+    }
 
-        if (item.alt) {
-          const alt = document.createElement('div');
-          alt.className = 'alt-text';
-          alt.textContent = item.alt;
-          tdName.appendChild(alt);
+    function renderRedditNode(node, depth) {
+      const it = node.item;
+      const hasChildren = node.children.length > 0;
+      const nodeKey = "node:" + it.id;
+      const isCollapsed = COLLAPSED_NODES.has(nodeKey);
+
+      const wrap = document.createElement("div");
+      wrap.className = "thread-node";
+
+      const box = document.createElement("div");
+      box.className = "thread-reply-box";
+
+      const head = document.createElement("div");
+      head.className = "thread-head";
+
+      const toggleBtn = document.createElement("button");
+      toggleBtn.type = "button";
+      toggleBtn.className = "thread-toggle-btn";
+      toggleBtn.setAttribute("aria-expanded", isCollapsed ? "false" : "true");
+      toggleBtn.setAttribute("aria-label", (isCollapsed ? "Expand " : "Collapse ") + (it.name || it.id));
+      toggleBtn.textContent = isCollapsed ? "+" : "−";
+      const onToggle = () => {
+        if (COLLAPSED_NODES.has(nodeKey)) COLLAPSED_NODES.delete(nodeKey);
+        else COLLAPSED_NODES.add(nodeKey);
+        renderCatalog();
+      };
+      toggleBtn.addEventListener("click", onToggle);
+      head.appendChild(toggleBtn);
+
+      const posterBtn = document.createElement("button");
+      posterBtn.type = "button";
+      posterBtn.className = "tiny-poster";
+      posterBtn.setAttribute("aria-label", "Enlarge poster for " + (it.name || it.id));
+      posterBtn.appendChild(createPosterVisual(it, false));
+      posterBtn.addEventListener("click", () => openPosterModal(it));
+      head.appendChild(posterBtn);
+
+      const mainCol = document.createElement("div");
+      mainCol.style.flex = "1";
+      mainCol.style.minWidth = "0";
+
+      const line1 = document.createElement("div");
+      line1.className = "badge-row";
+      const titleSpan = document.createElement("strong");
+      titleSpan.className = "sub-title";
+      titleSpan.textContent = it.name || "Untitled";
+      line1.appendChild(titleSpan);
+
+      const mb = document.createElement("span");
+      mb.className = "badge " + getMediumBadgeClass(it);
+      mb.textContent = it.sub_format || (it.media_type || "comic").replace("_", " ").toUpperCase();
+      line1.appendChild(mb);
+
+      if (it.poster_cached_file) {
+        const cb = document.createElement("span");
+        cb.className = "badge badge-cache";
+        cb.textContent = "● Cached";
+        line1.appendChild(cb);
+      }
+      if (it.nsfw) {
+        const nb = document.createElement("span");
+        nb.className = "badge badge-nsfw";
+        nb.textContent = "⚠ 18+";
+        line1.appendChild(nb);
+      }
+      mainCol.appendChild(line1);
+
+      if (!isCollapsed) {
+        mainCol.appendChild(createStatusControl(it));
+        const desc = document.createElement("p");
+        desc.className = "synopsis";
+        desc.style.marginTop = "4px";
+        desc.textContent = getSubCardDescription(it);
+        mainCol.appendChild(desc);
+
+        const pills = createLinkPills(it);
+        if (pills) {
+          pills.style.marginTop = "5px";
+          mainCol.appendChild(pills);
+        }
+      } else {
+        const descTotal = countDescendants(node);
+        const bar = document.createElement("button");
+        bar.type = "button";
+        bar.className = "thread-collapsed-bar";
+        bar.style.marginLeft = "0";
+        bar.textContent = "[+] Thread collapsed" + (descTotal ? " (" + descTotal + " nested adaptation" + (descTotal > 1 ? "s" : "") + ")" : "") + " — Click to expand";
+        bar.addEventListener("click", onToggle);
+        mainCol.appendChild(bar);
+      }
+
+      head.appendChild(mainCol);
+      box.appendChild(head);
+      wrap.appendChild(box);
+
+      if (hasChildren && !isCollapsed) {
+        const cWrap = document.createElement("div");
+        cWrap.className = "thread-children-wrap";
+
+        const gutter = document.createElement("button");
+        gutter.type = "button";
+        gutter.className = "thread-gutter";
+        gutter.setAttribute("aria-label", "Collapse child replies under " + (it.name || it.id));
+        gutter.addEventListener("click", onToggle);
+        cWrap.appendChild(gutter);
+
+        const childrenBox = document.createElement("div");
+        childrenBox.className = "thread-children";
+        node.children.forEach(ch => childrenBox.appendChild(renderRedditNode(ch, depth + 1)));
+        cWrap.appendChild(childrenBox);
+        wrap.appendChild(cWrap);
+      }
+      return wrap;
+    }
+
+    function renderRedditTreeView(root, groups) {
+      const list = document.createElement("div");
+      list.className = "thread-list";
+
+      groups.forEach(grp => {
+        const card = document.createElement("article");
+        card.className = "thread-card";
+        const isRootCollapsed = COLLAPSED_GROUPS.has(grp.franchise_id);
+        const toggleRoot = () => {
+          if (COLLAPSED_GROUPS.has(grp.franchise_id)) COLLAPSED_GROUPS.delete(grp.franchise_id);
+          else COLLAPSED_GROUPS.add(grp.franchise_id);
+          renderCatalog();
+        };
+
+        const head = document.createElement("div");
+        head.className = "thread-head";
+
+        const rootToggle = document.createElement("button");
+        rootToggle.type = "button";
+        rootToggle.className = "thread-toggle-btn";
+        rootToggle.setAttribute("aria-expanded", isRootCollapsed ? "false" : "true");
+        rootToggle.setAttribute("aria-label", (isRootCollapsed ? "Expand franchise thread " : "Collapse franchise thread ") + grp.title);
+        rootToggle.textContent = isRootCollapsed ? "+" : "−";
+        rootToggle.addEventListener("click", toggleRoot);
+        head.appendChild(rootToggle);
+
+        const titleWrap = document.createElement("div");
+        titleWrap.style.flex = "1";
+        titleWrap.style.minWidth = "0";
+        const row = document.createElement("div");
+        row.className = "franchise-title-line";
+        const h3 = document.createElement("h3");
+        h3.className = "franchise-title";
+        h3.textContent = grp.title;
+        row.appendChild(h3);
+
+        const srcBadge = document.createElement("span");
+        srcBadge.className = "badge " + (grp.hasTextSource ? "badge-novel" : "");
+        srcBadge.textContent = grp.hasTextSource ? "Text Source" : "Visual Original";
+        row.appendChild(srcBadge);
+
+        const countBadge = document.createElement("span");
+        countBadge.className = "badge";
+        countBadge.textContent = grp.items.length + " sub-entries";
+        row.appendChild(countBadge);
+
+        if (grp.nsfw) {
+          const nb = document.createElement("span");
+          nb.className = "badge badge-nsfw";
+          nb.textContent = "⚠ 18+ NSFW";
+          row.appendChild(nb);
         }
 
-        const typeBadge = document.createElement('span');
-        typeBadge.className = 'badge badge-type';
-        typeBadge.textContent = (item.media_type || 'comic').replace('_', ' ').toUpperCase();
-        tdName.appendChild(typeBadge);
-
-        const originBadge = document.createElement('span');
-        originBadge.className = 'badge badge-origin';
-        originBadge.textContent = item.origin || 'Unknown';
-        tdName.appendChild(originBadge);
-
-        if (item.watchlist_status) {
-          const wlBadge = document.createElement('span');
-          wlBadge.className = 'badge badge-browse';
-          wlBadge.textContent = item.watchlist_status === 'plan_to_read' ? 'Plan to Read (Unread)' : 'Plan to Watch (Unwatched)';
-          tdName.appendChild(wlBadge);
-        }
-
-        if ((item.media_type || 'comic') === 'comic') {
-          const isDirect = String(item.link || '').includes('comix.to/title/');
-          const linkBadge = document.createElement('span');
-          linkBadge.className = 'badge ' + (isDirect ? 'badge-direct' : 'badge-browse');
-          linkBadge.textContent = isDirect ? 'Direct Link' : 'Browse Search';
-          tdName.appendChild(linkBadge);
-        }
-
-        if (Array.isArray(item.relations) && item.relations.length > 0) {
-          const relWrap = document.createElement('div');
-          item.relations.forEach(rel => {
-            const chip = document.createElement('button');
-            chip.type = 'button';
-            chip.className = 'rel-chip';
-            chip.textContent = (rel.relation || 'related').replace('_', ' ') + ': ' + (rel.target_type || '') + ' (' + (rel.title || rel.target_id) + ')';
-            chip.addEventListener('click', () => {
-              ACTIVE_FRANCHISE = item.franchise_id || '';
-              renderTable();
-            });
-            relWrap.appendChild(chip);
+        grp.sharedUniverses.forEach(su => {
+          const chip = document.createElement("button");
+          chip.type = "button";
+          chip.className = "rel-chip";
+          chip.textContent = "Universe: " + (su.title || su.target_id);
+          chip.addEventListener("click", () => {
+            ACTIVE_FRANCHISE = su.target_id;
+            renderCatalog();
           });
-          tdName.appendChild(relWrap);
+          row.appendChild(chip);
+        });
+        titleWrap.appendChild(row);
+
+        if (grp.alt) {
+          const alt = document.createElement("div");
+          alt.className = "alt-text";
+          alt.textContent = grp.alt + (grp.origin ? " · " + grp.origin : "");
+          titleWrap.appendChild(alt);
+        }
+        head.appendChild(titleWrap);
+        card.appendChild(head);
+
+        if (isRootCollapsed) {
+          const bar = document.createElement("button");
+          bar.type = "button";
+          bar.className = "thread-collapsed-bar";
+          bar.textContent = "[+] " + grp.items.length + " tier entries collapsed — Click to expand thread";
+          bar.addEventListener("click", toggleRoot);
+          card.appendChild(bar);
+        } else {
+          const cWrap = document.createElement("div");
+          cWrap.className = "thread-children-wrap";
+
+          const gutter = document.createElement("button");
+          gutter.type = "button";
+          gutter.className = "thread-gutter";
+          gutter.setAttribute("aria-label", "Collapse franchise thread " + grp.title);
+          gutter.addEventListener("click", toggleRoot);
+          cWrap.appendChild(gutter);
+
+          const childrenBox = document.createElement("div");
+          childrenBox.className = "thread-children";
+          const roots = buildRedditTreeNodes(grp);
+          roots.forEach(rn => childrenBox.appendChild(renderRedditNode(rn, 1)));
+          cWrap.appendChild(childrenBox);
+          card.appendChild(cWrap);
         }
 
-        const tdAnime = document.createElement('td');
-        tdAnime.className = 'cell-rich';
-        appendSafeFormattedText(tdAnime, item.anime);
-
-        const tdLive = document.createElement('td');
-        tdLive.className = 'cell-rich';
-        appendSafeFormattedText(tdLive, item.live_action);
-
-        tr.appendChild(tdName);
-        tr.appendChild(tdAnime);
-        tr.appendChild(tdLive);
-        tbody.appendChild(tr);
+        list.appendChild(card);
       });
+
+      root.appendChild(list);
+    }
+
+    function hasActiveFilters() {
+      return Boolean(
+        ACTIVE_FRANCHISE ||
+        document.getElementById("search-input").value.trim() ||
+        document.getElementById("type-select").value !== "all" ||
+        document.getElementById("origin-select").value !== "all" ||
+        document.getElementById("adapt-select").value !== "all" ||
+        document.getElementById("status-select").value !== "all"
+      );
+    }
+
+    function renderCatalog() {
+      const showNsfw = document.getElementById("nsfw-toggle").checked;
+      const allGroups = groupByFranchise(ALL_ITEMS);
+      const hiddenNsfwGroups = allGroups.filter(g => g.nsfw && !showNsfw);
+      const visibleBase = allGroups.filter(g => !g.nsfw || showNsfw);
+      const filteredGroups = visibleBase.filter(matchesFilters);
+
+      const nsfwNotice = document.getElementById("nsfw-notice");
+      nsfwNotice.hidden = hiddenNsfwGroups.length === 0;
+      if (hiddenNsfwGroups.length > 0) {
+        document.getElementById("nsfw-notice-text").textContent =
+          hiddenNsfwGroups.length + " explicit / 18+ franchise" + (hiddenNsfwGroups.length > 1 ? "s" : "") + " hidden while NSFW filter is OFF.";
+      }
+
+      document.getElementById("btn-clear-franchise").hidden = !ACTIVE_FRANCHISE;
+      document.getElementById("btn-reset-filters").hidden = !hasActiveFilters();
+
+      const visibleEntriesCount = filteredGroups.reduce((sum, g) => sum + g.items.length, 0);
+      const prefix = ACTIVE_FRANCHISE ? ('Universe "' + ACTIVE_FRANCHISE + '" · ') : "";
+      document.getElementById("result-bar").textContent =
+        prefix + "Showing " + filteredGroups.length + " of " + allGroups.length + " franchises (" + visibleEntriesCount + " sub-entries)";
+
+      document.getElementById("btn-view-matrix").setAttribute("aria-pressed", VIEW_MODE === "matrix" ? "true" : "false");
+      document.getElementById("btn-view-tree").setAttribute("aria-pressed", VIEW_MODE === "tree" ? "true" : "false");
+
+      const root = document.getElementById("catalog-root");
+      root.textContent = "";
+      if (!filteredGroups.length) {
+        const empty = document.createElement("div");
+        empty.className = "panel open";
+        empty.textContent = "No franchises match the current filters. Try resetting filters or toggling NSFW.";
+        root.appendChild(empty);
+        return;
+      }
+
+      if (VIEW_MODE === "tree") {
+        renderRedditTreeView(root, filteredGroups);
+      } else {
+        renderMatrixView(root, filteredGroups);
+      }
     }
 
     function showDiagnosticPanel(title, blocks) {
-      const panel = document.getElementById('diag-panel');
-      document.getElementById('diag-title').textContent = title;
-      const body = document.getElementById('diag-body');
-      body.textContent = '';
-      const grid = document.createElement('div');
-      grid.className = 'panel-grid';
+      const panel = document.getElementById("diag-panel");
+      document.getElementById("diag-title").textContent = title;
+      const body = document.getElementById("diag-body");
+      body.textContent = "";
+      const grid = document.createElement("div");
+      grid.className = "panel-grid";
       blocks.forEach(([heading, lines]) => {
-        const box = document.createElement('div');
-        box.className = 'mini-box';
-        const strong = document.createElement('strong');
+        const box = document.createElement("div");
+        box.className = "mini-box";
+        const strong = document.createElement("strong");
         strong.textContent = heading;
         box.appendChild(strong);
         lines.forEach(line => {
-          const div = document.createElement('div');
-          div.style.marginTop = '4px';
-          div.style.color = 'var(--text-muted)';
+          const div = document.createElement("div");
+          div.style.marginTop = "4px";
+          div.style.color = "var(--muted)";
           div.textContent = line;
           box.appendChild(div);
         });
         grid.appendChild(box);
       });
       body.appendChild(grid);
-      panel.classList.add('open');
+      panel.classList.add("open");
     }
 
     async function loadCatalog() {
       try {
-        const res = await fetch('/api/media', { cache: 'no-store' });
-        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const res = await fetch("/api/media", { cache: "no-store" });
+        if (!res.ok) throw new Error("HTTP " + res.status);
         ALL_ITEMS = await res.json();
         updateKPIs(ALL_ITEMS);
-        renderTable();
+        renderCatalog();
       } catch (err) {
-        document.getElementById('result-bar').textContent = 'Failed to load /api/media (' + err.message + '). Start python src/server.py on port 8770.';
+        document.getElementById("result-bar").textContent =
+          "Failed to load /api/media (" + err.message + "). Start python src/server.py on port 8770.";
       }
     }
 
-    document.getElementById('search-input').addEventListener('input', renderTable);
-    document.getElementById('type-select').addEventListener('change', renderTable);
-    document.getElementById('origin-select').addEventListener('change', renderTable);
-    document.getElementById('adapt-select').addEventListener('change', renderTable);
-    document.getElementById('btn-clear-franchise').addEventListener('click', () => {
-      ACTIVE_FRANCHISE = '';
-      renderTable();
+    async function pollMediaRefresh() {
+      try {
+        const res = await fetch("/api/media/refresh/status", { cache: "no-store" });
+        if (!res.ok) return;
+        const st = await res.json();
+        const box = document.getElementById("refresh-progress");
+        const msg = document.getElementById("refresh-msg");
+        const fill = document.getElementById("refresh-fill");
+        const btn = document.getElementById("btn-refresh-live");
+
+        if (st.running) {
+          box.classList.add("active");
+          btn.disabled = true;
+          fill.style.width = (st.pct || 10) + "%";
+          msg.textContent = (st.message || "Refreshing…") + " (" + (st.elapsed_seconds || 0) + "s)";
+        } else {
+          btn.disabled = false;
+          if (st.stage === "done" || st.stage === "cancelled" || st.stage === "error") {
+            box.classList.add("active");
+            fill.style.width = (st.pct || 100) + "%";
+            msg.textContent = st.message || "Done.";
+            clearInterval(REFRESH_POLL_TIMER);
+            REFRESH_POLL_TIMER = null;
+            await loadCatalog();
+          }
+        }
+      } catch (_err) {}
+    }
+
+    async function startAsyncMediaRefresh(franchiseId) {
+      const box = document.getElementById("refresh-progress");
+      const msg = document.getElementById("refresh-msg");
+      const fill = document.getElementById("refresh-fill");
+      box.classList.add("active");
+      fill.style.width = "6%";
+      msg.textContent = franchiseId
+        ? ("Starting refresh & poster cache for " + franchiseId + "…")
+        : "Starting background metadata probe & local poster cache…";
+      try {
+        const url = "/api/media/refresh?async=true" + (franchiseId ? "&franchise=" + encodeURIComponent(franchiseId) : "");
+        const res = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" });
+        if (res.status === 409 || res.ok) {
+          if (REFRESH_POLL_TIMER) clearInterval(REFRESH_POLL_TIMER);
+          REFRESH_POLL_TIMER = setInterval(pollMediaRefresh, 800);
+          pollMediaRefresh();
+        } else {
+          msg.textContent = "Refresh request failed (HTTP " + res.status + ").";
+        }
+      } catch (err) {
+        msg.textContent = "Refresh error: " + err.message;
+      }
+    }
+
+    function applySavedPreferences() {
+      const savedNsfw = localStorage.getItem("dbm_media_nsfw") === "true";
+      document.getElementById("nsfw-toggle").checked = savedNsfw;
+      const savedTheme = localStorage.getItem("dbm_media_theme");
+      if (savedTheme === "light" || savedTheme === "dark") {
+        document.documentElement.setAttribute("data-theme", savedTheme);
+      }
+      document.getElementById("btn-toggle-all-cards").textContent = ALL_CARDS_EXPANDED ? "Collapse Card Details" : "Expand Card Details";
+    }
+
+    // Light-dismiss fallback for browsers without <dialog closedby>
+    (function setupDialogFallback() {
+      const dlg = document.getElementById("poster-dialog");
+      if (!("closedBy" in HTMLDialogElement.prototype)) {
+        const isOutside = (e) => {
+          const r = dlg.getBoundingClientRect();
+          return e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom;
+        };
+        let pressedOutside = false;
+        dlg.addEventListener("pointerdown", e => { pressedOutside = isOutside(e); });
+        dlg.addEventListener("pointerup", e => { if (pressedOutside && isOutside(e)) dlg.close(); });
+      }
+    })();
+
+    document.getElementById("search-input").addEventListener("input", renderCatalog);
+    document.getElementById("type-select").addEventListener("change", renderCatalog);
+    document.getElementById("origin-select").addEventListener("change", renderCatalog);
+    document.getElementById("adapt-select").addEventListener("change", renderCatalog);
+    document.getElementById("status-select").addEventListener("change", renderCatalog);
+
+    document.getElementById("nsfw-toggle").addEventListener("change", (e) => {
+      localStorage.setItem("dbm_media_nsfw", e.target.checked ? "true" : "false");
+      renderCatalog();
     });
-    document.getElementById('diag-close').addEventListener('click', () => {
-      document.getElementById('diag-panel').classList.remove('open');
+    document.getElementById("btn-reveal-nsfw").addEventListener("click", () => {
+      document.getElementById("nsfw-toggle").checked = true;
+      localStorage.setItem("dbm_media_nsfw", "true");
+      renderCatalog();
     });
 
-    document.getElementById('btn-doctor').addEventListener('click', async () => {
-      const res = await fetch('/api/media/doctor', { cache: 'no-store' });
+    document.getElementById("btn-view-matrix").addEventListener("click", () => {
+      VIEW_MODE = "matrix";
+      localStorage.setItem("dbm_media_view", "matrix");
+      renderCatalog();
+    });
+    document.getElementById("btn-view-tree").addEventListener("click", () => {
+      VIEW_MODE = "tree";
+      localStorage.setItem("dbm_media_view", "tree");
+      renderCatalog();
+    });
+
+    document.getElementById("btn-toggle-all-groups").addEventListener("click", (e) => {
+      ALL_GROUPS_COLLAPSED = !ALL_GROUPS_COLLAPSED;
+      COLLAPSED_GROUPS.clear();
+      COLLAPSED_NODES.clear();
+      if (ALL_GROUPS_COLLAPSED) {
+        groupByFranchise(ALL_ITEMS).forEach(g => COLLAPSED_GROUPS.add(g.franchise_id));
+      }
+      e.target.textContent = ALL_GROUPS_COLLAPSED ? "Expand All Franchises" : "Collapse All Franchises";
+      renderCatalog();
+    });
+
+    document.getElementById("btn-toggle-all-cards").addEventListener("click", (e) => {
+      ALL_CARDS_EXPANDED = !ALL_CARDS_EXPANDED;
+      CARD_OPEN_OVERRIDES.clear();
+      localStorage.setItem("dbm_media_cards_open", ALL_CARDS_EXPANDED ? "true" : "false");
+      e.target.textContent = ALL_CARDS_EXPANDED ? "Collapse Card Details" : "Expand Card Details";
+      renderCatalog();
+    });
+
+    document.getElementById("btn-clear-franchise").addEventListener("click", () => {
+      ACTIVE_FRANCHISE = "";
+      renderCatalog();
+    });
+    document.getElementById("btn-reset-filters").addEventListener("click", () => {
+      ACTIVE_FRANCHISE = "";
+      document.getElementById("search-input").value = "";
+      document.getElementById("type-select").value = "all";
+      document.getElementById("origin-select").value = "all";
+      document.getElementById("adapt-select").value = "all";
+      document.getElementById("status-select").value = "all";
+      renderCatalog();
+    });
+
+    document.getElementById("btn-theme").addEventListener("click", () => {
+      const root = document.documentElement;
+      root.classList.add("theme-switching");
+      const cur = root.getAttribute("data-theme");
+      const sysDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const next = cur ? (cur === "dark" ? "light" : "dark") : (sysDark ? "light" : "dark");
+      root.setAttribute("data-theme", next);
+      localStorage.setItem("dbm_media_theme", next);
+      void root.offsetHeight;
+      requestAnimationFrame(() => root.classList.remove("theme-switching"));
+    });
+
+    document.getElementById("btn-refresh-live").addEventListener("click", () => startAsyncMediaRefresh(null));
+    document.getElementById("btn-refresh-cancel").addEventListener("click", async () => {
+      await fetch("/api/media/refresh/cancel", { method: "POST", body: "{}" });
+      pollMediaRefresh();
+    });
+
+    document.getElementById("diag-close").addEventListener("click", () => {
+      document.getElementById("diag-panel").classList.remove("open");
+    });
+
+    document.getElementById("btn-doctor").addEventListener("click", async () => {
+      const res = await fetch("/api/media/doctor", { cache: "no-store" });
       const data = await res.json();
       const doc = data.doctor || {};
       const props = data.link_proposals || [];
-      const types = Object.entries(doc.media_type_counts || {}).map(([k, v]) => k + ': ' + v);
-      showDiagnosticPanel('Media Catalog Doctor & Sitemap Link Proposals', [
-        ['Integrity Summary', [
-          'Healthy: ' + (doc.healthy ? 'YES' : 'ISSUES FOUND'),
-          'Direct comix.to links: ' + (doc.direct_comix_links ?? 0),
-          'Browse fallbacks: ' + (doc.browse_fallback_count ?? 0),
-          'Linked franchise items: ' + (doc.with_relations ?? 0)
+      const types = Object.entries(doc.media_type_counts || {}).map(([k, v]) => k + ": " + v);
+      showDiagnosticPanel("Media Catalog Doctor & Local Cache Health", [
+        ["Integrity Summary", [
+          "Healthy: " + (doc.healthy ? "YES" : "ISSUES FOUND"),
+          "Franchises: " + (doc.franchises_count ?? "--") + " · Sub-entries: " + (doc.total_titles ?? "--"),
+          "Cached posters on disk: " + (doc.cached_posters_on_disk ?? 0) + " / " + (doc.with_posters ?? 0) + " URLs",
+          "Synopses populated: " + (doc.with_descriptions ?? 0) + " · NSFW flagged: " + (doc.nsfw_count ?? 0)
         ]],
-        ['Subdomain Breakdown', types.length ? types : ['No entries']],
-        ['Sitemap Link Upgrades (' + props.length + ')', props.length
-          ? props.slice(0, 5).map(p => p.name + ' -> ' + p.proposed_link)
-          : ['No unapplied sitemap upgrades detected.']]
+        ["Subdomain Breakdown", types.length ? types : ["No entries"]],
+        ["Sitemap Link Upgrades (" + props.length + ")", props.length
+          ? props.slice(0, 5).map(p => p.name + " -> " + p.proposed_link)
+          : ["No unapplied sitemap upgrades detected."]]
       ]);
     });
 
-    document.getElementById('btn-links-offline').addEventListener('click', async () => {
-      const res = await fetch('/api/media/links', { cache: 'no-store' });
+    document.getElementById("btn-links-offline").addEventListener("click", async () => {
+      const res = await fetch("/api/media/links", { cache: "no-store" });
       const data = await res.json();
-      const hosts = Object.entries(data.top_hosts || {}).slice(0, 6).map(([h, c]) => h + ': ' + c);
-      showDiagnosticPanel('Offline Link Health Audit', [
-        ['Link Inventory', [
-          'Total extracted URLs: ' + (data.total_links ?? 0),
-          'Malformed URLs: ' + (data.malformed_count ?? 0),
-          'Direct URLs: ' + ((data.kind_counts || {}).direct ?? 0),
-          'Search URLs: ' + ((data.kind_counts || {}).browse_search ?? 0)
+      const hosts = Object.entries(data.top_hosts || {}).slice(0, 6).map(([h, c]) => h + ": " + c);
+      showDiagnosticPanel("Offline Link Health Audit", [
+        ["Link Inventory", [
+          "Total extracted URLs: " + (data.total_links ?? 0),
+          "Malformed URLs: " + (data.malformed_count ?? 0),
+          "Direct URLs: " + ((data.kind_counts || {}).direct ?? 0),
+          "Search URLs: " + ((data.kind_counts || {}).browse_search ?? 0)
         ]],
-        ['Top Hosts', hosts]
+        ["Top Hosts", hosts]
       ]);
     });
 
-    document.getElementById('btn-links-live').addEventListener('click', async () => {
-      showDiagnosticPanel('Live Link Probe (5 URLs)', [['Status', ['Probing 5 catalog URLs politely...']]]);
-      const res = await fetch('/api/media/links?live=true&limit=5', { cache: 'no-store' });
+    document.getElementById("btn-links-live").addEventListener("click", async () => {
+      showDiagnosticPanel("Live Link Probe (5 URLs)", [["Status", ["Probing 5 catalog URLs politely…"]]]);
+      const res = await fetch("/api/media/links?live=true&limit=5", { cache: "no-store" });
       const data = await res.json();
-      const rows = (data.results || []).map(r => r.state.toUpperCase() + ' (' + r.status + ') — ' + r.url);
-      showDiagnosticPanel('Live Link Probe Results', [
-        ['Summary', ['Probed: ' + (data.probed_count ?? 0), 'Broken: ' + ((data.broken_links || []).length)]],
-        ['Sample Results', rows.length ? rows : ['No results returned.']]
+      const rows = (data.results || []).map(r => r.state.toUpperCase() + " (" + r.status + ") — " + r.url);
+      showDiagnosticPanel("Live Link Probe Results", [
+        ["Summary", ["Probed: " + (data.probed_count ?? 0), "Broken: " + ((data.broken_links || []).length)]],
+        ["Sample Results", rows.length ? rows : ["No results returned."]]
       ]);
     });
 
-    window.addEventListener('DOMContentLoaded', loadCatalog);
+    window.addEventListener("DOMContentLoaded", () => {
+      applySavedPreferences();
+      loadCatalog();
+    });
   </script>
   <script src="../shared/nav.js"></script>
 </body>

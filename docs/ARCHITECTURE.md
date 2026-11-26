@@ -299,10 +299,17 @@ flowchart TD
     end
 ```
 
-### [SUBSYSTEM: Media-Catalog-And-Adaptation-Pipeline] | Aliases: media pipeline, manga, manhua, light_novel, anime, donghua, movie, tv_series, comix sitemaps
-> **1-Line Summary:** Sitemap indexing, Chrome-impersonated adaptation probing, link-health verification, and interconnected franchise graph compilation (`media.sqlite`) without external Obsidian markdown sync.
+### [SUBSYSTEM: Media-Catalog-And-Adaptation-Pipeline] | Aliases: media pipeline, manga, manhua, light_novel, anime, donghua, movie, tv_series, comix sitemaps, poster cache
+> **1-Line Summary:** Multi-tier franchise builder, public API metadata/synopsis enricher, gitignored local PC poster cache (`/api/media/poster`), sitemap matcher, and async refresh pipeline compiling into `media.sqlite`.
 
-* **Plain-English Overview:** `src/media/crawler.py` caches `comix.to` sitemaps locally (gitignored), `indexer.py` + `matcher.py` propose canonical series URLs, and `adaptation_refresh.py` + `link_health.py` audit adaptations and URL health via `fetch_helper.py` (`curl_cffi` with `urllib` fallback). Interconnected subdomains (`comic`, `light_novel`, `anime`, `donghua`, `movie`, `tv_series`) share `franchise_id` and `relations` links inside `data/media/media_catalog.json` (including public `Outlander` TV series tracking without private MEGA URLs), replacing the retired Obsidian markdown sync.
+* **Plain-English Overview:** `src/media/franchise_builder.py` deduplicates and expands titles into linked `source` (`light_novel`), `visual` (`comic`), and `motion` (`anime`, `donghua`, `movie`, `tv_series`) sub-entries sharing `franchise_id` and `parent_id` chains inside `data/media/media_catalog.json`. `src/media/poster_cache.py` queries AniList GraphQL, MangaUpdates, IMDb Suggestion JSON, TVmaze, and Wikipedia REST APIs to populate plot descriptions, NSFW flags, and per-tier poster images cached locally inside gitignored `data/media/poster_cache/`, served via `GET /api/media/poster` (`src/server.py`). `src/media/adaptation_refresh.py` runs async background refreshes (`POST /api/media/refresh`) and persists Watch/Read status updates (`POST /api/media/status`), while `crawler.py`, `indexer.py`, `matcher.py`, and `link_health.py` handle canonical `comix.to` URL upgrades and link checks.
+* **Code Anchors:**
+  * `src/media/franchise_builder.py :: build_multi_tier_catalog`, `enrich_catalog_metadata`
+  * `src/media/poster_cache.py :: download_poster_to_cache`, `get_cached_poster_bytes`
+  * `src/media/adaptation_refresh.py :: start_background_media_refresh`, `update_media_entry_status`, `inspect_catalog_doctor`
+  * `src/media/link_health.py :: audit_catalog_links_offline`, `check_catalog_links_live`
+  * `src/server.py :: DatabaseHandler` (`/api/media`, `/api/media/poster`, `/api/media/refresh`, `/api/media/status`)
+  * `web/media/index.html :: renderMatrixView`, `renderRedditTreeView`, `openPosterModal`
 
 ```mermaid
 flowchart LR
@@ -312,16 +319,18 @@ flowchart LR
     classDef dataNode fill:#15803d,stroke:#14532d,color:#ffffff
     classDef outNode fill:#6b21a8,stroke:#581c87,color:#ffffff
 
-    M1[(data/media/media_catalog.json)]:::dataNode -->|Compiled by db_export.py| M2[(data/media/media.sqlite)]:::dataNode
-    S1[comix.to Sitemaps & Public APIs]:::startNode -->|crawler.py & fetch_helper.py| P1[adaptation_refresh.py & link_health.py]:::processNode
-    M1 -->|Read & Audited| P1
-    P1 -->|Franchise Relations & Proposals| UI1[web/media/index.html & /api/media/*]:::outNode
+    S1[AniList, MangaUpdates, IMDb, TVmaze, Sitemaps]:::startNode -->|poster_cache.py & crawler.py| P1[franchise_builder.py & adaptation_refresh.py]:::processNode
+    P1 -->|Writes Enriched Tiers| M1[(data/media/media_catalog.json)]:::dataNode
+    P1 -->|Caches Images Locally| C1[(data/media/poster_cache/ gitignored)]:::dataNode
+    M1 -->|Compiled by db_export.py| M2[(data/media/media.sqlite)]:::dataNode
+    M1 -->|/api/media & /api/media/status| UI1[web/media/index.html Matrix & Reddit Tree]:::outNode
+    C1 -->|/api/media/poster| UI1
 
     subgraph Legend["Legend"]
-        L1[Blue = External Sitemaps & Sources]:::startNode
-        L2[Teal = Fetch, Match & Health Pipeline]:::processNode
-        L3[(Green = Unified Media JSON & SQLite)]:::dataNode
-        L4[Purple = Franchise Explorer & API]:::outNode
+        L1[Blue = Public APIs & Sitemaps]:::startNode
+        L2[Teal = Multi-Tier Builder & Refresh]:::processNode
+        L3[(Green = Media JSON, SQLite & Poster Cache)]:::dataNode
+        L4[Purple = 3-Tier Matrix, Reddit Tree & Dialog]:::outNode
     end
 ```
 

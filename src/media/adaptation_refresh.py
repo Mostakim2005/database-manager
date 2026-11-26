@@ -5,15 +5,191 @@ from __future__ import annotations
 import datetime
 import json
 import re
+import threading
 import urllib.parse
+import uuid
 from collections import Counter
 from pathlib import Path
 from typing import Any
 
 from media import CATALOG_JSON_PATH, SITEMAPS_DIR, load_catalog
 from media.fetch_helper import safe_get
+from media.franchise_builder import build_multi_tier_catalog, enrich_catalog_metadata
 from media.indexer import build_index
 from media.matcher import resolve_title_url
+from media.poster_cache import POSTER_CACHE_DIR, get_cached_poster_bytes
+
+_REFRESH_LOCK = threading.Lock()
+_PROGRESS_LOCK = threading.Lock()
+_CANCEL_EVENT = threading.Event()
+_REFRESH_STATUS: dict[str, Any] = {
+    "running": False,
+    "job_id": None,
+    "stage": "idle",
+    "current": 0,
+    "total": 0,
+    "pct": 0,
+    "message": "Idle",
+    "started_at": None,
+    "finished_at": None,
+    "elapsed_seconds": 0.0,
+    "cancel_requested": False,
+    "error": None,
+    "summary": None,
+}
+
+VALID_WATCHLIST_STATUSES = {
+    "",
+    "plan_to_read",
+    "reading",
+    "plan_to_watch",
+    "watching",
+    "completed",
+    "paused",
+    "dropped",
+}
+
+
+def _update_refresh_status(**kwargs: Any) -> dict[str, Any]:
+    with _PROGRESS_LOCK:
+        _REFRESH_STATUS.update(kwargs)
+        return dict(_REFRESH_STATUS)
+
+
+def get_media_refresh_status() -> dict[str, Any]:
+    """Return thread-safe snapshot of current or last background media refresh job."""
+    with _PROGRESS_LOCK:
+        snap = dict(_REFRESH_STATUS)
+    started = snap.get("started_at")
+    finished = snap.get("finished_at")
+    if started and snap.get("running") and not finished:
+        try:
+            dt = datetime.datetime.fromisoformat(str(started).replace("Z", "+00:00"))
+            snap["elapsed_seconds"] = round(
+                max(0.0, (datetime.datetime.now(datetime.timezone.utc) - dt).total_seconds()), 1
+            )
+        except ValueError:
+            pass
+    return snap
+
+
+def cancel_background_media_refresh() -> dict[str, Any]:
+    """Request cancellation of the active media refresh/poster-cache job."""
+    if not _REFRESH_LOCK.locked():
+        return {"status": "idle", "cancelled": False, "refresh": get_media_refresh_status()}
+    _CANCEL_EVENT.set()
+    return {
+        "status": "cancelling",
+        "cancelled": True,
+        "refresh": _update_refresh_status(cancel_requested=True, message="Cancelling media metadata refresh…"),
+    }
+
+
+def start_background_media_refresh(
+    franchise_id: str | None = None,
+    download_posters: bool = True,
+    catalog_path: Path = CATALOG_JSON_PATH,
+) -> dict[str, Any]:
+    """Start async background media metadata/poster enrichment job."""
+    if not _REFRESH_LOCK.acquire(blocking=False):
+        raise RuntimeError("Media metadata refresh already in progress")
+
+    job_id = uuid.uuid4().hex[:10]
+    _CANCEL_EVENT.clear()
+    snap = _update_refresh_status(
+        running=True,
+        job_id=job_id,
+        stage="probing",
+        current=0,
+        total=1,
+        pct=4,
+        message=f"Probing public sources ({franchise_id or 'all franchises'})…",
+        started_at=datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        finished_at=None,
+        elapsed_seconds=0.0,
+        cancel_requested=False,
+        error=None,
+        summary=None,
+    )
+
+    def _worker() -> None:
+        t0 = datetime.datetime.now(datetime.timezone.utc)
+        try:
+            catalog = load_catalog(catalog_path)
+            expanded, build_stats = build_multi_tier_catalog(catalog, include_obsidian_batch=True)
+
+            def _on_prog(done: int, total: int, fid: str) -> None:
+                pct = min(96, max(5, int((done / max(1, total)) * 95)))
+                _update_refresh_status(
+                    current=done,
+                    total=total,
+                    pct=pct,
+                    message=f"Checked {done}/{total} franchises ({fid})…",
+                )
+
+            enrich_stats = enrich_catalog_metadata(
+                expanded,
+                franchise_filter=franchise_id,
+                download_posters=download_posters,
+                progress_cb=_on_prog,
+                cancel_check=_CANCEL_EVENT.is_set,
+            )
+            if not enrich_stats.get("cancelled"):
+                catalog_path.write_text(json.dumps(expanded, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+            elapsed = round((datetime.datetime.now(datetime.timezone.utc) - t0).total_seconds(), 1)
+            _update_refresh_status(
+                running=False,
+                stage="cancelled" if enrich_stats.get("cancelled") else "done",
+                current=enrich_stats["franchises_scanned"],
+                total=enrich_stats["total_franchises"],
+                pct=100 if not enrich_stats.get("cancelled") else snap.get("pct", 50),
+                message=(
+                    f"Cancelled after {enrich_stats['franchises_scanned']} franchises."
+                    if enrich_stats.get("cancelled")
+                    else f"Synced {enrich_stats['franchises_scanned']} franchises ({enrich_stats['posters_cached']} posters cached, {enrich_stats['metadata_updated']} entries enriched)."
+                ),
+                finished_at=datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+                elapsed_seconds=elapsed,
+                summary={"build": build_stats, "enrich": enrich_stats},
+            )
+        except Exception as exc:
+            elapsed = round((datetime.datetime.now(datetime.timezone.utc) - t0).total_seconds(), 1)
+            _update_refresh_status(
+                running=False,
+                stage="error",
+                message=f"Media refresh failed: {exc}",
+                finished_at=datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+                elapsed_seconds=elapsed,
+                error=str(exc),
+            )
+        finally:
+            _REFRESH_LOCK.release()
+
+    t = threading.Thread(target=_worker, daemon=True, name="media-async-refresh")
+    t.start()
+    return snap
+
+
+def update_media_entry_status(
+    entry_id: str,
+    watchlist_status: str,
+    catalog_path: Path = CATALOG_JSON_PATH,
+) -> dict[str, Any]:
+    """Persist per-entry Watch/Read status (`watchlist_status`) safely to JSON."""
+    clean_id = str(entry_id or "").strip()
+    clean_status = str(watchlist_status or "").strip().lower()
+    if not clean_id:
+        raise ValueError("Entry id is required")
+    if clean_status not in VALID_WATCHLIST_STATUSES:
+        raise ValueError(f"Unsupported watchlist_status: {clean_status}")
+
+    catalog = load_catalog(catalog_path)
+    target = next((item for item in catalog if str(item.get("id", "")).strip() == clean_id), None)
+    if target is None:
+        raise LookupError(f"Media entry not found: {clean_id}")
+    target["watchlist_status"] = clean_status
+    catalog_path.write_text(json.dumps(catalog, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    return {"status": "ok", "id": clean_id, "watchlist_status": clean_status}
 
 
 def _clean_slug_patterns(name: str, alt: str = "") -> list[str]:
@@ -65,8 +241,19 @@ def inspect_catalog_doctor(catalog: list[dict[str, Any]]) -> dict[str, Any]:
         origin_counts[str(item.get("origin", "Unknown"))] += 1
         media_type_counts[str(item.get("media_type", "comic"))] += 1
 
+    with_posters = sum(1 for item in catalog if str(item.get("poster_url", "")).strip())
+    with_descriptions = sum(1 for item in catalog if str(item.get("description", "")).strip())
+    nsfw_count = sum(1 for item in catalog if item.get("nsfw"))
+    franchises_count = len({str(item.get("franchise_id") or item.get("id") or "") for item in catalog})
+    cached_on_disk = (
+        sum(1 for item in catalog if get_cached_poster_bytes(str(item.get("id", "")), cached_filename=str(item.get("poster_cached_file", ""))) is not None)
+        if POSTER_CACHE_DIR.is_dir()
+        else 0
+    )
+
     return {
         "total_titles": len(catalog),
+        "franchises_count": franchises_count,
         "direct_comix_links": direct_links,
         "browse_fallback_count": len(browse_fallbacks),
         "browse_fallback_titles": browse_fallbacks,
@@ -74,6 +261,10 @@ def inspect_catalog_doctor(catalog: list[dict[str, Any]]) -> dict[str, Any]:
         "with_live_action": with_live_action,
         "in_production_count": in_production,
         "with_relations": with_relations,
+        "with_posters": with_posters,
+        "cached_posters_on_disk": cached_on_disk,
+        "with_descriptions": with_descriptions,
+        "nsfw_count": nsfw_count,
         "media_type_counts": dict(media_type_counts),
         "duplicate_names": dups,
         "missing_fields": missing_fields,

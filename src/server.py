@@ -316,6 +316,9 @@ class DatabaseHandler(http.server.SimpleHTTPRequestHandler):
                         "github_async_refresh": True,
                         "github_single_repo_refresh": True,
                         "ai_async_refresh": True,
+                        "media_async_refresh": True,
+                        "media_poster_cache": True,
+                        "media_status_update": True,
                         "agent_proxy": True,
                         "book_local_sync": True,
                     },
@@ -474,6 +477,34 @@ class DatabaseHandler(http.server.SimpleHTTPRequestHandler):
                 self._send_json(check_catalog_links_live(limit=limit, host_filter=host_f))
             else:
                 self._send_json(audit_catalog_links_offline())
+            return
+
+        if url_path == "/api/media/poster":
+            from media.poster_cache import download_poster_to_cache, get_cached_poster_bytes
+            qs = parse_qs(urlparse(self.path).query)
+            entry_id = qs.get("id", [""])[0].strip()
+            allow_fetch = qs.get("fetch", ["false"])[0].lower() in ("true", "1", "yes")
+            if not entry_id:
+                self._send_json({"status": "error", "error": "Media entry id is required"}, status=400)
+                return
+            catalog = load_media_data()
+            entry = next((it for it in catalog if str(it.get("id", "")).strip() == entry_id), None)
+            cached_fn = str(entry.get("poster_cached_file", "")) if entry else ""
+            res = get_cached_poster_bytes(entry_id, cached_filename=cached_fn)
+            if not res and allow_fetch and entry and entry.get("poster_url"):
+                new_fn = download_poster_to_cache(entry_id, str(entry["poster_url"]))
+                if new_fn:
+                    res = get_cached_poster_bytes(entry_id, cached_filename=new_fn)
+            if not res:
+                self._send_json({"status": "error", "error": "Media poster not cached"}, status=404)
+                return
+            blob, ctype = res
+            self._send_bytes(blob, ctype, max_age=86400)
+            return
+
+        if url_path == "/api/media/refresh/status":
+            from media.adaptation_refresh import get_media_refresh_status
+            self._send_json(get_media_refresh_status())
             return
 
         # --- Book Collection Domain ---
@@ -777,6 +808,40 @@ class DatabaseHandler(http.server.SimpleHTTPRequestHandler):
         if url_path == "/api/book/sync":
             import book_sync
             self._send_json(book_sync.sync_alexandria_library())
+            return
+
+        if url_path == "/api/media/refresh":
+            from media.adaptation_refresh import start_background_media_refresh
+            from media.franchise_builder import rebuild_and_save_catalog
+            is_async = qs.get("async", ["true"])[0].lower() in ("true", "1", "yes") or bool(payload.get("async", True))
+            franchise_f = str(payload.get("franchise") or qs.get("franchise", [""])[0]).strip() or None
+            dl_posters = str(payload.get("download_posters", qs.get("download_posters", ["true"])[0])).lower() not in ("false", "0", "no")
+            try:
+                if is_async:
+                    job = start_background_media_refresh(franchise_id=franchise_f, download_posters=dl_posters)
+                    self._send_json(job, status=202)
+                    return
+                res = rebuild_and_save_catalog(enrich=True, download_posters=dl_posters)
+                self._send_json({"status": "ok", **res})
+            except RuntimeError as exc:
+                self._send_json({"status": "busy", "error": str(exc)}, status=409)
+            return
+
+        if url_path == "/api/media/refresh/cancel":
+            from media.adaptation_refresh import cancel_background_media_refresh
+            self._send_json(cancel_background_media_refresh())
+            return
+
+        if url_path == "/api/media/status":
+            from media.adaptation_refresh import update_media_entry_status
+            entry_id = str(payload.get("id") or qs.get("id", [""])[0]).strip()
+            wl_status = str(payload.get("watchlist_status") if "watchlist_status" in payload else qs.get("watchlist_status", [""])[0]).strip().lower()
+            try:
+                self._send_json(update_media_entry_status(entry_id, wl_status))
+            except ValueError as exc:
+                self._send_json({"status": "error", "error": str(exc)}, status=400)
+            except LookupError as exc:
+                self._send_json({"status": "error", "error": str(exc)}, status=404)
             return
 
         if url_path == "/api/book/open":

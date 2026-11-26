@@ -40,14 +40,11 @@
   * `web/ai/index.html` -> `PROVIDER_THEMES`, `renderProviderIcon`, `aiScatterLabelsPlugin`, `MatrixTable`, `MatrixApp`
 
 ### [FEATURE: Media-Catalog-And-Adaptation-Hub] | Aliases: media domain, manga, manhua, light novel, anime, donghua, movie, tv_series
-> **1-Line Summary:** Interconnected 124-entry media catalog uniting `comic`, `light_novel`, `anime`, `donghua`, `movie`, and `tv_series` via `franchise_id`/`relations` (including Steam/PC-game-linked adaptations tagged `plan_to_watch` / `plan_to_read`), canonical `comix.to` sitemap lookup, adaptation probes, and link health audits without external Obsidian markdown sync.
-* **User Intention (Non-Negotiable):** Model adaptation chains (e.g., light novel -> comic/anime/donghua -> movie/series) natively inside SQLite/JSON while preserving `Outlander` TV series tracking cleanly (excluding private MEGA URLs), marking game-linked additions unambiguously as `plan_to_watch` / `plan_to_read`, and discarding legacy Obsidian markdown write-back.
-* **Visual / UI Behavior:** Dashboard `web/media/index.html` featuring subdomain filters, origin filters, `Plan to Watch / Read (Wishlist)` filter & badges, clickable franchise relation chips, Doctor diagnostics, and Link Audit panels backed by `/api/media`, `/api/media/doctor`, `/api/media/links`, and `/api/media/classified`.
-* **Code Anchors (Grep Targets):**
-  * `src/media/__init__.py` -> `load_catalog`
-  * `src/media/adaptation_refresh.py` -> `inspect_catalog_doctor`, `propose_link_upgrades`
-  * `src/media/link_health.py` -> `audit_catalog_links_offline`, `check_catalog_links_live`
-  * `web/media/index.html` -> franchise relation chips, watchlist badges & safe-DOM table renderer
+> **1-Line Summary:** Multi-tiered 127-franchise (336 sub-entry) media catalog uniting `light_novel`, `comic`, `anime`, `donghua`, `movie`, and `tv_series` via `franchise_id`/`parent_id`/`relations`, per-tier local poster caching, IMDb/AniList/MangaUpdates synopses, official/unofficial link pills, and toggleable 18+ NSFW filtering without external Obsidian markdown sync.
+* **User Intention (Non-Negotiable):** Model full adaptation chains (Text Source -> Visual Comic -> Motion/Live-Action sub-entries, with distinct cards when multiple seasons/films/series exist) inside SQLite/JSON while preserving `Outlander` safely without private MEGA links, keeping 18+ NSFW entries toggleable (hidden by default), and caching downloaded posters locally inside gitignored storage.
+* **Visual / UI Behavior:** Dashboard [web/media/index.html](file:///c:/Users/kazir/Documents/Agentic%20Harness/Database%20Manager/web/media/index.html) featuring a uniform-baseline 3-tier Franchise Matrix (`Tier 1: Text Source`, `Tier 2: Visual / Comic`, `Tier 3: Motion & Screen`), a Reddit-style collapsible nested thread tree (`Compact Reddit Tree` mode), per-card collapsible details (`hidden="until-found"`), native `<dialog>` poster & details lightbox, smooth per-entry Watch/Read status selector (`POST /api/media/status`), `Show NSFW / 18+` native switch, universal Collapse/Expand QoL controls, and async background `Refresh & Cache Posters` progress bar (`/api/media/refresh`).
+* **Links:** `[SUBSYSTEM: Media-Catalog-And-Adaptation-Pipeline]`, `[DECISION: Multi-Tier-Media-Franchise-Graph-And-Local-Poster-Cache]`, `[TRAP: Manga-Jikan-And-JS-Rendered-Search-Pages]`
+* **Verified By:** `tests/test_multidb_and_scrapers.py :: TestMediaDomainIntegration.test_media_multi_tier_nsfw_and_local_poster_cache` & `python src/media/cli.py --doctor --json`
 
 ### [FEATURE: Book-Collection-And-Reading-Tracker] | Aliases: book domain, books, learning, reading
 > **1-Line Summary:** Personal library catalog (`books.json` / `book.sqlite`) tracking 3,618 books (13 curated books with Open Library covers + 3,605 sanitized `E:\Books` Alexandria Library volumes across 26 subjects, paired with gitignored `local_library.json` for EPUB cover extraction and direct file launching).
