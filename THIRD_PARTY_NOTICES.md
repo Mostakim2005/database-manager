@@ -35,3 +35,16 @@ This repository incorporates or references the following third-party libraries, 
 | **yt-dlp** | Tier 4 YouTube benchmark metadata/transcript extractor | The Unlicense | [github.com/yt-dlp/yt-dlp](https://github.com/yt-dlp/yt-dlp) |
 | **Pydantic** | Optional strict runtime schema coercion for scrapers | MIT License | [github.com/pydantic/pydantic](https://github.com/pydantic/pydantic) |
 | **Datasette & sqlite-utils** | Optional local SQL explorer & CLI over separated `.sqlite` files | Apache 2.0 | [github.com/simonw/datasette](https://github.com/simonw/datasette) |
+
+## Optional Shared Media Lookup Ecosystem (`%LOCALAPPDATA%\SharedLibraries\media-mappings` & User `site-packages`)
+
+| Component / Dataset | Purpose & Usage | Upstream License | Upstream Source |
+| :--- | :--- | :--- | :--- |
+| **RapidFuzz** | Optional C++-accelerated fuzzy title matching with pure-Python stdlib fallback | MIT License | [github.com/rapidfuzz/RapidFuzz](https://github.com/rapidfuzz/RapidFuzz) |
+| **python-anilist** | Reusable Python AniList GraphQL client in user `site-packages` | MIT License | [github.com/AmanoTeam/python-anilist](https://github.com/AmanoTeam/python-anilist) |
+| **tmdbv3api** | Reusable Python TMDB v3 client for movie/TV metadata & external IDs | MIT License | [github.com/AnthonyBloomer/tmdbv3api](https://github.com/AnthonyBloomer/tmdbv3api) |
+| **wikipedia-api** | Reusable Python Wikipedia API wrapper in user `site-packages` | MIT License | [github.com/martin-majlis/Wikipedia-API](https://github.com/martin-majlis/Wikipedia-API) |
+| **Anime Offline Database** | Offline JSON database of anime/donghua metadata, posters & `relatedAnime` | ODbL-1.0 / DbCL-1.0 | [github.com/cedya77/anime-offline-database](https://github.com/cedya77/anime-offline-database) |
+| **AniBridge Mappings** | Episode/season ID crosswalks across AniList, MAL, AniDB, TMDB, TVDB, IMDb | MIT License | [github.com/anibridge/anibridge-mappings](https://github.com/anibridge/anibridge-mappings) |
+| **Rensetsu Public Dumps** | CJK-aware Bangumi (`bgm.tv`) & multi-platform relational media dumps | MIT / CC0-1.0 | [github.com/rensetsu/db.rensetsu.public-dump](https://github.com/rensetsu/db.rensetsu.public-dump) |
+| **Fribb Anime Lists** | Crosswalk JSON mapping AniList, MAL, AniDB, Kitsu, IMDb, TMDB & TVDB IDs | Public Collation (No explicit license file) | [github.com/Fribb/anime-lists](https://github.com/Fribb/anime-lists) |

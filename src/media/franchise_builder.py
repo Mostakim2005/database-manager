@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Any
 
 from media import CATALOG_JSON_PATH, load_catalog
+from media.mappings import extract_entry_ids, resolve_cross_ids
 from media.poster_cache import (
     POSTER_CACHE_DIR,
     download_poster_to_cache,
@@ -1894,6 +1895,20 @@ def enrich_single_franchise(
             src_data = al.get("movie") or imdb.get("movie") or al.get("anime") or bgm_anime or wiki
         elif mt == "tv_series":
             src_data = tv or imdb.get("tv_series") or wiki or imdb.get("movie")
+
+        if not src_data:
+            ids = extract_entry_ids(entry)
+            al_id = ids["anilist_ids"][0] if ids["anilist_ids"] else None
+            mal_id = ids["mal_ids"][0] if ids["mal_ids"] else None
+            bgm_id = ids["bangumi_ids"][0] if ids["bangumi_ids"] else None
+            if al_id or mal_id or bgm_id:
+                cross = resolve_cross_ids(anilist_id=al_id, mal_id=mal_id, bangumi_id=bgm_id)
+                if cross.get("found") and (cross.get("poster_url") or cross.get("imdb_id")):
+                    src_data = {
+                        "poster_url": cross.get("poster_url", ""),
+                        "imdb_url": f"https://www.imdb.com/title/{cross['imdb_id']}/" if cross.get("imdb_id") else "",
+                        "source": "shared_mappings",
+                    }
 
         if src_data:
             cand_poster = str(src_data.get("poster_url") or "").strip()

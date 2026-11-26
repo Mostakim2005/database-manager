@@ -15,6 +15,7 @@ from pathlib import Path
 from typing import Any
 
 from media import MEDIA_DATA_DIR
+from media.mappings import compute_title_similarity, resolve_cross_ids
 
 POSTER_CACHE_DIR = MEDIA_DATA_DIR / "poster_cache"
 DEFAULT_UA = (
@@ -58,20 +59,7 @@ def _normalize_title_key(text: str) -> str:
 
 
 def _title_similarity(query: str, candidate: str) -> float:
-    q_norm = _normalize_title_key(query)
-    c_norm = _normalize_title_key(candidate)
-    q_words = set(q_norm.split())
-    c_words = set(c_norm.split())
-    if not q_words or not c_words:
-        return 0.0
-    if q_norm == c_norm:
-        return 1.0
-    inter = len(q_words & c_words)
-    ratio = inter / max(len(q_words), len(c_words))
-    # Handle exact prefix/containment on multi-word titles (e.g. Saving 80,000 Gold... vs ...for My Retirement)
-    if len(q_words) >= 3 and (q_norm in c_norm or c_norm in q_norm):
-        ratio = max(ratio, 0.80)
-    return ratio
+    return compute_title_similarity(query, candidate)
 
 
 def extract_youtube_thumbnail(links: list[dict[str, str]] | str) -> str:

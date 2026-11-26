@@ -466,6 +466,73 @@ class TestMediaDomainIntegration(unittest.TestCase):
             self.assertEqual(stats_again["imported_franchises"], 0)
             self.assertEqual(len(expanded_again), len(catalog))
 
+    def test_media_shared_mappings_and_discover_offline(self) -> None:
+        from media import mappings
+
+        self.assertGreaterEqual(mappings.compute_title_similarity("Bu Liang Ren", "Buliang Ren"), 0.95)
+        with tempfile.TemporaryDirectory() as td:
+            mdir = Path(td)
+            (mdir / "fribb-anime-list-full.json").write_text(
+                json.dumps([{"anilist_id": 195883, "mal_id": 61564, "imdb_id": ["tt9999999"], "themoviedb_id": {"tv": 12345}}]),
+                encoding="utf-8",
+            )
+            (mdir / "anime-offline-database-minified.json").write_text(
+                json.dumps(
+                    {
+                        "data": [
+                            {
+                                "title": "Shenguo Zhi Shang",
+                                "synonyms": ["Over the Divine Realms"],
+                                "type": "ONA",
+                                "episodes": 17,
+                                "status": "FINISHED",
+                                "animeSeason": {"year": 2025},
+                                "picture": "https://example.com/s1.jpg",
+                                "sources": ["https://anilist.co/anime/195883", "https://myanimelist.net/anime/61564"],
+                                "relatedAnime": ["https://anilist.co/anime/199088"],
+                            },
+                            {
+                                "title": "Shenguo Zhi Shang 2",
+                                "synonyms": ["Over the Divine Realms S2"],
+                                "type": "ONA",
+                                "episodes": 24,
+                                "status": "UPCOMING",
+                                "animeSeason": {"year": 2026},
+                                "picture": "https://example.com/s2.jpg",
+                                "sources": ["https://anilist.co/anime/199088"],
+                                "relatedAnime": [],
+                            },
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+            resolved = mappings.resolve_cross_ids(anilist_id=195883, mappings_dir=mdir)
+            self.assertTrue(resolved["found"])
+            self.assertEqual(resolved["mal_id"], 61564)
+            self.assertEqual(resolved["imdb_id"], "tt9999999")
+            self.assertEqual(resolved["poster_url"], "https://example.com/s1.jpg")
+
+            fake_catalog = [
+                {
+                    "id": "over-the-divine-realms-3d-donghua",
+                    "name": "Over the Divine Realms",
+                    "media_type": "donghua",
+                    "franchise_id": "over-the-divine-realms",
+                    "franchise_title": "Over the Divine Realms",
+                    "link": "https://anilist.co/anime/195883",
+                    "links": [{"label": "AniList", "url": "https://anilist.co/anime/195883", "kind": "tracker"}],
+                }
+            ]
+            disc = mappings.discover_new_adaptations(
+                fake_catalog,
+                franchise_filter="over-the-divine-realms",
+                include_live_anilist=False,
+                mappings_dir=mdir,
+            )
+            self.assertEqual(disc["franchises_with_new_candidates"], 1)
+            self.assertEqual(disc["proposals"][0]["new_candidates"][0]["anilist_id"], 199088)
+
 
 if __name__ == "__main__":
     unittest.main()

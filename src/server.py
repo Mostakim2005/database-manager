@@ -521,6 +521,25 @@ class DatabaseHandler(http.server.SimpleHTTPRequestHandler):
             self._send_json(get_media_refresh_status())
             return
 
+        if url_path == "/api/media/discover":
+            from media.mappings import discover_new_adaptations
+            qs = parse_qs(urlparse(self.path).query)
+            franchise_f = qs.get("franchise", [""])[0].strip() or None
+            include_live = qs.get("live", ["true"])[0].lower() in ("true", "1", "yes")
+            try:
+                limit = max(1, min(30, int(qs.get("limit", ["10"])[0])))
+            except ValueError:
+                limit = 10
+            self._send_json(
+                discover_new_adaptations(
+                    load_media_data(),
+                    franchise_filter=franchise_f,
+                    limit=limit,
+                    include_live_anilist=include_live,
+                )
+            )
+            return
+
         # --- Book Collection Domain ---
         if url_path == "/api/book/cover":
             import book_sync

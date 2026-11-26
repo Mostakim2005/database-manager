@@ -17,6 +17,7 @@ from media.crawler import fetch_sitemaps  # noqa: E402
 from media.franchise_builder import rebuild_and_save_catalog  # noqa: E402
 from media.indexer import build_index  # noqa: E402
 from media.link_health import audit_catalog_links_offline, check_catalog_links_live  # noqa: E402
+from media.mappings import discover_new_adaptations, get_dataset_inventory, resolve_cross_ids  # noqa: E402
 
 
 def main() -> None:
@@ -31,15 +32,35 @@ def main() -> None:
     parser.add_argument("--add", action="store_true", help="Propose (or --apply) adding a new media entry")
     parser.add_argument("--all", action="store_true", help="Run doctor + propose + probe workflow")
     parser.add_argument("--check-links", action="store_true", help="Audit reading & streaming link health")
+    parser.add_argument("--discover-new", action="store_true", help="Discover untracked sequels, movies & adaptations via AniList relations + SharedLibraries")
+    parser.add_argument("--resolve-ids", action="store_true", help="Resolve cross-platform IDs via SharedLibraries datasets")
+    parser.add_argument("--franchise", default="", help="Filter --discover-new to a single franchise_id")
+    parser.add_argument("--offline", action="store_true", help="Use offline SharedLibraries datasets only for --discover-new")
     parser.add_argument("--live", action="store_true", help="Enable polite live HTTP probing for --check-links")
     parser.add_argument("--limit", type=int, default=10, help="Max links/titles to probe in live mode")
-    parser.add_argument("--title", help="Title for --add or --update probe")
+    parser.add_argument("--title", help="Title for --add, --update, or --resolve-ids probe")
     parser.add_argument("--origin", default="Manga", help="Origin label for --add")
     parser.add_argument("--media-type", default="comic", choices=["comic", "light_novel", "anime", "donghua", "movie", "tv_series"], help="Media subdomain type for --add")
     parser.add_argument("--alt", default="", help="Alternate title(s) for --add or --update")
     parser.add_argument("--apply", action="store_true", help="Persist proposed changes to media_catalog.json")
     parser.add_argument("--json", action="store_true", help="Emit JSON output")
     args = parser.parse_args()
+
+    if args.resolve_ids:
+        payload = resolve_cross_ids(title=args.title) if args.title else get_dataset_inventory()
+        print(json.dumps(payload, indent=2, ensure_ascii=False))
+        return
+
+    if args.discover_new:
+        catalog = load_catalog()
+        report = discover_new_adaptations(
+            catalog,
+            franchise_filter=args.franchise or None,
+            limit=args.limit,
+            include_live_anilist=not args.offline,
+        )
+        print(json.dumps(report, indent=2, ensure_ascii=False))
+        return
 
     if args.rebuild or args.enrich:
         res = rebuild_and_save_catalog(enrich=args.enrich, download_posters=args.enrich)
