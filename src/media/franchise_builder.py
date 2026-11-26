@@ -14,12 +14,36 @@ from media import CATALOG_JSON_PATH, load_catalog
 from media.poster_cache import (
     POSTER_CACHE_DIR,
     download_poster_to_cache,
+    extract_youtube_thumbnail,
     query_anilist_franchise,
+    query_bangumi,
     query_imdb_suggestion,
     query_mangaupdates,
     query_tvmaze,
     query_wikipedia_summary,
 )
+
+OBSIDIAN_BATCH_2026_11_26 = {
+    "the-fantasie-of-a-stepmother",
+    "secret-class",
+    "perfect-world",
+    "martial-universe",
+    "a-record-of-a-mortals-journey-to-immortality",
+    "the-great-ruler",
+    "battle-through-the-heavens",
+    "soul-land",
+    "against-the-gods",
+    "the-girl-downstairs",
+    "martial-peak",
+}
+
+_YEAR_RE = re.compile(r"\b(19[89]\d|20[0-2]\d)\b")
+
+
+def extract_year_from_text(*texts: str) -> int | None:
+    """Return latest realistic 4-digit release year found in entry text, if any."""
+    years = [int(y) for t in texts for y in _YEAR_RE.findall(str(t or ""))]
+    return max(years) if years else None
 
 _MD_LINK_RE = re.compile(r"\[([^\]]+)\]\((https?://[^\s)]+)\)")
 
@@ -764,6 +788,23 @@ def build_multi_tier_catalog(
             g.setdefault("poster_url", "")
             g.setdefault("poster_cached_file", "")
             g.setdefault("watchlist_status", "")
+            if not g.get("added_at"):
+                if fid in OBSIDIAN_BATCH_2026_11_26:
+                    g["added_at"] = "2026-11-26"
+                elif g.get("watchlist_status") or fid == "outlander":
+                    g["added_at"] = "2026-11-24"
+                else:
+                    g["added_at"] = "2026-11-20"
+            g.setdefault("updated_at", "2026-11-26")
+            if g.get("release_year") is None:
+                inferred_year = extract_year_from_text(
+                    g.get("name", ""),
+                    g.get("description", ""),
+                    g.get("anime", "") if mt in ("anime", "donghua", "movie") else "",
+                    g.get("live_action", "") if mt in ("tv_series", "movie") else "",
+                )
+                if inferred_year:
+                    g["release_year"] = inferred_year
             if mt == "light_novel":
                 g["tier"] = "source"
                 g.setdefault("sub_format", "Web Novel" if "web" in origin.lower() else "Light Novel")
@@ -996,6 +1037,23 @@ def build_multi_tier_catalog(
                 g["parent_id"] = parent["id"] if parent else ""
 
     items.extend(new_additions)
+    # Ensure all newly created items also carry chronological added_at / release_year / updated_at
+    today_iso = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d")
+    for it in items:
+        fid_it = str(it.get("franchise_id") or "")
+        if not it.get("added_at"):
+            it["added_at"] = "2026-11-26" if fid_it in OBSIDIAN_BATCH_2026_11_26 or str(it.get("media_type")) != "comic" else today_iso
+        it.setdefault("updated_at", today_iso)
+        if it.get("release_year") is None:
+            mt_it = str(it.get("media_type", ""))
+            yr = extract_year_from_text(
+                it.get("name", ""),
+                it.get("description", ""),
+                it.get("anime", "") if mt_it in ("anime", "donghua", "movie") else "",
+                it.get("live_action", "") if mt_it in ("tv_series", "movie") else "",
+            )
+            if yr:
+                it["release_year"] = yr
     return items, stats
 
 
@@ -1004,7 +1062,7 @@ def enrich_single_franchise(
     download_posters: bool = True,
     cache_dir: Path = POSTER_CACHE_DIR,
 ) -> dict[str, int]:
-    """Fetch metadata, synopses, NSFW signals, and local poster cache for one franchise group."""
+    """Fetch metadata, synopses, NSFW signals, release years, and local poster cache for one franchise group."""
     stats = {"metadata_updated": 0, "posters_cached": 0}
     if not group:
         return stats
@@ -1016,9 +1074,19 @@ def enrich_single_franchise(
 
     al = query_anilist_franchise(title, alt=alt)
     mu = query_mangaupdates(title, alt=alt)
-    imdb = query_imdb_suggestion(title, alt=alt)
+    has_live_or_movie = any(g.get("media_type") in ("tv_series", "movie") for g in group)
+    has_official_anim = any(
+        g.get("media_type") in ("anime", "donghua")
+        and not any(k in str(g.get("sub_format", "")).lower() for k in ("fan", "teaser"))
+        for g in group
+    )
+    imdb = query_imdb_suggestion(title, alt=alt) if (has_live_or_movie or has_official_anim) else {}
     needs_tv = any(g.get("media_type") == "tv_series" for g in group)
     tv = query_tvmaze(title, alt=alt) if needs_tv else None
+    has_donghua = any(g.get("media_type") == "donghua" for g in group)
+    has_novel = any(g.get("media_type") == "light_novel" for g in group)
+    bgm_anime = query_bangumi(title, alt=alt, subject_type=2) if (has_donghua or (has_official_anim and not al.get("anime"))) else None
+    bgm_book = query_bangumi(title, alt=alt, subject_type=1) if has_novel else None
     wiki = None
     if not al and not mu and not imdb:
         wiki = query_wikipedia_summary(title)
@@ -1027,22 +1095,36 @@ def enrich_single_franchise(
     if not al.get("comic") and mu and mu.get("is_adult"):
         is_adult_signal = True
 
+    today_iso = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d")
+
     for entry in group:
         mt = str(entry.get("media_type", "comic")).lower()
+        sub_l = str(entry.get("sub_format", "")).lower()
+        is_fan_or_teaser = any(k in sub_l for k in ("fan", "teaser"))
         changed = False
         if is_adult_signal and not entry.get("nsfw"):
             entry["nsfw"] = True
             changed = True
 
         src_data: dict[str, Any] | None = None
+        yt_thumb = extract_youtube_thumbnail(entry.get("links") or [])
         if mt == "light_novel":
-            src_data = al.get("light_novel") or (mu if mu and "novel" in mu.get("type", "") else None) or al.get("comic") or mu or wiki
+            src_data = al.get("light_novel") or bgm_book or (mu if mu and "novel" in mu.get("type", "") else None) or wiki or al.get("comic") or mu
         elif mt == "comic":
             src_data = al.get("comic") or mu or wiki
-        elif mt in ("anime", "donghua"):
-            src_data = al.get("anime") or imdb.get("tv_series") or imdb.get("movie") or al.get("comic") or mu or wiki
+        elif mt == "donghua":
+            if is_fan_or_teaser:
+                src_data = ({"poster_url": yt_thumb, "source": "youtube"} if yt_thumb else None) or bgm_anime or al.get("anime") or al.get("comic") or mu
+            else:
+                src_data = bgm_anime or al.get("anime") or ({"poster_url": yt_thumb, "source": "youtube"} if yt_thumb else None) or al.get("comic") or mu or wiki
+        elif mt == "anime":
+            if is_fan_or_teaser:
+                src_data = ({"poster_url": yt_thumb, "source": "youtube"} if yt_thumb else None) or al.get("anime") or al.get("comic") or mu
+            else:
+                imdb_anim = imdb.get("tv_series") if (imdb.get("tv_series") and imdb["tv_series"]["score"] >= 0.90) else None
+                src_data = al.get("anime") or bgm_anime or imdb_anim or ({"poster_url": yt_thumb, "source": "youtube"} if yt_thumb else None) or al.get("comic") or mu or wiki
         elif mt == "movie":
-            src_data = al.get("movie") or imdb.get("movie") or al.get("anime") or wiki
+            src_data = al.get("movie") or imdb.get("movie") or al.get("anime") or bgm_anime or wiki
         elif mt == "tv_series":
             src_data = tv or imdb.get("tv_series") or wiki or imdb.get("movie")
 
@@ -1055,11 +1137,14 @@ def enrich_single_franchise(
             if cand_desc and len(str(entry.get("description") or "")) < 40:
                 entry["description"] = cand_desc
                 changed = True
-            if src_data.get("imdb_url") and not any(x.get("url") == src_data["imdb_url"] for x in entry.get("links", [])):
+            if src_data.get("year") and entry.get("release_year") is None:
+                entry["release_year"] = int(src_data["year"])
+                changed = True
+            if src_data.get("imdb_url") and not is_fan_or_teaser and mt != "donghua" and not any(x.get("url") == src_data["imdb_url"] for x in entry.get("links", [])):
                 entry.setdefault("links", []).append({"label": "IMDb", "url": src_data["imdb_url"], "kind": "tracker"})
                 changed = True
-            if src_data.get("url") and src_data.get("source") in ("anilist", "mangaupdates") and not any(x.get("url") == src_data["url"] for x in entry.get("links", [])):
-                lbl = "AniList" if src_data["source"] == "anilist" else "MangaUpdates"
+            if src_data.get("url") and src_data.get("source") in ("anilist", "mangaupdates", "bangumi") and not any(x.get("url") == src_data["url"] for x in entry.get("links", [])):
+                lbl = {"anilist": "AniList", "mangaupdates": "MangaUpdates", "bangumi": "Bangumi"}[src_data["source"]]
                 entry.setdefault("links", []).append({"label": lbl, "url": src_data["url"], "kind": "tracker"})
                 changed = True
 
@@ -1071,6 +1156,7 @@ def enrich_single_franchise(
                 changed = True
 
         if changed:
+            entry["updated_at"] = today_iso
             stats["metadata_updated"] += 1
     return stats
 

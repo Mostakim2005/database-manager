@@ -58,14 +58,50 @@ def _normalize_title_key(text: str) -> str:
 
 
 def _title_similarity(query: str, candidate: str) -> float:
-    q_words = set(_normalize_title_key(query).split())
-    c_words = set(_normalize_title_key(candidate).split())
+    q_norm = _normalize_title_key(query)
+    c_norm = _normalize_title_key(candidate)
+    q_words = set(q_norm.split())
+    c_words = set(c_norm.split())
     if not q_words or not c_words:
         return 0.0
-    if _normalize_title_key(query) == _normalize_title_key(candidate):
+    if q_norm == c_norm:
         return 1.0
     inter = len(q_words & c_words)
-    return inter / max(len(q_words), len(c_words))
+    ratio = inter / max(len(q_words), len(c_words))
+    # Handle exact prefix/containment on multi-word titles (e.g. Saving 80,000 Gold... vs ...for My Retirement)
+    if len(q_words) >= 3 and (q_norm in c_norm or c_norm in q_norm):
+        ratio = max(ratio, 0.80)
+    return ratio
+
+
+def extract_youtube_thumbnail(links: list[dict[str, str]] | str) -> str:
+    """Extract official YouTube hqdefault thumbnail URL from a watch/embed URL when present."""
+    urls: list[str] = []
+    if isinstance(links, str):
+        urls = [links]
+    elif isinstance(links, list):
+        urls = [str(lk.get("url") or "") for lk in links if isinstance(lk, dict)]
+    for raw in urls:
+        m = re.search(r"(?:youtube\.com/watch\?[^#\s]*v=|youtu\.be/)([A-Za-z0-9_-]{11})", raw)
+        if m:
+            return f"https://i.ytimg.com/vi/{m.group(1)}/hqdefault.jpg"
+    return ""
+
+
+def _build_search_candidates(title: str, alt: str = "") -> list[str]:
+    queries: list[str] = [title.strip()]
+    if alt:
+        clean_full = re.sub(r"\([^)]*\)", "", alt).strip()
+        if len(clean_full) >= 4 and "/" not in clean_full and "·" not in clean_full:
+            if clean_full.lower() not in {q.lower() for q in queries}:
+                queries.append(clean_full)
+        for part in re.split(r"[/·,;]+", alt):
+            clean = re.sub(r"\([^)]*\)", "", part).strip()
+            if len(clean) >= 4 and clean.lower() not in {q.lower() for q in queries}:
+                queries.append(clean)
+            if len(queries) >= 4:
+                break
+    return queries[:4]
 
 
 def _http_json(
@@ -96,29 +132,23 @@ def query_anilist_franchise(title: str, alt: str = "") -> dict[str, dict[str, An
     """Query AniList GraphQL once for manga/novel/anime/donghua matches."""
     query_str = (
         "query ($s: String) { "
-        "Page(perPage: 8) { "
+        "Page(perPage: 10) { "
         "media(search: $s) { "
         "id type format isAdult siteUrl "
+        "startDate { year } "
         "title { english romaji native } "
         "coverImage { large medium } "
         "description(asHtml: false) "
         "} } }"
     )
-    queries = [title.strip()]
-    if alt:
-        for part in re.split(r"[/·,;()]+", alt):
-            clean = part.strip()
-            if len(clean) >= 4 and clean.lower() not in {q.lower() for q in queries}:
-                queries.append(clean)
-                if len(queries) >= 2:
-                    break
+    queries = _build_search_candidates(title, alt)
 
     by_bucket: dict[str, dict[str, Any]] = {}
     for q in queries:
         payload = _http_json(
             "https://graphql.anilist.co",
             post_body={"query": query_str, "variables": {"s": q}},
-            min_interval=0.55,
+            min_interval=0.45,
         )
         items = (((payload or {}).get("data") or {}).get("Page") or {}).get("media") or []
         for m in items:
@@ -141,12 +171,14 @@ def query_anilist_franchise(title: str, alt: str = "") -> dict[str, dict[str, An
                 continue
             cover = (m.get("coverImage") or {}).get("large") or (m.get("coverImage") or {}).get("medium") or ""
             desc = _clean_text(m.get("description"))
+            yr = (m.get("startDate") or {}).get("year")
             prev = by_bucket.get(bucket)
             if not prev or best_sim > prev["score"]:
                 by_bucket[bucket] = {
                     "score": best_sim,
                     "poster_url": cover,
                     "description": desc,
+                    "year": int(yr) if isinstance(yr, int) else None,
                     "is_adult": bool(m.get("isAdult")),
                     "url": m.get("siteUrl") or "",
                     "source": "anilist",
@@ -156,15 +188,43 @@ def query_anilist_franchise(title: str, alt: str = "") -> dict[str, dict[str, An
     return by_bucket
 
 
+def query_bangumi(title: str, alt: str = "", subject_type: int = 2) -> dict[str, Any] | None:
+    """Query Bangumi API (subject_type 2=anime/donghua, 1=book/novel) for Chinese/Japanese covers & dates."""
+    for q in _build_search_candidates(title, alt)[:3]:
+        encoded = urllib.parse.quote(q)
+        payload = _http_json(
+            f"https://api.bgm.tv/search/subject/{encoded}?type={subject_type}&responseGroup=small&max_results=5",
+            min_interval=0.25,
+        )
+        for row in (payload or {}).get("list") or []:
+            if not isinstance(row, dict):
+                continue
+            cand_names = [str(row.get("name") or ""), str(row.get("name_cn") or "")]
+            sim = max((_title_similarity(q, cn) for cn in cand_names if cn), default=0.0)
+            if sim < 0.72:
+                continue
+            imgs = row.get("images") or {}
+            cover = str(imgs.get("large") or imgs.get("common") or imgs.get("medium") or "").strip()
+            if cover.startswith("http://"):
+                cover = "https://" + cover[len("http://"):]
+            air_date = str(row.get("air_date") or "")
+            m_yr = re.match(r"^(19\d{2}|20\d{2})", air_date)
+            yr = int(m_yr.group(1)) if m_yr else None
+            if cover:
+                return {
+                    "score": sim,
+                    "poster_url": cover,
+                    "description": _clean_text(row.get("summary")),
+                    "year": yr,
+                    "url": str(row.get("url") or "").replace("http://", "https://"),
+                    "source": "bangumi",
+                }
+    return None
+
+
 def query_mangaupdates(title: str, alt: str = "") -> dict[str, Any] | None:
     """Query MangaUpdates REST API for comic/novel poster, synopsis, and adult tags."""
-    candidates = [title.strip()]
-    if alt:
-        for part in re.split(r"[/·,;()]+", alt):
-            clean = part.strip()
-            if len(clean) >= 4 and clean.lower() not in {c.lower() for c in candidates}:
-                candidates.append(clean)
-                break
+    candidates = _build_search_candidates(title, alt)
 
     best: dict[str, Any] | None = None
     for q in candidates:
@@ -184,11 +244,14 @@ def query_mangaupdates(title: str, alt: str = "") -> dict[str, Any] | None:
             img = ((rec.get("image") or {}).get("url") or {}).get("original") or ""
             desc = _clean_text(rec.get("description"))
             rec_type = str(rec.get("type") or "").lower()
+            yr = rec.get("year")
+            yr_int = int(yr) if isinstance(yr, int) or (isinstance(yr, str) and yr.isdigit()) else None
             if not best or sim > best["score"]:
                 best = {
                     "score": sim,
                     "poster_url": img,
                     "description": desc,
+                    "year": yr_int,
                     "is_adult": is_adult,
                     "type": rec_type,
                     "url": rec.get("url") or "",
@@ -201,14 +264,7 @@ def query_mangaupdates(title: str, alt: str = "") -> dict[str, Any] | None:
 
 def query_imdb_suggestion(title: str, alt: str = "") -> dict[str, dict[str, Any]]:
     """Query IMDb Suggestion JSON (no AWS WAF) for movie, tv_series, and animation posters."""
-    queries = [title.strip()]
-    if alt:
-        for part in re.split(r"[/·,;()]+", alt):
-            clean = re.sub(r"\bby\s+.*$", "", part, flags=re.IGNORECASE).strip()
-            if len(clean) >= 4 and clean.lower() not in {q.lower() for q in queries}:
-                queries.append(clean)
-                if len(queries) >= 2:
-                    break
+    queries = _build_search_candidates(title, alt)[:3]
 
     found: dict[str, dict[str, Any]] = {}
     for q in queries:
@@ -226,16 +282,17 @@ def query_imdb_suggestion(title: str, alt: str = "") -> dict[str, dict[str, Any]
                 continue
             lbl = str(item.get("l") or "")
             sim = _title_similarity(q, lbl)
-            if sim < 0.72:
+            if sim < 0.78:
                 continue
             qtype = str(item.get("q") or "").lower()
             bucket = "movie" if "feature" in qtype or "movie" in qtype else "tv_series"
             img = str((item.get("i") or {}).get("imageUrl") or "")
             year = item.get("y")
+            yr_int = int(year) if isinstance(year, int) else None
             cast = str(item.get("s") or "").strip()
             blurb_parts = []
-            if year:
-                blurb_parts.append(str(year))
+            if yr_int:
+                blurb_parts.append(str(yr_int))
             if item.get("q"):
                 blurb_parts.append(str(item["q"]))
             if cast:
@@ -245,6 +302,7 @@ def query_imdb_suggestion(title: str, alt: str = "") -> dict[str, dict[str, Any]
                 found[bucket] = {
                     "score": sim,
                     "poster_url": img,
+                    "year": yr_int,
                     "imdb_id": iid,
                     "imdb_url": f"https://www.imdb.com/title/{iid}/",
                     "meta_summary": " · ".join(blurb_parts),
@@ -257,7 +315,7 @@ def query_imdb_suggestion(title: str, alt: str = "") -> dict[str, dict[str, Any]
 
 def query_tvmaze(title: str, alt: str = "") -> dict[str, Any] | None:
     """Query TVmaze public API for TV series / K-Drama / C-Drama synopsis & poster."""
-    for q in [title.strip(), *(p.strip() for p in re.split(r"[/·,;()]+", alt or "") if len(p.strip()) >= 4)][:2]:
+    for q in _build_search_candidates(title, alt)[:3]:
         rows = _http_json(f"https://api.tvmaze.com/search/shows?q={urllib.parse.quote(q)}", min_interval=0.25)
         if not isinstance(rows, list):
             continue
@@ -265,15 +323,19 @@ def query_tvmaze(title: str, alt: str = "") -> dict[str, Any] | None:
             show = row.get("show") or {}
             name = str(show.get("name") or "")
             sim = _title_similarity(q, name)
-            if sim < 0.5:
+            if sim < 0.72:
                 continue
             img = (show.get("image") or {}).get("medium") or (show.get("image") or {}).get("original") or ""
             summary = _clean_text(show.get("summary"))
+            prem = str(show.get("premiered") or "")
+            m_yr = re.match(r"^(19\d{2}|20\d{2})", prem)
+            yr_int = int(m_yr.group(1)) if m_yr else None
             if img or summary:
                 return {
                     "score": sim,
                     "poster_url": img,
                     "description": summary,
+                    "year": yr_int,
                     "official_site": show.get("officialSite") or "",
                     "url": show.get("url") or "",
                     "source": "tvmaze",

@@ -409,6 +409,8 @@ class TestMediaDomainIntegration(unittest.TestCase):
             with urllib.request.urlopen(f"{base}/api/media/refresh/status", timeout=5) as resp:
                 rst = json.loads(resp.read().decode("utf-8"))
                 self.assertIn("running", rst)
+            with urllib.request.urlopen(f"{base}/media/index.html", timeout=5) as resp:
+                self.assertIn("no-store", str(resp.headers.get("Cache-Control", "")))
         finally:
             fetch_helper.HAVE_CURL_CFFI = orig_cf
             probe_srv.shutdown()
@@ -434,6 +436,8 @@ class TestMediaDomainIntegration(unittest.TestCase):
         secret = [item for item in catalog if item.get("franchise_id") == "secret-class"]
         self.assertEqual(len(secret), 1)
         self.assertTrue(secret[0].get("nsfw"))
+        self.assertTrue(all(item.get("added_at") for item in catalog))
+        self.assertTrue(any(item.get("release_year") == 2026 for item in btth))
 
         # Test temporary status persistence & local poster cache isolation
         with tempfile.TemporaryDirectory() as td:
@@ -452,6 +456,10 @@ class TestMediaDomainIntegration(unittest.TestCase):
             got = poster_cache.get_cached_poster_bytes("sample-item", cache_dir=cache_dir)
             self.assertIsNotNone(got)
             self.assertEqual(got[1], "image/jpeg")
+
+            # Verify YouTube thumbnail extraction & scoped link audit
+            yt_thumb = poster_cache.extract_youtube_thumbnail([{"url": "https://www.youtube.com/watch?v=ZUthzoIEGjs"}])
+            self.assertEqual(yt_thumb, "https://i.ytimg.com/vi/ZUthzoIEGjs/hqdefault.jpg")
 
             # Verify idempotent re-run creates zero duplicates
             expanded_again, stats_again = franchise_builder.build_multi_tier_catalog(catalog, include_obsidian_batch=True)

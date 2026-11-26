@@ -221,6 +221,9 @@ def create_media_schema(conn: sqlite3.Connection) -> None:
             live_action TEXT,
             poster_url TEXT,
             description TEXT,
+            release_year INTEGER,
+            added_at TEXT,
+            updated_at TEXT,
             has_direct_link INTEGER,
             has_anime INTEGER,
             has_live_action INTEGER,
@@ -233,6 +236,8 @@ def create_media_schema(conn: sqlite3.Connection) -> None:
     cursor.execute("CREATE INDEX IF NOT EXISTS idx_media_type ON media_catalog(media_type);")
     cursor.execute("CREATE INDEX IF NOT EXISTS idx_media_tier ON media_catalog(tier);")
     cursor.execute("CREATE INDEX IF NOT EXISTS idx_media_nsfw ON media_catalog(nsfw);")
+    cursor.execute("CREATE INDEX IF NOT EXISTS idx_media_year ON media_catalog(release_year);")
+    cursor.execute("CREATE INDEX IF NOT EXISTS idx_media_added ON media_catalog(added_at);")
     cursor.execute("CREATE INDEX IF NOT EXISTS idx_media_franchise ON media_catalog(franchise_id);")
     cursor.execute("CREATE INDEX IF NOT EXISTS idx_media_origin ON media_catalog(origin);")
     cursor.execute("CREATE INDEX IF NOT EXISTS idx_media_name ON media_catalog(name);")
@@ -741,9 +746,10 @@ def export_media(conn: sqlite3.Connection, data_root: Path = DATA_DIR) -> int:
             INSERT OR REPLACE INTO media_catalog (
                 id, name, alt, media_type, tier, sub_format, nsfw, watchlist_status,
                 parent_id, franchise_id, franchise_title, link, origin, anime, live_action,
-                poster_url, description, has_direct_link, has_anime, has_live_action, has_poster,
+                poster_url, description, release_year, added_at, updated_at,
+                has_direct_link, has_anime, has_live_action, has_poster,
                 relations_json, raw_json
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 slug,
@@ -763,6 +769,9 @@ def export_media(conn: sqlite3.Connection, data_root: Path = DATA_DIR) -> int:
                 live_action,
                 poster_url,
                 str(item.get("description") or ""),
+                int(item["release_year"]) if isinstance(item.get("release_year"), int) else None,
+                str(item.get("added_at") or ""),
+                str(item.get("updated_at") or ""),
                 1 if ("comix.to/title/" in link or (link.startswith("https://") and not link.startswith("https://comix.to/browser"))) else 0,
                 0 if anime.startswith("**None**") else 1,
                 0 if live_action.startswith("**None**") else 1,

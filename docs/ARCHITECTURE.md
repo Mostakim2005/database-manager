@@ -302,14 +302,14 @@ flowchart TD
 ### [SUBSYSTEM: Media-Catalog-And-Adaptation-Pipeline] | Aliases: media pipeline, manga, manhua, light_novel, anime, donghua, movie, tv_series, comix sitemaps, poster cache
 > **1-Line Summary:** Multi-tier franchise builder, public API metadata/synopsis enricher, gitignored local PC poster cache (`/api/media/poster`), sitemap matcher, and async refresh pipeline compiling into `media.sqlite`.
 
-* **Plain-English Overview:** `src/media/franchise_builder.py` deduplicates and expands titles into linked `source` (`light_novel`), `visual` (`comic`), and `motion` (`anime`, `donghua`, `movie`, `tv_series`) sub-entries sharing `franchise_id` and `parent_id` chains inside `data/media/media_catalog.json`. `src/media/poster_cache.py` queries AniList GraphQL, MangaUpdates, IMDb Suggestion JSON, TVmaze, and Wikipedia REST APIs to populate plot descriptions, NSFW flags, and per-tier poster images cached locally inside gitignored `data/media/poster_cache/`, served via `GET /api/media/poster` (`src/server.py`). `src/media/adaptation_refresh.py` runs async background refreshes (`POST /api/media/refresh`) and persists Watch/Read status updates (`POST /api/media/status`), while `crawler.py`, `indexer.py`, `matcher.py`, and `link_health.py` handle canonical `comix.to` URL upgrades and link checks.
+* **Plain-English Overview:** `src/media/franchise_builder.py` deduplicates and expands titles into linked `source` (`light_novel`), `visual` (`comic`), and `motion` (`anime`, `donghua`, `movie`, `tv_series`) sub-entries sharing `franchise_id` and `parent_id` chains with `release_year`, `added_at`, and `updated_at` timestamps inside `data/media/media_catalog.json`. `src/media/poster_cache.py` queries AniList GraphQL, Bangumi, MangaUpdates, IMDb Suggestion JSON (for live-action/official non-donghua titles), YouTube video thumbnails (`i.ytimg.com`), TVmaze, and Wikipedia REST APIs to populate plot descriptions, release years, NSFW flags, and per-tier poster images cached locally inside gitignored `data/media/poster_cache/`, served via `GET /api/media/poster` (`src/server.py`, with `Cache-Control: no-store` on HTML/JS/CSS assets so portal iframes never serve stale UI). `src/media/adaptation_refresh.py` runs async background refreshes (`POST /api/media/refresh`) and persists Watch/Read status updates (`POST /api/media/status`), while `crawler.py`, `indexer.py`, `matcher.py`, and `link_health.py` handle canonical `comix.to` URL upgrades and per-entry/franchise live link checks.
 * **Code Anchors:**
   * `src/media/franchise_builder.py :: build_multi_tier_catalog`, `enrich_catalog_metadata`
-  * `src/media/poster_cache.py :: download_poster_to_cache`, `get_cached_poster_bytes`
+  * `src/media/poster_cache.py :: download_poster_to_cache`, `get_cached_poster_bytes`, `query_bangumi`, `extract_youtube_thumbnail`
   * `src/media/adaptation_refresh.py :: start_background_media_refresh`, `update_media_entry_status`, `inspect_catalog_doctor`
   * `src/media/link_health.py :: audit_catalog_links_offline`, `check_catalog_links_live`
-  * `src/server.py :: DatabaseHandler` (`/api/media`, `/api/media/poster`, `/api/media/refresh`, `/api/media/status`)
-  * `web/media/index.html :: renderMatrixView`, `renderRedditTreeView`, `openPosterModal`
+  * `src/server.py :: DatabaseHandler` (`/api/media`, `/api/media/poster`, `/api/media/refresh`, `/api/media/status`, `end_headers`)
+  * `web/media/index.html :: renderMatrixView`, `renderRedditTreeView`, `sortGroups`, `probeLiveLinksScoped`, `openPosterModal`
 
 ```mermaid
 flowchart LR

@@ -61,7 +61,7 @@ def extract_catalog_links(catalog: list[dict[str, Any]]) -> list[dict[str, str]]
 
 
 def audit_catalog_links_offline(catalog_path: Path = CATALOG_JSON_PATH) -> dict[str, Any]:
-    """Audit syntax, host breakdown, and direct vs search fallback counts offline."""
+    """Audit syntax, host breakdown, and per-entry fallback/missing links offline."""
     catalog = load_catalog(catalog_path)
     links = extract_catalog_links(catalog)
     malformed = [
@@ -70,6 +70,8 @@ def audit_catalog_links_offline(catalog_path: Path = CATALOG_JSON_PATH) -> dict[
     ]
     hosts = Counter(entry["host"] for entry in links)
     kinds = Counter(entry["kind"] for entry in links)
+    browse_titles = sorted({entry["title"] for entry in links if entry["kind"] == "browse_search"})
+    no_link_titles = [str(item.get("name", item.get("id", ""))) for item in catalog if not str(item.get("link", "")).strip() and not item.get("links")]
 
     return {
         "mode": "offline",
@@ -78,6 +80,8 @@ def audit_catalog_links_offline(catalog_path: Path = CATALOG_JSON_PATH) -> dict[
         "total_links": len(links),
         "malformed_count": len(malformed),
         "malformed_links": malformed,
+        "browse_search_titles": browse_titles,
+        "no_link_titles": no_link_titles,
         "kind_counts": dict(kinds),
         "top_hosts": dict(hosts.most_common(12)),
         "healthy": len(malformed) == 0 and len(links) > 0,
@@ -88,16 +92,25 @@ def check_catalog_links_live(
     catalog_path: Path = CATALOG_JSON_PATH,
     limit: int = 10,
     host_filter: str | None = None,
-    delay_sec: float = 0.75,
+    franchise_filter: str | None = None,
+    entry_id: str | None = None,
+    delay_sec: float = 0.45,
 ) -> dict[str, Any]:
-    """Politely probe up to `limit` unique direct URLs in the catalog."""
+    """Politely probe direct URLs globally or scoped to a specific franchise/entry."""
     catalog = load_catalog(catalog_path)
-    links = extract_catalog_links(catalog)
+    scoped = catalog
+    if entry_id:
+        scoped = [it for it in catalog if str(it.get("id", "")).strip() == entry_id.strip()]
+    elif franchise_filter:
+        ff = franchise_filter.strip().lower()
+        scoped = [it for it in catalog if str(it.get("franchise_id", "")).strip().lower() == ff]
+
+    links = extract_catalog_links(scoped)
 
     seen: set[str] = set()
     targets: list[dict[str, str]] = []
     for entry in links:
-        if entry["kind"] != "direct":
+        if not (entry_id or franchise_filter) and entry["kind"] != "direct":
             continue
         if host_filter and host_filter.lower() not in entry["host"]:
             continue
@@ -116,6 +129,7 @@ def check_catalog_links_live(
     broken = [r for r in results if r["state"] == "broken"]
     return {
         "mode": "live",
+        "scope": entry_id or franchise_filter or "catalog_sample",
         "generated_at": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "probed_count": len(results),
         "state_counts": dict(state_counts),

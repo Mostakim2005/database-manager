@@ -37,14 +37,11 @@
         "label": "comix.to",
         "url": "https://comix.to/browse?q=Rebirth%20of%20the%20Ultimate%20Master&sort=relevance%3Adesc",
         "kind": "unofficial"
-      },
-      {
-        "label": "MangaUpdates",
-        "url": "https://www.mangaupdates.com/series/l4ho1jh/rebirth-of-the-ultimate-master",
-        "kind": "tracker"
       }
     ],
-    "parent_id": "rebirth-of-the-ultimate-master-novel"
+    "parent_id": "rebirth-of-the-ultimate-master-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "log-into-the-future",
@@ -86,12 +83,15 @@
         "kind": "unofficial"
       },
       {
-        "label": "MangaUpdates",
-        "url": "https://www.mangaupdates.com/series/aisxzxr/log-into-the-future",
+        "label": "AniList",
+        "url": "https://anilist.co/manga/160980",
         "kind": "tracker"
       }
     ],
-    "parent_id": "log-into-the-future-novel"
+    "parent_id": "log-into-the-future-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2023
   },
   {
     "id": "become-the-castellan-in-another-world",
@@ -140,9 +140,17 @@
         "label": "MangaUpdates",
         "url": "https://www.mangaupdates.com/series/nl6uadg/become-the-castellan-in-another-world",
         "kind": "tracker"
+      },
+      {
+        "label": "AniList",
+        "url": "https://anilist.co/manga/118368",
+        "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2019
   },
   {
     "id": "ultimate-son-in-law",
@@ -188,14 +196,11 @@
         "label": "comix.to",
         "url": "https://comix.to/title/l03e-ultimate-son-in-law",
         "kind": "unofficial"
-      },
-      {
-        "label": "MangaUpdates",
-        "url": "https://www.mangaupdates.com/series/llpcgb0/ultimate-son-in-law",
-        "kind": "tracker"
       }
     ],
-    "parent_id": "ultimate-son-in-law-novel"
+    "parent_id": "ultimate-son-in-law-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "the-ravages-of-time",
@@ -251,7 +256,10 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2000
   },
   {
     "id": "the-sword-of-dawn",
@@ -291,14 +299,11 @@
         "label": "comix.to",
         "url": "https://comix.to/title/jw3d-the-sword-of-dawn",
         "kind": "unofficial"
-      },
-      {
-        "label": "MangaUpdates",
-        "url": "https://www.mangaupdates.com/series/kiew3ov/the-sword-of-dawn",
-        "kind": "tracker"
       }
     ],
-    "parent_id": "the-sword-of-dawn-novel"
+    "parent_id": "the-sword-of-dawn-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "joy-of-life",
@@ -346,12 +351,15 @@
         "kind": "unofficial"
       },
       {
-        "label": "MangaUpdates",
-        "url": "https://www.mangaupdates.com/series/qqy45ri/joy-of-life",
+        "label": "AniList",
+        "url": "https://anilist.co/manga/172724",
         "kind": "tracker"
       }
     ],
-    "parent_id": "joy-of-life-web-novel"
+    "parent_id": "joy-of-life-web-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2023
   },
   {
     "id": "global-freeze-i-created-an-apocalypse-shelter",
@@ -381,8 +389,8 @@
     "nsfw": false,
     "source_is_text": true,
     "description": "",
-    "poster_url": "",
-    "poster_cached_file": "",
+    "poster_url": "https://cdn.mangaupdates.com/image/i25826.jpg",
+    "poster_cached_file": "global-freeze-i-created-an-apocalypse-shelter.jpg",
     "watchlist_status": "",
     "tier": "visual",
     "sub_format": "Chinese Manhua",
@@ -391,9 +399,17 @@
         "label": "comix.to",
         "url": "https://comix.to/title/3yz2-global-freeze-i-created-an-apocalypse-shelter",
         "kind": "unofficial"
+      },
+      {
+        "label": "MangaUpdates",
+        "url": "https://www.mangaupdates.com/series/8m2iq7c/shelter",
+        "kind": "tracker"
       }
     ],
-    "parent_id": "global-freeze-i-created-an-apocalypse-shelter-novel"
+    "parent_id": "global-freeze-i-created-an-apocalypse-shelter-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2000
   },
   {
     "id": "peerless-dad",
@@ -416,7 +432,7 @@
     "franchise_title": "Peerless Dad",
     "nsfw": false,
     "source_is_text": false,
-    "description": "",
+    "description": "Ga-Jang No is a strong, dedicated, and humble man, with much respect for the martial arts. After the death of his lovely wife, this muscle-for-hire just wants an easy job that allows him to be a good father to his three little babies. He’s even happy to pull guard duty and fend off amateur fighters if it means he can return home safely each night. But when a creepy cult starts stealing children from the city…",
     "poster_url": "https://cdn.mangaupdates.com/image/i156271.png",
     "poster_cached_file": "peerless-dad.png",
     "watchlist_status": "",
@@ -437,9 +453,17 @@
         "label": "MangaUpdates",
         "url": "https://www.mangaupdates.com/series/vlnwjtn/father",
         "kind": "tracker"
+      },
+      {
+        "label": "AniList",
+        "url": "https://anilist.co/manga/104271",
+        "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2017
   },
   {
     "id": "genius-grandson-of-the-loan-shark",
@@ -486,7 +510,10 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": "genius-grandson-of-the-loan-shark-novel"
+    "parent_id": "genius-grandson-of-the-loan-shark-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 1990
   },
   {
     "id": "ancient-animal-tales",
@@ -532,7 +559,9 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "investor-who-sees-the-future",
@@ -572,14 +601,11 @@
         "label": "comix.to",
         "url": "https://comix.to/title/1kme-the-investor-who-sees-the-future",
         "kind": "unofficial"
-      },
-      {
-        "label": "MangaUpdates",
-        "url": "https://www.mangaupdates.com/series/otzg5cv/the-girl-who-sees",
-        "kind": "tracker"
       }
     ],
-    "parent_id": "investor-who-sees-the-future-novel"
+    "parent_id": "investor-who-sees-the-future-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "corporate-underdog",
@@ -625,7 +651,9 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "paranoid-mage",
@@ -672,7 +700,10 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": "paranoid-mage-novel"
+    "parent_id": "paranoid-mage-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2024
   },
   {
     "id": "flame-reborn",
@@ -714,12 +745,15 @@
         "kind": "unofficial"
       },
       {
-        "label": "MangaUpdates",
-        "url": "https://www.mangaupdates.com/series/e401aci/a-flame-reborn",
+        "label": "AniList",
+        "url": "https://anilist.co/manga/173233",
         "kind": "tracker"
       }
     ],
-    "parent_id": "flame-reborn-novel"
+    "parent_id": "flame-reborn-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2024
   },
   {
     "id": "bad-bone-blood",
@@ -761,12 +795,15 @@
         "kind": "unofficial"
       },
       {
-        "label": "MangaUpdates",
-        "url": "https://www.mangaupdates.com/series/uqa6tlj/bad-born-blood",
+        "label": "AniList",
+        "url": "https://anilist.co/manga/184347",
         "kind": "tracker"
       }
     ],
-    "parent_id": "bad-bone-blood-novel"
+    "parent_id": "bad-bone-blood-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2024
   },
   {
     "id": "the-night-only-lives-today",
@@ -808,12 +845,15 @@
         "kind": "unofficial"
       },
       {
-        "label": "MangaUpdates",
-        "url": "https://www.mangaupdates.com/series/gcls85m/the-knight-only-lives-today",
+        "label": "AniList",
+        "url": "https://anilist.co/manga/177706",
         "kind": "tracker"
       }
     ],
-    "parent_id": "the-night-only-lives-today-novel"
+    "parent_id": "the-night-only-lives-today-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2024
   },
   {
     "id": "gunkano-baltzar",
@@ -859,7 +899,9 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "the-superhuman-era",
@@ -903,9 +945,17 @@
         "label": "MangaUpdates",
         "url": "https://www.mangaupdates.com/series/8pnpv2e/the-superhuman-era",
         "kind": "tracker"
+      },
+      {
+        "label": "AniList",
+        "url": "https://anilist.co/manga/127993",
+        "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2019
   },
   {
     "id": "reborn-rookie",
@@ -945,14 +995,11 @@
         "label": "comix.to",
         "url": "https://comix.to/browse?q=Reborn%20Rookie&sort=relevance%3Adesc",
         "kind": "unofficial"
-      },
-      {
-        "label": "MangaUpdates",
-        "url": "https://www.mangaupdates.com/series/7jsl5rk/reborn-rookie",
-        "kind": "tracker"
       }
     ],
-    "parent_id": "reborn-rookie-novel"
+    "parent_id": "reborn-rookie-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "lookism",
@@ -1009,7 +1056,9 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "vampire-family",
@@ -1055,7 +1104,9 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "ideal-sponger-life",
@@ -1095,14 +1146,11 @@
         "label": "comix.to",
         "url": "https://comix.to/title/90g96-risou-no-himo-seikatsu",
         "kind": "unofficial"
-      },
-      {
-        "label": "AniList",
-        "url": "https://anilist.co/manga/98347",
-        "kind": "tracker"
       }
     ],
-    "parent_id": "ideal-sponger-life-novel"
+    "parent_id": "ideal-sponger-life-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "jipan",
@@ -1148,7 +1196,9 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "spare-me-great-lord",
@@ -1190,12 +1240,15 @@
         "kind": "unofficial"
       },
       {
-        "label": "MangaUpdates",
-        "url": "https://www.mangaupdates.com/series/9w1fe81/spare-me-great-lord",
+        "label": "AniList",
+        "url": "https://anilist.co/manga/120288",
         "kind": "tracker"
       }
     ],
-    "parent_id": "spare-me-great-lord-novel"
+    "parent_id": "spare-me-great-lord-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2019
   },
   {
     "id": "absolute-regression",
@@ -1237,12 +1290,15 @@
         "kind": "unofficial"
       },
       {
-        "label": "MangaUpdates",
-        "url": "https://www.mangaupdates.com/series/xutrph6/absolute-regression",
+        "label": "AniList",
+        "url": "https://anilist.co/manga/180891",
         "kind": "tracker"
       }
     ],
-    "parent_id": "absolute-regression-novel"
+    "parent_id": "absolute-regression-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2024
   },
   {
     "id": "manager-kim",
@@ -1297,9 +1353,17 @@
         "label": "MangaUpdates",
         "url": "https://www.mangaupdates.com/series/gsoa99l/manager-kim",
         "kind": "tracker"
+      },
+      {
+        "label": "AniList",
+        "url": "https://anilist.co/manga/141626",
+        "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2021
   },
   {
     "id": "reincarnate-aristocrat-i-ll-use-my-appraisal-skill",
@@ -1328,9 +1392,9 @@
     "franchise_title": "Reincarnate Aristocrat, I'll Use My Appraisal Skill",
     "nsfw": false,
     "source_is_text": true,
-    "description": "",
-    "poster_url": "",
-    "poster_cached_file": "",
+    "description": "It’s brains over brawn in this new isekai adventure! One day when leaving work, a salaryman dies and is reborn in another world as the weak child of the noble Louvent family. Using his “appraisal” skill, which lets him see the stats of others, young Ars Louvent recruits the best people to his side in order to turn his country around.",
+    "poster_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx121753-vhvIdfxdaEdF.jpg",
+    "poster_cached_file": "reincarnate-aristocrat-i-ll-use-my-appraisal-skill.jpg",
     "watchlist_status": "",
     "tier": "visual",
     "sub_format": "Japanese Manga",
@@ -1339,9 +1403,17 @@
         "label": "comix.to",
         "url": "https://comix.to/title/0qrqn-as-a-reincarnated-aristocrat-ill-use-my-appraisal-skill-to-rise-in-the-world",
         "kind": "unofficial"
+      },
+      {
+        "label": "AniList",
+        "url": "https://anilist.co/manga/121753",
+        "kind": "tracker"
       }
     ],
-    "parent_id": "reincarnate-aristocrat-i-ll-use-my-appraisal-skill-novel"
+    "parent_id": "reincarnate-aristocrat-i-ll-use-my-appraisal-skill-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2020
   },
   {
     "id": "kage-no-jitsuryokusha-ni-naritakute",
@@ -1387,14 +1459,11 @@
         "label": "comix.to",
         "url": "https://comix.to/title/xl7v7-kage-no-jitsuryokusha-ni-naritakute",
         "kind": "unofficial"
-      },
-      {
-        "label": "MangaUpdates",
-        "url": "https://www.mangaupdates.com/series/ug5qy4o/kage-no-jitsuryokusha-ni-naritakute",
-        "kind": "tracker"
       }
     ],
-    "parent_id": "kage-no-jitsuryokusha-light-novel"
+    "parent_id": "kage-no-jitsuryokusha-light-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "survival-story-of-a-sword-king-in-a-other-world",
@@ -1434,14 +1503,11 @@
         "label": "comix.to",
         "url": "https://comix.to/title/x187-latna-saga-survival-of-a-sword-king",
         "kind": "unofficial"
-      },
-      {
-        "label": "MangaUpdates",
-        "url": "https://www.mangaupdates.com/series/pelidfc/latna-saga-survival-of-a-sword-king",
-        "kind": "tracker"
       }
     ],
-    "parent_id": "survival-story-of-a-sword-king-in-a-other-world-novel"
+    "parent_id": "survival-story-of-a-sword-king-in-a-other-world-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "the-new-gate",
@@ -1481,14 +1547,11 @@
         "label": "comix.to",
         "url": "https://comix.to/title/ddgeg-the-new-gate",
         "kind": "unofficial"
-      },
-      {
-        "label": "MangaUpdates",
-        "url": "https://www.mangaupdates.com/series/8a39ucd/the-new-gate",
-        "kind": "tracker"
       }
     ],
-    "parent_id": "the-new-gate-novel"
+    "parent_id": "the-new-gate-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "old-country-bumpkin",
@@ -1528,14 +1591,11 @@
         "label": "comix.to",
         "url": "https://comix.to/title/vyyn0-from-old-country-bumpkin-to-master-swordsman",
         "kind": "unofficial"
-      },
-      {
-        "label": "AniList",
-        "url": "https://anilist.co/manga/189133",
-        "kind": "tracker"
       }
     ],
-    "parent_id": "old-country-bumpkin-novel"
+    "parent_id": "old-country-bumpkin-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "survival-in-another-world-with-my-mistress",
@@ -1582,7 +1642,10 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": "survival-in-another-world-with-my-mistress-novel"
+    "parent_id": "survival-in-another-world-with-my-mistress-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2020
   },
   {
     "id": "executed-sage-who-was-reborn",
@@ -1622,14 +1685,11 @@
         "label": "comix.to",
         "url": "https://comix.to/title/7zx1e-the-executed-sage-who-was-reincarnated-as-a-lich-started-an-all-out-war",
         "kind": "unofficial"
-      },
-      {
-        "label": "AniList",
-        "url": "https://anilist.co/manga/123582",
-        "kind": "tracker"
       }
     ],
-    "parent_id": "executed-sage-who-was-reborn-novel"
+    "parent_id": "executed-sage-who-was-reborn-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "japan-summons",
@@ -1669,14 +1729,11 @@
         "label": "comix.to",
         "url": "https://comix.to/title/dd07r-nihonkoku-shoukan",
         "kind": "unofficial"
-      },
-      {
-        "label": "AniList",
-        "url": "https://anilist.co/manga/103898",
-        "kind": "tracker"
       }
     ],
-    "parent_id": "japan-summons-novel"
+    "parent_id": "japan-summons-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "shazan-conqueror-of-a-dying-kingdom",
@@ -1716,14 +1773,11 @@
         "label": "comix.to",
         "url": "https://comix.to/title/qe75m-the-conqueror-from-a-dying-kingdom",
         "kind": "unofficial"
-      },
-      {
-        "label": "AniList",
-        "url": "https://anilist.co/manga/152397",
-        "kind": "tracker"
       }
     ],
-    "parent_id": "shazan-conqueror-of-a-dying-kingdom-novel"
+    "parent_id": "shazan-conqueror-of-a-dying-kingdom-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "hand-jumper",
@@ -1769,7 +1823,9 @@
         "kind": "unofficial"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "black-haired-mercenary-who-went-to-west",
@@ -1798,9 +1854,9 @@
     "franchise_title": "Black-Haired Mercenary Who Went to West",
     "nsfw": false,
     "source_is_text": true,
-    "description": "",
-    "poster_url": "",
-    "poster_cached_file": "",
+    "description": "**Original Webtoon:** [Naver Webtoon](https://comic.naver.com/webtoon/list?titleId=853062), [Naver Series](https://series.naver.com/comic/detail.series?productNo=14437854)",
+    "poster_url": "https://cdn.mangaupdates.com/image/i533786.jpg",
+    "poster_cached_file": "black-haired-mercenary-who-went-to-west.jpg",
     "watchlist_status": "",
     "tier": "visual",
     "sub_format": "Korean Manhwa",
@@ -1809,9 +1865,17 @@
         "label": "comix.to",
         "url": "https://comix.to/title/x5nx7-the-black-haired-mercenary-who-went-west",
         "kind": "unofficial"
+      },
+      {
+        "label": "MangaUpdates",
+        "url": "https://www.mangaupdates.com/series/jryhwln/korean-mercenary-s-wild-west",
+        "kind": "tracker"
       }
     ],
-    "parent_id": "black-haired-mercenary-who-went-to-west-novel"
+    "parent_id": "black-haired-mercenary-who-went-to-west-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2026
   },
   {
     "id": "second-time-in-another-world",
@@ -1851,14 +1915,11 @@
         "label": "comix.to",
         "url": "https://comix.to/title/9g9jj-isekai-shoukan-wa-nidome-desu",
         "kind": "unofficial"
-      },
-      {
-        "label": "MangaUpdates",
-        "url": "https://www.mangaupdates.com/series/l0b33dh/in-another-world",
-        "kind": "tracker"
       }
     ],
-    "parent_id": "second-time-in-another-world-novel"
+    "parent_id": "second-time-in-another-world-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "lord-of-money",
@@ -1902,9 +1963,17 @@
         "label": "MangaUpdates",
         "url": "https://www.mangaupdates.com/series/16xo88l/lord-of-money",
         "kind": "tracker"
+      },
+      {
+        "label": "AniList",
+        "url": "https://anilist.co/manga/130627",
+        "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2020
   },
   {
     "id": "wild-west-murim",
@@ -1950,7 +2019,9 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "office-worker-who-sees-fate",
@@ -1997,7 +2068,10 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": "office-worker-who-sees-fate-novel"
+    "parent_id": "office-worker-who-sees-fate-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2022
   },
   {
     "id": "saving-80-000-gold-in-another-world",
@@ -2026,9 +2100,9 @@
     "franchise_title": "Saving 80,000 Gold in Another World",
     "nsfw": false,
     "source_is_text": true,
-    "description": "",
-    "poster_url": "",
-    "poster_cached_file": "",
+    "description": "After growing up an orphan, Mitsuha has a healthy respect for money and a desire to live well—at least, until she dies after being pushed off a cliff. Waking up in a strange fantasy world, Mitsuha narrowly survives an encounter with a pack of wolves, then realizes she has the power to move between this world and the real one. A lesser person might embark on heroic adventures—Mitsuha instead immediately recognizes…",
+    "poster_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/nx101715-4yYFDOadUtnC.jpg",
+    "poster_cached_file": "saving-80-000-gold-in-another-world.jpg",
     "watchlist_status": "",
     "tier": "visual",
     "sub_format": "Japanese Manga",
@@ -2037,9 +2111,17 @@
         "label": "comix.to",
         "url": "https://comix.to/title/v0jj5-saving-80000-gold-in-another-world-for-my-retirement",
         "kind": "unofficial"
+      },
+      {
+        "label": "AniList",
+        "url": "https://anilist.co/manga/101715",
+        "kind": "tracker"
       }
     ],
-    "parent_id": "saving-80-000-gold-in-another-world-novel"
+    "parent_id": "saving-80-000-gold-in-another-world-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2017
   },
   {
     "id": "reloaded-into-another-world",
@@ -2083,9 +2165,17 @@
         "label": "MangaUpdates",
         "url": "https://www.mangaupdates.com/series/zlrg026/reloaded-into-the-other-world",
         "kind": "tracker"
+      },
+      {
+        "label": "AniList",
+        "url": "https://anilist.co/manga/148308",
+        "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2022
   },
   {
     "id": "is-it-wrong-to-try-to-pick-up-girls-in-a-dungeon",
@@ -2120,9 +2210,9 @@
     "franchise_title": "Is It Wrong to Try to Pick Up Girls in a Dungeon?",
     "nsfw": false,
     "source_is_text": true,
-    "description": "",
-    "poster_url": "",
-    "poster_cached_file": "",
+    "description": "Bell Cranel is just trying to find his way in the world. Of course, in his case, the \"world\" is an enormous dungeon filled with monsters, below a city run by gods and goddesses who have way too much time on their hands. He's got big dreams but not much more when a roll on the random encounter table brings him face-to-face with the girl of his dreams--but what does a beginning adventurer have to offer a brilliant…",
+    "poster_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx85161-imb5doG2etVP.jpg",
+    "poster_cached_file": "is-it-wrong-to-try-to-pick-up-girls-in-a-dungeon.jpg",
     "watchlist_status": "",
     "tier": "visual",
     "sub_format": "Japanese Manga",
@@ -2131,9 +2221,17 @@
         "label": "comix.to",
         "url": "https://comix.to/title/7gzm2-dungeon-ni-deai-o-motomeru-no-wa-machigatte-iru-darou-ka",
         "kind": "unofficial"
+      },
+      {
+        "label": "AniList",
+        "url": "https://anilist.co/manga/85161",
+        "kind": "tracker"
       }
     ],
-    "parent_id": "is-it-wrong-to-try-to-pick-up-girls-in-a-dungeon-novel"
+    "parent_id": "is-it-wrong-to-try-to-pick-up-girls-in-a-dungeon-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2013
   },
   {
     "id": "tsunyou-of-the-shadowless",
@@ -2179,7 +2277,9 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "heroic-legend-of-arslan",
@@ -2225,14 +2325,11 @@
         "label": "comix.to",
         "url": "https://comix.to/title/r6lxm-the-heroic-legend-of-arslan",
         "kind": "unofficial"
-      },
-      {
-        "label": "AniList",
-        "url": "https://anilist.co/manga/81233",
-        "kind": "tracker"
       }
     ],
-    "parent_id": "heroic-legend-of-arslan-novel"
+    "parent_id": "heroic-legend-of-arslan-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "sanki",
@@ -2261,7 +2358,9 @@
         "kind": "unofficial"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "the-bugle-call-record-of-the-high-class-war",
@@ -2307,7 +2406,9 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "reincarnated-as-the-crazed-heir",
@@ -2353,7 +2454,9 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "shurakhan",
@@ -2387,7 +2490,9 @@
         "kind": "unofficial"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "the-otoyomegatari",
@@ -2433,7 +2538,9 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "tiger-of-genesis",
@@ -2456,9 +2563,9 @@
     "franchise_title": "Tiger of Genesis",
     "nsfw": false,
     "source_is_text": false,
-    "description": "",
-    "poster_url": "",
-    "poster_cached_file": "",
+    "description": "The story centers on a young scholar enrolled in an Anthropology seminary, who goes to Australia to observe rock paintings. While in a cave along with his colleagues the cave collapses...",
+    "poster_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx99300-VczCyTBjK9y2.jpg",
+    "poster_cached_file": "tiger-of-genesis.jpg",
     "watchlist_status": "",
     "tier": "visual",
     "sub_format": "Japanese Manga",
@@ -2472,9 +2579,17 @@
         "label": "YouTube Motion Manga Recaps",
         "url": "https://www.youtube.com/results?search_query=Taiga+of+Genesis+manga+motion",
         "kind": "unofficial"
+      },
+      {
+        "label": "AniList",
+        "url": "https://anilist.co/manga/99300",
+        "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2017
   },
   {
     "id": "lord-of-goblin",
@@ -2516,7 +2631,9 @@
         "kind": "unofficial"
       }
     ],
-    "parent_id": "lord-of-goblin-novel"
+    "parent_id": "lord-of-goblin-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "legendary-turn",
@@ -2556,14 +2673,11 @@
         "label": "comix.to",
         "url": "https://comix.to/title/63e8z-the-legendary-return",
         "kind": "unofficial"
-      },
-      {
-        "label": "MangaUpdates",
-        "url": "https://www.mangaupdates.com/series/u9bixr7/the-legendary-return",
-        "kind": "tracker"
       }
     ],
-    "parent_id": "legendary-turn-novel"
+    "parent_id": "legendary-turn-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "road-to-kingdom",
@@ -2605,12 +2719,15 @@
         "kind": "unofficial"
       },
       {
-        "label": "MangaUpdates",
-        "url": "https://www.mangaupdates.com/series/5a79vyy/oukoku-e-tsuzuku-michi-novel",
+        "label": "AniList",
+        "url": "https://anilist.co/manga/119708",
         "kind": "tracker"
       }
     ],
-    "parent_id": "road-to-kingdom-novel"
+    "parent_id": "road-to-kingdom-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2019
   },
   {
     "id": "slave-b",
@@ -2656,7 +2773,9 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "rise-of-heroes",
@@ -2697,7 +2816,9 @@
         "kind": "unofficial"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "genius-of-unique-lineage",
@@ -2739,12 +2860,15 @@
         "kind": "unofficial"
       },
       {
-        "label": "MangaUpdates",
-        "url": "https://www.mangaupdates.com/series/6qg2sk7/the-perfect-hybrid",
+        "label": "AniList",
+        "url": "https://anilist.co/manga/153869",
         "kind": "tracker"
       }
     ],
-    "parent_id": "genius-of-unique-lineage-novel"
+    "parent_id": "genius-of-unique-lineage-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2022
   },
   {
     "id": "release-that-witch",
@@ -2786,12 +2910,15 @@
         "kind": "unofficial"
       },
       {
-        "label": "MangaUpdates",
-        "url": "https://www.mangaupdates.com/series/lw27gns/release-that-witch",
+        "label": "AniList",
+        "url": "https://anilist.co/manga/108152",
         "kind": "tracker"
       }
     ],
-    "parent_id": "release-that-witch-novel"
+    "parent_id": "release-that-witch-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2017
   },
   {
     "id": "black-corporation-joseon",
@@ -2831,14 +2958,11 @@
         "label": "comix.to",
         "url": "https://comix.to/title/5z5vz-black-corporation-joseon",
         "kind": "unofficial"
-      },
-      {
-        "label": "MangaUpdates",
-        "url": "https://www.mangaupdates.com/series/felo5cx/black-corporation-joseon",
-        "kind": "tracker"
       }
     ],
-    "parent_id": "black-corporation-joseon-novel"
+    "parent_id": "black-corporation-joseon-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "record-of-wartenia-war",
@@ -2867,9 +2991,9 @@
     "franchise_title": "Record of Wartenia War",
     "nsfw": false,
     "source_is_text": true,
-    "description": "",
-    "poster_url": "",
-    "poster_cached_file": "",
+    "description": "High-schooler Ryoma Mikoshiba finds himself summoned to another world by the warmongering O’ltormea Empire. But Ryoma is no ordinary school boy – he has both talent and training in martial arts. Using his skills in martial arts to escape captivity and swearing revenge on the country that summoned him, Ryoma finds himself in a world where he can become stronger by absorbing the life force of whomever he slays – a…",
+    "poster_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/nx98822-PrRJeQsGXriw.jpg",
+    "poster_cached_file": "record-of-wartenia-war.jpg",
     "watchlist_status": "",
     "tier": "visual",
     "sub_format": "Japanese Manga",
@@ -2878,9 +3002,17 @@
         "label": "comix.to",
         "url": "https://comix.to/title/8jwre-wortenia-senki",
         "kind": "unofficial"
+      },
+      {
+        "label": "AniList",
+        "url": "https://anilist.co/manga/98822",
+        "kind": "tracker"
       }
     ],
-    "parent_id": "record-of-wartenia-war-novel"
+    "parent_id": "record-of-wartenia-war-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2016
   },
   {
     "id": "cultivator-vs-superhero",
@@ -2936,7 +3068,9 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "the-darwin-incident",
@@ -2982,7 +3116,9 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "mystic-musketeer",
@@ -3022,14 +3158,11 @@
         "label": "comix.to",
         "url": "https://comix.to/title/jm9d-arcane-sniper",
         "kind": "unofficial"
-      },
-      {
-        "label": "MangaUpdates",
-        "url": "https://www.mangaupdates.com/series/d9kgu2a/mystic-musketeer",
-        "kind": "tracker"
       }
     ],
-    "parent_id": "mystic-musketeer-novel"
+    "parent_id": "mystic-musketeer-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "return-of-the-dawn",
@@ -3063,7 +3196,9 @@
         "kind": "unofficial"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "from-the-grave-and-back",
@@ -3109,7 +3244,10 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2020
   },
   {
     "id": "love-me-not",
@@ -3177,7 +3315,9 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "escort-warrior",
@@ -3223,7 +3363,9 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "tax-reaper",
@@ -3271,12 +3413,15 @@
         "kind": "unofficial"
       },
       {
-        "label": "MangaUpdates",
-        "url": "https://www.mangaupdates.com/series/atbcxbf/the-tax-reaper",
+        "label": "AniList",
+        "url": "https://anilist.co/manga/144443",
         "kind": "tracker"
       }
     ],
-    "parent_id": "tax-reaper-novel"
+    "parent_id": "tax-reaper-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2021
   },
   {
     "id": "gunmen",
@@ -3333,7 +3478,9 @@
         "kind": "official"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "i-get-stronger-the-more-i-eat",
@@ -3375,12 +3522,15 @@
         "kind": "unofficial"
       },
       {
-        "label": "MangaUpdates",
-        "url": "https://www.mangaupdates.com/series/bcmqs3c/i-get-stronger-the-more-i-eat",
+        "label": "AniList",
+        "url": "https://anilist.co/manga/135317",
         "kind": "tracker"
       }
     ],
-    "parent_id": "i-get-stronger-the-more-i-eat-novel"
+    "parent_id": "i-get-stronger-the-more-i-eat-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2021
   },
   {
     "id": "a-practical-guide-to-evil",
@@ -3422,7 +3572,9 @@
         "kind": "unofficial"
       }
     ],
-    "parent_id": "a-practical-guide-to-evil-novel"
+    "parent_id": "a-practical-guide-to-evil-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "the-fable",
@@ -3489,7 +3641,10 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2017
   },
   {
     "id": "tycoon-in-another-world",
@@ -3535,7 +3690,10 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2021
   },
   {
     "id": "reborn-as-a-heavenly-demon",
@@ -3577,12 +3735,15 @@
         "kind": "unofficial"
       },
       {
-        "label": "MangaUpdates",
-        "url": "https://www.mangaupdates.com/series/9bwv7cp/heavenly-demon-reborn",
+        "label": "AniList",
+        "url": "https://anilist.co/manga/107518",
         "kind": "tracker"
       }
     ],
-    "parent_id": "reborn-as-a-heavenly-demon-novel"
+    "parent_id": "reborn-as-a-heavenly-demon-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2018
   },
   {
     "id": "song-of-the-long-march",
@@ -3649,7 +3810,9 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "reborn-rich",
@@ -3697,12 +3860,15 @@
         "kind": "unofficial"
       },
       {
-        "label": "MangaUpdates",
-        "url": "https://www.mangaupdates.com/series/4v8x87y/reborn-rich",
+        "label": "AniList",
+        "url": "https://anilist.co/manga/158766",
         "kind": "tracker"
       }
     ],
-    "parent_id": "reborn-rich-novel"
+    "parent_id": "reborn-rich-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2022
   },
   {
     "id": "the-apothecary-diaries",
@@ -3742,14 +3908,11 @@
         "label": "comix.to",
         "url": "https://comix.to/title/k2ev7-the-apothecary-diaries",
         "kind": "unofficial"
-      },
-      {
-        "label": "MangaUpdates",
-        "url": "https://www.mangaupdates.com/series/6y4x7mq/kusuriya-no-hitorigoto",
-        "kind": "tracker"
       }
     ],
-    "parent_id": "the-apothecary-diaries-novel"
+    "parent_id": "the-apothecary-diaries-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "saga-of-tanya-the-evil",
@@ -3795,14 +3958,11 @@
         "label": "comix.to",
         "url": "https://comix.to/title/d0k58-youjo-senki",
         "kind": "unofficial"
-      },
-      {
-        "label": "MangaUpdates",
-        "url": "https://www.mangaupdates.com/series/tp9j9in/youjo-senki",
-        "kind": "tracker"
       }
     ],
-    "parent_id": "saga-of-tanya-the-evil-novel"
+    "parent_id": "saga-of-tanya-the-evil-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "ascendance-of-a-bookworm",
@@ -3842,14 +4002,11 @@
         "label": "comix.to",
         "url": "https://comix.to/title/qd9qm-ascendance-of-a-bookworm-ill-do-anything-to-become-a-librarian-part-1-if-there-arent-any-books-ill-just-have-to-make-some",
         "kind": "unofficial"
-      },
-      {
-        "label": "MangaUpdates",
-        "url": "https://www.mangaupdates.com/series/h1oydh5/ascendance-of-a-bookworm-novel",
-        "kind": "tracker"
       }
     ],
-    "parent_id": "ascendance-of-a-bookworm-novel"
+    "parent_id": "ascendance-of-a-bookworm-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "kingdom",
@@ -3911,7 +4068,9 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "the-beginning-after-the-end",
@@ -3954,7 +4113,9 @@
         "url": "https://www.mangaupdates.com/series/rwg23en/the-beginning-after-the-end",
         "kind": "tracker"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "karate-survivor-in-another-world",
@@ -3996,12 +4157,15 @@
         "kind": "unofficial"
       },
       {
-        "label": "MangaUpdates",
-        "url": "https://www.mangaupdates.com/series/1fd7fco/yajin-tensei-karate-survivor-in-another-world",
+        "label": "AniList",
+        "url": "https://anilist.co/manga/125726",
         "kind": "tracker"
       }
     ],
-    "parent_id": "karate-survivor-in-another-world-novel"
+    "parent_id": "karate-survivor-in-another-world-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2019
   },
   {
     "id": "tower-of-god",
@@ -4047,7 +4211,9 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "sengoku-komachi-kurotan",
@@ -4087,14 +4253,11 @@
         "label": "comix.to",
         "url": "https://comix.to/title/3zke3-sengoku-komachi-kuroutan",
         "kind": "unofficial"
-      },
-      {
-        "label": "MangaUpdates",
-        "url": "https://www.mangaupdates.com/series/9lxi9rz/sengoku-komachi-kuroutan",
-        "kind": "tracker"
       }
     ],
-    "parent_id": "sengoku-komachi-kurotan-novel"
+    "parent_id": "sengoku-komachi-kurotan-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "reaper-of-the-drifting-moon",
@@ -4136,7 +4299,9 @@
         "kind": "unofficial"
       }
     ],
-    "parent_id": "reaper-of-the-drifting-moon-novel"
+    "parent_id": "reaper-of-the-drifting-moon-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "one-piece",
@@ -4198,7 +4363,9 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "issak",
@@ -4244,7 +4411,9 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "berserk",
@@ -4301,7 +4470,9 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "innocent",
@@ -4328,11 +4499,11 @@
       }
     ],
     "franchise_title": "Innocent",
-    "nsfw": false,
+    "nsfw": true,
     "source_is_text": false,
     "description": "Guided by a teacher, Itano steps into a gymnasium. What awaited him there was a dazzling pleasure... In addition to the title story, which questions the essence of “purity” and “beauty” in the midst of eroticism, this collection of short stories includes a group molestation play, a fairy tale that is actually erotic, and other first-class erotic and sad stories. A strong debut from a talented author!",
-    "poster_url": "",
-    "poster_cached_file": "",
+    "poster_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/22741.jpg",
+    "poster_cached_file": "innocent.jpg",
     "watchlist_status": "",
     "tier": "visual",
     "sub_format": "Japanese Manga",
@@ -4346,9 +4517,17 @@
         "label": "YouTube Motion Manga",
         "url": "https://www.youtube.com/results?search_query=Innocent+Shinichi+Sakamoto+motion+manga",
         "kind": "unofficial"
+      },
+      {
+        "label": "AniList",
+        "url": "https://anilist.co/manga/52741",
+        "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2000
   },
   {
     "id": "jujutsu-kaisen",
@@ -4410,7 +4589,9 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "even-the-knight-captain-wants-to-be-a-maiden",
@@ -4456,7 +4637,9 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "gate-thus-the-jsdf-fought-there",
@@ -4496,14 +4679,11 @@
         "label": "comix.to",
         "url": "https://comix.to/title/100le-gate-season-2-thus-the-jsdf-fought-in-their-seas",
         "kind": "unofficial"
-      },
-      {
-        "label": "MangaUpdates",
-        "url": "https://www.mangaupdates.com/series/gy5anb0/gate-jieitai-kanochi-nite-kaku-tatakaeri",
-        "kind": "tracker"
       }
     ],
-    "parent_id": "gate-thus-the-jsdf-fought-there-novel"
+    "parent_id": "gate-thus-the-jsdf-fought-there-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "chainsaw-man",
@@ -4566,7 +4746,9 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "yona-of-the-dawn",
@@ -4623,7 +4805,9 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "the-rivals-of-the-annals-of-white",
@@ -4665,7 +4849,9 @@
         "kind": "unofficial"
       }
     ],
-    "parent_id": "the-rivals-of-the-annals-of-white-novel"
+    "parent_id": "the-rivals-of-the-annals-of-white-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "becoming-the-monarch",
@@ -4707,12 +4893,15 @@
         "kind": "unofficial"
       },
       {
-        "label": "MangaUpdates",
-        "url": "https://www.mangaupdates.com/series/99h7oxs/becoming-the-monarch",
+        "label": "AniList",
+        "url": "https://anilist.co/manga/137168",
         "kind": "tracker"
       }
     ],
-    "parent_id": "becoming-the-monarch-novel"
+    "parent_id": "becoming-the-monarch-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2020
   },
   {
     "id": "star-martial-god-technique",
@@ -4752,14 +4941,11 @@
         "label": "comix.to",
         "url": "https://comix.to/title/e9rer-star-martial-god-technique",
         "kind": "unofficial"
-      },
-      {
-        "label": "MangaUpdates",
-        "url": "https://www.mangaupdates.com/series/28ytmrj/star-martial-god-technique",
-        "kind": "tracker"
       }
     ],
-    "parent_id": "star-martial-god-technique-novel"
+    "parent_id": "star-martial-god-technique-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "barbarian-quest",
@@ -4803,9 +4989,17 @@
         "label": "MangaUpdates",
         "url": "https://www.mangaupdates.com/series/q7ns4fo/barbarian-quest",
         "kind": "tracker"
+      },
+      {
+        "label": "AniList",
+        "url": "https://anilist.co/manga/148091",
+        "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2022
   },
   {
     "id": "foresighting-politician",
@@ -4852,7 +5046,10 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": "foresighting-politician-novel"
+    "parent_id": "foresighting-politician-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2026
   },
   {
     "id": "return-of-the-blossoming-blade",
@@ -4894,12 +5091,15 @@
         "kind": "unofficial"
       },
       {
-        "label": "MangaUpdates",
-        "url": "https://www.mangaupdates.com/series/cmx86o6/return-of-the-blossoming-blade",
+        "label": "AniList",
+        "url": "https://anilist.co/manga/132144",
         "kind": "tracker"
       }
     ],
-    "parent_id": "return-of-the-blossoming-blade-novel"
+    "parent_id": "return-of-the-blossoming-blade-novel",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2021
   },
   {
     "id": "sakamoto-days",
@@ -4950,7 +5150,10 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2021
   },
   {
     "id": "dr-stone",
@@ -5012,7 +5215,9 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "joy-of-life-web-novel",
@@ -5064,7 +5269,10 @@
         "url": "https://anilist.co/manga/172724",
         "kind": "tracker"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2023
   },
   {
     "id": "joy-of-life-cdrama",
@@ -5112,7 +5320,10 @@
         "kind": "official"
       }
     ],
-    "parent_id": "joy-of-life"
+    "parent_id": "joy-of-life",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2024
   },
   {
     "id": "kage-no-jitsuryokusha-light-novel",
@@ -5164,7 +5375,9 @@
         "url": "https://anilist.co/manga/108428",
         "kind": "tracker"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "the-eminence-in-shadow-anime",
@@ -5217,7 +5430,10 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": "kage-no-jitsuryokusha-ni-naritakute"
+    "parent_id": "kage-no-jitsuryokusha-ni-naritakute",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2023
   },
   {
     "id": "the-eminence-in-shadow-lost-echoes",
@@ -5270,7 +5486,9 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": "kage-no-jitsuryokusha-ni-naritakute"
+    "parent_id": "kage-no-jitsuryokusha-ni-naritakute",
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "outlander-tv-series",
@@ -5299,7 +5517,9 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-24",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "the-witcher-novels",
@@ -5345,7 +5565,9 @@
         "url": "https://www.mangaupdates.com/series/7opxm8b/the-witcher-ronin",
         "kind": "tracker"
       }
-    ]
+    ],
+    "added_at": "2026-11-24",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "the-witcher-netflix",
@@ -5387,7 +5609,9 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": "the-witcher-novels"
+    "parent_id": "the-witcher-novels",
+    "added_at": "2026-11-24",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "the-witcher-nightmare-of-the-wolf",
@@ -5434,7 +5658,10 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": "the-witcher-novels"
+    "parent_id": "the-witcher-novels",
+    "added_at": "2026-11-24",
+    "updated_at": "2026-11-26",
+    "release_year": 2021
   },
   {
     "id": "metro-2033-novel",
@@ -5467,7 +5694,9 @@
         "url": "https://www.mangaupdates.com/series/nwnmc8h/metro",
         "kind": "tracker"
       }
-    ]
+    ],
+    "added_at": "2026-11-24",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "halo-tv-series",
@@ -5496,7 +5725,10 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-24",
+    "updated_at": "2026-11-26",
+    "release_year": 2024
   },
   {
     "id": "assassins-creed-movie",
@@ -5525,7 +5757,10 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-24",
+    "updated_at": "2026-11-26",
+    "release_year": 2016
   },
   {
     "id": "borderlands-movie",
@@ -5554,7 +5789,10 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-24",
+    "updated_at": "2026-11-26",
+    "release_year": 2024
   },
   {
     "id": "devil-may-cry-2025",
@@ -5590,7 +5828,10 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-24",
+    "updated_at": "2026-11-26",
+    "release_year": 2025
   },
   {
     "id": "devil-may-cry-2007",
@@ -5631,7 +5872,10 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-24",
+    "updated_at": "2026-11-26",
+    "release_year": 2025
   },
   {
     "id": "dragons-dogma-2020",
@@ -5660,7 +5904,10 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-24",
+    "updated_at": "2026-11-26",
+    "release_year": 2020
   },
   {
     "id": "secret-level-2024",
@@ -5689,7 +5936,10 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-24",
+    "updated_at": "2026-11-26",
+    "release_year": 2024
   },
   {
     "id": "batman-assault-on-arkham",
@@ -5718,7 +5968,10 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-24",
+    "updated_at": "2026-11-26",
+    "release_year": 2014
   },
   {
     "id": "alien-earth-2025",
@@ -5747,7 +6000,10 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-24",
+    "updated_at": "2026-11-26",
+    "release_year": 2025
   },
   {
     "id": "resident-evil-infinite-darkness",
@@ -5776,7 +6032,10 @@
         "kind": "tracker"
       }
     ],
-    "parent_id": ""
+    "parent_id": "",
+    "added_at": "2026-11-24",
+    "updated_at": "2026-11-26",
+    "release_year": 2021
   },
   {
     "id": "the-fantasie-of-a-stepmother-novel",
@@ -5817,7 +6076,9 @@
         "target_type": "comic",
         "title": "The Fantasie of a Stepmother"
       }
-    ]
+    ],
+    "added_at": "2026-11-26",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "the-fantasie-of-a-stepmother",
@@ -5849,11 +6110,6 @@
         "label": "comix.to Search",
         "url": "https://comix.to/browse?q=The%20Fantasie%20of%20a%20Stepmother&sort=relevance%3Adesc",
         "kind": "unofficial"
-      },
-      {
-        "label": "MangaUpdates",
-        "url": "https://www.mangaupdates.com/series/m12y3ml/the-fantasie-of-a-stepmother",
-        "kind": "tracker"
       }
     ],
     "relations": [
@@ -5863,7 +6119,9 @@
         "target_type": "light_novel",
         "title": "The Fantasie of a Stepmother (Web Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-26",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "secret-class",
@@ -5902,7 +6160,9 @@
         "kind": "tracker"
       }
     ],
-    "relations": []
+    "relations": [],
+    "added_at": "2026-11-26",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "perfect-world-novel",
@@ -5912,7 +6172,7 @@
     "tier": "source",
     "sub_format": "Chinese Web Novel",
     "source_is_text": true,
-    "nsfw": false,
+    "nsfw": true,
     "link": "https://www.wuxiaworld.com/novel/perfect-world",
     "origin": "Chinese Manhua & Web Novel",
     "anime": "**See Franchise** — 2 motion adaptation(s).",
@@ -5939,6 +6199,11 @@
         "label": "MangaUpdates",
         "url": "https://www.mangaupdates.com/series/sklrwwe/perfect-world",
         "kind": "tracker"
+      },
+      {
+        "label": "Bangumi",
+        "url": "https://bgm.tv/subject/374870",
+        "kind": "tracker"
       }
     ],
     "relations": [
@@ -5960,7 +6225,9 @@
         "target_type": "movie",
         "title": "Perfect World: Ninefold The Burning Sky (2026 Movie)"
       }
-    ]
+    ],
+    "added_at": "2026-11-26",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "perfect-world",
@@ -5970,7 +6237,7 @@
     "tier": "visual",
     "sub_format": "Chinese Manhua",
     "source_is_text": true,
-    "nsfw": false,
+    "nsfw": true,
     "link": "https://comix.to/browse?q=Perfect%20World&sort=relevance%3Adesc",
     "origin": "Chinese Manhua & Web Novel",
     "anime": "[Perfect World (3D Donghua Series)](https://wetv.vip/en/album/oz5ppkfjx9niv57) · [Perfect World: Ninefold The Burning Sky (2026 Movie)](https://wetv.vip/album/buhm7cg0846qtxc)",
@@ -5989,8 +6256,8 @@
         "kind": "unofficial"
       },
       {
-        "label": "MangaUpdates",
-        "url": "https://www.mangaupdates.com/series/sklrwwe/perfect-world",
+        "label": "AniList",
+        "url": "https://anilist.co/manga/83691",
         "kind": "tracker"
       }
     ],
@@ -6013,7 +6280,10 @@
         "target_type": "movie",
         "title": "Perfect World: Ninefold The Burning Sky (2026 Movie)"
       }
-    ]
+    ],
+    "added_at": "2026-11-26",
+    "updated_at": "2026-11-26",
+    "release_year": 2007
   },
   {
     "id": "perfect-world-donghua",
@@ -6023,13 +6293,13 @@
     "tier": "motion",
     "sub_format": "3D Donghua",
     "source_is_text": true,
-    "nsfw": false,
+    "nsfw": true,
     "link": "https://wetv.vip/en/album/oz5ppkfjx9niv57",
     "origin": "Chinese Manhua & Web Novel",
     "anime": "**3D Donghua** — Ultra-high-resolution 3D donghua spanning 288+ episodes adapting Shi Hao's primordial cultivation saga.",
     "live_action": "**None**",
     "description": "Ultra-high-resolution 3D donghua spanning 288+ episodes adapting Shi Hao's primordial cultivation saga.",
-    "poster_url": "https://m.media-amazon.com/images/M/MV5BNzA4NDNhYWMtYTdiYS00MmZjLTlmNTQtMTUwZDE2YzZjMTlhXkEyXkFqcGc@._V1_.jpg",
+    "poster_url": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx120218-J6LXCFOHO9cT.jpg",
     "poster_cached_file": "perfect-world-donghua.jpg",
     "watchlist_status": "",
     "franchise_id": "perfect-world",
@@ -6042,8 +6312,8 @@
         "kind": "official"
       },
       {
-        "label": "IMDb",
-        "url": "https://www.imdb.com/title/tt14986786/",
+        "label": "AniList",
+        "url": "https://anilist.co/anime/120218",
         "kind": "tracker"
       }
     ],
@@ -6066,7 +6336,10 @@
         "target_type": "movie",
         "title": "Perfect World: Ninefold The Burning Sky (2026 Movie)"
       }
-    ]
+    ],
+    "added_at": "2026-11-26",
+    "updated_at": "2026-11-26",
+    "release_year": 2021
   },
   {
     "id": "perfect-world-ninefold-movie",
@@ -6076,7 +6349,7 @@
     "tier": "motion",
     "sub_format": "3D Donghua Movie",
     "source_is_text": true,
-    "nsfw": false,
+    "nsfw": true,
     "link": "https://wetv.vip/album/buhm7cg0846qtxc",
     "origin": "Chinese Manhua & Web Novel",
     "anime": "**See Franchise**",
@@ -6119,7 +6392,10 @@
         "target_type": "donghua",
         "title": "Perfect World (3D Donghua Series)"
       }
-    ]
+    ],
+    "added_at": "2026-11-26",
+    "updated_at": "2026-11-26",
+    "release_year": 2026
   },
   {
     "id": "martial-universe-novel",
@@ -6172,7 +6448,9 @@
         "target_type": "tv_series",
         "title": "Martial Universe (Live-Action C-Drama)"
       }
-    ]
+    ],
+    "added_at": "2026-11-26",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "martial-universe",
@@ -6199,11 +6477,6 @@
         "label": "comix.to Search",
         "url": "https://comix.to/browse?q=Martial%20Universe&sort=relevance%3Adesc",
         "kind": "unofficial"
-      },
-      {
-        "label": "MangaUpdates",
-        "url": "https://www.mangaupdates.com/series/40e68sr/martial-universe",
-        "kind": "tracker"
       }
     ],
     "relations": [
@@ -6237,7 +6510,9 @@
         "target_type": "comic",
         "title": "The Great Ruler"
       }
-    ]
+    ],
+    "added_at": "2026-11-26",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "martial-universe-donghua",
@@ -6295,7 +6570,9 @@
         "target_type": "tv_series",
         "title": "Martial Universe (Live-Action C-Drama)"
       }
-    ]
+    ],
+    "added_at": "2026-11-26",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "martial-universe-live-action",
@@ -6343,7 +6620,9 @@
         "target_type": "donghua",
         "title": "Martial Universe (3D Donghua S1–S7)"
       }
-    ]
+    ],
+    "added_at": "2026-11-26",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "a-record-of-a-mortals-journey-to-immortality-novel",
@@ -6380,6 +6659,11 @@
         "label": "MangaUpdates",
         "url": "https://www.mangaupdates.com/series/un34ajo/a-record-of-a-mortal-s-journey-to-immortality",
         "kind": "tracker"
+      },
+      {
+        "label": "AniList",
+        "url": "https://anilist.co/manga/120412",
+        "kind": "tracker"
       }
     ],
     "relations": [
@@ -6401,7 +6685,10 @@
         "target_type": "tv_series",
         "title": "The Immortal Ascension (2025 Live-Action C-Drama)"
       }
-    ]
+    ],
+    "added_at": "2026-11-26",
+    "updated_at": "2026-11-26",
+    "release_year": 2020
   },
   {
     "id": "a-record-of-a-mortals-journey-to-immortality",
@@ -6430,8 +6717,8 @@
         "kind": "unofficial"
       },
       {
-        "label": "MangaUpdates",
-        "url": "https://www.mangaupdates.com/series/un34ajo/a-record-of-a-mortal-s-journey-to-immortality",
+        "label": "AniList",
+        "url": "https://anilist.co/manga/120412",
         "kind": "tracker"
       }
     ],
@@ -6454,7 +6741,10 @@
         "target_type": "tv_series",
         "title": "The Immortal Ascension (2025 Live-Action C-Drama)"
       }
-    ]
+    ],
+    "added_at": "2026-11-26",
+    "updated_at": "2026-11-26",
+    "release_year": 2020
   },
   {
     "id": "rmji-3d-donghua",
@@ -6470,8 +6760,8 @@
     "anime": "**3D Donghua** — Photorealistic 3D donghua series & 3D remake produced by Bilibili featuring Nangong Wan and Han Li.",
     "live_action": "**None**",
     "description": "Photorealistic 3D donghua series & 3D remake produced by Bilibili featuring Nangong Wan and Han Li.",
-    "poster_url": "https://m.media-amazon.com/images/M/MV5BMDY1YzU3ZmItMmI0ZS00YjAwLTk5MTEtZDZjNzZlOTc2N2MyXkEyXkFqcGc@._V1_.jpg",
-    "poster_cached_file": "rmji-3d-donghua.jpg",
+    "poster_url": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx115844-UFnSJplzMwRr.png",
+    "poster_cached_file": "rmji-3d-donghua.png",
     "watchlist_status": "",
     "franchise_id": "a-record-of-a-mortals-journey-to-immortality",
     "franchise_title": "A Record of a Mortal's Journey to Immortality",
@@ -6488,8 +6778,8 @@
         "kind": "official"
       },
       {
-        "label": "IMDb",
-        "url": "https://www.imdb.com/title/tt12879782/",
+        "label": "AniList",
+        "url": "https://anilist.co/anime/115844",
         "kind": "tracker"
       }
     ],
@@ -6512,7 +6802,10 @@
         "target_type": "tv_series",
         "title": "The Immortal Ascension (2025 Live-Action C-Drama)"
       }
-    ]
+    ],
+    "added_at": "2026-11-26",
+    "updated_at": "2026-11-26",
+    "release_year": 2020
   },
   {
     "id": "rmji-immortal-ascension-cdrama",
@@ -6565,7 +6858,10 @@
         "target_type": "donghua",
         "title": "A Record of a Mortal's Journey to Immortality (3D Donghua)"
       }
-    ]
+    ],
+    "added_at": "2026-11-26",
+    "updated_at": "2026-11-26",
+    "release_year": 2025
   },
   {
     "id": "the-great-ruler-novel",
@@ -6602,6 +6898,11 @@
         "label": "MangaUpdates",
         "url": "https://www.mangaupdates.com/series/8usz3ea/the-great-ruler",
         "kind": "tracker"
+      },
+      {
+        "label": "AniList",
+        "url": "https://anilist.co/manga/86823",
+        "kind": "tracker"
       }
     ],
     "relations": [
@@ -6623,7 +6924,10 @@
         "target_type": "tv_series",
         "title": "The Great Ruler (Live-Action C-Drama)"
       }
-    ]
+    ],
+    "added_at": "2026-11-26",
+    "updated_at": "2026-11-26",
+    "release_year": 2014
   },
   {
     "id": "the-great-ruler",
@@ -6652,8 +6956,8 @@
         "kind": "unofficial"
       },
       {
-        "label": "MangaUpdates",
-        "url": "https://www.mangaupdates.com/series/8usz3ea/the-great-ruler",
+        "label": "AniList",
+        "url": "https://anilist.co/manga/86823",
         "kind": "tracker"
       }
     ],
@@ -6688,7 +6992,10 @@
         "target_type": "comic",
         "title": "Martial Universe"
       }
-    ]
+    ],
+    "added_at": "2026-11-26",
+    "updated_at": "2026-11-26",
+    "release_year": 2014
   },
   {
     "id": "the-great-ruler-donghua",
@@ -6704,7 +7011,7 @@
     "anime": "**3D Donghua** — 4K 3D donghua adaptation streaming on iQIYI and YouTube.",
     "live_action": "**None**",
     "description": "4K 3D donghua adaptation streaming on iQIYI and YouTube.",
-    "poster_url": "https://m.media-amazon.com/images/M/MV5BNmNlOTljMWItZGI5OC00Y2Y5LTkyM2YtOTg2OGE5ZDc4MzFkXkEyXkFqcGc@._V1_.jpg",
+    "poster_url": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx134088-7Y4NKvK53Gdw.jpg",
     "poster_cached_file": "the-great-ruler-donghua.jpg",
     "watchlist_status": "",
     "franchise_id": "the-great-ruler",
@@ -6722,8 +7029,8 @@
         "kind": "official"
       },
       {
-        "label": "IMDb",
-        "url": "https://www.imdb.com/title/tt27497198/",
+        "label": "AniList",
+        "url": "https://anilist.co/anime/134088",
         "kind": "tracker"
       }
     ],
@@ -6746,7 +7053,10 @@
         "target_type": "tv_series",
         "title": "The Great Ruler (Live-Action C-Drama)"
       }
-    ]
+    ],
+    "added_at": "2026-11-26",
+    "updated_at": "2026-11-26",
+    "release_year": 2023
   },
   {
     "id": "the-great-ruler-live-action",
@@ -6794,7 +7104,10 @@
         "target_type": "donghua",
         "title": "The Great Ruler (3D Donghua)"
       }
-    ]
+    ],
+    "added_at": "2026-11-26",
+    "updated_at": "2026-11-26",
+    "release_year": 2023
   },
   {
     "id": "battle-through-the-heavens-novel",
@@ -6853,7 +7166,10 @@
         "target_type": "tv_series",
         "title": "Fights Break Sphere (Live-Action C-Drama S1–S2)"
       }
-    ]
+    ],
+    "added_at": "2026-11-26",
+    "updated_at": "2026-11-26",
+    "release_year": 2012
   },
   {
     "id": "battle-through-the-heavens",
@@ -6882,8 +7198,8 @@
         "kind": "unofficial"
       },
       {
-        "label": "MangaUpdates",
-        "url": "https://www.mangaupdates.com/series/kt6c2ro/battle-through-the-heavens",
+        "label": "AniList",
+        "url": "https://anilist.co/manga/85453",
         "kind": "tracker"
       }
     ],
@@ -6924,7 +7240,10 @@
         "target_type": "comic",
         "title": "The Great Ruler"
       }
-    ]
+    ],
+    "added_at": "2026-11-26",
+    "updated_at": "2026-11-26",
+    "release_year": 2012
   },
   {
     "id": "btth-3d-donghua",
@@ -6940,7 +7259,7 @@
     "anime": "**3D Donghua** — Flagship 3D donghua spanning Season 1 through the 219-episode Nian Fan run.",
     "live_action": "**None**",
     "description": "Flagship 3D donghua spanning Season 1 through the 219-episode Nian Fan run.",
-    "poster_url": "https://m.media-amazon.com/images/M/MV5BMzA2MTg5NmUtNmQ2Mi00YTQ5LTk4ZjctMGIxNWRkYjZmNDRlXkEyXkFqcGc@._V1_.jpg",
+    "poster_url": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx104922-pohVsMKm2n9H.jpg",
     "poster_cached_file": "btth-3d-donghua.jpg",
     "watchlist_status": "",
     "franchise_id": "battle-through-the-heavens",
@@ -6968,8 +7287,8 @@
         "kind": "official"
       },
       {
-        "label": "IMDb",
-        "url": "https://www.imdb.com/title/tt12409194/",
+        "label": "AniList",
+        "url": "https://anilist.co/anime/104922",
         "kind": "tracker"
       }
     ],
@@ -6998,7 +7317,10 @@
         "target_type": "tv_series",
         "title": "Fights Break Sphere (Live-Action C-Drama S1–S2)"
       }
-    ]
+    ],
+    "added_at": "2026-11-26",
+    "updated_at": "2026-11-26",
+    "release_year": 2019
   },
   {
     "id": "btth-battle-of-two-emperors-movie",
@@ -7014,8 +7336,8 @@
     "anime": "**See Franchise**",
     "live_action": "**3D Donghua Finale Movie** — Theatrical 3D donghua finale event surpassing 5.6M pre-reservations in November 2026.",
     "description": "Theatrical 3D donghua finale event surpassing 5.6M pre-reservations in November 2026.",
-    "poster_url": "",
-    "poster_cached_file": "",
+    "poster_url": "https://m.media-amazon.com/images/M/MV5BYmUyMTI2MDItNDQ0OC00YTI0LTg4OWUtNWIwYzExNjA0NDg4XkEyXkFqcGc@._V1_.jpg",
+    "poster_cached_file": "btth-battle-of-two-emperors-movie.jpg",
     "watchlist_status": "",
     "franchise_id": "battle-through-the-heavens",
     "franchise_title": "Battle Through the Heavens",
@@ -7025,6 +7347,11 @@
         "label": "WeTV — Finale Movie",
         "url": "https://wetv.vip/album/8rawc5epwdtac2u",
         "kind": "official"
+      },
+      {
+        "label": "IMDb",
+        "url": "https://www.imdb.com/title/tt51165610/",
+        "kind": "tracker"
       }
     ],
     "relations": [
@@ -7052,7 +7379,10 @@
         "target_type": "tv_series",
         "title": "Fights Break Sphere (Live-Action C-Drama S1–S2)"
       }
-    ]
+    ],
+    "added_at": "2026-11-26",
+    "updated_at": "2026-11-26",
+    "release_year": 2026
   },
   {
     "id": "fights-break-sphere-cdrama",
@@ -7111,7 +7441,10 @@
         "target_type": "movie",
         "title": "Battle Through the Heavens: Battle of the Two Emperors"
       }
-    ]
+    ],
+    "added_at": "2026-11-26",
+    "updated_at": "2026-11-26",
+    "release_year": 2017
   },
   {
     "id": "soul-land-novel",
@@ -7164,7 +7497,9 @@
         "target_type": "tv_series",
         "title": "Douluo Continent (Live-Action C-Drama)"
       }
-    ]
+    ],
+    "added_at": "2026-11-26",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "soul-land",
@@ -7191,11 +7526,6 @@
         "label": "comix.to Search",
         "url": "https://comix.to/browse?q=Soul%20Land&sort=relevance%3Adesc",
         "kind": "unofficial"
-      },
-      {
-        "label": "MangaUpdates",
-        "url": "https://www.mangaupdates.com/series/pz0mh84/douluo-dalu",
-        "kind": "tracker"
       }
     ],
     "relations": [
@@ -7217,7 +7547,9 @@
         "target_type": "tv_series",
         "title": "Douluo Continent (Live-Action C-Drama)"
       }
-    ]
+    ],
+    "added_at": "2026-11-26",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "soul-land-donghua",
@@ -7280,7 +7612,9 @@
         "target_type": "tv_series",
         "title": "Douluo Continent (Live-Action C-Drama)"
       }
-    ]
+    ],
+    "added_at": "2026-11-26",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "douluo-continent-cdrama",
@@ -7328,7 +7662,9 @@
         "target_type": "donghua",
         "title": "Soul Land (Complete 3D Donghua — 266 EPs)"
       }
-    ]
+    ],
+    "added_at": "2026-11-26",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "against-the-gods-novel",
@@ -7365,6 +7701,11 @@
         "label": "MangaUpdates",
         "url": "https://www.mangaupdates.com/series/jukx6ph/against-the-gods",
         "kind": "tracker"
+      },
+      {
+        "label": "AniList",
+        "url": "https://anilist.co/manga/107520",
+        "kind": "tracker"
       }
     ],
     "relations": [
@@ -7380,7 +7721,10 @@
         "target_type": "donghua",
         "title": "Against the Gods (3D Donghua S1–S2)"
       }
-    ]
+    ],
+    "added_at": "2026-11-26",
+    "updated_at": "2026-11-26",
+    "release_year": 2018
   },
   {
     "id": "against-the-gods",
@@ -7409,8 +7753,8 @@
         "kind": "unofficial"
       },
       {
-        "label": "MangaUpdates",
-        "url": "https://www.mangaupdates.com/series/jukx6ph/against-the-gods",
+        "label": "AniList",
+        "url": "https://anilist.co/manga/107520",
         "kind": "tracker"
       }
     ],
@@ -7427,7 +7771,10 @@
         "target_type": "donghua",
         "title": "Against the Gods (3D Donghua S1–S2)"
       }
-    ]
+    ],
+    "added_at": "2026-11-26",
+    "updated_at": "2026-11-26",
+    "release_year": 2018
   },
   {
     "id": "against-the-gods-donghua",
@@ -7443,8 +7790,8 @@
     "anime": "**3D Donghua** — 3D donghua adaptation on iQIYI including Season 1 and Season 2 (launched April 2026).",
     "live_action": "**None**",
     "description": "3D donghua adaptation on iQIYI including Season 1 and Season 2 (launched April 2026).",
-    "poster_url": "https://m.media-amazon.com/images/M/MV5BMmNkODg2YTctZjdhNC00ZDEyLTgyZDktNDEwN2YwODZlOTc2XkEyXkFqcGc@._V1_.jpg",
-    "poster_cached_file": "against-the-gods-donghua.jpg",
+    "poster_url": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/b131073-qkty2xeyFDMg.png",
+    "poster_cached_file": "against-the-gods-donghua.png",
     "watchlist_status": "",
     "franchise_id": "against-the-gods",
     "franchise_title": "Against the Gods",
@@ -7461,8 +7808,8 @@
         "kind": "official"
       },
       {
-        "label": "IMDb",
-        "url": "https://www.imdb.com/title/tt27517921/",
+        "label": "AniList",
+        "url": "https://anilist.co/anime/131073",
         "kind": "tracker"
       }
     ],
@@ -7479,7 +7826,10 @@
         "target_type": "comic",
         "title": "Against the Gods"
       }
-    ]
+    ],
+    "added_at": "2026-11-26",
+    "updated_at": "2026-11-26",
+    "release_year": 2026
   },
   {
     "id": "the-girl-downstairs",
@@ -7531,7 +7881,9 @@
         "target_type": "tv_series",
         "title": "Doona! (Netflix Live-Action K-Drama)"
       }
-    ]
+    ],
+    "added_at": "2026-11-26",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "the-girl-downstairs-2d-donghua",
@@ -7578,7 +7930,9 @@
         "target_type": "tv_series",
         "title": "Doona! (Netflix Live-Action K-Drama)"
       }
-    ]
+    ],
+    "added_at": "2026-11-26",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "doona-netflix-kdrama",
@@ -7620,7 +7974,9 @@
         "target_type": "donghua",
         "title": "The Girl Downstairs (2D Donghua)"
       }
-    ]
+    ],
+    "added_at": "2026-11-26",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "martial-peak-novel",
@@ -7667,7 +8023,10 @@
         "target_type": "donghua",
         "title": "Martial Peak (3D Donghua)"
       }
-    ]
+    ],
+    "added_at": "2026-11-26",
+    "updated_at": "2026-11-26",
+    "release_year": 2018
   },
   {
     "id": "martial-peak",
@@ -7701,8 +8060,8 @@
         "kind": "unofficial"
       },
       {
-        "label": "MangaUpdates",
-        "url": "https://www.mangaupdates.com/series/8xr9kqx/martial-peak",
+        "label": "AniList",
+        "url": "https://anilist.co/manga/104494",
         "kind": "tracker"
       }
     ],
@@ -7719,7 +8078,10 @@
         "target_type": "donghua",
         "title": "Martial Peak (3D Donghua)"
       }
-    ]
+    ],
+    "added_at": "2026-11-26",
+    "updated_at": "2026-11-26",
+    "release_year": 2018
   },
   {
     "id": "martial-peak-3d-donghua",
@@ -7735,8 +8097,8 @@
     "anime": "**3D Donghua** — Yuewen / Tencent Video 3D donghua adaptation (EP 1–48+).",
     "live_action": "**None**",
     "description": "Yuewen / Tencent Video 3D donghua adaptation (EP 1–48+).",
-    "poster_url": "https://m.media-amazon.com/images/M/MV5BOTFkNjI4ODYtYWJkMC00N2YxLTljY2EtNTkzNzIzM2NjYzIyXkEyXkFqcGc@._V1_.jpg",
-    "poster_cached_file": "martial-peak-3d-donghua.jpg",
+    "poster_url": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx153473-0convCYDOTOm.png",
+    "poster_cached_file": "martial-peak-3d-donghua.png",
     "watchlist_status": "",
     "franchise_id": "martial-peak",
     "franchise_title": "Martial Peak",
@@ -7748,8 +8110,8 @@
         "kind": "official"
       },
       {
-        "label": "IMDb",
-        "url": "https://www.imdb.com/title/tt28618226/",
+        "label": "AniList",
+        "url": "https://anilist.co/anime/153473",
         "kind": "tracker"
       }
     ],
@@ -7766,7 +8128,10 @@
         "target_type": "comic",
         "title": "Martial Peak"
       }
-    ]
+    ],
+    "added_at": "2026-11-26",
+    "updated_at": "2026-11-26",
+    "release_year": 2024
   },
   {
     "id": "rebirth-of-the-ultimate-master-novel",
@@ -7813,7 +8178,9 @@
         "target_type": "donghua",
         "title": "Rebirth of the Ultimate Master (3D Donghua)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "rebirth-of-the-ultimate-master-donghua",
@@ -7865,7 +8232,10 @@
         "target_type": "light_novel",
         "title": "Rebirth of the Ultimate Master (Web Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2026
   },
   {
     "id": "log-into-the-future-novel",
@@ -7912,7 +8282,10 @@
         "target_type": "donghua",
         "title": "Log into the Future (2D Donghua)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2023
   },
   {
     "id": "log-into-the-future-donghua",
@@ -7928,7 +8301,7 @@
     "anime": "**Yes (Donghua)** — 2D ONA Donghua (2024–Ongoing) by Tencent / iQIYI.<br>• **Watch:** [iQIYI](https://www.iqiyi.com/) / [YouTube (Eng Sub)](https://www.youtube.com/watch?v=0UN86oVXXfU&vl=en) / [Chiki Animation](https://chikianimation.com/anime/logging-10000-years-into-the-futureapex-future-martial-arts/)",
     "live_action": "**None**",
     "description": "Yes (Donghua) — 2D ONA Donghua (2024–Ongoing) by Tencent / iQIYI. · Watch: iQIYI / YouTube (Eng Sub) / Chiki Animation",
-    "poster_url": "https://m.media-amazon.com/images/M/MV5BOWQ2Mjk4MTYtZjY2My00OTkzLTk2N2ItYWUwYzg4ZTM1M2MyXkEyXkFqcGc@._V1_.jpg",
+    "poster_url": "https://i.ytimg.com/vi/0UN86oVXXfU/hqdefault.jpg",
     "poster_cached_file": "log-into-the-future-donghua.jpg",
     "watchlist_status": "",
     "franchise_id": "log-into-the-future",
@@ -7949,11 +8322,6 @@
         "label": "Chiki Animation",
         "url": "https://chikianimation.com/anime/logging-10000-years-into-the-futureapex-future-martial-arts/",
         "kind": "unofficial"
-      },
-      {
-        "label": "IMDb",
-        "url": "https://www.imdb.com/title/tt8697346/",
-        "kind": "tracker"
       }
     ],
     "relations": [
@@ -7969,7 +8337,10 @@
         "target_type": "light_novel",
         "title": "Log into the Future (Web Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2024
   },
   {
     "id": "become-the-castellan-in-another-world-donghua",
@@ -7985,7 +8356,7 @@
     "anime": "**Yes (Donghua)** — 2D Donghua / Motion Comic (2023–2025, S1–S2).<br>• **Watch:** [YouTube (Ep 1–30)](https://www.youtube.com/watch?v=fwIMRYCebQQ) / [AnimeKhor](https://animekhor.org/anime/starting-from-today-ill-work-as-a-city-lord/)",
     "live_action": "**None**",
     "description": "Yes (Donghua) — 2D Donghua / Motion Comic (2023–2025, S1–S2). · Watch: YouTube (Ep 1–30) / AnimeKhor",
-    "poster_url": "https://m.media-amazon.com/images/M/MV5BN2QzMWM2NDctN2EyNi00NTAxLWEzYWItMWM2NjNmNWQ5YzEwXkEyXkFqcGc@._V1_.jpg",
+    "poster_url": "https://i.ytimg.com/vi/fwIMRYCebQQ/hqdefault.jpg",
     "poster_cached_file": "become-the-castellan-in-another-world-donghua.jpg",
     "watchlist_status": "",
     "franchise_id": "become-the-castellan-in-another-world",
@@ -8001,11 +8372,6 @@
         "label": "AnimeKhor",
         "url": "https://animekhor.org/anime/starting-from-today-ill-work-as-a-city-lord/",
         "kind": "unofficial"
-      },
-      {
-        "label": "IMDb",
-        "url": "https://www.imdb.com/title/tt13628870/",
-        "kind": "tracker"
       }
     ],
     "relations": [
@@ -8015,7 +8381,10 @@
         "target_type": "comic",
         "title": "Become the Castellan in Another World"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2025
   },
   {
     "id": "ultimate-son-in-law-novel",
@@ -8068,7 +8437,9 @@
         "target_type": "tv_series",
         "title": "Ultimate Son-in-Law (Live-Action C-Drama)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "ultimate-son-in-law-donghua",
@@ -8126,7 +8497,10 @@
         "target_type": "tv_series",
         "title": "Ultimate Son-in-Law (Live-Action C-Drama)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2024
   },
   {
     "id": "ultimate-son-in-law-live",
@@ -8179,7 +8553,10 @@
         "target_type": "donghua",
         "title": "Ultimate Son-in-Law (3D Donghua)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2021
   },
   {
     "id": "the-ravages-of-time-donghua",
@@ -8230,7 +8607,10 @@
         "target_type": "comic",
         "title": "The Ravages of Time"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2025
   },
   {
     "id": "the-sword-of-dawn-novel",
@@ -8277,7 +8657,9 @@
         "target_type": "donghua",
         "title": "The Sword of Dawn (3D Donghua)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "the-sword-of-dawn-donghua",
@@ -8329,7 +8711,10 @@
         "target_type": "light_novel",
         "title": "The Sword of Dawn (Web Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2023
   },
   {
     "id": "joy-of-life-donghua",
@@ -8345,7 +8730,7 @@
     "anime": "**Unofficial / Game Anim** — Official game cinematic CGI trailers.<br>• **Watch:** [YouTube Game CGI](https://www.youtube.com/results?search_query=Joy+of+Life+game+CGI+trailer)",
     "live_action": "**None**",
     "description": "Unofficial / Game Anim — Official game cinematic CGI trailers. · Watch: YouTube Game CGI",
-    "poster_url": "https://m.media-amazon.com/images/M/MV5BOGVlZDg0NmEtNjRhZC00ZjgzLWIyYTItMjJhYjNiYzg0MGFiXkEyXkFqcGc@._V1_.jpg",
+    "poster_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/b172724-zYI8wtlv0cNQ.jpg",
     "poster_cached_file": "joy-of-life-donghua.jpg",
     "watchlist_status": "",
     "franchise_id": "joy-of-life",
@@ -8358,8 +8743,8 @@
         "kind": "unofficial"
       },
       {
-        "label": "IMDb",
-        "url": "https://www.imdb.com/title/tt11273352/",
+        "label": "AniList",
+        "url": "https://anilist.co/manga/172724",
         "kind": "tracker"
       }
     ],
@@ -8382,7 +8767,10 @@
         "target_type": "tv_series",
         "title": "Joy of Life (C-Drama)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2023
   },
   {
     "id": "global-freeze-i-created-an-apocalypse-shelter-novel",
@@ -8398,8 +8786,8 @@
     "anime": "**See Franchise**",
     "live_action": "**None**",
     "description": "",
-    "poster_url": "",
-    "poster_cached_file": "",
+    "poster_url": "https://cdn.mangaupdates.com/image/i25826.jpg",
+    "poster_cached_file": "global-freeze-i-created-an-apocalypse-shelter-novel.jpg",
     "watchlist_status": "",
     "franchise_id": "global-freeze-i-created-an-apocalypse-shelter",
     "franchise_title": "Global Freeze: I Created an Apocalypse Shelter",
@@ -8408,6 +8796,11 @@
       {
         "label": "NovelUpdates (Search)",
         "url": "https://www.novelupdates.com/?s=Global%20Freeze%3A%20I%20Created%20an%20Apocalypse%20Shelter",
+        "kind": "tracker"
+      },
+      {
+        "label": "MangaUpdates",
+        "url": "https://www.mangaupdates.com/series/8m2iq7c/shelter",
         "kind": "tracker"
       }
     ],
@@ -8424,7 +8817,10 @@
         "target_type": "donghua",
         "title": "Global Freeze: I Created an Apocalypse Shelter (2D Donghua)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2000
   },
   {
     "id": "global-freeze-i-created-an-apocalypse-shelter-donghua",
@@ -8440,8 +8836,8 @@
     "anime": "**Yes (Donghua)** — 2D ONA / Dynamic Motion Comic (2025–Ongoing).<br>• **Watch:** [iQIYI](https://www.iqiyi.com/) / [YouTube (Ep 1–10)](https://www.youtube.com/watch?v=ZB46T52QLz0) / [Chiki Animation](https://chikianimation.com/anime/global-freeze-i-built-a-doomsday-safe-house/)",
     "live_action": "**None**",
     "description": "Yes (Donghua) — 2D ONA / Dynamic Motion Comic (2025–Ongoing). · Watch: iQIYI / YouTube (Ep 1–10) / Chiki Animation",
-    "poster_url": "",
-    "poster_cached_file": "",
+    "poster_url": "https://i.ytimg.com/vi/ZB46T52QLz0/hqdefault.jpg",
+    "poster_cached_file": "global-freeze-i-created-an-apocalypse-shelter-donghua.jpg",
     "watchlist_status": "",
     "franchise_id": "global-freeze-i-created-an-apocalypse-shelter",
     "franchise_title": "Global Freeze: I Created an Apocalypse Shelter",
@@ -8476,7 +8872,10 @@
         "target_type": "light_novel",
         "title": "Global Freeze: I Created an Apocalypse Shelter (Web Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2025
   },
   {
     "id": "peerless-dad-anime",
@@ -8492,8 +8891,8 @@
     "anime": "**Fan Motion Animation** — No official anime.<br>• **Watch:** [YouTube Fan Animation & Recaps](https://www.youtube.com/results?search_query=Peerless+Dad+motion+comic+animation)",
     "live_action": "**None**",
     "description": "Fan Motion Animation — No official anime. · Watch: YouTube Fan Animation & Recaps",
-    "poster_url": "",
-    "poster_cached_file": "",
+    "poster_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx104271-x6qshziGKhGc.png",
+    "poster_cached_file": "peerless-dad-anime.png",
     "watchlist_status": "",
     "franchise_id": "peerless-dad",
     "franchise_title": "Peerless Dad",
@@ -8508,6 +8907,11 @@
         "label": "IMDb",
         "url": "https://www.imdb.com/title/tt34969857/",
         "kind": "tracker"
+      },
+      {
+        "label": "AniList",
+        "url": "https://anilist.co/manga/104271",
+        "kind": "tracker"
       }
     ],
     "relations": [
@@ -8517,7 +8921,10 @@
         "target_type": "comic",
         "title": "Peerless Dad"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2017
   },
   {
     "id": "genius-grandson-of-the-loan-shark-novel",
@@ -8564,7 +8971,10 @@
         "target_type": "anime",
         "title": "Genius Grandson of the Loan Shark (Official Teaser / Fan Motion)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 1990
   },
   {
     "id": "genius-grandson-of-the-loan-shark-anime",
@@ -8580,8 +8990,8 @@
     "anime": "**Fan Motion Comics** — No official anime.<br>• **Watch:** [YouTube Motion Comic Recaps](https://www.youtube.com/results?search_query=Genius+Grandson+of+the+Loan+Shark+King+motion+comic)",
     "live_action": "**None**",
     "description": "Fan Motion Comics — No official anime. · Watch: YouTube Motion Comic Recaps",
-    "poster_url": "",
-    "poster_cached_file": "",
+    "poster_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx183842-28xQSfavENmd.jpg",
+    "poster_cached_file": "genius-grandson-of-the-loan-shark-anime.jpg",
     "watchlist_status": "",
     "franchise_id": "genius-grandson-of-the-loan-shark",
     "franchise_title": "Genius Grandson of the Loan Shark",
@@ -8595,6 +9005,11 @@
       {
         "label": "IMDb",
         "url": "https://www.imdb.com/title/tt2662540/",
+        "kind": "tracker"
+      },
+      {
+        "label": "AniList",
+        "url": "https://anilist.co/manga/183842",
         "kind": "tracker"
       }
     ],
@@ -8611,7 +9026,10 @@
         "target_type": "light_novel",
         "title": "Genius Grandson of the Loan Shark (Web Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2024
   },
   {
     "id": "ancient-animal-tales-anime",
@@ -8652,7 +9070,9 @@
         "target_type": "comic",
         "title": "Ancient Animal Tales"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "investor-who-sees-the-future-novel",
@@ -8699,7 +9119,9 @@
         "target_type": "anime",
         "title": "Investor Who Sees the Future (Official Teaser / Fan Motion)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "investor-who-sees-the-future-anime",
@@ -8715,8 +9137,8 @@
     "anime": "**Fan Motion Comics** — No official anime.<br>• **Watch:** [YouTube Motion Recaps](https://www.youtube.com/results?search_query=The+Investor+Who+Sees+The+Future+motion+comic)",
     "live_action": "**None**",
     "description": "Fan Motion Comics — No official anime. · Watch: YouTube Motion Recaps",
-    "poster_url": "https://m.media-amazon.com/images/M/MV5BZTg0YjEwOTctYWNiZC00YWI2LThlODEtYzM4YzcyOTRiNThlXkEyXkFqcGc@._V1_.jpg",
-    "poster_cached_file": "investor-who-sees-the-future-anime.jpg",
+    "poster_url": "",
+    "poster_cached_file": "",
     "watchlist_status": "",
     "franchise_id": "investor-who-sees-the-future",
     "franchise_title": "Investor Who Sees the Future",
@@ -8726,11 +9148,6 @@
         "label": "YouTube Motion Recaps",
         "url": "https://www.youtube.com/results?search_query=The+Investor+Who+Sees+The+Future+motion+comic",
         "kind": "unofficial"
-      },
-      {
-        "label": "IMDb",
-        "url": "https://www.imdb.com/title/tt4583316/",
-        "kind": "tracker"
       }
     ],
     "relations": [
@@ -8746,7 +9163,9 @@
         "target_type": "light_novel",
         "title": "Investor Who Sees the Future (Web Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "corporate-underdog-anime",
@@ -8787,7 +9206,9 @@
         "target_type": "comic",
         "title": "Corporate Underdog"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "paranoid-mage-novel",
@@ -8834,7 +9255,10 @@
         "target_type": "anime",
         "title": "Paranoid Mage (Fan Motion)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2024
   },
   {
     "id": "paranoid-mage-anime",
@@ -8850,8 +9274,8 @@
     "anime": "**Fan Motion Comics** — Community episodic motion series.<br>• **Watch:** [YouTube Manga Motion Stories](https://www.youtube.com/results?search_query=Paranoid+Mage+motion+comic)",
     "live_action": "**None**",
     "description": "Fan Motion Comics — Community episodic motion series. · Watch: YouTube Manga Motion Stories",
-    "poster_url": "https://m.media-amazon.com/images/M/MV5BNzc1NmIyNzctNjI1NC00MTkxLWJiMGYtYjUwMzljYzgzM2FhXkEyXkFqcGc@._V1_.jpg",
-    "poster_cached_file": "paranoid-mage-anime.jpg",
+    "poster_url": "https://cdn.mangaupdates.com/image/i476652.png",
+    "poster_cached_file": "paranoid-mage-anime.png",
     "watchlist_status": "",
     "franchise_id": "paranoid-mage",
     "franchise_title": "Paranoid Mage",
@@ -8863,8 +9287,8 @@
         "kind": "unofficial"
       },
       {
-        "label": "IMDb",
-        "url": "https://www.imdb.com/title/tt40450936/",
+        "label": "MangaUpdates",
+        "url": "https://www.mangaupdates.com/series/03gsaa0/paranoid-mage",
         "kind": "tracker"
       }
     ],
@@ -8881,7 +9305,10 @@
         "target_type": "light_novel",
         "title": "Paranoid Mage (Web Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2024
   },
   {
     "id": "flame-reborn-novel",
@@ -8928,7 +9355,10 @@
         "target_type": "anime",
         "title": "Flame Reborn (Official Teaser / Fan Motion)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2024
   },
   {
     "id": "flame-reborn-anime",
@@ -8944,8 +9374,8 @@
     "anime": "**Official Teasers & Fan Anim** — WEBTOON official animated promo trailers.<br>• **Watch:** [YouTube WEBTOON Trailer](https://www.youtube.com/results?search_query=A+Flame+Reborn+webtoon+trailer)",
     "live_action": "**None**",
     "description": "Official Teasers & Fan Anim — WEBTOON official animated promo trailers. · Watch: YouTube WEBTOON Trailer",
-    "poster_url": "https://m.media-amazon.com/images/M/MV5BYmUxMzIzNjQtNTcxMS00MmVhLWI2OTUtNjFlZDZlMGM5OGIxXkEyXkFqcGc@._V1_.jpg",
-    "poster_cached_file": "flame-reborn-anime.jpg",
+    "poster_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx173233-sSWxsYy8oXFK.png",
+    "poster_cached_file": "flame-reborn-anime.png",
     "watchlist_status": "",
     "franchise_id": "flame-reborn",
     "franchise_title": "Flame Reborn",
@@ -8957,8 +9387,8 @@
         "kind": "official"
       },
       {
-        "label": "IMDb",
-        "url": "https://www.imdb.com/title/tt21630610/",
+        "label": "AniList",
+        "url": "https://anilist.co/manga/173233",
         "kind": "tracker"
       }
     ],
@@ -8975,7 +9405,10 @@
         "target_type": "light_novel",
         "title": "Flame Reborn (Web Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2024
   },
   {
     "id": "bad-bone-blood-novel",
@@ -9022,7 +9455,10 @@
         "target_type": "anime",
         "title": "Bad Bone Blood (Fan Motion)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2024
   },
   {
     "id": "bad-bone-blood-anime",
@@ -9038,7 +9474,7 @@
     "anime": "**Fan Motion Comics** — Fan-made motion comic recaps and edits.<br>• **Watch:** [YouTube Fan Motion Edits](https://www.youtube.com/results?search_query=Bad+Born+Blood+manhwa+edit+motion)",
     "live_action": "**None**",
     "description": "Fan Motion Comics — Fan-made motion comic recaps and edits. · Watch: YouTube Fan Motion Edits",
-    "poster_url": "https://m.media-amazon.com/images/M/MV5BMmQ2NTc5NGMtZDFmYS00NGU2LWFkNDMtZGVjZWUwMmE5MjM1XkEyXkFqcGc@._V1_.jpg",
+    "poster_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx184347-lDVGEttgQHbY.jpg",
     "poster_cached_file": "bad-bone-blood-anime.jpg",
     "watchlist_status": "",
     "franchise_id": "bad-bone-blood",
@@ -9051,8 +9487,8 @@
         "kind": "unofficial"
       },
       {
-        "label": "IMDb",
-        "url": "https://www.imdb.com/title/tt0350645/",
+        "label": "AniList",
+        "url": "https://anilist.co/manga/184347",
         "kind": "tracker"
       }
     ],
@@ -9069,7 +9505,10 @@
         "target_type": "light_novel",
         "title": "Bad Bone Blood (Web Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2024
   },
   {
     "id": "the-night-only-lives-today-novel",
@@ -9101,6 +9540,11 @@
         "label": "MangaUpdates",
         "url": "https://www.mangaupdates.com/series/gcls85m/the-knight-only-lives-today",
         "kind": "tracker"
+      },
+      {
+        "label": "AniList",
+        "url": "https://anilist.co/manga/177706",
+        "kind": "tracker"
       }
     ],
     "relations": [
@@ -9116,7 +9560,10 @@
         "target_type": "anime",
         "title": "The Night Only Lives Today (Official Teaser / Fan Motion)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2024
   },
   {
     "id": "the-night-only-lives-today-anime",
@@ -9132,7 +9579,7 @@
     "anime": "**Official Teaser & Fan Anim** — Official animated promotional teaser by Naver Webtoon & community motion edits.<br>• **Watch:** [YouTube Webtoon Trailer](https://www.youtube.com/results?search_query=Eternally+Regressing+Knight+trailer)",
     "live_action": "**None**",
     "description": "Official Teaser & Fan Anim — Official animated promotional teaser by Naver Webtoon & community motion edits. · Watch: YouTube Webtoon Trailer",
-    "poster_url": "https://m.media-amazon.com/images/M/MV5BMjRhZDU5MmUtYmU3NS00NWFhLWE5ZTAtMTkzODVkZmU4MDBiXkEyXkFqcGc@._V1_.jpg",
+    "poster_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx177706-3r8dnAr8Prjq.jpg",
     "poster_cached_file": "the-night-only-lives-today-anime.jpg",
     "watchlist_status": "",
     "franchise_id": "the-night-only-lives-today",
@@ -9145,8 +9592,8 @@
         "kind": "official"
       },
       {
-        "label": "IMDb",
-        "url": "https://www.imdb.com/title/tt31529909/",
+        "label": "AniList",
+        "url": "https://anilist.co/manga/177706",
         "kind": "tracker"
       }
     ],
@@ -9163,7 +9610,10 @@
         "target_type": "light_novel",
         "title": "The Night Only Lives Today (Web Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2024
   },
   {
     "id": "gunkano-baltzar-anime",
@@ -9204,7 +9654,9 @@
         "target_type": "comic",
         "title": "Gunkano Baltzar"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "the-superhuman-era-anime",
@@ -9220,8 +9672,8 @@
     "anime": "**Fan Motion Animation & MMVs** — Highly viral fan-made 2D motion animations & animatics.<br>• **Watch:** [YouTube Fan Animation & Edits](https://www.youtube.com/results?search_query=Superhuman+Era+fan+animation)",
     "live_action": "**None**",
     "description": "Fan Motion Animation & MMVs — Highly viral fan-made 2D motion animations & animatics. · Watch: YouTube Fan Animation & Edits",
-    "poster_url": "",
-    "poster_cached_file": "",
+    "poster_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx127993-cX4z3a4fAhdf.png",
+    "poster_cached_file": "the-superhuman-era-anime.png",
     "watchlist_status": "",
     "franchise_id": "the-superhuman-era",
     "franchise_title": "The Superhuman Era",
@@ -9236,6 +9688,11 @@
         "label": "IMDb",
         "url": "https://www.imdb.com/title/tt40631050/",
         "kind": "tracker"
+      },
+      {
+        "label": "AniList",
+        "url": "https://anilist.co/manga/127993",
+        "kind": "tracker"
       }
     ],
     "relations": [
@@ -9245,7 +9702,10 @@
         "target_type": "comic",
         "title": "The Superhuman Era"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2019
   },
   {
     "id": "reborn-rookie-novel",
@@ -9292,7 +9752,9 @@
         "target_type": "tv_series",
         "title": "Reborn Rookie (Live-Action K-Drama)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "reborn-rookie-live",
@@ -9334,7 +9796,10 @@
         "target_type": "light_novel",
         "title": "Reborn Rookie (Web Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2026
   },
   {
     "id": "lookism-anime",
@@ -9381,7 +9846,10 @@
         "target_type": "tv_series",
         "title": "Lookism (Live-Action C-Drama)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2022
   },
   {
     "id": "lookism-live",
@@ -9423,7 +9891,10 @@
         "target_type": "anime",
         "title": "Lookism (Anime Series)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2019
   },
   {
     "id": "vampire-family-anime",
@@ -9464,7 +9935,10 @@
         "target_type": "comic",
         "title": "Vampire Family"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2026
   },
   {
     "id": "ideal-sponger-life-novel",
@@ -9511,7 +9985,9 @@
         "target_type": "anime",
         "title": "Ideal Sponger Life (Anime (In Production))"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "ideal-sponger-life-anime",
@@ -9558,7 +10034,10 @@
         "target_type": "light_novel",
         "title": "Ideal Sponger Life (Light Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2025
   },
   {
     "id": "jipan-anime",
@@ -9599,7 +10078,10 @@
         "target_type": "comic",
         "title": "Jipan"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2005
   },
   {
     "id": "spare-me-great-lord-novel",
@@ -9646,7 +10128,10 @@
         "target_type": "donghua",
         "title": "Spare Me, Great Lord (2D Donghua)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2019
   },
   {
     "id": "spare-me-great-lord-donghua",
@@ -9662,7 +10147,7 @@
     "anime": "**Yes (Donghua)** — 2D Donghua S1 (2021–2022), S2 (2023–2024), S3 (2026).<br>• **Watch:** [Tencent / WeTV (YouTube)](https://www.youtube.com/watch?v=XClhZWg2-2M) / [WeTV](https://wetv.vip/)",
     "live_action": "**None**",
     "description": "Yes (Donghua) — 2D Donghua S1 (2021–2022), S2 (2023–2024), S3 (2026). · Watch: Tencent / WeTV (YouTube) / WeTV",
-    "poster_url": "https://m.media-amazon.com/images/M/MV5BYWY0OGMyOGYtMmM2MS00MThiLWFjMmItNzllZDBhZjk2M2JkXkEyXkFqcGc@._V1_.jpg",
+    "poster_url": "https://i.ytimg.com/vi/XClhZWg2-2M/hqdefault.jpg",
     "poster_cached_file": "spare-me-great-lord-donghua.jpg",
     "watchlist_status": "",
     "franchise_id": "spare-me-great-lord",
@@ -9678,11 +10163,6 @@
         "label": "WeTV",
         "url": "https://wetv.vip/",
         "kind": "official"
-      },
-      {
-        "label": "IMDb",
-        "url": "https://www.imdb.com/title/tt16409202/",
-        "kind": "tracker"
       }
     ],
     "relations": [
@@ -9698,7 +10178,10 @@
         "target_type": "light_novel",
         "title": "Spare Me, Great Lord (Web Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2026
   },
   {
     "id": "absolute-regression-novel",
@@ -9745,7 +10228,10 @@
         "target_type": "anime",
         "title": "Absolute Regression (Fan Motion)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2024
   },
   {
     "id": "absolute-regression-anime",
@@ -9761,7 +10247,7 @@
     "anime": "**Fan Motion Animation & Dubs** — Fan animations and comic-dubs on YouTube.<br>• **Watch:** [YouTube Mangimation & Fan Anim](https://www.youtube.com/results?search_query=Absolute+Regression+motion+comic+animation)",
     "live_action": "**None**",
     "description": "Fan Motion Animation & Dubs — Fan animations and comic-dubs on YouTube. · Watch: YouTube Mangimation & Fan Anim",
-    "poster_url": "https://m.media-amazon.com/images/M/MV5BMTYyODAyNjQxNl5BMl5BanBnXkFtZTcwODAyNTAzMQ@@._V1_.jpg",
+    "poster_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx180891-ZBbyOWSYI41R.jpg",
     "poster_cached_file": "absolute-regression-anime.jpg",
     "watchlist_status": "",
     "franchise_id": "absolute-regression",
@@ -9774,8 +10260,8 @@
         "kind": "unofficial"
       },
       {
-        "label": "IMDb",
-        "url": "https://www.imdb.com/title/tt0205722/",
+        "label": "AniList",
+        "url": "https://anilist.co/manga/180891",
         "kind": "tracker"
       }
     ],
@@ -9792,7 +10278,10 @@
         "target_type": "light_novel",
         "title": "Absolute Regression (Web Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2024
   },
   {
     "id": "manager-kim-anime",
@@ -9808,7 +10297,7 @@
     "anime": "**Official Teaser & Fan Anim** — Official WEBTOON animated promo clips and fan motion edits.<br>• **Watch:** [YouTube WEBTOON Teaser](https://www.youtube.com/results?search_query=Manager+Kim+webtoon+teaser)",
     "live_action": "**None**",
     "description": "Official Teaser & Fan Anim — Official WEBTOON animated promo clips and fan motion edits. · Watch: YouTube WEBTOON Teaser",
-    "poster_url": "https://m.media-amazon.com/images/M/MV5BZGJjMmI3ZDMtZTgyNi00MTZhLWE2ZjAtN2Q4YTUyMTg4OGY1XkEyXkFqcGc@._V1_.jpg",
+    "poster_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx141626-2AQM2uUYS8wC.jpg",
     "poster_cached_file": "manager-kim-anime.jpg",
     "watchlist_status": "",
     "franchise_id": "manager-kim",
@@ -9821,8 +10310,8 @@
         "kind": "unofficial"
       },
       {
-        "label": "IMDb",
-        "url": "https://www.imdb.com/title/tt3061046/",
+        "label": "AniList",
+        "url": "https://anilist.co/manga/141626",
         "kind": "tracker"
       }
     ],
@@ -9839,7 +10328,10 @@
         "target_type": "tv_series",
         "title": "Manager Kim (Live-Action K-Drama)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2021
   },
   {
     "id": "manager-kim-live",
@@ -9886,7 +10378,10 @@
         "target_type": "anime",
         "title": "Manager Kim (Official Teaser / Fan Motion)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2026
   },
   {
     "id": "reincarnate-aristocrat-i-ll-use-my-appraisal-skill-novel",
@@ -9901,9 +10396,9 @@
     "origin": "Japanese Light Novel & Manga",
     "anime": "**See Franchise**",
     "live_action": "**None**",
-    "description": "",
-    "poster_url": "",
-    "poster_cached_file": "",
+    "description": "After being reincarnated, Ars Louvent is supposed to live in a different world as a weak aristocrat. Both his physical strength and intelligence were mediocre in both worlds, but here he naturally possessed a skill called \"Appraisal\" that allowed him to see the potential of any person. By gathering talented people by his side, Ars uses this \"Appraisal\" skill to transform his weak territory into the strongest one!…",
+    "poster_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx125198-K8VX8dX7IkPu.jpg",
+    "poster_cached_file": "reincarnate-aristocrat-i-ll-use-my-appraisal-skill-novel.jpg",
     "watchlist_status": "",
     "franchise_id": "reincarnate-aristocrat-i-ll-use-my-appraisal-skill",
     "franchise_title": "Reincarnate Aristocrat, I'll Use My Appraisal Skill",
@@ -9912,6 +10407,11 @@
       {
         "label": "NovelUpdates (Search)",
         "url": "https://www.novelupdates.com/?s=Reincarnate%20Aristocrat%2C%20I%27ll%20Use%20My%20Appraisal%20Skill",
+        "kind": "tracker"
+      },
+      {
+        "label": "AniList",
+        "url": "https://anilist.co/manga/125198",
         "kind": "tracker"
       }
     ],
@@ -9928,7 +10428,10 @@
         "target_type": "anime",
         "title": "Reincarnate Aristocrat, I'll Use My Appraisal Skill (Anime Series)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2020
   },
   {
     "id": "reincarnate-aristocrat-i-ll-use-my-appraisal-skill-anime",
@@ -9965,6 +10468,11 @@
         "label": "IMDb",
         "url": "https://www.imdb.com/title/tt31975847/",
         "kind": "tracker"
+      },
+      {
+        "label": "AniList",
+        "url": "https://anilist.co/anime/164702",
+        "kind": "tracker"
       }
     ],
     "relations": [
@@ -9980,7 +10488,10 @@
         "target_type": "light_novel",
         "title": "Reincarnate Aristocrat, I'll Use My Appraisal Skill (Light Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2026
   },
   {
     "id": "survival-story-of-a-sword-king-in-a-other-world-novel",
@@ -10027,7 +10538,9 @@
         "target_type": "anime",
         "title": "Survival Story of a Sword King in a Other World (Anime (In Production))"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "survival-story-of-a-sword-king-in-a-other-world-anime",
@@ -10074,7 +10587,9 @@
         "target_type": "light_novel",
         "title": "Survival Story of a Sword King in a Other World (Web Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "the-new-gate-novel",
@@ -10121,7 +10636,9 @@
         "target_type": "anime",
         "title": "The New Gate (Anime Series)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "the-new-gate-anime",
@@ -10173,7 +10690,10 @@
         "target_type": "light_novel",
         "title": "The New Gate (Light Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2024
   },
   {
     "id": "old-country-bumpkin-novel",
@@ -10220,7 +10740,9 @@
         "target_type": "anime",
         "title": "Old Country Bumpkin (Anime Series)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "old-country-bumpkin-anime",
@@ -10272,7 +10794,10 @@
         "target_type": "light_novel",
         "title": "Old Country Bumpkin (Light Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2026
   },
   {
     "id": "survival-in-another-world-with-my-mistress-novel",
@@ -10319,7 +10844,10 @@
         "target_type": "anime",
         "title": "Survival in Another World with My Mistress (Official Teaser / Fan Motion)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2019
   },
   {
     "id": "survival-in-another-world-with-my-mistress-anime",
@@ -10335,7 +10863,7 @@
     "anime": "**Fan Motion Comics & Recaps** — No official anime.<br>• **Watch:** [YouTube Fan Motion Recaps](https://www.youtube.com/results?search_query=Survival+in+Another+World+with+My+Mistress+manga+recap)",
     "live_action": "**None**",
     "description": "Fan Motion Comics & Recaps — No official anime. · Watch: YouTube Fan Motion Recaps",
-    "poster_url": "https://m.media-amazon.com/images/M/MV5BYTMxNDIzYzEtNjA2My00ZGM3LWI3NGEtNmVhODg0YmU3NDBmXkEyXkFqcGc@._V1_.jpg",
+    "poster_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx123747-h4wfY7UR09lb.jpg",
     "poster_cached_file": "survival-in-another-world-with-my-mistress-anime.jpg",
     "watchlist_status": "",
     "franchise_id": "survival-in-another-world-with-my-mistress",
@@ -10348,8 +10876,8 @@
         "kind": "unofficial"
       },
       {
-        "label": "IMDb",
-        "url": "https://www.imdb.com/title/tt7088332/",
+        "label": "AniList",
+        "url": "https://anilist.co/manga/123747",
         "kind": "tracker"
       }
     ],
@@ -10366,7 +10894,10 @@
         "target_type": "light_novel",
         "title": "Survival in Another World with My Mistress (Light Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2020
   },
   {
     "id": "executed-sage-who-was-reborn-novel",
@@ -10413,7 +10944,9 @@
         "target_type": "anime",
         "title": "Executed Sage Who Was Reborn (Official Teaser / Fan Motion)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "executed-sage-who-was-reborn-anime",
@@ -10460,7 +10993,9 @@
         "target_type": "light_novel",
         "title": "Executed Sage Who Was Reborn (Light Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "japan-summons-novel",
@@ -10507,7 +11042,9 @@
         "target_type": "anime",
         "title": "Japan Summons (Fan Motion)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "japan-summons-anime",
@@ -10554,7 +11091,9 @@
         "target_type": "light_novel",
         "title": "Japan Summons (Light Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "shazan-conqueror-of-a-dying-kingdom-novel",
@@ -10601,7 +11140,9 @@
         "target_type": "anime",
         "title": "Shazan: Conqueror of a Dying Kingdom (Official Teaser / Fan Motion)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "shazan-conqueror-of-a-dying-kingdom-anime",
@@ -10648,7 +11189,9 @@
         "target_type": "light_novel",
         "title": "Shazan: Conqueror of a Dying Kingdom (Light Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "hand-jumper-anime",
@@ -10689,7 +11232,9 @@
         "target_type": "comic",
         "title": "Hand Jumper"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "black-haired-mercenary-who-went-to-west-novel",
@@ -10704,9 +11249,9 @@
     "origin": "Korean Manhwa & Web Novel",
     "anime": "**See Franchise**",
     "live_action": "**None**",
-    "description": "",
-    "poster_url": "",
-    "poster_cached_file": "",
+    "description": "**Original Webtoon:** [Naver Webtoon](https://comic.naver.com/webtoon/list?titleId=853062), [Naver Series](https://series.naver.com/comic/detail.series?productNo=14437854)",
+    "poster_url": "https://cdn.mangaupdates.com/image/i533786.jpg",
+    "poster_cached_file": "black-haired-mercenary-who-went-to-west-novel.jpg",
     "watchlist_status": "",
     "franchise_id": "black-haired-mercenary-who-went-to-west",
     "franchise_title": "Black-Haired Mercenary Who Went to West",
@@ -10715,6 +11260,11 @@
       {
         "label": "NovelUpdates (Search)",
         "url": "https://www.novelupdates.com/?s=Black-Haired%20Mercenary%20Who%20Went%20to%20West",
+        "kind": "tracker"
+      },
+      {
+        "label": "MangaUpdates",
+        "url": "https://www.mangaupdates.com/series/jryhwln/korean-mercenary-s-wild-west",
         "kind": "tracker"
       }
     ],
@@ -10731,7 +11281,10 @@
         "target_type": "anime",
         "title": "Black-Haired Mercenary Who Went to West (Official Teaser / Fan Motion)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2026
   },
   {
     "id": "black-haired-mercenary-who-went-to-west-anime",
@@ -10747,8 +11300,8 @@
     "anime": "**Fan Motion Recaps** — No official anime.<br>• **Watch:** [YouTube Motion Recaps](https://www.youtube.com/results?search_query=The+Black-Haired+Mercenary+Who+Went+West+motion+comic)",
     "live_action": "**None**",
     "description": "Fan Motion Recaps — No official anime. · Watch: YouTube Motion Recaps",
-    "poster_url": "",
-    "poster_cached_file": "",
+    "poster_url": "https://cdn.mangaupdates.com/image/i533786.jpg",
+    "poster_cached_file": "black-haired-mercenary-who-went-to-west-anime.jpg",
     "watchlist_status": "",
     "franchise_id": "black-haired-mercenary-who-went-to-west",
     "franchise_title": "Black-Haired Mercenary Who Went to West",
@@ -10758,6 +11311,11 @@
         "label": "YouTube Motion Recaps",
         "url": "https://www.youtube.com/results?search_query=The+Black-Haired+Mercenary+Who+Went+West+motion+comic",
         "kind": "unofficial"
+      },
+      {
+        "label": "MangaUpdates",
+        "url": "https://www.mangaupdates.com/series/jryhwln/korean-mercenary-s-wild-west",
+        "kind": "tracker"
       }
     ],
     "relations": [
@@ -10773,7 +11331,10 @@
         "target_type": "light_novel",
         "title": "Black-Haired Mercenary Who Went to West (Web Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2026
   },
   {
     "id": "second-time-in-another-world-novel",
@@ -10820,7 +11381,9 @@
         "target_type": "anime",
         "title": "Second Time in Another World (Anime Series)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "second-time-in-another-world-anime",
@@ -10867,7 +11430,10 @@
         "target_type": "light_novel",
         "title": "Second Time in Another World (Light Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2023
   },
   {
     "id": "lord-of-money-anime",
@@ -10883,7 +11449,7 @@
     "anime": "**Fan Motion Comics** — No official anime.<br>• **Watch:** [YouTube Motion Recaps](https://www.youtube.com/results?search_query=Lord+of+Money+manhwa+motion+comic)",
     "live_action": "**None**",
     "description": "Fan Motion Comics — No official anime. · Watch: YouTube Motion Recaps",
-    "poster_url": "https://m.media-amazon.com/images/M/MV5BYTRiNDAxNTgtNzJkMy00Y2RmLThkMmItYzQ5YTU2ZmVhNTg4XkEyXkFqcGc@._V1_.jpg",
+    "poster_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx130627-JIdMwsr86WP4.jpg",
     "poster_cached_file": "lord-of-money-anime.jpg",
     "watchlist_status": "",
     "franchise_id": "lord-of-money",
@@ -10896,8 +11462,8 @@
         "kind": "unofficial"
       },
       {
-        "label": "IMDb",
-        "url": "https://www.imdb.com/title/tt0090863/",
+        "label": "AniList",
+        "url": "https://anilist.co/manga/130627",
         "kind": "tracker"
       }
     ],
@@ -10908,7 +11474,10 @@
         "target_type": "comic",
         "title": "Lord of Money"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2020
   },
   {
     "id": "wild-west-murim-anime",
@@ -10949,7 +11518,9 @@
         "target_type": "comic",
         "title": "Wild West Murim"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "office-worker-who-sees-fate-novel",
@@ -10996,7 +11567,10 @@
         "target_type": "tv_series",
         "title": "Office Worker Who Sees Fate (Live-Action K-Drama)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2022
   },
   {
     "id": "office-worker-who-sees-fate-live",
@@ -11038,7 +11612,9 @@
         "target_type": "light_novel",
         "title": "Office Worker Who Sees Fate (Web Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "saving-80-000-gold-in-another-world-novel",
@@ -11053,9 +11629,9 @@
     "origin": "Japanese Light Novel & Manga",
     "anime": "**See Franchise**",
     "live_action": "**None**",
-    "description": "",
-    "poster_url": "",
-    "poster_cached_file": "",
+    "description": "Mitsuha Yamano falls off a cliff, at which point she finds herself transported to some sort of medieval European fantasy world! While there, during a battle with some wolves that almost costs her her life, she realizes that she has the ability to come and go between Earth and this new world. Mitsuha decides to use this ability as much as she can. Why? To save up for retirement, of course! She sets her sights on…",
+    "poster_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx101716-faAVyILItbtC.jpg",
+    "poster_cached_file": "saving-80-000-gold-in-another-world-novel.jpg",
     "watchlist_status": "",
     "franchise_id": "saving-80-000-gold-in-another-world",
     "franchise_title": "Saving 80,000 Gold in Another World",
@@ -11064,6 +11640,11 @@
       {
         "label": "NovelUpdates (Search)",
         "url": "https://www.novelupdates.com/?s=Saving%2080%2C000%20Gold%20in%20Another%20World",
+        "kind": "tracker"
+      },
+      {
+        "label": "AniList",
+        "url": "https://anilist.co/manga/101716",
         "kind": "tracker"
       }
     ],
@@ -11080,7 +11661,10 @@
         "target_type": "anime",
         "title": "Saving 80,000 Gold in Another World (Anime Series)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2017
   },
   {
     "id": "saving-80-000-gold-in-another-world-anime",
@@ -11117,6 +11701,11 @@
         "label": "IMDb",
         "url": "https://www.imdb.com/title/tt21608762/",
         "kind": "tracker"
+      },
+      {
+        "label": "AniList",
+        "url": "https://anilist.co/anime/152765",
+        "kind": "tracker"
       }
     ],
     "relations": [
@@ -11132,7 +11721,10 @@
         "target_type": "light_novel",
         "title": "Saving 80,000 Gold in Another World (Light Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2023
   },
   {
     "id": "reloaded-into-another-world-anime",
@@ -11148,8 +11740,8 @@
     "anime": "**Fan Motion Recaps** — No official anime.<br>• **Watch:** [YouTube Motion Recaps](https://www.youtube.com/results?search_query=Reloaded+into+the+Other+World+manhwa)",
     "live_action": "**None**",
     "description": "Fan Motion Recaps — No official anime. · Watch: YouTube Motion Recaps",
-    "poster_url": "",
-    "poster_cached_file": "",
+    "poster_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx148308-2zrV8JmVtjtf.jpg",
+    "poster_cached_file": "reloaded-into-another-world-anime.jpg",
     "watchlist_status": "",
     "franchise_id": "reloaded-into-another-world",
     "franchise_title": "Reloaded into Another World",
@@ -11164,6 +11756,11 @@
         "label": "IMDb",
         "url": "https://www.imdb.com/title/tt2006136/",
         "kind": "tracker"
+      },
+      {
+        "label": "AniList",
+        "url": "https://anilist.co/manga/148308",
+        "kind": "tracker"
       }
     ],
     "relations": [
@@ -11173,7 +11770,10 @@
         "target_type": "comic",
         "title": "Reloaded into Another World"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2022
   },
   {
     "id": "is-it-wrong-to-try-to-pick-up-girls-in-a-dungeon-novel",
@@ -11188,9 +11788,9 @@
     "origin": "Japanese Light Novel & Manga",
     "anime": "**See Franchise**",
     "live_action": "**None**",
-    "description": "",
-    "poster_url": "",
-    "poster_cached_file": "",
+    "description": "In Orario, fearless adventurers band together in search of fame and fortune within the monstrous underground labyrinth known as Dungeon. But while riches and renown are incentive enough for most, Bell Cranel, would-be hero extraordinaire, has bigger plans. He wants to pick up girls. Is it wrong to face the perils of Dungeon alone, in a single-member guild blessed by a failed goddess? Maybe. Is it wrong to dream of…",
+    "poster_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx85162-Fpd3ejAlFWP8.jpg",
+    "poster_cached_file": "is-it-wrong-to-try-to-pick-up-girls-in-a-dungeon-novel.jpg",
     "watchlist_status": "",
     "franchise_id": "is-it-wrong-to-try-to-pick-up-girls-in-a-dungeon",
     "franchise_title": "Is It Wrong to Try to Pick Up Girls in a Dungeon?",
@@ -11199,6 +11799,11 @@
       {
         "label": "NovelUpdates (Search)",
         "url": "https://www.novelupdates.com/?s=Is%20It%20Wrong%20to%20Try%20to%20Pick%20Up%20Girls%20in%20a%20Dungeon%3F",
+        "kind": "tracker"
+      },
+      {
+        "label": "AniList",
+        "url": "https://anilist.co/manga/85162",
         "kind": "tracker"
       }
     ],
@@ -11221,7 +11826,10 @@
         "target_type": "movie",
         "title": "Is It Wrong to Try to Pick Up Girls in a Dungeon? (Anime Film)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2013
   },
   {
     "id": "is-it-wrong-to-try-to-pick-up-girls-in-a-dungeon-anime",
@@ -11268,6 +11876,11 @@
         "label": "IMDb",
         "url": "https://www.imdb.com/title/tt4728568/",
         "kind": "tracker"
+      },
+      {
+        "label": "AniList",
+        "url": "https://anilist.co/anime/20920",
+        "kind": "tracker"
       }
     ],
     "relations": [
@@ -11289,7 +11902,10 @@
         "target_type": "movie",
         "title": "Is It Wrong to Try to Pick Up Girls in a Dungeon? (Anime Film)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2025
   },
   {
     "id": "is-it-wrong-to-try-to-pick-up-girls-in-a-dungeon-anime-film",
@@ -11357,7 +11973,10 @@
         "target_type": "anime",
         "title": "Is It Wrong to Try to Pick Up Girls in a Dungeon? (Anime Series)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2025
   },
   {
     "id": "tsunyou-of-the-shadowless-anime",
@@ -11398,7 +12017,9 @@
         "target_type": "comic",
         "title": "Tsunyou of the Shadowless"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "heroic-legend-of-arslan-novel",
@@ -11451,7 +12072,9 @@
         "target_type": "tv_series",
         "title": "Heroic Legend of Arslan (Stage Play)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "heroic-legend-of-arslan-anime",
@@ -11519,7 +12142,10 @@
         "target_type": "tv_series",
         "title": "Heroic Legend of Arslan (Stage Play)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2016
   },
   {
     "id": "heroic-legend-of-arslan-live",
@@ -11541,7 +12167,13 @@
     "franchise_id": "heroic-legend-of-arslan",
     "franchise_title": "Heroic Legend of Arslan",
     "parent_id": "heroic-legend-of-arslan",
-    "links": [],
+    "links": [
+      {
+        "label": "IMDb",
+        "url": "https://www.imdb.com/find/?q=Heroic%20Legend%20of%20Arslan",
+        "kind": "tracker"
+      }
+    ],
     "relations": [
       {
         "relation": "adapted_from",
@@ -11561,7 +12193,10 @@
         "target_type": "anime",
         "title": "Heroic Legend of Arslan (Anime Series)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2020
   },
   {
     "id": "the-bugle-call-record-of-the-high-class-war-anime",
@@ -11602,7 +12237,10 @@
         "target_type": "comic",
         "title": "The Bugle Call Record of the High-Class War"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2027
   },
   {
     "id": "reincarnated-as-the-crazed-heir-anime",
@@ -11618,8 +12256,8 @@
     "anime": "**Fan Motion Comics** — No official anime.<br>• **Watch:** [YouTube Motion Comic Recaps](https://www.youtube.com/results?search_query=I+Reincarnated+as+the+Crazed+Heir+motion+comic)",
     "live_action": "**None**",
     "description": "Fan Motion Comics — No official anime. · Watch: YouTube Motion Comic Recaps",
-    "poster_url": "https://m.media-amazon.com/images/M/MV5BMmJiZDE4N2YtM2MwYS00MmUwLWFiNDMtMDRkM2MxNTBjMzg2XkEyXkFqcGc@._V1_.jpg",
-    "poster_cached_file": "reincarnated-as-the-crazed-heir-anime.jpg",
+    "poster_url": "",
+    "poster_cached_file": "",
     "watchlist_status": "",
     "franchise_id": "reincarnated-as-the-crazed-heir",
     "franchise_title": "Reincarnated as the Crazed Heir",
@@ -11629,11 +12267,6 @@
         "label": "YouTube Motion Comic Recaps",
         "url": "https://www.youtube.com/results?search_query=I+Reincarnated+as+the+Crazed+Heir+motion+comic",
         "kind": "unofficial"
-      },
-      {
-        "label": "IMDb",
-        "url": "https://www.imdb.com/title/tt43623179/",
-        "kind": "tracker"
       }
     ],
     "relations": [
@@ -11643,7 +12276,9 @@
         "target_type": "comic",
         "title": "Reincarnated as the Crazed Heir"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "the-otoyomegatari-anime",
@@ -11684,7 +12319,9 @@
         "target_type": "comic",
         "title": "The Otoyomegatari"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "tiger-of-genesis-anime",
@@ -11700,8 +12337,8 @@
     "anime": "**Fan Motion Manga** — No official anime.<br>• **Watch:** [YouTube Motion Manga Recaps](https://www.youtube.com/results?search_query=Taiga+of+Genesis+manga+motion)",
     "live_action": "**None**",
     "description": "Fan Motion Manga — No official anime. · Watch: YouTube Motion Manga Recaps",
-    "poster_url": "",
-    "poster_cached_file": "",
+    "poster_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx99300-VczCyTBjK9y2.jpg",
+    "poster_cached_file": "tiger-of-genesis-anime.jpg",
     "watchlist_status": "",
     "franchise_id": "tiger-of-genesis",
     "franchise_title": "Tiger of Genesis",
@@ -11711,6 +12348,11 @@
         "label": "YouTube Motion Manga Recaps",
         "url": "https://www.youtube.com/results?search_query=Taiga+of+Genesis+manga+motion",
         "kind": "unofficial"
+      },
+      {
+        "label": "AniList",
+        "url": "https://anilist.co/manga/99300",
+        "kind": "tracker"
       }
     ],
     "relations": [
@@ -11720,7 +12362,10 @@
         "target_type": "comic",
         "title": "Tiger of Genesis"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2017
   },
   {
     "id": "lord-of-goblin-novel",
@@ -11762,7 +12407,9 @@
         "target_type": "anime",
         "title": "Lord of Goblin (Official Teaser / Fan Motion)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "lord-of-goblin-anime",
@@ -11804,7 +12451,9 @@
         "target_type": "light_novel",
         "title": "Lord of Goblin (Web Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "legendary-turn-novel",
@@ -11851,7 +12500,9 @@
         "target_type": "anime",
         "title": "Legendary Turn (Official Teaser / Fan Motion)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "legendary-turn-anime",
@@ -11898,7 +12549,9 @@
         "target_type": "light_novel",
         "title": "Legendary Turn (Web Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "road-to-kingdom-novel",
@@ -11930,6 +12583,11 @@
         "label": "MangaUpdates",
         "url": "https://www.mangaupdates.com/series/5a79vyy/oukoku-e-tsuzuku-michi-novel",
         "kind": "tracker"
+      },
+      {
+        "label": "AniList",
+        "url": "https://anilist.co/manga/86443",
+        "kind": "tracker"
       }
     ],
     "relations": [
@@ -11945,7 +12603,10 @@
         "target_type": "anime",
         "title": "Road to Kingdom (Official Teaser / Fan Motion)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2015
   },
   {
     "id": "road-to-kingdom-anime",
@@ -11961,7 +12622,7 @@
     "anime": "**Fan Motion Manga** — No official anime.<br>• **Watch:** [YouTube Motion Manga](https://www.youtube.com/results?search_query=Road+to+Kingdom+manga+motion)",
     "live_action": "**None**",
     "description": "Fan Motion Manga — No official anime. · Watch: YouTube Motion Manga",
-    "poster_url": "https://m.media-amazon.com/images/M/MV5BMTQ1ZWE3MTMtNWM2MS00OTY5LWFiOTYtNzExNGUyYzE0NjFiXkEyXkFqcGc@._V1_.jpg",
+    "poster_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx119708-pnj4c67qOtUY.jpg",
     "poster_cached_file": "road-to-kingdom-anime.jpg",
     "watchlist_status": "",
     "franchise_id": "road-to-kingdom",
@@ -11974,8 +12635,8 @@
         "kind": "unofficial"
       },
       {
-        "label": "IMDb",
-        "url": "https://www.imdb.com/title/tt12138838/",
+        "label": "AniList",
+        "url": "https://anilist.co/manga/119708",
         "kind": "tracker"
       }
     ],
@@ -11992,7 +12653,10 @@
         "target_type": "light_novel",
         "title": "Road to Kingdom (Light Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2019
   },
   {
     "id": "slave-b-anime",
@@ -12033,7 +12697,9 @@
         "target_type": "comic",
         "title": "Slave B"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "rise-of-heroes-anime",
@@ -12074,7 +12740,9 @@
         "target_type": "comic",
         "title": "Rise of Heroes"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "genius-of-unique-lineage-novel",
@@ -12106,6 +12774,11 @@
         "label": "MangaUpdates",
         "url": "https://www.mangaupdates.com/series/6qg2sk7/the-perfect-hybrid",
         "kind": "tracker"
+      },
+      {
+        "label": "AniList",
+        "url": "https://anilist.co/manga/153869",
+        "kind": "tracker"
       }
     ],
     "relations": [
@@ -12121,7 +12794,10 @@
         "target_type": "anime",
         "title": "Genius of Unique Lineage (Official Teaser / Fan Motion)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2022
   },
   {
     "id": "genius-of-unique-lineage-anime",
@@ -12137,7 +12813,7 @@
     "anime": "**Official Teaser & Fan Anim** — Official WEBTOON animated promo trailer & fan motion recaps.<br>• **Watch:** [YouTube Webtoon Promo & Recaps](https://www.youtube.com/results?search_query=The+Perfect+Hybrid+webtoon+trailer)",
     "live_action": "**None**",
     "description": "Official Teaser & Fan Anim — Official WEBTOON animated promo trailer & fan motion recaps. · Watch: YouTube Webtoon Promo & Recaps",
-    "poster_url": "https://m.media-amazon.com/images/M/MV5BMzA4ZjM0NzktOWE2ZS00ZDc0LWE3NDEtMDE3YzcwMDdmYWNkXkEyXkFqcGc@._V1_.jpg",
+    "poster_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx153869-qFA2vLR9Yfcs.jpg",
     "poster_cached_file": "genius-of-unique-lineage-anime.jpg",
     "watchlist_status": "",
     "franchise_id": "genius-of-unique-lineage",
@@ -12150,8 +12826,8 @@
         "kind": "unofficial"
       },
       {
-        "label": "IMDb",
-        "url": "https://www.imdb.com/title/tt6874542/",
+        "label": "AniList",
+        "url": "https://anilist.co/manga/153869",
         "kind": "tracker"
       }
     ],
@@ -12168,7 +12844,10 @@
         "target_type": "light_novel",
         "title": "Genius of Unique Lineage (Web Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2022
   },
   {
     "id": "release-that-witch-novel",
@@ -12200,6 +12879,11 @@
         "label": "MangaUpdates",
         "url": "https://www.mangaupdates.com/series/lw27gns/release-that-witch",
         "kind": "tracker"
+      },
+      {
+        "label": "AniList",
+        "url": "https://anilist.co/manga/108152",
+        "kind": "tracker"
       }
     ],
     "relations": [
@@ -12215,7 +12899,10 @@
         "target_type": "donghua",
         "title": "Release That Witch (2D Donghua)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2017
   },
   {
     "id": "release-that-witch-donghua",
@@ -12231,8 +12918,8 @@
     "anime": "**Yes (Donghua)** — Donghua Series (2026).<br>• **Watch:** [Crunchyroll](https://www.crunchyroll.com/series/GT00365589/release-that-witch) / [Prime Video](https://www.primevideo.com/detail/0GELI0Y4MJTFDPJW55J76OLQUI) / [YouTube (Ep 1–8)](https://www.youtube.com/watch?v=aG6RUV0D7WE)",
     "live_action": "**None**",
     "description": "Yes (Donghua) — Donghua Series (2026). · Watch: Crunchyroll / Prime Video / YouTube (Ep 1–8)",
-    "poster_url": "https://m.media-amazon.com/images/M/MV5BNmM4YTBiY2ItZDYzOS00MTM1LWE2YTAtNGIzMzFkYzRkZDNkXkEyXkFqcGc@._V1_.jpg",
-    "poster_cached_file": "release-that-witch-donghua.jpg",
+    "poster_url": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx137662-iZigHTc71wi7.png",
+    "poster_cached_file": "release-that-witch-donghua.png",
     "watchlist_status": "",
     "franchise_id": "release-that-witch",
     "franchise_title": "Release That Witch",
@@ -12254,8 +12941,8 @@
         "kind": "official"
       },
       {
-        "label": "IMDb",
-        "url": "https://www.imdb.com/title/tt40370555/",
+        "label": "AniList",
+        "url": "https://anilist.co/anime/137662",
         "kind": "tracker"
       }
     ],
@@ -12272,7 +12959,10 @@
         "target_type": "light_novel",
         "title": "Release That Witch (Web Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2026
   },
   {
     "id": "black-corporation-joseon-novel",
@@ -12319,7 +13009,9 @@
         "target_type": "anime",
         "title": "Black Corporation Joseon (Official Teaser / Fan Motion)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "black-corporation-joseon-anime",
@@ -12366,7 +13058,9 @@
         "target_type": "light_novel",
         "title": "Black Corporation Joseon (Web Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "record-of-wartenia-war-novel",
@@ -12381,9 +13075,9 @@
     "origin": "Japanese Light Novel & Manga",
     "anime": "**See Franchise**",
     "live_action": "**None**",
-    "description": "",
-    "poster_url": "",
-    "poster_cached_file": "",
+    "description": "High-schooler Ryoma Mikoshiba finds himself summoned to another world by the warmongering O’ltormea Empire. But Ryoma is no ordinary school boy – he has both talent and training in martial arts. Using his skills in martial arts to escape captivity and swearing revenge on the country that summoned him, Ryoma finds himself in a world where he can become stronger by absorbing the life force of whomever he slays – a…",
+    "poster_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/nx98823-PUj0O6fvlU8G.jpg",
+    "poster_cached_file": "record-of-wartenia-war-novel.jpg",
     "watchlist_status": "",
     "franchise_id": "record-of-wartenia-war",
     "franchise_title": "Record of Wartenia War",
@@ -12392,6 +13086,11 @@
       {
         "label": "NovelUpdates (Search)",
         "url": "https://www.novelupdates.com/?s=Record%20of%20Wartenia%20War",
+        "kind": "tracker"
+      },
+      {
+        "label": "AniList",
+        "url": "https://anilist.co/manga/98823",
         "kind": "tracker"
       }
     ],
@@ -12408,7 +13107,10 @@
         "target_type": "anime",
         "title": "Record of Wartenia War (Official Teaser / Fan Motion)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2015
   },
   {
     "id": "record-of-wartenia-war-anime",
@@ -12424,7 +13126,7 @@
     "anime": "**Fan Motion Manga** — No official anime.<br>• **Watch:** [YouTube Motion Manga Recaps](https://www.youtube.com/results?search_query=Record+of+Wortenia+War+manga+motion)",
     "live_action": "**None**",
     "description": "Fan Motion Manga — No official anime. · Watch: YouTube Motion Manga Recaps",
-    "poster_url": "https://m.media-amazon.com/images/M/MV5BNmJmNDVlMjAtOWU2NC00ZjJkLTg2NmItYmIwNTM5MGZkMTcyXkEyXkFqcGc@._V1_.jpg",
+    "poster_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/nx98822-PrRJeQsGXriw.jpg",
     "poster_cached_file": "record-of-wartenia-war-anime.jpg",
     "watchlist_status": "",
     "franchise_id": "record-of-wartenia-war",
@@ -12437,8 +13139,8 @@
         "kind": "unofficial"
       },
       {
-        "label": "IMDb",
-        "url": "https://www.imdb.com/title/tt7897050/",
+        "label": "AniList",
+        "url": "https://anilist.co/manga/98822",
         "kind": "tracker"
       }
     ],
@@ -12455,7 +13157,10 @@
         "target_type": "light_novel",
         "title": "Record of Wartenia War (Light Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2016
   },
   {
     "id": "cultivator-vs-superhero-donghua",
@@ -12506,7 +13211,10 @@
         "target_type": "comic",
         "title": "Cultivator vs. Superhero"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2026
   },
   {
     "id": "the-darwin-incident-anime",
@@ -12547,7 +13255,10 @@
         "target_type": "comic",
         "title": "The Darwin Incident"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2026
   },
   {
     "id": "mystic-musketeer-novel",
@@ -12594,7 +13305,9 @@
         "target_type": "anime",
         "title": "Mystic Musketeer (Official Teaser / Fan Motion)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "mystic-musketeer-anime",
@@ -12641,7 +13354,9 @@
         "target_type": "light_novel",
         "title": "Mystic Musketeer (Web Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "from-the-grave-and-back-anime",
@@ -12657,7 +13372,7 @@
     "anime": "**Fan Motion Comics** — No official anime.<br>• **Watch:** [YouTube Motion Recaps](https://www.youtube.com/results?search_query=From+the+Grave+and+Back+motion+comic)",
     "live_action": "**None**",
     "description": "Fan Motion Comics — No official anime. · Watch: YouTube Motion Recaps",
-    "poster_url": "https://m.media-amazon.com/images/M/MV5BMzdiM2EzNjUtZGYyYi00YzkxLWI4MDgtMGNhZmZiOTMzMTAzXkEyXkFqcGc@._V1_.jpg",
+    "poster_url": "https://cdn.mangaupdates.com/image/i419720.jpg",
     "poster_cached_file": "from-the-grave-and-back-anime.jpg",
     "watchlist_status": "",
     "franchise_id": "from-the-grave-and-back",
@@ -12670,8 +13385,8 @@
         "kind": "unofficial"
       },
       {
-        "label": "IMDb",
-        "url": "https://www.imdb.com/title/tt0074247/",
+        "label": "MangaUpdates",
+        "url": "https://www.mangaupdates.com/series/2z8m47u/from-the-grave-and-back",
         "kind": "tracker"
       }
     ],
@@ -12682,7 +13397,10 @@
         "target_type": "comic",
         "title": "From the Grave and Back"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2020
   },
   {
     "id": "love-me-not-anime",
@@ -12740,7 +13458,10 @@
         "target_type": "movie",
         "title": "Love Me Not (Live-Action Film)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2020
   },
   {
     "id": "love-me-not-anime-film",
@@ -12798,7 +13519,10 @@
         "target_type": "movie",
         "title": "Love Me Not (Live-Action Film)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2020
   },
   {
     "id": "love-me-not-live",
@@ -12851,7 +13575,10 @@
         "target_type": "movie",
         "title": "Love Me Not (Anime Film)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2020
   },
   {
     "id": "escort-warrior-anime",
@@ -12892,7 +13619,9 @@
         "target_type": "comic",
         "title": "Escort Warrior"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "tax-reaper-novel",
@@ -12924,6 +13653,11 @@
         "label": "MangaUpdates",
         "url": "https://www.mangaupdates.com/series/atbcxbf/the-tax-reaper",
         "kind": "tracker"
+      },
+      {
+        "label": "AniList",
+        "url": "https://anilist.co/manga/144443",
+        "kind": "tracker"
       }
     ],
     "relations": [
@@ -12945,7 +13679,10 @@
         "target_type": "tv_series",
         "title": "Tax Reaper (Live-Action K-Drama)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2021
   },
   {
     "id": "tax-reaper-anime",
@@ -12977,6 +13714,11 @@
         "label": "MangaUpdates",
         "url": "https://www.mangaupdates.com/series/atbcxbf/the-tax-reaper",
         "kind": "tracker"
+      },
+      {
+        "label": "AniList",
+        "url": "https://anilist.co/manga/144443",
+        "kind": "tracker"
       }
     ],
     "relations": [
@@ -12998,7 +13740,10 @@
         "target_type": "tv_series",
         "title": "Tax Reaper (Live-Action K-Drama)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2021
   },
   {
     "id": "tax-reaper-live",
@@ -13046,7 +13791,10 @@
         "target_type": "anime",
         "title": "Tax Reaper (Official Teaser / Fan Motion)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2026
   },
   {
     "id": "gunmen-anime",
@@ -13062,8 +13810,8 @@
     "anime": "**Fan Motion Comics** — Fan-made motion comic recaps.<br>• **Watch:** [YouTube Gunman Motion](https://www.youtube.com/results?search_query=Gunman+motion+comic)",
     "live_action": "**None**",
     "description": "Fan Motion Comics — Fan-made motion comic recaps. · Watch: YouTube Gunman Motion",
-    "poster_url": "https://m.media-amazon.com/images/M/MV5BZWI5NjgwYzUtYjViMi00NDRiLWFhMjQtOTNhYjJjMmRiNmUyXkEyXkFqcGc@._V1_.jpg",
-    "poster_cached_file": "gunmen-anime.jpg",
+    "poster_url": "",
+    "poster_cached_file": "",
     "watchlist_status": "",
     "franchise_id": "gunmen",
     "franchise_title": "Gunmen",
@@ -13073,11 +13821,6 @@
         "label": "YouTube Gunman Motion",
         "url": "https://www.youtube.com/results?search_query=Gunman+motion+comic",
         "kind": "unofficial"
-      },
-      {
-        "label": "IMDb",
-        "url": "https://www.imdb.com/title/tt0109959/",
-        "kind": "tracker"
       }
     ],
     "relations": [
@@ -13093,7 +13836,9 @@
         "target_type": "tv_series",
         "title": "Gunmen (Live-Action K-Drama)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "gunmen-live",
@@ -13145,7 +13890,10 @@
         "target_type": "anime",
         "title": "Gunmen (Fan Motion)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2014
   },
   {
     "id": "i-get-stronger-the-more-i-eat-novel",
@@ -13177,6 +13925,11 @@
         "label": "MangaUpdates",
         "url": "https://www.mangaupdates.com/series/bcmqs3c/i-get-stronger-the-more-i-eat",
         "kind": "tracker"
+      },
+      {
+        "label": "AniList",
+        "url": "https://anilist.co/manga/135317",
+        "kind": "tracker"
       }
     ],
     "relations": [
@@ -13192,7 +13945,10 @@
         "target_type": "anime",
         "title": "I Get Stronger the More I Eat (Official Teaser / Fan Motion)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2021
   },
   {
     "id": "i-get-stronger-the-more-i-eat-anime",
@@ -13208,8 +13964,8 @@
     "anime": "**Official Teaser & Fan Anim** — Official WEBTOON animated promo trailer & community motion recaps.<br>• **Watch:** [YouTube Official Promo](https://www.youtube.com/results?search_query=I+Get+Stronger+the+More+I+Eat+webtoon+trailer)",
     "live_action": "**None**",
     "description": "Official Teaser & Fan Anim — Official WEBTOON animated promo trailer & community motion recaps. · Watch: YouTube Official Promo",
-    "poster_url": "https://m.media-amazon.com/images/M/MV5BMzQ0YjY1MTUtYzlhMy00ZGMzLThlZmItZGRmMmVlMmIxZGM3XkEyXkFqcGc@._V1_.jpg",
-    "poster_cached_file": "",
+    "poster_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx135317-92H8cxa8oHJf.jpg",
+    "poster_cached_file": "i-get-stronger-the-more-i-eat-anime.jpg",
     "watchlist_status": "",
     "franchise_id": "i-get-stronger-the-more-i-eat",
     "franchise_title": "I Get Stronger the More I Eat",
@@ -13221,8 +13977,8 @@
         "kind": "official"
       },
       {
-        "label": "IMDb",
-        "url": "https://www.imdb.com/title/tt46662624/",
+        "label": "AniList",
+        "url": "https://anilist.co/manga/135317",
         "kind": "tracker"
       }
     ],
@@ -13239,7 +13995,10 @@
         "target_type": "light_novel",
         "title": "I Get Stronger the More I Eat (Web Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2021
   },
   {
     "id": "a-practical-guide-to-evil-novel",
@@ -13281,7 +14040,9 @@
         "target_type": "anime",
         "title": "A Practical Guide to Evil (Official Teaser / Fan Motion)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "a-practical-guide-to-evil-anime",
@@ -13328,7 +14089,9 @@
         "target_type": "light_novel",
         "title": "A Practical Guide to Evil (Web Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "the-fable-anime",
@@ -13380,7 +14143,10 @@
         "target_type": "movie",
         "title": "The Fable (Live-Action Film)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2027
   },
   {
     "id": "the-fable-live",
@@ -13432,7 +14198,10 @@
         "target_type": "anime",
         "title": "The Fable (Anime Series)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2021
   },
   {
     "id": "tycoon-in-another-world-donghua",
@@ -13448,7 +14217,7 @@
     "anime": "**Fan Motion Manhua** — No official anime.<br>• **Watch:** [YouTube Motion Manhua](https://www.youtube.com/results?search_query=I%27m+a+Tycoon+in+the+Other+World+motion+comic)",
     "live_action": "**None**",
     "description": "Fan Motion Manhua — No official anime. · Watch: YouTube Motion Manhua",
-    "poster_url": "https://m.media-amazon.com/images/M/MV5BNWY3MTUwYzYtOWNkMC00ZGIzLTgyOGYtYzg1ZDM0Y2EyZWU2XkEyXkFqcGc@._V1_.jpg",
+    "poster_url": "https://cdn.mangaupdates.com/image/i382943.jpg",
     "poster_cached_file": "tycoon-in-another-world-donghua.jpg",
     "watchlist_status": "",
     "franchise_id": "tycoon-in-another-world",
@@ -13461,8 +14230,8 @@
         "kind": "unofficial"
       },
       {
-        "label": "IMDb",
-        "url": "https://www.imdb.com/title/tt19223420/",
+        "label": "MangaUpdates",
+        "url": "https://www.mangaupdates.com/series/l0b33dh/in-another-world",
         "kind": "tracker"
       }
     ],
@@ -13473,7 +14242,10 @@
         "target_type": "comic",
         "title": "Tycoon in Another World"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2021
   },
   {
     "id": "reborn-as-a-heavenly-demon-novel",
@@ -13505,6 +14277,11 @@
         "label": "MangaUpdates",
         "url": "https://www.mangaupdates.com/series/9bwv7cp/heavenly-demon-reborn",
         "kind": "tracker"
+      },
+      {
+        "label": "AniList",
+        "url": "https://anilist.co/manga/107518",
+        "kind": "tracker"
       }
     ],
     "relations": [
@@ -13520,7 +14297,10 @@
         "target_type": "anime",
         "title": "Reborn as a Heavenly Demon (Official Teaser / Fan Motion)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2018
   },
   {
     "id": "reborn-as-a-heavenly-demon-anime",
@@ -13536,8 +14316,8 @@
     "anime": "**Official Teaser & Fan Anim** — KakaoPage animated promotional teasers and community motion recaps.<br>• **Watch:** [YouTube KakaoPage Trailer & Fan Motion](https://www.youtube.com/results?search_query=Heavenly+Demon+Reborn+trailer+motion+comic)",
     "live_action": "**None**",
     "description": "Official Teaser & Fan Anim — KakaoPage animated promotional teasers and community motion recaps. · Watch: YouTube KakaoPage Trailer & Fan Motion",
-    "poster_url": "https://m.media-amazon.com/images/M/MV5BNjYyNzJiMWQtZDE2YS00MDA4LTk1YWUtMDYxNTI5NjA1MjZiXkEyXkFqcGc@._V1_.jpg",
-    "poster_cached_file": "reborn-as-a-heavenly-demon-anime.jpg",
+    "poster_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx107518-mIYnC1TQIe4P.png",
+    "poster_cached_file": "reborn-as-a-heavenly-demon-anime.png",
     "watchlist_status": "",
     "franchise_id": "reborn-as-a-heavenly-demon",
     "franchise_title": "Reborn as a Heavenly Demon",
@@ -13549,8 +14329,8 @@
         "kind": "official"
       },
       {
-        "label": "IMDb",
-        "url": "https://www.imdb.com/title/tt43660022/",
+        "label": "AniList",
+        "url": "https://anilist.co/manga/107518",
         "kind": "tracker"
       }
     ],
@@ -13567,7 +14347,10 @@
         "target_type": "light_novel",
         "title": "Reborn as a Heavenly Demon (Web Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2018
   },
   {
     "id": "song-of-the-long-march-donghua",
@@ -13619,7 +14402,9 @@
         "target_type": "tv_series",
         "title": "Song of the Long March (Live-Action C-Drama)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "song-of-the-long-march-live",
@@ -13666,7 +14451,10 @@
         "target_type": "donghua",
         "title": "Song of the Long March (2D Donghua)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2021
   },
   {
     "id": "reborn-rich-novel",
@@ -13698,6 +14486,11 @@
         "label": "MangaUpdates",
         "url": "https://www.mangaupdates.com/series/4v8x87y/reborn-rich",
         "kind": "tracker"
+      },
+      {
+        "label": "AniList",
+        "url": "https://anilist.co/manga/158766",
+        "kind": "tracker"
       }
     ],
     "relations": [
@@ -13719,7 +14512,10 @@
         "target_type": "tv_series",
         "title": "Reborn Rich (Live-Action K-Drama)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2022
   },
   {
     "id": "reborn-rich-anime",
@@ -13735,8 +14531,8 @@
     "anime": "**Fan Motion Animation & Recaps** — Webtoon promo clips & YouTube motion recaps.<br>• **Watch:** [YouTube Webtoon Promo & Recaps](https://www.youtube.com/results?search_query=Reborn+Rich+webtoon+trailer)",
     "live_action": "**None**",
     "description": "Fan Motion Animation & Recaps — Webtoon promo clips & YouTube motion recaps. · Watch: YouTube Webtoon Promo & Recaps",
-    "poster_url": "https://m.media-amazon.com/images/M/MV5BYzlhNGU0NGQtNmYzMi00MzdjLTlkMzgtNTAzM2NhYTlhMzdhXkEyXkFqcGc@._V1_.jpg",
-    "poster_cached_file": "",
+    "poster_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx158766-QqP974PrKarG.jpg",
+    "poster_cached_file": "reborn-rich-anime.jpg",
     "watchlist_status": "",
     "franchise_id": "reborn-rich",
     "franchise_title": "Reborn Rich",
@@ -13748,8 +14544,8 @@
         "kind": "unofficial"
       },
       {
-        "label": "IMDb",
-        "url": "https://www.imdb.com/title/tt18352538/",
+        "label": "AniList",
+        "url": "https://anilist.co/manga/158766",
         "kind": "tracker"
       }
     ],
@@ -13772,7 +14568,10 @@
         "target_type": "tv_series",
         "title": "Reborn Rich (Live-Action K-Drama)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2022
   },
   {
     "id": "reborn-rich-live",
@@ -13820,7 +14619,10 @@
         "target_type": "anime",
         "title": "Reborn Rich (Fan Motion)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2022
   },
   {
     "id": "the-apothecary-diaries-novel",
@@ -13867,7 +14669,9 @@
         "target_type": "anime",
         "title": "The Apothecary Diaries (Anime Series)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "the-apothecary-diaries-anime",
@@ -13919,7 +14723,10 @@
         "target_type": "light_novel",
         "title": "The Apothecary Diaries (Light Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2025
   },
   {
     "id": "saga-of-tanya-the-evil-novel",
@@ -13972,7 +14779,9 @@
         "target_type": "movie",
         "title": "Saga of Tanya the Evil (Anime Film)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "saga-of-tanya-the-evil-anime",
@@ -14025,7 +14834,10 @@
         "target_type": "movie",
         "title": "Saga of Tanya the Evil (Anime Film)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2019
   },
   {
     "id": "saga-of-tanya-the-evil-anime-film",
@@ -14078,7 +14890,10 @@
         "target_type": "anime",
         "title": "Saga of Tanya the Evil (Anime Series)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2019
   },
   {
     "id": "ascendance-of-a-bookworm-novel",
@@ -14125,7 +14940,9 @@
         "target_type": "anime",
         "title": "Ascendance of a Bookworm (Anime Series)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "ascendance-of-a-bookworm-anime",
@@ -14172,7 +14989,10 @@
         "target_type": "light_novel",
         "title": "Ascendance of a Bookworm (Light Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2022
   },
   {
     "id": "kingdom-anime",
@@ -14224,7 +15044,9 @@
         "target_type": "movie",
         "title": "Kingdom (Live-Action Film)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "kingdom-live",
@@ -14271,7 +15093,10 @@
         "target_type": "anime",
         "title": "Kingdom (Anime Series)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2024
   },
   {
     "id": "karate-survivor-in-another-world-novel",
@@ -14303,6 +15128,11 @@
         "label": "MangaUpdates",
         "url": "https://www.mangaupdates.com/series/1fd7fco/yajin-tensei-karate-survivor-in-another-world",
         "kind": "tracker"
+      },
+      {
+        "label": "AniList",
+        "url": "https://anilist.co/manga/125726",
+        "kind": "tracker"
       }
     ],
     "relations": [
@@ -14318,7 +15148,10 @@
         "target_type": "anime",
         "title": "Karate Survivor in Another World (Official Teaser / Fan Motion)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2019
   },
   {
     "id": "karate-survivor-in-another-world-anime",
@@ -14334,7 +15167,7 @@
     "anime": "**Fan Motion Manga** — No official anime.<br>• **Watch:** [YouTube Motion Manga Recaps](https://www.youtube.com/results?search_query=Karate+Survivor+in+Another+World+motion+manga)",
     "live_action": "**None**",
     "description": "Fan Motion Manga — No official anime. · Watch: YouTube Motion Manga Recaps",
-    "poster_url": "https://m.media-amazon.com/images/M/MV5BNWY3MTUwYzYtOWNkMC00ZGIzLTgyOGYtYzg1ZDM0Y2EyZWU2XkEyXkFqcGc@._V1_.jpg",
+    "poster_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx125726-uOQVZms8dnyg.jpg",
     "poster_cached_file": "karate-survivor-in-another-world-anime.jpg",
     "watchlist_status": "",
     "franchise_id": "karate-survivor-in-another-world",
@@ -14347,8 +15180,8 @@
         "kind": "unofficial"
       },
       {
-        "label": "IMDb",
-        "url": "https://www.imdb.com/title/tt19223420/",
+        "label": "AniList",
+        "url": "https://anilist.co/manga/125726",
         "kind": "tracker"
       }
     ],
@@ -14365,7 +15198,10 @@
         "target_type": "light_novel",
         "title": "Karate Survivor in Another World (Light Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2019
   },
   {
     "id": "tower-of-god-anime",
@@ -14406,7 +15242,10 @@
         "target_type": "comic",
         "title": "Tower of God"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2024
   },
   {
     "id": "sengoku-komachi-kurotan-novel",
@@ -14453,7 +15292,9 @@
         "target_type": "anime",
         "title": "Sengoku Komachi Kurotan (Official Teaser / Fan Motion)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "sengoku-komachi-kurotan-anime",
@@ -14500,7 +15341,9 @@
         "target_type": "light_novel",
         "title": "Sengoku Komachi Kurotan (Light Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "reaper-of-the-drifting-moon-novel",
@@ -14542,7 +15385,9 @@
         "target_type": "anime",
         "title": "Reaper of the Drifting Moon (Official Teaser / Fan Motion)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "reaper-of-the-drifting-moon-anime",
@@ -14558,8 +15403,8 @@
     "anime": "**Official Teasers & Fan Anim** — KakaoPage animated promotional trailers & community motion comics.<br>• **Watch:** [YouTube Kakao Promo & Motion](https://www.youtube.com/results?search_query=Reaper+of+the+Drifting+Moon+trailer+motion+comic)",
     "live_action": "**None**",
     "description": "Official Teasers & Fan Anim — KakaoPage animated promotional trailers & community motion comics. · Watch: YouTube Kakao Promo & Motion",
-    "poster_url": "https://m.media-amazon.com/images/M/MV5BMWFkOTkwZjYtOTA2NS00NDYzLWIyMTMtN2RlYWU1YjM2NWY4XkEyXkFqcGc@._V1_.jpg",
-    "poster_cached_file": "reaper-of-the-drifting-moon-anime.jpg",
+    "poster_url": "",
+    "poster_cached_file": "",
     "watchlist_status": "",
     "franchise_id": "reaper-of-the-drifting-moon",
     "franchise_title": "Reaper of the Drifting Moon",
@@ -14569,11 +15414,6 @@
         "label": "YouTube Kakao Promo & Motion",
         "url": "https://www.youtube.com/results?search_query=Reaper+of+the+Drifting+Moon+trailer+motion+comic",
         "kind": "unofficial"
-      },
-      {
-        "label": "IMDb",
-        "url": "https://www.imdb.com/title/tt34379050/",
-        "kind": "tracker"
       }
     ],
     "relations": [
@@ -14589,7 +15429,9 @@
         "target_type": "light_novel",
         "title": "Reaper of the Drifting Moon (Web Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "one-piece-anime",
@@ -14641,7 +15483,10 @@
         "target_type": "tv_series",
         "title": "One Piece (Live-Action Series)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 1999
   },
   {
     "id": "one-piece-live",
@@ -14683,7 +15528,10 @@
         "target_type": "anime",
         "title": "One Piece (Anime Series)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2023
   },
   {
     "id": "issak-anime",
@@ -14724,7 +15572,9 @@
         "target_type": "comic",
         "title": "Issak"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "berserk-anime",
@@ -14776,7 +15626,10 @@
         "target_type": "movie",
         "title": "Berserk (Anime Film)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2017
   },
   {
     "id": "berserk-anime-film",
@@ -14828,7 +15681,10 @@
         "target_type": "anime",
         "title": "Berserk (Anime Series)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2017
   },
   {
     "id": "innocent-anime",
@@ -14838,14 +15694,14 @@
     "tier": "motion",
     "sub_format": "Official Teaser / Fan Motion",
     "source_is_text": false,
-    "nsfw": false,
+    "nsfw": true,
     "link": "https://www.youtube.com/results?search_query=Innocent+Shinichi+Sakamoto+motion+manga",
     "origin": "Japanese Historical Manga",
     "anime": "**Fan Motion Manga & Edits** — No official anime.<br>• **Watch:** [YouTube Motion Manga](https://www.youtube.com/results?search_query=Innocent+Shinichi+Sakamoto+motion+manga)",
     "live_action": "**None**",
     "description": "Fan Motion Manga & Edits — No official anime. · Watch: YouTube Motion Manga",
-    "poster_url": "",
-    "poster_cached_file": "",
+    "poster_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/22741.jpg",
+    "poster_cached_file": "innocent-anime.jpg",
     "watchlist_status": "",
     "franchise_id": "innocent",
     "franchise_title": "Innocent",
@@ -14855,6 +15711,11 @@
         "label": "YouTube Motion Manga",
         "url": "https://www.youtube.com/results?search_query=Innocent+Shinichi+Sakamoto+motion+manga",
         "kind": "unofficial"
+      },
+      {
+        "label": "AniList",
+        "url": "https://anilist.co/manga/52741",
+        "kind": "tracker"
       }
     ],
     "relations": [
@@ -14870,7 +15731,10 @@
         "target_type": "tv_series",
         "title": "Innocent (Stage Play)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2000
   },
   {
     "id": "innocent-live",
@@ -14880,19 +15744,25 @@
     "tier": "motion",
     "sub_format": "Stage Play",
     "source_is_text": false,
-    "nsfw": false,
+    "nsfw": true,
     "link": "https://www.imdb.com/find/?q=Innocent",
     "origin": "Japanese Historical Manga",
     "anime": "**None**",
     "live_action": "**Stage Musical** — Official theatrical musical adaptation (*Innocent Musical* 2019 in Tokyo/Paris).",
     "description": "Stage Musical — Official theatrical musical adaptation (Innocent Musical 2019 in Tokyo/Paris).",
-    "poster_url": "",
-    "poster_cached_file": "",
+    "poster_url": "https://static.tvmaze.com/uploads/images/medium_portrait/274/686266.jpg",
+    "poster_cached_file": "innocent-live.jpg",
     "watchlist_status": "",
     "franchise_id": "innocent",
     "franchise_title": "Innocent",
     "parent_id": "innocent",
-    "links": [],
+    "links": [
+      {
+        "label": "IMDb",
+        "url": "https://www.imdb.com/find/?q=Innocent",
+        "kind": "tracker"
+      }
+    ],
     "relations": [
       {
         "relation": "adapted_from",
@@ -14906,7 +15776,10 @@
         "target_type": "anime",
         "title": "Innocent (Official Teaser / Fan Motion)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2019
   },
   {
     "id": "jujutsu-kaisen-anime",
@@ -14963,7 +15836,10 @@
         "target_type": "tv_series",
         "title": "Jujutsu Kaisen (Stage Play)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2023
   },
   {
     "id": "jujutsu-kaisen-live",
@@ -14985,7 +15861,13 @@
     "franchise_id": "jujutsu-kaisen",
     "franchise_title": "Jujutsu Kaisen",
     "parent_id": "jujutsu-kaisen",
-    "links": [],
+    "links": [
+      {
+        "label": "IMDb",
+        "url": "https://www.imdb.com/find/?q=Jujutsu%20Kaisen",
+        "kind": "tracker"
+      }
+    ],
     "relations": [
       {
         "relation": "adapted_from",
@@ -14999,7 +15881,10 @@
         "target_type": "anime",
         "title": "Jujutsu Kaisen (Anime Series)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2023
   },
   {
     "id": "even-the-knight-captain-wants-to-be-a-maiden-anime",
@@ -15040,7 +15925,9 @@
         "target_type": "comic",
         "title": "Even the Knight Captain Wants to Be a Maiden"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "gate-thus-the-jsdf-fought-there-novel",
@@ -15087,7 +15974,9 @@
         "target_type": "anime",
         "title": "Gate: Thus the JSDF Fought There! (Anime Series)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "gate-thus-the-jsdf-fought-there-anime",
@@ -15144,7 +16033,10 @@
         "target_type": "light_novel",
         "title": "Gate: Thus the JSDF Fought There! (Light Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2016
   },
   {
     "id": "chainsaw-man-anime",
@@ -15202,7 +16094,10 @@
         "target_type": "tv_series",
         "title": "Chainsaw Man (Stage Play)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2022
   },
   {
     "id": "chainsaw-man-anime-film",
@@ -15260,7 +16155,10 @@
         "target_type": "tv_series",
         "title": "Chainsaw Man (Stage Play)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2022
   },
   {
     "id": "chainsaw-man-live",
@@ -15282,7 +16180,13 @@
     "franchise_id": "chainsaw-man",
     "franchise_title": "Chainsaw Man",
     "parent_id": "chainsaw-man",
-    "links": [],
+    "links": [
+      {
+        "label": "IMDb",
+        "url": "https://www.imdb.com/find/?q=Chainsaw%20Man",
+        "kind": "tracker"
+      }
+    ],
     "relations": [
       {
         "relation": "adapted_from",
@@ -15302,7 +16206,10 @@
         "target_type": "movie",
         "title": "Chainsaw Man (Anime Film)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2023
   },
   {
     "id": "yona-of-the-dawn-anime",
@@ -15354,7 +16261,10 @@
         "target_type": "tv_series",
         "title": "Yona of the Dawn (Stage Play)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2015
   },
   {
     "id": "yona-of-the-dawn-live",
@@ -15376,7 +16286,13 @@
     "franchise_id": "yona-of-the-dawn",
     "franchise_title": "Yona of the Dawn",
     "parent_id": "yona-of-the-dawn",
-    "links": [],
+    "links": [
+      {
+        "label": "IMDb",
+        "url": "https://www.imdb.com/find/?q=Yona%20of%20the%20Dawn",
+        "kind": "tracker"
+      }
+    ],
     "relations": [
       {
         "relation": "adapted_from",
@@ -15390,7 +16306,10 @@
         "target_type": "anime",
         "title": "Yona of the Dawn (Anime Series)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2019
   },
   {
     "id": "the-rivals-of-the-annals-of-white-novel",
@@ -15432,7 +16351,9 @@
         "target_type": "anime",
         "title": "The Rivals of the Annals of White (Fan Motion)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "the-rivals-of-the-annals-of-white-anime",
@@ -15479,7 +16400,9 @@
         "target_type": "light_novel",
         "title": "The Rivals of the Annals of White (Web Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "becoming-the-monarch-novel",
@@ -15511,6 +16434,11 @@
         "label": "MangaUpdates",
         "url": "https://www.mangaupdates.com/series/99h7oxs/becoming-the-monarch",
         "kind": "tracker"
+      },
+      {
+        "label": "AniList",
+        "url": "https://anilist.co/manga/137168",
+        "kind": "tracker"
       }
     ],
     "relations": [
@@ -15526,7 +16454,10 @@
         "target_type": "anime",
         "title": "Becoming the Monarch (Fan Motion)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2020
   },
   {
     "id": "becoming-the-monarch-anime",
@@ -15542,7 +16473,7 @@
     "anime": "**Fan Motion Comics** — Community episodic motion recaps.<br>• **Watch:** [YouTube Motion Recaps](https://www.youtube.com/results?search_query=Becoming+the+Monarch+manhwa+motion)",
     "live_action": "**None**",
     "description": "Fan Motion Comics — Community episodic motion recaps. · Watch: YouTube Motion Recaps",
-    "poster_url": "https://m.media-amazon.com/images/M/MV5BODAwM2YwMGYtYTlkYi00MDYxLThmODUtNmU5N2NjZGQ2OGQ5XkEyXkFqcGc@._V1_.jpg",
+    "poster_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx137168-rrbeYeWrI08D.jpg",
     "poster_cached_file": "becoming-the-monarch-anime.jpg",
     "watchlist_status": "",
     "franchise_id": "becoming-the-monarch",
@@ -15555,8 +16486,8 @@
         "kind": "unofficial"
       },
       {
-        "label": "IMDb",
-        "url": "https://www.imdb.com/title/tt39345627/",
+        "label": "AniList",
+        "url": "https://anilist.co/manga/137168",
         "kind": "tracker"
       }
     ],
@@ -15573,7 +16504,10 @@
         "target_type": "light_novel",
         "title": "Becoming the Monarch (Web Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2020
   },
   {
     "id": "star-martial-god-technique-novel",
@@ -15620,7 +16554,9 @@
         "target_type": "donghua",
         "title": "Star Martial God Technique (3D Donghua)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26"
   },
   {
     "id": "star-martial-god-technique-donghua",
@@ -15672,7 +16608,10 @@
         "target_type": "light_novel",
         "title": "Star Martial God Technique (Web Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2021
   },
   {
     "id": "barbarian-quest-anime",
@@ -15688,7 +16627,7 @@
     "anime": "**Fan Motion Animation & MMVs** — Highly praised community 2D motion animatics & recaps.<br>• **Watch:** [YouTube Barbarian Quest Fan Motion](https://www.youtube.com/results?search_query=Barbarian+Quest+fan+animation+motion+comic)",
     "live_action": "**None**",
     "description": "Fan Motion Animation & MMVs — Highly praised community 2D motion animatics & recaps. · Watch: YouTube Barbarian Quest Fan Motion",
-    "poster_url": "https://m.media-amazon.com/images/M/MV5BNzk0NTZlY2MtNDU1Mi00NzU0LWI0NjYtZjdhNzExMDY5NzU1XkEyXkFqcGc@._V1_.jpg",
+    "poster_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx148091-lGjvoZUXAtq5.jpg",
     "poster_cached_file": "barbarian-quest-anime.jpg",
     "watchlist_status": "",
     "franchise_id": "barbarian-quest",
@@ -15701,8 +16640,8 @@
         "kind": "unofficial"
       },
       {
-        "label": "IMDb",
-        "url": "https://www.imdb.com/title/tt0088771/",
+        "label": "AniList",
+        "url": "https://anilist.co/manga/148091",
         "kind": "tracker"
       }
     ],
@@ -15713,7 +16652,10 @@
         "target_type": "comic",
         "title": "Barbarian Quest"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2022
   },
   {
     "id": "foresighting-politician-novel",
@@ -15760,7 +16702,10 @@
         "target_type": "anime",
         "title": "Foresighting Politician (Fan Motion)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2026
   },
   {
     "id": "foresighting-politician-anime",
@@ -15776,7 +16721,7 @@
     "anime": "**Fan Motion Recaps** — Webtoon motion recaps.<br>• **Watch:** [YouTube Motion Recaps](https://www.youtube.com/results?search_query=The+Politician+Who+Can+See+the+Future+manhwa)",
     "live_action": "**None**",
     "description": "Fan Motion Recaps — Webtoon motion recaps. · Watch: YouTube Motion Recaps",
-    "poster_url": "https://m.media-amazon.com/images/M/MV5BNWM4YWZkOWEtNTNlZi00ZGNlLTk1NTMtNjJmOTQyMzFhYjdlXkEyXkFqcGc@._V1_.jpg",
+    "poster_url": "https://cdn.mangaupdates.com/image/i513145.jpg",
     "poster_cached_file": "foresighting-politician-anime.jpg",
     "watchlist_status": "",
     "franchise_id": "foresighting-politician",
@@ -15789,8 +16734,8 @@
         "kind": "unofficial"
       },
       {
-        "label": "IMDb",
-        "url": "https://www.imdb.com/title/tt15203124/",
+        "label": "MangaUpdates",
+        "url": "https://www.mangaupdates.com/series/eyjjjrc/foresighting-politician",
         "kind": "tracker"
       }
     ],
@@ -15807,7 +16752,10 @@
         "target_type": "light_novel",
         "title": "Foresighting Politician (Web Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2026
   },
   {
     "id": "return-of-the-blossoming-blade-novel",
@@ -15839,6 +16787,11 @@
         "label": "MangaUpdates",
         "url": "https://www.mangaupdates.com/series/cmx86o6/return-of-the-blossoming-blade",
         "kind": "tracker"
+      },
+      {
+        "label": "AniList",
+        "url": "https://anilist.co/manga/132144",
+        "kind": "tracker"
       }
     ],
     "relations": [
@@ -15854,7 +16807,10 @@
         "target_type": "anime",
         "title": "Return of the Blossoming Blade (Official Teaser / Fan Motion)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2021
   },
   {
     "id": "return-of-the-blossoming-blade-anime",
@@ -15870,8 +16826,8 @@
     "anime": "**Official Animated PVs & Fan Anim** — Studio LICO official animated PVs with 10M+ views, plus massive community animatics.<br>• **Watch:** [YouTube Official Animated PV](https://www.youtube.com/results?search_query=Return+of+the+Mount+Hua+Sect+official+animation+LICO) / [YouTube Fan Anim](https://www.youtube.com/results?search_query=Return+of+the+Blossoming+Blade+fan+animation)",
     "live_action": "**None**",
     "description": "Official Animated PVs & Fan Anim — Studio LICO official animated PVs with 10M+ views, plus massive community animatics. · Watch: YouTube Official Animated PV / YouTube Fan Anim",
-    "poster_url": "https://m.media-amazon.com/images/M/MV5BODM1NTgxOTMtM2VmZi00M2FkLWJiYWUtMjc5Yjk1MzY5ZTYxXkEyXkFqcGc@._V1_.jpg",
-    "poster_cached_file": "return-of-the-blossoming-blade-anime.jpg",
+    "poster_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx132144-i5B4VnG9sRgh.png",
+    "poster_cached_file": "return-of-the-blossoming-blade-anime.png",
     "watchlist_status": "",
     "franchise_id": "return-of-the-blossoming-blade",
     "franchise_title": "Return of the Blossoming Blade",
@@ -15888,8 +16844,8 @@
         "kind": "unofficial"
       },
       {
-        "label": "IMDb",
-        "url": "https://www.imdb.com/title/tt0090509/",
+        "label": "AniList",
+        "url": "https://anilist.co/manga/132144",
         "kind": "tracker"
       }
     ],
@@ -15906,7 +16862,10 @@
         "target_type": "light_novel",
         "title": "Return of the Blossoming Blade (Web Novel)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2021
   },
   {
     "id": "sakamoto-days-anime",
@@ -15952,7 +16911,10 @@
         "target_type": "comic",
         "title": "Sakamoto Days"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2025
   },
   {
     "id": "dr-stone-anime",
@@ -16009,7 +16971,10 @@
         "target_type": "tv_series",
         "title": "Dr. Stone (Stage Play)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2025
   },
   {
     "id": "dr-stone-live",
@@ -16031,7 +16996,13 @@
     "franchise_id": "dr-stone",
     "franchise_title": "Dr. Stone",
     "parent_id": "dr-stone",
-    "links": [],
+    "links": [
+      {
+        "label": "IMDb",
+        "url": "https://www.imdb.com/find/?q=Dr.%20Stone",
+        "kind": "tracker"
+      }
+    ],
     "relations": [
       {
         "relation": "adapted_from",
@@ -16045,6 +17016,9 @@
         "target_type": "anime",
         "title": "Dr. Stone (Anime Series)"
       }
-    ]
+    ],
+    "added_at": "2026-11-20",
+    "updated_at": "2026-11-26",
+    "release_year": 2022
   }
 ]

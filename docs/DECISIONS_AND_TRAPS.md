@@ -303,4 +303,11 @@ flowchart LR
 * **Where It Lurks:** `src/media/poster_cache.py :: query_imdb_suggestion`, `query_mangaupdates`, `src/media/franchise_builder.py :: enrich_single_franchise`
 * **Protected Code Anchors:** `src/media/poster_cache.py :: _title_similarity`, `src/media/poster_cache.py :: query_mangaupdates`
 * **What Goes Wrong:** Scraping `www.imdb.com/title/` yields empty 1,997-byte WAF HTML, while a `0.45` token overlap on MangaUpdates attaches wrong posters and false `nsfw: true` flags onto historical/fantasy titles.
-* **The Permanent Fix:** Query `v3.sg.media-imdb.com/suggestion/` JSON + TVmaze/Wikipedia REST APIs instead of `www.imdb.com/title/`, enforce `>= 0.72` title similarity in `poster_cache.py`, prefer AniList matches ahead of MangaUpdates for comics, and gate MangaUpdates `Adult` flagging on `sim >= 0.9` or explicit `Hentai`/`Smut` tags.
+* **The Permanent Fix:** Query `v3.sg.media-imdb.com/suggestion/` JSON + TVmaze/Wikipedia REST APIs instead of `www.imdb.com/title/`, enforce `>= 0.72` title similarity in `poster_cache.py`, prefer AniList matches ahead of MangaUpdates for comics, gate MangaUpdates `Adult` flagging on `sim >= 0.9` or explicit `Hentai`/`Smut` tags, and route Chinese donghua & fan-motion entries to Bangumi (`query_bangumi`) and YouTube thumbnails (`extract_youtube_thumbnail`) instead of IMDb (preventing unrelated live-action photos on donghua/fan-motion cards).
+
+### [TRAP: Stale-Static-Iframe-Cache-On-Local-HTTPServer] | Aliases: iframe cached html, media old ui, cache-control no-store, portal iframe v param
+> **1-Line Summary:** `http.server.SimpleHTTPRequestHandler` sends `Last-Modified` without `Cache-Control: no-store`, causing open portal tabs (`web/index.html` `#media` iframe) to display stale HTML/JS even after restarting `server.py`.
+* **Where It Lurks:** `src/server.py :: DatabaseHandler.end_headers`, `web/index.html :: switchTab`
+* **Protected Code Anchors:** `src/server.py :: DatabaseHandler.end_headers`, `web/index.html :: switchTab`
+* **What Goes Wrong:** Users refreshing or switching tabs inside the portal keep loading an older cached `web/media/index.html` without posters or updated controls while `/api/status` reports updated backend counts.
+* **The Permanent Fix:** Emit `Cache-Control: no-store, no-cache, must-revalidate` for `.html`/`.js`/`.css` and `/api/*` responses in `DatabaseHandler.end_headers()` and append `?v=<server_build>` to domain iframe `src` URLs in `web/index.html`.

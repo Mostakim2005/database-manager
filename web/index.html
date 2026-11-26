@@ -324,6 +324,7 @@
     let aliasIndex = {};
     let activeTabKey = "home";
     let cachedAgentStatus = null;
+    let portalBuildTag = "";
 
     function resolveTargetTab(raw) {
       const key = String(raw || "").trim().toLowerCase().replace(/^#/, "");
@@ -364,7 +365,8 @@
         const active = frame.id === "frame-" + tab;
         frame.classList.toggle("active", active);
         if (active && !frame.getAttribute("src") && frame.dataset.src) {
-          frame.setAttribute("src", frame.dataset.src);
+          const sep = frame.dataset.src.includes("?") ? "&" : "?";
+          frame.setAttribute("src", portalBuildTag ? (frame.dataset.src + sep + "v=" + encodeURIComponent(portalBuildTag)) : frame.dataset.src);
         }
       });
 
@@ -757,11 +759,14 @@
         if (data.version) {
           document.getElementById("portal-version").textContent = "v" + data.version;
         }
+        if (data.server_build) {
+          portalBuildTag = String(data.server_build);
+        }
         const groups = (data.registry && data.registry.groups) || FALLBACK_MANIFEST.groups;
         const domains = Array.isArray(data.domains) && data.domains.length ? data.domains : FALLBACK_MANIFEST.domains;
         buildPortalChrome(groups, domains);
         const caps = data.capabilities || {};
-        if (!caps.github_async_refresh) {
+        if (!caps.github_async_refresh || !caps.media_async_refresh) {
           pill.dataset.state = "checking";
           label.textContent = "API Online (Outdated server.py — Restart start-server.bat)";
         } else {

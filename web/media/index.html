@@ -12,36 +12,44 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
 
-      --bg-light: #f6f8fa;
+      --bg-light: #eef2f6;
       --surface-light: #ffffff;
-      --surface-alt-light: #f0f3f6;
-      --border-light: #d0d7de;
-      --text-light: #1f2328;
-      --muted-light: #57606a;
+      --surface-alt-light: #e5ebf2;
+      --card-bg-light: #f8fafc;
+      --border-light: #cbd5e1;
+      --border-strong-light: #94a3b8;
+      --text-light: #0f172a;
+      --muted-light: #475569;
       --accent-light: #0969da;
       --green-light: #1a7f37;
       --amber-light: #9a6700;
       --red-light: #cf222e;
       --purple-light: #8250df;
       --img-outline-light: oklch(0 0 0 / 0.1);
+      --shadow-light: 0 4px 14px rgba(15, 23, 42, 0.08);
 
-      --bg-dark: #0d1117;
-      --surface-dark: #161b22;
-      --surface-alt-dark: #1c2128;
-      --border-dark: #30363d;
-      --text-dark: #e6edf3;
-      --muted-dark: #8b949e;
+      --bg-dark: #090d13;
+      --surface-dark: #151b23;
+      --surface-alt-dark: #1e2631;
+      --card-bg-dark: #0f141c;
+      --border-dark: #323b47;
+      --border-strong-dark: #4b5563;
+      --text-dark: #f0f6fc;
+      --muted-dark: #9ca3af;
       --accent-dark: #58a6ff;
       --green-dark: #3fb950;
-      --amber-dark: #d29922;
+      --amber-dark: #e3b341;
       --red-dark: #f85149;
       --purple-dark: #bc8cff;
       --img-outline-dark: oklch(1 0 0 / 0.1);
+      --shadow-dark: 0 6px 20px rgba(0, 0, 0, 0.45);
 
       --bg: var(--bg-dark);
       --surface: var(--surface-dark);
       --surface-alt: var(--surface-alt-dark);
+      --card-bg: var(--card-bg-dark);
       --border: var(--border-dark);
+      --border-strong: var(--border-strong-dark);
       --text: var(--text-dark);
       --muted: var(--muted-dark);
       --accent: var(--accent-dark);
@@ -50,6 +58,7 @@
       --red: var(--red-dark);
       --purple: var(--purple-dark);
       --img-outline: var(--img-outline-dark);
+      --card-shadow: var(--shadow-dark);
       --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     }
 
@@ -58,7 +67,9 @@
         --bg: var(--bg-light);
         --surface: var(--surface-light);
         --surface-alt: var(--surface-alt-light);
+        --card-bg: var(--card-bg-light);
         --border: var(--border-light);
+        --border-strong: var(--border-strong-light);
         --text: var(--text-light);
         --muted: var(--muted-light);
         --accent: var(--accent-light);
@@ -67,6 +78,7 @@
         --red: var(--red-light);
         --purple: var(--purple-light);
         --img-outline: var(--img-outline-light);
+        --card-shadow: var(--shadow-light);
       }
     }
 
@@ -75,7 +87,9 @@
         --bg: light-dark(var(--bg-light), var(--bg-dark));
         --surface: light-dark(var(--surface-light), var(--surface-dark));
         --surface-alt: light-dark(var(--surface-alt-light), var(--surface-alt-dark));
+        --card-bg: light-dark(var(--card-bg-light), var(--card-bg-dark));
         --border: light-dark(var(--border-light), var(--border-dark));
+        --border-strong: light-dark(var(--border-strong-light), var(--border-strong-dark));
         --text: light-dark(var(--text-light), var(--text-dark));
         --muted: light-dark(var(--muted-light), var(--muted-dark));
         --accent: light-dark(var(--accent-light), var(--accent-dark));
@@ -84,6 +98,7 @@
         --red: light-dark(var(--red-light), var(--red-dark));
         --purple: light-dark(var(--purple-light), var(--purple-dark));
         --img-outline: light-dark(var(--img-outline-light), var(--img-outline-dark));
+        --card-shadow: light-dark(var(--shadow-light), var(--shadow-dark));
       }
     }
 
@@ -100,7 +115,7 @@
       font-family: var(--font-sans);
       font-size: 0.9375rem;
       line-height: 1.5;
-      padding: 20px 24px 48px;
+      padding: 20px 24px 52px;
       accent-color: var(--accent);
     }
 
@@ -110,28 +125,18 @@
       align-items: flex-start;
       flex-wrap: wrap;
       gap: 12px;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 2px solid var(--border);
       padding-bottom: 16px;
       margin-bottom: 18px;
     }
-    h1 {
-      font-size: 1.375rem;
-      font-weight: 700;
-      line-height: 1.25;
-      letter-spacing: -0.01em;
-    }
-    .subtitle {
-      font-size: 0.8125rem;
-      color: var(--muted);
-      margin-top: 3px;
-      line-height: 1.4;
-    }
+    h1 { font-size: 1.375rem; font-weight: 700; line-height: 1.25; letter-spacing: -0.01em; }
+    .subtitle { font-size: 0.8125rem; color: var(--muted); margin-top: 3px; line-height: 1.4; }
 
     .actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
     .btn {
       background: var(--surface);
       color: var(--text);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
       border-radius: 6px;
       padding: 7px 12px;
       min-height: 32px;
@@ -148,12 +153,12 @@
       transition-timing-function: ease-out;
     }
     .btn-primary {
-      background: color-mix(in oklab, var(--accent) 16%, var(--surface));
+      background: color-mix(in oklab, var(--accent) 18%, var(--surface));
       border-color: var(--accent);
       color: var(--accent);
     }
     .btn[aria-pressed="true"] {
-      background: color-mix(in oklab, var(--accent) 20%, var(--surface));
+      background: color-mix(in oklab, var(--accent) 22%, var(--surface));
       border-color: var(--accent);
       color: var(--accent);
     }
@@ -193,10 +198,10 @@
     /* Controls & QoL Toolbar */
     .controls-shell {
       background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
       padding: 14px 16px;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
       display: flex;
       flex-direction: column;
       gap: 12px;
@@ -211,7 +216,7 @@
       display: flex;
       flex-direction: column;
       gap: 4px;
-      min-width: 155px;
+      min-width: 150px;
       flex: 1;
     }
     .control-group label {
@@ -222,9 +227,9 @@
       letter-spacing: 0.05em;
     }
     input[type="search"], select {
-      background: var(--bg);
+      background: var(--card-bg);
       color: var(--text);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
       border-radius: 6px;
       padding: 7px 10px;
       font-size: 0.875rem;
@@ -250,8 +255,8 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: var(--bg);
-      border: 1px solid var(--border);
+      background: var(--card-bg);
+      border: 1px solid var(--border-strong);
       border-radius: 8px;
       padding: 6px 12px;
       min-height: 34px;
@@ -261,7 +266,7 @@
     }
     .switch-card:has(input:checked) {
       border-color: var(--red);
-      background: color-mix(in oklab, var(--red) 10%, var(--bg));
+      background: color-mix(in oklab, var(--red) 12%, var(--card-bg));
     }
     input[type="checkbox"][switch] {
       width: 17px;
@@ -274,10 +279,10 @@
     /* Progress & Diagnostic Panels */
     .panel {
       background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
+      border: 2px solid var(--border-strong);
+      border-radius: 12px;
       padding: 14px 16px;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
       display: none;
     }
     .panel.open { display: block; }
@@ -292,22 +297,24 @@
     }
     .panel-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 10px;
     }
     .mini-box {
-      background: var(--bg);
+      background: var(--card-bg);
       border: 1px solid var(--border);
       border-radius: 8px;
       padding: 10px 12px;
       font-size: 0.75rem;
       color: var(--text);
+      max-height: 240px;
+      overflow-y: auto;
     }
 
     .progress-box {
       display: none;
       background: var(--surface);
-      border: 1px solid var(--accent);
+      border: 1.5px solid var(--accent);
       border-radius: 10px;
       padding: 12px 14px;
       margin-bottom: 14px;
@@ -339,8 +346,8 @@
     }
 
     .nsfw-notice {
-      background: color-mix(in oklab, var(--amber) 12%, var(--surface));
-      border: 1px solid var(--amber);
+      background: color-mix(in oklab, var(--amber) 14%, var(--surface));
+      border: 1.5px solid var(--amber);
       border-radius: 8px;
       padding: 8px 12px;
       font-size: 0.8125rem;
@@ -356,7 +363,7 @@
     .result-bar {
       font-size: 0.8125rem;
       color: var(--muted);
-      margin-bottom: 12px;
+      margin-bottom: 14px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -365,21 +372,20 @@
       font-variant-numeric: tabular-nums;
     }
 
-    /* Multi-Tier Franchise Matrix (Uniform Column Start Baseline!) */
+    /* Multi-Tier Franchise Matrix — Prominent Divisions & Uniform Tier Start */
     .matrix-shell {
       container-type: inline-size;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 24px;
     }
     .tier-column-legend {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
+      gap: 0;
       background: var(--surface-alt);
-      border: 1px solid var(--border);
+      border: 2px solid var(--border-strong);
       border-radius: 10px;
-      padding: 10px 14px;
       position: sticky;
       top: 48px;
       z-index: 4;
@@ -387,16 +393,23 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.04em;
-      color: var(--muted);
+      color: var(--text);
+      overflow: hidden;
     }
+    .tier-column-legend > div {
+      padding: 10px 14px;
+      border-right: 2px solid var(--border);
+    }
+    .tier-column-legend > div:last-child { border-right: none; }
     @container (width < 880px) {
       .tier-column-legend { display: none; }
     }
 
     .franchise-block {
       background: var(--surface);
-      border: 1px solid var(--border);
+      border: 2px solid var(--border-strong);
       border-radius: 14px;
+      box-shadow: var(--card-shadow);
       overflow: hidden;
     }
     .franchise-header {
@@ -404,10 +417,11 @@
       justify-content: space-between;
       align-items: flex-start;
       flex-wrap: wrap;
-      gap: 10px;
-      padding: 12px 16px;
+      gap: 12px;
+      padding: 14px 18px;
       background: var(--surface-alt);
-      border-bottom: 1px solid var(--border);
+      border-left: 5px solid var(--accent);
+      border-bottom: 2px solid var(--border-strong);
     }
     .franchise-block.is-collapsed .franchise-header { border-bottom: none; }
     .franchise-title-wrap { min-width: 0; flex: 1; }
@@ -418,37 +432,37 @@
       gap: 8px;
     }
     .franchise-title {
-      font-size: 1rem;
-      font-weight: 700;
+      font-size: 1.0625rem;
+      font-weight: 800;
       line-height: 1.3;
       color: var(--text);
     }
     .alt-text {
-      font-size: 0.75rem;
+      font-size: 0.78125rem;
       color: var(--muted);
-      margin-top: 2px;
+      margin-top: 3px;
       overflow-wrap: break-word;
     }
     .franchise-meta {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
-      margin-top: 7px;
+      margin-top: 8px;
       align-items: center;
     }
 
-    /* All 3 tiers sit in one horizontal grid directly below the full-width header -> uniform Y baseline */
+    /* Uniform 3-Column Tier Grid with Clear Dividers */
     .tiers-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 0;
     }
     .tier-col {
-      padding: 12px;
-      border-right: 1px solid var(--border);
+      padding: 14px;
+      border-right: 2px solid var(--border);
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
       min-width: 0;
     }
     .tier-col:last-child { border-right: none; }
@@ -459,36 +473,45 @@
       text-transform: uppercase;
       letter-spacing: 0.05em;
       color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 4px;
     }
     @container (width < 880px) {
       .tiers-grid { grid-template-columns: 1fr; }
       .tier-col {
         border-right: none;
-        border-bottom: 1px solid var(--border);
+        border-bottom: 2px solid var(--border);
       }
       .tier-col:last-child { border-bottom: none; }
       .tier-mobile-label { display: block; }
     }
 
-    /* Sub-Entry Card (Concentric Radius: inner 6px + padding 10px ~= 12px card) */
+    /* Sub-Entry Card with Clear Accent Stripe & Border */
     .sub-card {
-      background: var(--bg);
-      border: 1px solid var(--border);
+      background: var(--card-bg);
+      border: 1.5px solid var(--border);
+      border-left-width: 4px;
       border-radius: 12px;
-      padding: 10px;
+      padding: 11px;
       display: flex;
       flex-direction: column;
       gap: 8px;
       min-width: 0;
     }
+    .sub-card.tier-source { border-left-color: var(--purple); }
+    .sub-card.tier-visual { border-left-color: var(--green); }
+    .sub-card.tier-motion { border-left-color: var(--accent); }
+    .sub-card.tier-live { border-left-color: var(--amber); }
     .sub-card.empty-card {
       border-style: dashed;
+      border-left-width: 1.5px;
       color: var(--muted);
-      font-size: 0.75rem;
+      font-size: 0.78125rem;
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
-      min-height: 76px;
+      min-height: 78px;
+      gap: 8px;
     }
     .sub-top {
       display: flex;
@@ -498,9 +521,9 @@
     }
     .poster-btn {
       position: relative;
-      flex: 0 0 56px;
-      width: 56px;
-      height: 82px;
+      flex: 0 0 60px;
+      width: 60px;
+      height: 88px;
       padding: 0;
       border: none;
       border-radius: 6px;
@@ -521,7 +544,7 @@
       position: absolute;
       inset-inline: 2px;
       inset-block-end: 2px;
-      background: rgba(13, 17, 23, 0.78);
+      background: rgba(13, 17, 23, 0.8);
       color: #ffffff;
       font-size: 0.625rem;
       font-weight: 700;
@@ -560,9 +583,9 @@
       font-size: 0.75rem;
       font-weight: 700;
       border-radius: 6px;
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
       background: var(--surface);
-      color: var(--muted);
+      color: var(--text);
       cursor: pointer;
     }
     @media (hover: hover) {
@@ -588,15 +611,17 @@
       background: var(--surface);
       color: var(--muted);
       white-space: nowrap;
+      font-variant-numeric: tabular-nums;
     }
     .badge-novel { border-color: var(--purple); color: var(--purple); }
     .badge-comic { border-color: var(--green); color: var(--green); }
     .badge-motion { border-color: var(--accent); color: var(--accent); }
     .badge-live { border-color: var(--amber); color: var(--amber); }
+    .badge-year { border-color: var(--border-strong); color: var(--text); }
     .badge-nsfw {
       border-color: var(--red);
       color: var(--red);
-      background: color-mix(in oklab, var(--red) 10%, var(--surface));
+      background: color-mix(in oklab, var(--red) 12%, var(--surface));
     }
     .badge-cache { border-color: var(--green); color: var(--green); }
 
@@ -609,31 +634,22 @@
     }
     .status-select {
       width: auto;
-      min-width: 145px;
+      min-width: 140px;
       min-height: 28px;
       padding: 3px 8px;
       font-size: 0.75rem;
       font-weight: 600;
       border-radius: 99px;
       background: var(--surface);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
       color: var(--text);
       cursor: pointer;
     }
     .status-select[data-state="reading"],
-    .status-select[data-state="watching"] {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-    .status-select[data-state="completed"] {
-      border-color: var(--green);
-      color: var(--green);
-    }
+    .status-select[data-state="watching"] { border-color: var(--accent); color: var(--accent); }
+    .status-select[data-state="completed"] { border-color: var(--green); color: var(--green); }
     .status-select[data-state="plan_to_read"],
-    .status-select[data-state="plan_to_watch"] {
-      border-color: var(--amber);
-      color: var(--amber);
-    }
+    .status-select[data-state="plan_to_watch"] { border-color: var(--amber); color: var(--amber); }
     .save-hint { font-size: 0.6875rem; color: var(--green); font-weight: 600; }
 
     .sub-details-inner {
@@ -654,6 +670,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 5px;
+      align-items: center;
     }
     .pill {
       display: inline-flex;
@@ -664,19 +681,36 @@
       font-size: 0.6875rem;
       font-weight: 600;
       text-decoration: none;
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
       background: var(--surface);
       color: var(--accent);
     }
     .pill.unofficial { border-style: dashed; color: var(--amber); }
     .pill.tracker { color: var(--purple); }
+    .pill.link-ok { border-color: var(--green); }
+    .pill.link-broken { border-color: var(--red); color: var(--red); }
+    .pill.link-warn { border-color: var(--amber); }
     @media (hover: hover) {
       .pill:hover { border-color: var(--accent); text-decoration: underline; }
     }
 
+    .mini-action-btn {
+      padding: 3px 8px;
+      border-radius: 6px;
+      border: 1px solid var(--border-strong);
+      background: var(--surface);
+      color: var(--muted);
+      font-size: 0.6875rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    @media (hover: hover) {
+      .mini-action-btn:hover { border-color: var(--accent); color: var(--text); }
+    }
+
     .rel-chip {
       border: 1px solid var(--accent);
-      background: color-mix(in oklab, var(--accent) 10%, var(--surface));
+      background: color-mix(in oklab, var(--accent) 12%, var(--surface));
       color: var(--accent);
       border-radius: 99px;
       padding: 2px 8px;
@@ -689,13 +723,14 @@
     .thread-list {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 18px;
     }
     .thread-card {
       background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 12px 14px;
+      border: 2px solid var(--border-strong);
+      border-radius: 12px;
+      box-shadow: var(--card-shadow);
+      padding: 14px 16px;
     }
     .thread-node { position: relative; }
     .thread-head {
@@ -709,9 +744,9 @@
       min-width: 24px;
       min-height: 24px;
       border-radius: 6px;
-      border: 1px solid var(--border);
-      background: var(--bg);
-      color: var(--muted);
+      border: 1px solid var(--border-strong);
+      background: var(--card-bg);
+      color: var(--text);
       font-size: 0.75rem;
       font-weight: 700;
       cursor: pointer;
@@ -721,8 +756,8 @@
     }
     .thread-children-wrap {
       display: grid;
-      grid-template-columns: 20px minmax(0, 1fr);
-      margin-top: 4px;
+      grid-template-columns: 22px minmax(0, 1fr);
+      margin-top: 6px;
     }
     .thread-gutter {
       background: transparent;
@@ -738,30 +773,27 @@
       content: "";
       width: 2px;
       height: 100%;
-      background: var(--border);
+      background: var(--border-strong);
       border-radius: 2px;
       transition-property: background-color, width;
       transition-duration: 150ms;
     }
     @media (hover: hover) {
-      .thread-gutter:hover::before {
-        background: var(--accent);
-        width: 3px;
-      }
+      .thread-gutter:hover::before { background: var(--accent); width: 3px; }
       .thread-toggle-btn:hover { border-color: var(--accent); color: var(--accent); }
     }
     .thread-children {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
       padding-left: 4px;
       min-width: 0;
     }
     .thread-reply-box {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 8px 10px;
+      background: var(--card-bg);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
       min-width: 0;
     }
     .thread-collapsed-bar {
@@ -769,9 +801,9 @@
       margin-left: 34px;
       padding: 5px 10px;
       border-radius: 6px;
-      border: 1px dashed var(--border);
+      border: 1px dashed var(--border-strong);
       background: var(--surface-alt);
-      color: var(--muted);
+      color: var(--text);
       font-size: 0.75rem;
       font-weight: 600;
       cursor: pointer;
@@ -780,10 +812,10 @@
       gap: 6px;
     }
     .tiny-poster {
-      flex: 0 0 38px;
-      width: 38px;
-      height: 54px;
-      border-radius: 4px;
+      flex: 0 0 42px;
+      width: 42px;
+      height: 60px;
+      border-radius: 5px;
       overflow: hidden;
       border: none;
       padding: 0;
@@ -797,12 +829,12 @@
     /* Native Lightbox Modal Dialog */
     dialog#poster-dialog {
       margin: auto;
-      max-width: min(720px, 94vw);
+      max-width: min(740px, 94vw);
       max-height: 90vh;
       width: 100%;
       background: var(--surface);
       color: var(--text);
-      border: 1px solid var(--border);
+      border: 2px solid var(--border-strong);
       border-radius: 14px;
       padding: 0;
       overflow: hidden;
@@ -810,7 +842,7 @@
     dialog#poster-dialog[open] { display: flex; flex-direction: column; }
     dialog#poster-dialog:modal { overscroll-behavior: contain; }
     dialog#poster-dialog::backdrop {
-      background: rgba(0, 0, 0, 0.72);
+      background: rgba(0, 0, 0, 0.75);
       backdrop-filter: blur(3px);
       overflow: hidden;
       overscroll-behavior: contain;
@@ -862,13 +894,13 @@
   <header class="page-header">
     <div>
       <h1>Media &amp; Adaptation Graph</h1>
-      <p id="header-subtitle" class="subtitle">Multi-tier Source Novels → Visual Comics → Anime / Donghua / Movies &amp; Live-Action (with local PC poster cache &amp; NSFW filter)</p>
+      <p id="header-subtitle" class="subtitle">Multi-tier Source Novels → Visual Comics → Anime / Donghua / Movies &amp; Live-Action (with local PC poster cache, chronological sorting, per-entry link checks &amp; NSFW filter)</p>
     </div>
     <div class="actions">
       <button id="btn-refresh-live" type="button" class="btn btn-primary">Refresh &amp; Cache Posters</button>
       <button id="btn-doctor" type="button" class="btn">Catalog Doctor</button>
-      <button id="btn-links-offline" type="button" class="btn">Link Audit</button>
-      <button id="btn-links-live" type="button" class="btn">Probe 5 Links</button>
+      <button id="btn-links-offline" type="button" class="btn">Link Audit Details</button>
+      <button id="btn-links-live" type="button" class="btn">Probe Visible Links</button>
       <button id="btn-theme" type="button" class="btn">Theme</button>
       <a href="/api/media" target="_blank" rel="noopener noreferrer" class="btn">JSON API</a>
     </div>
@@ -891,7 +923,7 @@
       <div id="kpi-motion-sub" class="kpi-sub">Anime, donghua, films &amp; dramas</div>
     </div>
     <div class="kpi-card">
-      <div class="kpi-label">Posters &amp; Synopses</div>
+      <div class="kpi-label">Cached Posters &amp; Years</div>
       <div id="kpi-posters" class="kpi-value" style="color:var(--purple);">--</div>
       <div id="kpi-posters-sub" class="kpi-sub">Loading cache info…</div>
     </div>
@@ -902,11 +934,26 @@
     </div>
   </section>
 
-  <section class="controls-shell" aria-label="Filter and Layout Controls">
+  <section class="controls-shell" aria-label="Filter, Sort and Layout Controls">
     <div class="controls-row">
       <div class="control-group" style="flex:2;">
-        <label for="search-input">Search Title, Alt Name, Synopsis, Studio, or Platform</label>
-        <input id="search-input" type="search" placeholder="e.g. Battle Through the Heavens, Doona, Outlander, Stepmother…">
+        <label for="search-input">Search Title, Alt Name, Synopsis, Year, or Platform</label>
+        <input id="search-input" type="search" placeholder="e.g. Battle Through the Heavens, Doona, 2026, Outlander…">
+      </div>
+      <div class="control-group">
+        <label for="sort-select">Sort Chronologically / Order</label>
+        <select id="sort-select">
+          <option value="added_desc">Date Added (Newest First)</option>
+          <option value="added_asc">Date Added (Oldest First)</option>
+          <option value="year_desc">Latest Adaptation Year (Newest → Oldest)</option>
+          <option value="year_asc">Earliest Year (Oldest → Newest)</option>
+          <option value="subdomain_latest">Latest Entry in Active Subdomain</option>
+          <option value="updated_desc">Recently Updated</option>
+          <option value="most_tiers">Most Adaptations (Sub-Entries)</option>
+          <option value="title_asc">Title (A → Z)</option>
+          <option value="title_desc">Title (Z → A)</option>
+          <option value="default">Original Catalog Order</option>
+        </select>
       </div>
       <div class="control-group">
         <label for="type-select">Subdomain / Format</label>
@@ -1018,6 +1065,9 @@
         <p id="dlg-desc" class="synopsis"></p>
         <div id="dlg-cache-note" class="alt-text"></div>
         <div id="dlg-links" class="link-pills"></div>
+        <div class="actions">
+          <button id="btn-dlg-probe-links" type="button" class="btn">Probe Entry Links Live</button>
+        </div>
       </div>
     </div>
   </dialog>
@@ -1026,6 +1076,7 @@
     "use strict";
 
     let ALL_ITEMS = [];
+    let CURRENT_GROUPS = [];
     let VIEW_MODE = localStorage.getItem("dbm_media_view") === "tree" ? "tree" : "matrix";
     let ALL_CARDS_EXPANDED = localStorage.getItem("dbm_media_cards_open") !== "false";
     let ALL_GROUPS_COLLAPSED = false;
@@ -1033,7 +1084,9 @@
     const COLLAPSED_GROUPS = new Set();
     const COLLAPSED_NODES = new Set();
     const CARD_OPEN_OVERRIDES = new Map();
+    const LINK_PROBE_RESULTS = new Map();
     let REFRESH_POLL_TIMER = null;
+    let MODAL_ITEM = null;
 
     const STATUS_LABELS = [
       { value: "", label: "Status: Unset" },
@@ -1178,24 +1231,84 @@
       return out;
     }
 
-    function createLinkPills(item) {
+    function createLinkPills(item, includeProbeBtn) {
       const links = getItemLinks(item);
-      if (!links.length) return null;
+      if (!links.length && !includeProbeBtn) return null;
       const pills = document.createElement("div");
       pills.className = "link-pills";
       links.forEach(lk => {
         if (!lk || !lk.url) return;
         const a = document.createElement("a");
         const kind = lk.kind || "unofficial";
-        a.className = "pill" + (kind === "unofficial" ? " unofficial" : (kind === "tracker" ? " tracker" : ""));
+        const probe = LINK_PROBE_RESULTS.get(lk.url);
+        let probeCls = "";
+        let probeTxt = "";
+        if (probe) {
+          if (probe.ok) { probeCls = " link-ok"; probeTxt = " [" + probe.status + " OK]"; }
+          else if (probe.state === "broken") { probeCls = " link-broken"; probeTxt = " [" + probe.status + " Broken]"; }
+          else { probeCls = " link-warn"; probeTxt = " [" + probe.state + "]"; }
+        }
+        a.className = "pill" + (kind === "unofficial" ? " unofficial" : (kind === "tracker" ? " tracker" : "")) + probeCls;
         a.href = lk.url;
         a.target = "_blank";
         a.rel = "noopener noreferrer";
         const icon = kind === "official" ? "✓ " : (kind === "tracker" ? "◈ " : "↗ ");
-        a.textContent = icon + (lk.label || "Link");
+        a.textContent = icon + (lk.label || "Link") + probeTxt;
         pills.appendChild(a);
       });
+
+      if (includeProbeBtn && links.length) {
+        const pBtn = document.createElement("button");
+        pBtn.type = "button";
+        pBtn.className = "mini-action-btn";
+        pBtn.textContent = "Probe Links";
+        pBtn.addEventListener("click", () => probeLiveLinksScoped({ entryId: item.id, title: item.name, limit: 12 }, pBtn));
+        pills.appendChild(pBtn);
+      }
       return pills;
+    }
+
+    async function probeLiveLinksScoped(opts, triggerBtn) {
+      const prevTxt = triggerBtn ? triggerBtn.textContent : "";
+      if (triggerBtn) {
+        triggerBtn.disabled = true;
+        triggerBtn.textContent = "Probing…";
+      }
+      const params = new URLSearchParams({ live: "true", limit: String(opts.limit || 12) });
+      if (opts.entryId) params.set("entry_id", opts.entryId);
+      if (opts.franchiseId) params.set("franchise", opts.franchiseId);
+
+      try {
+        const res = await fetch("/api/media/links?" + params.toString(), { cache: "no-store" });
+        const data = await res.json();
+        (data.results || []).forEach(r => {
+          if (r && r.url) LINK_PROBE_RESULTS.set(r.url, r);
+        });
+        const rows = (data.results || []).map(r => "[" + r.title + "] " + r.state.toUpperCase() + " (" + r.status + ") — " + r.url);
+        showDiagnosticPanel("Live Link Probe: " + (opts.title || data.scope || "Catalog"), [
+          ["Summary", [
+            "Scope: " + (opts.title || data.scope || "Catalog"),
+            "Probed: " + (data.probed_count ?? 0),
+            "Broken: " + ((data.broken_links || []).length),
+            "States: " + JSON.stringify(data.state_counts || {})
+          ]],
+          ["Tested URLs", rows.length ? rows : ["No URLs matched this scope."]]
+        ]);
+        renderCatalog();
+        if (MODAL_ITEM) {
+          const linksBox = document.getElementById("dlg-links");
+          linksBox.textContent = "";
+          const p = createLinkPills(MODAL_ITEM, false);
+          if (p) linksBox.appendChild(p);
+        }
+      } catch (err) {
+        showDiagnosticPanel("Live Link Probe Error", [["Error", [err.message]]]);
+      } finally {
+        if (triggerBtn) {
+          triggerBtn.disabled = false;
+          triggerBtn.textContent = prevTxt;
+        }
+      }
     }
 
     async function persistWatchStatus(item, newStatus, hintEl) {
@@ -1213,7 +1326,7 @@
           setTimeout(() => { hintEl.textContent = ""; }, 1400);
         }
         updateKPIs(ALL_ITEMS);
-      } catch (err) {
+      } catch (_err) {
         item.watchlist_status = prev;
         if (hintEl) hintEl.textContent = "Save failed";
       }
@@ -1262,7 +1375,15 @@
       return "badge-motion";
     }
 
+    function getTierClass(item) {
+      if (item.media_type === "light_novel") return "tier-source";
+      if (item.media_type === "comic") return "tier-visual";
+      if (item.media_type === "movie" || item.media_type === "tv_series") return "tier-live";
+      return "tier-motion";
+    }
+
     function openPosterModal(item) {
+      MODAL_ITEM = item;
       const dlg = document.getElementById("poster-dialog");
       document.getElementById("dlg-title").textContent = item.name || "Untitled";
 
@@ -1277,6 +1398,18 @@
       b1.textContent = item.sub_format || (item.media_type || "comic").replace("_", " ").toUpperCase();
       badges.appendChild(b1);
 
+      if (item.release_year) {
+        const by = document.createElement("span");
+        by.className = "badge badge-year";
+        by.textContent = "Year: " + item.release_year;
+        badges.appendChild(by);
+      }
+      if (item.added_at) {
+        const ba = document.createElement("span");
+        ba.className = "badge";
+        ba.textContent = "Added: " + item.added_at;
+        badges.appendChild(ba);
+      }
       if (item.origin) {
         const b2 = document.createElement("span");
         b2.className = "badge";
@@ -1303,7 +1436,7 @@
 
       const linksBox = document.getElementById("dlg-links");
       linksBox.textContent = "";
-      const pills = createLinkPills(item);
+      const pills = createLinkPills(item, false);
       if (pills) linksBox.appendChild(pills);
 
       dlg.showModal();
@@ -1328,7 +1461,7 @@
 
     function createSubCard(item) {
       const card = document.createElement("article");
-      card.className = "sub-card";
+      card.className = "sub-card " + getTierClass(item);
 
       const top = document.createElement("div");
       top.className = "sub-top";
@@ -1374,6 +1507,13 @@
       medBadge.textContent = item.sub_format || (item.media_type || "comic").replace("_", " ").toUpperCase();
       badgeRow.appendChild(medBadge);
 
+      if (item.release_year) {
+        const yrBadge = document.createElement("span");
+        yrBadge.className = "badge badge-year";
+        yrBadge.textContent = String(item.release_year);
+        badgeRow.appendChild(yrBadge);
+      }
+
       if (item.poster_cached_file) {
         const cb = document.createElement("span");
         cb.className = "badge badge-cache";
@@ -1396,11 +1536,8 @@
       const detailsWrap = document.createElement("div");
       detailsWrap.className = "sub-details-wrap";
       if (!openNow) {
-        if (isBeforeMatchSupported()) {
-          detailsWrap.setAttribute("hidden", "until-found");
-        } else {
-          detailsWrap.hidden = true;
-        }
+        if (isBeforeMatchSupported()) detailsWrap.setAttribute("hidden", "until-found");
+        else detailsWrap.hidden = true;
       }
 
       const detailsInner = document.createElement("div");
@@ -1411,7 +1548,7 @@
       desc.textContent = getSubCardDescription(item);
       detailsInner.appendChild(desc);
 
-      const pills = createLinkPills(item);
+      const pills = createLinkPills(item, true);
       if (pills) detailsInner.appendChild(pills);
       detailsWrap.appendChild(detailsInner);
 
@@ -1442,16 +1579,23 @@
 
     function groupByFranchise(items) {
       const map = new Map();
+      let orderIdx = 0;
       items.forEach(item => {
         const fid = String(item.franchise_id || item.id || "misc");
         if (!map.has(fid)) {
           map.set(fid, {
+            orderIdx: orderIdx++,
             franchise_id: fid,
             title: item.franchise_title || item.name || fid,
             alt: item.alt || "",
             origin: item.origin || "",
             nsfw: Boolean(item.nsfw),
             hasTextSource: Boolean(item.source_is_text),
+            added_at: item.added_at || "",
+            updated_at: item.updated_at || "",
+            latest_year: item.release_year || 0,
+            earliest_year: item.release_year || 9999,
+            latest_label: item.release_year ? (item.release_year + " · " + (item.sub_format || item.media_type)) : "",
             items: [],
             sharedUniverses: []
           });
@@ -1462,6 +1606,17 @@
         if (item.source_is_text || item.media_type === "light_novel") grp.hasTextSource = true;
         if (item.media_type === "comic" && item.franchise_title) grp.title = item.franchise_title;
         if (item.alt && !grp.alt) grp.alt = item.alt;
+        if (item.added_at && item.added_at > grp.added_at) grp.added_at = item.added_at;
+        if (item.updated_at && item.updated_at > grp.updated_at) grp.updated_at = item.updated_at;
+        if (item.release_year) {
+          if (item.release_year >= grp.latest_year) {
+            grp.latest_year = item.release_year;
+            grp.latest_label = item.release_year + " · " + (item.sub_format || item.media_type);
+          }
+          if (item.release_year < grp.earliest_year) {
+            grp.earliest_year = item.release_year;
+          }
+        }
         if (Array.isArray(item.relations)) {
           item.relations.forEach(r => {
             if (r && r.relation === "shared_universe" && !grp.sharedUniverses.some(x => x.target_id === r.target_id)) {
@@ -1487,8 +1642,8 @@
 
       if (q) {
         const hay = [
-          grp.title, grp.alt, grp.origin, grp.franchise_id,
-          ...grp.items.map(i => [i.name, i.sub_format, i.description, i.anime, i.live_action].join(" "))
+          grp.title, grp.alt, grp.origin, grp.franchise_id, grp.added_at, String(grp.latest_year || ""),
+          ...grp.items.map(i => [i.name, i.sub_format, i.description, i.anime, i.live_action, String(i.release_year || "")].join(" "))
         ].join(" ").toLowerCase();
         if (!hay.includes(q)) return false;
       }
@@ -1532,13 +1687,70 @@
       return true;
     }
 
+    function getSubdomainLatestScore(grp, typeF) {
+      let bestYear = 0;
+      let bestAdded = "";
+      grp.items.forEach(i => {
+        const match = typeF === "all"
+          ? true
+          : (typeF === "fan_motion" ? /fan|teaser/i.test(String(i.sub_format || "")) : i.media_type === typeF);
+        if (match) {
+          if ((i.release_year || 0) > bestYear) bestYear = i.release_year || 0;
+          if ((i.added_at || "") > bestAdded) bestAdded = i.added_at || "";
+        }
+      });
+      return { bestYear, bestAdded };
+    }
+
+    function sortGroups(groups) {
+      const sortF = document.getElementById("sort-select").value;
+      const typeF = document.getElementById("type-select").value;
+      const arr = groups.slice();
+
+      arr.sort((a, b) => {
+        if (sortF === "added_desc") {
+          const cmp = String(b.added_at || "").localeCompare(String(a.added_at || ""));
+          if (cmp !== 0) return cmp;
+          return (b.latest_year || 0) - (a.latest_year || 0) || a.orderIdx - b.orderIdx;
+        }
+        if (sortF === "added_asc") {
+          const cmp = String(a.added_at || "9999").localeCompare(String(b.added_at || "9999"));
+          if (cmp !== 0) return cmp;
+          return (a.earliest_year || 9999) - (b.earliest_year || 9999) || a.orderIdx - b.orderIdx;
+        }
+        if (sortF === "year_desc") {
+          return (b.latest_year || 0) - (a.latest_year || 0) || String(b.added_at || "").localeCompare(String(a.added_at || "")) || a.orderIdx - b.orderIdx;
+        }
+        if (sortF === "year_asc") {
+          const ay = a.earliest_year === 9999 ? 9999 : a.earliest_year;
+          const by = b.earliest_year === 9999 ? 9999 : b.earliest_year;
+          return ay - by || a.orderIdx - b.orderIdx;
+        }
+        if (sortF === "subdomain_latest") {
+          const sa = getSubdomainLatestScore(a, typeF);
+          const sb = getSubdomainLatestScore(b, typeF);
+          return sb.bestYear - sa.bestYear || sb.bestAdded.localeCompare(sa.bestAdded) || a.orderIdx - b.orderIdx;
+        }
+        if (sortF === "updated_desc") {
+          return String(b.updated_at || "").localeCompare(String(a.updated_at || "")) || (b.latest_year || 0) - (a.latest_year || 0);
+        }
+        if (sortF === "most_tiers") {
+          return b.items.length - a.items.length || (b.latest_year || 0) - (a.latest_year || 0);
+        }
+        if (sortF === "title_asc") return a.title.localeCompare(b.title);
+        if (sortF === "title_desc") return b.title.localeCompare(a.title);
+        return a.orderIdx - b.orderIdx;
+      });
+      return arr;
+    }
+
     function updateKPIs(items) {
       const groups = groupByFranchise(items);
       const direct = items.filter(i => String(i.link || "").includes("comix.to/title/")).length;
       const browse = items.filter(i => String(i.link || "").includes("browse?q=")).length;
       const motion = items.filter(i => ["anime", "donghua", "movie", "tv_series"].includes(i.media_type)).length;
       const cached = items.filter(i => Boolean(i.poster_cached_file)).length;
-      const withUrl = items.filter(i => Boolean(i.poster_url)).length;
+      const withYear = items.filter(i => Boolean(i.release_year)).length;
       const withDesc = items.filter(i => Boolean(i.description && i.description.trim().length > 20)).length;
       const activeCnt = items.filter(i => ["reading", "watching"].includes(String(i.watchlist_status || ""))).length;
       const planCnt = items.filter(i => ["plan_to_read", "plan_to_watch"].includes(String(i.watchlist_status || ""))).length;
@@ -1550,7 +1762,7 @@
       document.getElementById("kpi-fallback").textContent = browse + " browse fallbacks";
       document.getElementById("kpi-motion").textContent = String(motion);
       document.getElementById("kpi-posters").textContent = cached + " / " + items.length;
-      document.getElementById("kpi-posters-sub").textContent = withUrl + " remote URLs · " + withDesc + " synopses";
+      document.getElementById("kpi-posters-sub").textContent = withDesc + " synopses · " + withYear + " release years";
       document.getElementById("kpi-tracked").textContent = String(activeCnt + planCnt + doneCnt);
       document.getElementById("kpi-tracked-sub").textContent = activeCnt + " active · " + planCnt + " planned · " + doneCnt + " done";
     }
@@ -1601,6 +1813,20 @@
       srcBadge.textContent = grp.hasTextSource ? "Source: Text (Novel)" : "Source: Visual / Screen Original";
       tLine.appendChild(srcBadge);
 
+      if (grp.latest_label) {
+        const latestBadge = document.createElement("span");
+        latestBadge.className = "badge badge-year";
+        latestBadge.textContent = "Latest: " + grp.latest_label;
+        tLine.appendChild(latestBadge);
+      }
+
+      if (grp.added_at) {
+        const addBadge = document.createElement("span");
+        addBadge.className = "badge";
+        addBadge.textContent = "Added " + grp.added_at;
+        tLine.appendChild(addBadge);
+      }
+
       if (grp.nsfw) {
         const nsfwBadge = document.createElement("span");
         nsfwBadge.className = "badge badge-nsfw";
@@ -1642,6 +1868,13 @@
 
       const right = document.createElement("div");
       right.className = "actions";
+      const checkLinksBtn = document.createElement("button");
+      checkLinksBtn.type = "button";
+      checkLinksBtn.className = "btn";
+      checkLinksBtn.textContent = "Check Links";
+      checkLinksBtn.addEventListener("click", () => probeLiveLinksScoped({ franchiseId: grp.franchise_id, title: grp.title, limit: 20 }, checkLinksBtn));
+      right.appendChild(checkLinksBtn);
+
       const probeBtn = document.createElement("button");
       probeBtn.type = "button";
       probeBtn.className = "btn";
@@ -1805,6 +2038,13 @@
       mb.textContent = it.sub_format || (it.media_type || "comic").replace("_", " ").toUpperCase();
       line1.appendChild(mb);
 
+      if (it.release_year) {
+        const yb = document.createElement("span");
+        yb.className = "badge badge-year";
+        yb.textContent = String(it.release_year);
+        line1.appendChild(yb);
+      }
+
       if (it.poster_cached_file) {
         const cb = document.createElement("span");
         cb.className = "badge badge-cache";
@@ -1827,7 +2067,7 @@
         desc.textContent = getSubCardDescription(it);
         mainCol.appendChild(desc);
 
-        const pills = createLinkPills(it);
+        const pills = createLinkPills(it, true);
         if (pills) {
           pills.style.marginTop = "5px";
           mainCol.appendChild(pills);
@@ -1908,6 +2148,19 @@
         srcBadge.textContent = grp.hasTextSource ? "Text Source" : "Visual Original";
         row.appendChild(srcBadge);
 
+        if (grp.latest_label) {
+          const lb = document.createElement("span");
+          lb.className = "badge badge-year";
+          lb.textContent = "Latest: " + grp.latest_label;
+          row.appendChild(lb);
+        }
+        if (grp.added_at) {
+          const ab = document.createElement("span");
+          ab.className = "badge";
+          ab.textContent = "Added " + grp.added_at;
+          row.appendChild(ab);
+        }
+
         const countBadge = document.createElement("span");
         countBadge.className = "badge";
         countBadge.textContent = grp.items.length + " sub-entries";
@@ -1940,6 +2193,17 @@
           titleWrap.appendChild(alt);
         }
         head.appendChild(titleWrap);
+
+        const rActions = document.createElement("div");
+        rActions.className = "actions";
+        const clBtn = document.createElement("button");
+        clBtn.type = "button";
+        clBtn.className = "btn";
+        clBtn.textContent = "Check Links";
+        clBtn.addEventListener("click", () => probeLiveLinksScoped({ franchiseId: grp.franchise_id, title: grp.title, limit: 20 }, clBtn));
+        rActions.appendChild(clBtn);
+        head.appendChild(rActions);
+
         card.appendChild(head);
 
         if (isRootCollapsed) {
@@ -1990,7 +2254,8 @@
       const allGroups = groupByFranchise(ALL_ITEMS);
       const hiddenNsfwGroups = allGroups.filter(g => g.nsfw && !showNsfw);
       const visibleBase = allGroups.filter(g => !g.nsfw || showNsfw);
-      const filteredGroups = visibleBase.filter(matchesFilters);
+      const filteredGroups = sortGroups(visibleBase.filter(matchesFilters));
+      CURRENT_GROUPS = filteredGroups;
 
       const nsfwNotice = document.getElementById("nsfw-notice");
       nsfwNotice.hidden = hiddenNsfwGroups.length === 0;
@@ -2122,6 +2387,11 @@
     function applySavedPreferences() {
       const savedNsfw = localStorage.getItem("dbm_media_nsfw") === "true";
       document.getElementById("nsfw-toggle").checked = savedNsfw;
+      const savedSort = localStorage.getItem("dbm_media_sort");
+      if (savedSort) {
+        const sel = document.getElementById("sort-select");
+        if (Array.from(sel.options).some(o => o.value === savedSort)) sel.value = savedSort;
+      }
       const savedTheme = localStorage.getItem("dbm_media_theme");
       if (savedTheme === "light" || savedTheme === "dark") {
         document.documentElement.setAttribute("data-theme", savedTheme);
@@ -2129,7 +2399,6 @@
       document.getElementById("btn-toggle-all-cards").textContent = ALL_CARDS_EXPANDED ? "Collapse Card Details" : "Expand Card Details";
     }
 
-    // Light-dismiss fallback for browsers without <dialog closedby>
     (function setupDialogFallback() {
       const dlg = document.getElementById("poster-dialog");
       if (!("closedBy" in HTMLDialogElement.prototype)) {
@@ -2144,6 +2413,10 @@
     })();
 
     document.getElementById("search-input").addEventListener("input", renderCatalog);
+    document.getElementById("sort-select").addEventListener("change", (e) => {
+      localStorage.setItem("dbm_media_sort", e.target.value);
+      renderCatalog();
+    });
     document.getElementById("type-select").addEventListener("change", renderCatalog);
     document.getElementById("origin-select").addEventListener("change", renderCatalog);
     document.getElementById("adapt-select").addEventListener("change", renderCatalog);
@@ -2220,6 +2493,9 @@
       await fetch("/api/media/refresh/cancel", { method: "POST", body: "{}" });
       pollMediaRefresh();
     });
+    document.getElementById("btn-dlg-probe-links").addEventListener("click", (e) => {
+      if (MODAL_ITEM) probeLiveLinksScoped({ entryId: MODAL_ITEM.id, title: MODAL_ITEM.name, limit: 12 }, e.target);
+    });
 
     document.getElementById("diag-close").addEventListener("click", () => {
       document.getElementById("diag-panel").classList.remove("open");
@@ -2240,7 +2516,7 @@
         ]],
         ["Subdomain Breakdown", types.length ? types : ["No entries"]],
         ["Sitemap Link Upgrades (" + props.length + ")", props.length
-          ? props.slice(0, 5).map(p => p.name + " -> " + p.proposed_link)
+          ? props.slice(0, 8).map(p => p.name + " -> " + p.proposed_link)
           : ["No unapplied sitemap upgrades detected."]]
       ]);
     });
@@ -2248,27 +2524,61 @@
     document.getElementById("btn-links-offline").addEventListener("click", async () => {
       const res = await fetch("/api/media/links", { cache: "no-store" });
       const data = await res.json();
-      const hosts = Object.entries(data.top_hosts || {}).slice(0, 6).map(([h, c]) => h + ": " + c);
-      showDiagnosticPanel("Offline Link Health Audit", [
+      const hosts = Object.entries(data.top_hosts || {}).slice(0, 10).map(([h, c]) => h + ": " + c);
+      const fallbacks = (data.browse_search_titles || []).slice(0, 20);
+      const noLinks = (data.no_link_titles || []).slice(0, 20);
+      showDiagnosticPanel("Offline Link Audit Details", [
         ["Link Inventory", [
           "Total extracted URLs: " + (data.total_links ?? 0),
           "Malformed URLs: " + (data.malformed_count ?? 0),
           "Direct URLs: " + ((data.kind_counts || {}).direct ?? 0),
-          "Search URLs: " + ((data.kind_counts || {}).browse_search ?? 0)
+          "Search Fallback URLs: " + ((data.kind_counts || {}).browse_search ?? 0),
+          "Entries with 0 links: " + (data.no_link_titles || []).length
         ]],
-        ["Top Hosts", hosts]
+        ["Top Hosts", hosts],
+        ["Entries Using Search Fallbacks (" + (data.browse_search_titles || []).length + ")", fallbacks.length ? fallbacks : ["None"]],
+        ["Entries With No Links (" + (data.no_link_titles || []).length + ")", noLinks.length ? noLinks : ["All entries have links."]]
       ]);
     });
 
-    document.getElementById("btn-links-live").addEventListener("click", async () => {
-      showDiagnosticPanel("Live Link Probe (5 URLs)", [["Status", ["Probing 5 catalog URLs politely…"]]]);
-      const res = await fetch("/api/media/links?live=true&limit=5", { cache: "no-store" });
-      const data = await res.json();
-      const rows = (data.results || []).map(r => r.state.toUpperCase() + " (" + r.status + ") — " + r.url);
-      showDiagnosticPanel("Live Link Probe Results", [
-        ["Summary", ["Probed: " + (data.probed_count ?? 0), "Broken: " + ((data.broken_links || []).length)]],
-        ["Sample Results", rows.length ? rows : ["No results returned."]]
-      ]);
+    document.getElementById("btn-links-live").addEventListener("click", async (e) => {
+      const targetGroup = CURRENT_GROUPS[0];
+      if (!targetGroup) {
+        await probeLiveLinksScoped({ title: "Catalog Sample", limit: 15 }, e.target);
+        return;
+      }
+      // Probe up to 15 links across the top visible franchises sequentially via /api/media/links
+      const btn = e.target;
+      btn.disabled = true;
+      btn.textContent = "Probing Visible…";
+      try {
+        const picked = CURRENT_GROUPS.slice(0, 4);
+        const allRes = [];
+        for (const grp of picked) {
+          const r = await fetch("/api/media/links?live=true&franchise=" + encodeURIComponent(grp.franchise_id) + "&limit=5", { cache: "no-store" });
+          const d = await r.json();
+          (d.results || []).forEach(item => {
+            LINK_PROBE_RESULTS.set(item.url, item);
+            allRes.push(item);
+          });
+        }
+        const broken = allRes.filter(x => x.state === "broken");
+        const rows = allRes.map(r => "[" + r.title + "] " + r.state.toUpperCase() + " (" + r.status + ") — " + r.url);
+        showDiagnosticPanel("Live Link Probe (Top " + picked.length + " Visible Franchises)", [
+          ["Summary", [
+            "Franchises probed: " + picked.map(p => p.title).join(", "),
+            "Total links tested: " + allRes.length,
+            "Broken (404/410): " + broken.length
+          ]],
+          ["Live Results", rows.length ? rows : ["No URLs found in visible franchises."]]
+        ]);
+        renderCatalog();
+      } catch (err) {
+        showDiagnosticPanel("Live Link Probe Error", [["Error", [err.message]]]);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Probe Visible Links";
+      }
     });
 
     window.addEventListener("DOMContentLoaded", () => {

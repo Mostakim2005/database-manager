@@ -28,7 +28,7 @@ DATA_DIR = ROOT_DIR / "data"
 WEB_DIR = ROOT_DIR / "web"
 
 PORT = 8770
-SERVER_BUILD_ID = "2026.11.25-r4"
+SERVER_BUILD_ID = "2026.11.26-r1"
 
 PC_CATEGORIES = (
     "cpus",
@@ -251,10 +251,15 @@ class DatabaseHandler(http.server.SimpleHTTPRequestHandler):
         super().__init__(*args, directory=str(WEB_DIR), **kwargs)
 
     def end_headers(self) -> None:
-        """Attach baseline local security headers to all responses."""
+        """Attach baseline local security and no-stale-UI cache headers."""
         self.send_header("X-Content-Type-Options", "nosniff")
         self.send_header("Referrer-Policy", "no-referrer")
         self.send_header("X-Frame-Options", "SAMEORIGIN")
+        url_path = self.path.split("?", 1)[0].lower()
+        if url_path.startswith("/api/media/poster") or url_path.startswith("/api/book/cover"):
+            pass
+        elif url_path == "/" or url_path.endswith((".html", ".js", ".css")) or url_path.startswith("/api/"):
+            self.send_header("Cache-Control", "no-store, no-cache, must-revalidate")
         super().end_headers()
 
     def list_directory(self, path: str | os.PathLike[str]) -> None:  # type: ignore[override]
@@ -470,11 +475,20 @@ class DatabaseHandler(http.server.SimpleHTTPRequestHandler):
             is_live = qs.get("live", ["false"])[0].lower() in ("true", "1", "yes")
             if is_live:
                 try:
-                    limit = max(1, min(25, int(qs.get("limit", ["5"])[0])))
+                    limit = max(1, min(50, int(qs.get("limit", ["10"])[0])))
                 except ValueError:
-                    limit = 5
+                    limit = 10
                 host_f = qs.get("host", [None])[0]
-                self._send_json(check_catalog_links_live(limit=limit, host_filter=host_f))
+                franchise_f = qs.get("franchise", [None])[0]
+                entry_id = qs.get("entry_id", [None])[0]
+                self._send_json(
+                    check_catalog_links_live(
+                        limit=limit,
+                        host_filter=host_f,
+                        franchise_filter=franchise_f,
+                        entry_id=entry_id,
+                    )
+                )
             else:
                 self._send_json(audit_catalog_links_offline())
             return
